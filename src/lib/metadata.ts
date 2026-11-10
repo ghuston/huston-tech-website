@@ -10,8 +10,13 @@ type PageMetaInput = {
   noindex?: boolean;
 };
 
+export const OG_IMAGE_PATH = "/og.png";
+export const OG_IMAGE_ALT = "Huston Tech: business systems and workflow help for small teams";
+
+const ogImages = [{ url: OG_IMAGE_PATH, width: 1200, height: 630, alt: OG_IMAGE_ALT }];
+
 export function absoluteUrl(path: string): string {
-  return `${siteConfig.url}${path === "/" ? "" : path}`;
+  return `${siteConfig.url}${path}`;
 }
 
 export function pageMetadata({ title, description, path, noindex = false }: PageMetaInput): Metadata {
@@ -27,11 +32,13 @@ export function pageMetadata({ title, description, path, noindex = false }: Page
       title,
       description,
       url: path,
+      images: ogImages,
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
+      images: [OG_IMAGE_PATH],
     },
   };
 }
