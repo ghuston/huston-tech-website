@@ -59,6 +59,10 @@ PORT=4822 npm run preview   # http://localhost:4822
 | Review price | `siteConfig.reviewPrice` in `src/content/site.ts` | `null` (default) keeps all prices out of the copy. A value such as `"$500"` switches the Review bar and the Services "Find it" stop-point to their with-price wording. Also update the FAQ cost answer if you publish it. |
 | Hero option | `siteConfig.heroOption` in `src/content/site.ts` | `"A"` (recommended), `"B"`, `"C"` or `"D"` from the spec. Option B restores "Sound familiar?" as the problems heading. |
 
+## Motion
+
+Animation is CSS only (no library), driven by shared tokens in `src/app/globals.css` and rules in `src/app/motion.css`: one ease-out curve and four durations (150ms feedback, 200ms panels, 350ms intros, 400ms illustration steps). Headlines fade in with an 8px rise, button and link arrows nudge 3px on hover and keyboard focus, the mobile menu and FAQ share one open/close transition, and the homepage process diagram plays once when it scrolls into view. With `prefers-reduced-motion: reduce`, or with JavaScript off, the final static design shows immediately. See "Motion rules" in `AGENTS.md` before adding any.
+
 ## Placeholders and launch gate
 
 Anything only Grant can supply is written as `[[double brackets]]` in `src/content/*` and renders as a highlighted marker on the page. Provider-dependent values (`email`, `schedulerUrl`, `linkedInUrl`) are `null` in `src/content/site.ts`.
@@ -121,7 +125,7 @@ src/
     ui/           buttons, cards, chips, FAQ, testimonial, placeholders
     sections/     case study and phase strip, Review bar, scheduler and contact-form placeholders
     layout/       header, nav, footer, mobile CTA bar
-    illustrations/ decorative SVG (arrows, hero board, framework icons and connectors)
+    illustrations/ decorative SVG (hero board, framework icons and connectors)
   content/        typed copy and site settings (single source of truth)
   lib/            metadata, JSON-LD and text-token helpers
 scripts/          placeholder gate, static preview server

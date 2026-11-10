@@ -17,7 +17,7 @@ Marketing site for Huston Tech (one-person business systems consultancy, Grant H
 - `output: "export"` in `next.config.ts`. The site is 100% static: no API routes, no server actions, no runtime server code, no `next/image` optimization (images are `unoptimized`; ship pre-sized files). Anything needing a server must use an external provider (form, scheduler, analytics).
 - `src/app/` routes only: pages, `layout.tsx`, `sitemap.ts`, `robots.ts`, `not-found.tsx`, `og.png/route.tsx`, `icon.svg`. Route files compose components and content; they hold no copy.
 - `src/content/` holds **all copy and site settings** as typed TypeScript modules (`home.ts`, `services.ts`, `past-work.ts`, `about.ts`, `contact.ts`, `insights.ts`, `privacy.ts`, `testimonials.ts`, `site.ts`, `nav.ts`). Edit copy here, never inline in JSX.
-- `src/components/ui/` reusable primitives (`ProcessSteps` has `compact` and `detailed` variants); `src/components/sections/` page-level compositions; `src/components/layout/` header/footer/nav; `src/components/illustrations/` decorative SVG. Prefer a new small reusable component over repeating markup. Server Components by default; add `"use client"` only for real interactivity (currently: `HeaderNav`, `MobileCtaBar`, `PartnerAwareHeading`). Keep client JS minimal.
+- `src/components/ui/` reusable primitives (`ProcessSteps` has `compact` and `detailed` variants); `src/components/sections/` page-level compositions; `src/components/layout/` header/footer/nav; `src/components/illustrations/` decorative SVG. Prefer a new small reusable component over repeating markup. Server Components by default; add `"use client"` only for real interactivity (currently: `HeaderNav`, `InViewOnce`, `MobileCtaBar`, `PartnerAwareHeading`). Keep client JS minimal.
 - `src/lib/` pure helpers (`metadata.ts`, `jsonld.ts`, `placeholders.ts`).
 - `scripts/` Node scripts: `check-placeholders.mjs` (launch gate), `preview.mjs` (static preview server that also applies the `/*` block of `public/_headers`).
 - `public/_headers` is the Cloudflare Pages header config. `.github/workflows/ci.yml` runs the checks.
@@ -46,7 +46,7 @@ Marketing site for Huston Tech (one-person business systems consultancy, Grant H
 
 - Every page exports metadata via `pageMetadata()` (`src/lib/metadata.ts`) using the exact SEO title and description from the copy doc, a canonical path, Open Graph and Twitter tags. The site origin comes from the single constant `siteConfig.url` in `src/content/site.ts` (override with `NEXT_PUBLIC_SITE_URL`). New indexable routes must be added to `src/app/sitemap.ts`. `/contact/thanks` and the 404 are `noindex` and stay out of the sitemap.
 - JSON-LD only states facts from the docs (name, URL, description, founder, job title). Do not add `areaServed`, addresses, ratings, reviews, prices, or social profiles until confirmed.
-- One `<h1>` per page, logical heading order, landmarks (`header`, `nav` with labels, `main#main`, `footer`), skip link, visible `:focus-visible` outlines (white on dark sections via `.on-dark`), 44px minimum tap targets, descriptive link text, alt text on every meaningful image (decorative SVG is `aria-hidden`). Respect `prefers-reduced-motion` (global rule in `globals.css`). No carousels, auto-play, parallax, pop-ups or auto-rotating quotes.
+- One `<h1>` per page, logical heading order, landmarks (`header`, `nav` with labels, `main#main`, `footer`), skip link, visible `:focus-visible` outlines (white on dark sections via `.on-dark`), 44px minimum tap targets, descriptive link text, alt text on every meaningful image (decorative SVG is `aria-hidden`). Respect `prefers-reduced-motion` (see Motion rules). No carousels, auto-play, parallax, pop-ups or auto-rotating quotes.
 - Color pairs must keep WCAG AA contrast (see tokens). Run the axe check described in the README after visual changes.
 - Images: use `next/image` with explicit `width`/`height` (or `fill` with a sized parent), real `alt`, and files sized for display. Screenshots of client work must have client, patient and employee names blurred, and be labeled "Demo data" if mocked.
 
@@ -56,6 +56,18 @@ Marketing site for Huston Tech (one-person business systems consultancy, Grant H
 - Keep it simple: small components, props typed explicitly, content passed in via props or imported from `src/content`. No state libraries, CSS-in-JS, animation libraries or component libraries. Tailwind utility classes with tokens; shared patterns become components, not copied class strings.
 - Comments explain non-obvious intent only. No narrating comments.
 - Commit in small logical steps with clear messages. Never commit `.next/`, `out/`, `node_modules/` or env files.
+
+## Motion rules
+
+Motion lives in shared components so the same interaction feels the same on every page. The static design is always the resting state: every animation must end exactly in it, and removing a rule must never change how a page looks.
+
+- **Tokens only.** One ease-out curve and four durations, defined once in `globals.css` (`@theme static`) and used by name everywhere: `--ease-site`, `--duration-feedback` (150ms), `--duration-panel` (200ms), `--duration-intro` (350ms), `--duration-illustration` (400ms), plus `--delay-hero-line` (80ms) and `--delay-illustration-step` (120ms). Tailwind's default transition duration and easing are overridden to the same tokens, so a plain `transition-colors` is already compliant. No ad-hoc `duration-*`, `ease-*`, `delay-*`, milliseconds or `cubic-bezier()` in components.
+- **Shared pieces.** `Intro` (headline fade with an 8px rise; the homepage second hero line adds `second`), `ArrowLabel` (used by `Button` and every hand-written link: a trailing `→ ↓ ↑` moves 3px on hover and `:focus-visible`), `InViewOnce` plus the `data-part` hooks in `FrameworkIcon` (homepage process diagram), `.panel` (mobile menu) and `<details>` with `.disclosure-icon` (FAQ and any future disclosure: 200ms open, 150ms close). Add new motion by extending these, not per page. Keyframes and rules live in `src/app/motion.css`.
+- **One focal animation per page.** The homepage plays its process diagram once on entering view. Other uses of the framework icons are static. Do not add a second focal animation to a page.
+- **Never hide content behind motion.** Body copy, actions and links are visible in the initial HTML. Headline intros are CSS keyframes with `backwards` fill, so they need no JS and cannot leave a heading invisible. The only JS-gated hidden state is the decorative diagram, behind the `js` class that an inline script in `<head>` sets before first paint; without JS the final drawing shows.
+- **Reduced motion.** `prefers-reduced-motion: reduce` sets `animation: none` and `transition: none` globally, so the end state shows immediately. Any new animation must be safe under that rule (no state that only a running animation reveals).
+- **No scroll hijacking.** Keep native scrolling: no smooth-scroll override, scroll-linked effects, or wheel/touch/scroll listeners. Use `IntersectionObserver` (via `InViewOnce`) for reveal-on-view.
+- **No motion libraries.** CSS transitions and keyframes only, plus the tiny `InViewOnce` client component.
 
 ## Checks (must pass before every PR)
 
