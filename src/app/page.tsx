@@ -9,6 +9,7 @@ import { CTASection } from "@/components/ui/CTASection";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { PhotoPlaceholder } from "@/components/ui/MediaPlaceholders";
 import { ProcessSteps } from "@/components/ui/ProcessSteps";
+import { ReviewBar } from "@/components/sections/ReviewBar";
 import { ProofStrip } from "@/components/ui/ProofStrip";
 import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
@@ -19,7 +20,9 @@ import { Text } from "@/components/ui/Text";
 import {
   aboutTeaser,
   closingCta,
+  frameworkCompact,
   hero,
+  heroOptions,
   homeMeta,
   howItWorks,
   insightsTeaser,
@@ -29,7 +32,7 @@ import {
   whatIDo,
   whyHustonTech,
 } from "@/content/home";
-import { bookCallShortLabel } from "@/content/site";
+import { bookCallShortLabel, siteConfig } from "@/content/site";
 import { getTestimonials } from "@/content/testimonials";
 import { pageMetadata } from "@/lib/metadata";
 
@@ -37,6 +40,9 @@ export const metadata: Metadata = pageMetadata({ ...homeMeta, path: "/" });
 
 export default function HomePage() {
   const testimonials = getTestimonials("home");
+  const heroCopy = heroOptions[siteConfig.heroOption];
+  // Hero option B already uses the "memo" line, so the problems section goes back to "Sound familiar?" as its heading.
+  const problemsHeadsWithMemo = siteConfig.heroOption !== "B";
 
   return (
     <>
@@ -45,9 +51,9 @@ export default function HomePage() {
           <div className="fade-up">
             <Eyebrow>{hero.eyebrow}</Eyebrow>
             <h1 id="hero-title" className="mt-5 text-[2.5rem] leading-[1.04] sm:text-6xl lg:text-[4rem]">
-              {hero.titleStart} <span className="marker">{hero.titleHighlight}</span>
+              {heroCopy.titleStart} <span className="marker">{heroCopy.titleHighlight}</span>
             </h1>
-            <p className="mt-6 max-w-xl text-lg text-ink/85 sm:text-xl">{hero.body}</p>
+            <p className="mt-6 max-w-xl text-lg text-ink/85 sm:text-xl">{heroCopy.body}</p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-5">
               <BookCallButton fullWidthOnMobile />
               <Button href={hero.secondaryCta.href} variant="secondary" fullWidthOnMobile>
@@ -64,8 +70,28 @@ export default function HomePage() {
         </Container>
       </section>
 
+      <section className="bg-paper py-12 lg:py-16">
+        <Container>
+          <ProcessSteps
+            variant="compact"
+            srHeading={frameworkCompact.srHeading}
+            link={frameworkCompact.link}
+          />
+        </Container>
+      </section>
+      <ReviewBar />
+
       <Section tone="paper" labelledBy="problems-title">
-        <SectionHeading id="problems-title">{problems.heading}</SectionHeading>
+        {problemsHeadsWithMemo ? (
+          <>
+            <div className="mb-5">
+              <Eyebrow>{problems.eyebrow}</Eyebrow>
+            </div>
+            <SectionHeading id="problems-title">{problems.heading}</SectionHeading>
+          </>
+        ) : (
+          <SectionHeading id="problems-title">{problems.eyebrow}</SectionHeading>
+        )}
         <ul className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 lg:gap-10">
           {problems.notes.map((note, i) => (
             <StickyNoteCard key={note.title} index={i} title={note.title} body={note.body} />
@@ -137,17 +163,27 @@ export default function HomePage() {
         </div>
       </Section>
 
-      <Section tone="sage" labelledBy="how-title">
-        <SectionHeading id="how-title" intro={howItWorks.intro}>
-          {howItWorks.heading}
-        </SectionHeading>
-        <ProcessSteps steps={howItWorks.steps} />
-        <p className="mt-16 font-display text-xl font-semibold lg:mt-14">{howItWorks.after}</p>
+      <Section id="how-it-works" tone="sage" labelledBy="how-title">
+        <div className="mb-5">
+          <Eyebrow>{howItWorks.eyebrow}</Eyebrow>
+        </div>
+        <SectionHeading id="how-title">{howItWorks.heading}</SectionHeading>
+        <ProcessSteps variant="detailed" stepZero={howItWorks.stepZero} steps={howItWorks.steps} />
+        <p className="mt-14 max-w-[var(--container-prose)] font-display text-xl font-semibold lg:mt-12">
+          {howItWorks.after}{" "}
+          <span className="font-sans text-base font-normal">
+            {howItWorks.support.lead}{" "}
+            <Link href={howItWorks.support.link.href} className="font-semibold text-sage underline underline-offset-4">
+              {howItWorks.support.link.label}
+            </Link>
+            .
+          </span>
+        </p>
       </Section>
 
       <Section tone="paper" labelledBy="why-title">
         <SectionHeading id="why-title">{whyHustonTech.heading}</SectionHeading>
-        <ul className="grid gap-x-12 gap-y-10 sm:grid-cols-2">
+        <ul className="grid gap-x-12 gap-y-10 lg:grid-cols-3">
           {whyHustonTech.items.map((item, i) => (
             <li key={item.title} className="flex gap-5">
               <span aria-hidden="true" className="font-mono text-sm font-medium text-signal">

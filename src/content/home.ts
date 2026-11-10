@@ -1,4 +1,6 @@
-import type { ProcessStep } from "@/components/ui/ProcessSteps";
+import type { DetailedStepContent, StepZeroContent } from "@/components/ui/ProcessSteps";
+import { fw } from "@/lib/framework";
+import type { HeroOptionId } from "./site";
 
 export type ProofStripContent = {
   stats: { value: string; label: string }[];
@@ -11,17 +13,59 @@ export const homeMeta = {
     "Huston Tech helps owner-led service businesses fix follow-up, payments, reporting and messy software, starting with the tools you already use. Book a free 20-minute call.",
 };
 
+export type HeroOption = { titleStart: string; titleHighlight: string; body: string };
+
+/** The four hero options from the spec (B1). `siteConfig.heroOption` picks one; A is the recommended default. */
+export const heroOptions: Record<HeroOptionId, HeroOption> = {
+  A: {
+    titleStart: "Find the friction.",
+    titleHighlight: "Make the fix.",
+    body: "Huston Tech is hands-on systems help for owner-led teams. I find what's slowing your week down, fix it in the tools you already pay for, and hand it over so it's off your plate.",
+  },
+  B: {
+    titleStart: "Your business grew.",
+    titleHighlight: "Your systems didn't get the memo.",
+    body: "I find the friction in your week, fix it in the tools you already pay for, and flick it off your plate: tested, documented, and your team trained.",
+  },
+  C: {
+    titleStart: "Less friction.",
+    titleHighlight: "More business.",
+    body: "Hands-on systems help for owner-led teams. I find what's slowing you down, fix it in the tools you already use, and hand it over for good.",
+  },
+  D: {
+    titleStart: fw("{find}. {fix}."),
+    titleHighlight: fw("{flick}."),
+    body: "The friction in your week: found, fixed in the tools you already use, and flicked off your plate.",
+  },
+};
+
 export const hero = {
   eyebrow: "Business systems for growing small teams",
-  titleStart: "Your business grew.",
-  titleHighlight: "Your systems didn't get the memo.",
-  body: "Huston Tech helps owner-led teams fix the dropped handoffs, double-entry and half-set-up software that eat up your week, starting with the tools you already pay for.",
   secondaryCta: { label: "See what I've built →", href: "/past-work" },
   smallLine: "Hands-on help from Grant Huston · [[Based in Orange County, CA]] · Working with teams anywhere",
 };
 
+export const frameworkCompact = {
+  srHeading: fw("How it works: {stepsList}"),
+  link: { label: "See what you get at each step ↓", href: "#how-it-works" },
+};
+
+export const reviewBar = {
+  default: {
+    lead: "Start with a Workflow Review.",
+    body: "Written findings and a prioritized plan for one process, at a fixed fee agreed up front, credited in full toward the fix.",
+    link: { label: "How it works ↓", href: "#how-it-works" },
+  },
+  priced: {
+    lead: "Workflow Review: {price}, fixed.",
+    body: "Written findings and a prioritized plan, with the full {price} credited toward the fix.",
+    link: { label: "Book a free call →" },
+  },
+};
+
 export const problems = {
-  heading: "Sound familiar?",
+  eyebrow: "Sound familiar?",
+  heading: "Your business grew. Your systems didn't get the memo.",
   notes: [
     {
       title: "A new client inquiry came in Friday. Nobody saw it until Tuesday.",
@@ -109,23 +153,61 @@ export const proofStrip: ProofStripContent = {
 };
 
 export const howItWorks = {
-  heading: "How working together works",
-  intro: "Small, clearly scoped steps. You always know what you're getting before you pay for it.",
+  eyebrow: fw("{steps}"),
+  heading: "What you get at each step",
+  stepZero: {
+    body: "Every project runs the same three steps, and nothing starts until you've seen the scope and the price. It all begins with a free 20-minute call: tell me what's bugging you and what you use today, and I'll tell you honestly whether I can help.",
+  } satisfies StepZeroContent,
   steps: [
     {
-      title: "A quick, free call (20 minutes)",
-      body: "Tell me what's bugging you and what you use today. I'll tell you honestly whether I can help, and what a sensible next step looks like.",
+      key: "find",
+      subtitle: "the Workflow Review",
+      paragraphs: [
+        "I dig into one process: what's happening, why, and what your current tools can already do about it. Then I rank what's worth fixing.",
+      ],
+      list: {
+        label: "You get",
+        items: ["Written findings", "A prioritized plan", "A scoped quote for the fix, if one is worth building"],
+      },
+      afterList: "It's a fixed fee agreed up front, and the report is yours to keep.",
+      callout: {
+        lead: "You can stop here.",
+        body: "Take the plan and run with it yourself, or put it on the shelf for later. If the honest answer is \"you don't need a build,\" that's still a win.",
+      },
     },
     {
-      title: "A focused Workflow Review",
-      body: "For a fixed fee agreed up front, I dig into one process: what's happening, why, and what your current tools can already do about it. You get a clear report with prioritized recommendations. It's yours to keep, whether or not you hire me for the fix.",
+      key: "fix",
+      subtitle: "a clearly scoped project",
+      paragraphs: [
+        "I build the change, usually in the tools you already pay for, and test it with safe sample data against acceptance tests we agreed on before I started.",
+      ],
+      list: {
+        label: "You get",
+        items: [
+          "A written scope and acceptance tests up front",
+          "The build, tested",
+          "The Review fee credited toward the project",
+        ],
+      },
     },
     {
-      title: "The fix, built and handed over",
-      body: "If there's a worthwhile fix, I'll quote it as a clearly scoped project. I build it, test it, document it and train your team. The Review fee is credited toward the project.",
+      key: "flick",
+      subtitle: "the handoff",
+      paragraphs: [
+        "Switched on, handed over, off your plate. I train the people who'll use it, document how it works, and make sure someone on your side owns it.",
+      ],
+      list: {
+        label: "You get",
+        items: ["Team training", "Documentation", "A 14-day correction window", "Full ownership of your accounts, data and logins"],
+      },
+      proof: "All three client wrap-up surveys so far rated handoff and training 5/5.",
     },
-  ] satisfies ProcessStep[],
+  ] satisfies DetailedStepContent[],
   after: "No rip-and-replace. No 40-slide strategy deck. Just one useful improvement at a time.",
+  support: {
+    lead: "Want me to keep an eye on things after handoff?",
+    link: { label: "Ongoing support is available", href: "/services#systems" },
+  },
 };
 
 export const whyHustonTech = {
@@ -136,16 +218,12 @@ export const whyHustonTech = {
       body: "New software isn't always the answer. Often the fix is a setting, a process or a connection between tools you already pay for.",
     },
     {
-      title: "I diagnose before I build.",
-      body: "I'd rather spend an hour understanding the problem than a month building the wrong thing. And if the honest answer is \"you don't need a new system,\" I'll tell you. That's still a win.",
-    },
-    {
       title: "You work with me.",
       body: "Not an account manager, not a rotating junior team. The person on your call is the person doing the work.",
     },
     {
-      title: "It's built to be handed off.",
-      body: "Training, documentation and a clear owner on your side, so the fix keeps working after I've moved on.",
+      title: "You always know what you're paying for.",
+      body: "Fixed fees, agreed in writing before work starts. No hourly meter running in the background.",
     },
   ],
 };
