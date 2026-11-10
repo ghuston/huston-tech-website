@@ -10,7 +10,7 @@ const linkClass = "inline-flex min-h-11 items-center underline-offset-4 hover:un
 
 export function Footer() {
   return (
-    <footer className="bg-ink pb-28 pt-14 text-paper sm:pb-12 on-dark">
+    <footer className="border-t border-paper/10 bg-ink-deep pb-28 pt-14 text-paper sm:pb-12 on-dark">
       <Container>
         <div className="grid gap-10 lg:grid-cols-[1.4fr_1fr_1fr]">
           <div className="space-y-4">

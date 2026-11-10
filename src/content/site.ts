@@ -14,4 +14,5 @@ export const siteConfig = {
 
 export const bookCallLabel = "Book a free 20-minute call";
 export const bookCallShortLabel = "Book a free call";
+export const bookCallMobileLabel = "Book a call";
 export const SCHEDULER_FALLBACK_HREF = "/contact#book";

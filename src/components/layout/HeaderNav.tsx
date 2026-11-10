@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { bookCallShortLabel } from "@/content/site";
+import { bookCallMobileLabel, bookCallShortLabel } from "@/content/site";
 import { mainNav } from "@/content/nav";
 
 type Props = { bookHref: string };
@@ -36,7 +36,7 @@ export function HeaderNav({ bookHref }: Props) {
   }, [menuOpen]);
 
   const bookClasses =
-    "inline-flex min-h-11 items-center rounded-[10px] bg-signal px-4 text-[0.95rem] font-semibold text-white transition-colors duration-150 hover:bg-signal-deep motion-reduce:transition-none";
+    "inline-flex min-h-11 items-center whitespace-nowrap rounded-[10px] bg-signal px-4 text-[0.95rem] font-semibold text-white transition-colors duration-150 hover:bg-signal-deep motion-reduce:transition-none";
   const bookProps = bookExternal ? { target: "_blank", rel: "noopener noreferrer" } : {};
 
   return (
@@ -56,7 +56,8 @@ export function HeaderNav({ bookHref }: Props) {
 
       <div className="flex items-center justify-self-end gap-2">
         <a href={bookHref} className={bookClasses} {...bookProps}>
-          {bookCallShortLabel}
+          <span className="lg:hidden">{bookCallMobileLabel}</span>
+          <span className="hidden lg:inline">{bookCallShortLabel}</span>
         </a>
         <button
           ref={buttonRef}
