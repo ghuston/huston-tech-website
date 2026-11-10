@@ -1,8 +1,9 @@
+import { CaseStudyPhases } from "@/components/sections/CaseStudyPhases";
 import { ScreenshotPlaceholder } from "@/components/ui/MediaPlaceholders";
 import { StatusChip } from "@/components/ui/StatusChip";
 import { TestimonialCard } from "@/components/ui/TestimonialCard";
 import { Text } from "@/components/ui/Text";
-import type { CaseStudyContent } from "@/content/past-work";
+import { casePhasesHeading, type CaseStudyContent } from "@/content/past-work";
 import { getTestimonialById } from "@/content/testimonials";
 
 export function CaseStudy({ study }: { study: CaseStudyContent }) {
@@ -29,6 +30,8 @@ export function CaseStudy({ study }: { study: CaseStudyContent }) {
       </header>
 
       <div className="mt-8">{firstShot ? <ScreenshotPlaceholder label={firstShot} /> : null}</div>
+
+      <CaseStudyPhases heading={casePhasesHeading} phases={study.phases} />
 
       <div className="mt-10 grid gap-10 lg:grid-cols-2 lg:gap-14">
         <div className="space-y-10">

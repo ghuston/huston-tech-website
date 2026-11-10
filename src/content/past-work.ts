@@ -1,3 +1,6 @@
+import type { FrameworkStepKey } from "./site";
+import { fw } from "@/lib/framework";
+
 export const pastWorkMeta = {
   title: "Past Work & Client Results | Huston Tech",
   description:
@@ -18,6 +21,11 @@ export const pastWorkHero = {
   },
 };
 
+export type CasePhases = Record<FrameworkStepKey, string>;
+
+/** The strip describes what happened in each phase. Neither project claims a formal paid Review took place. */
+export const casePhasesHeading = fw("{shorts} at a glance");
+
 export type CaseStudyContent = {
   id: "hideout-fitness" | "irvine-family-counseling";
   heading: string;
@@ -26,6 +34,7 @@ export type CaseStudyContent = {
   testimonialId: string;
   quoteHeading: string;
   screenshots: string[];
+  phases: CasePhases;
   challenge: string;
   builtHeading: string;
   built: string[];
@@ -45,6 +54,12 @@ export const caseStudies: CaseStudyContent[] = [
       "[[SCREENSHOT: Hideout owner dashboard. Grant to supply; blur client and coach names]]",
       "[[SCREENSHOT: session review queue or coach-pay view. Grant to supply; blur names]]",
     ],
+    phases: {
+      find: "The owner had no reliable view of attrition, retention by coach, or revenue and profit per client. His session data was locked in a scheduling app that couldn't sync in real time, and coach pay depended on three variables.",
+      fix: "An owner app and dashboards, a nightly sync that tells cancellations from deactivated clients, and automatic coach-rate calculations.",
+      flick:
+        "Handed over to the owner, the app's only user, with a quick review queue for the few sessions that need a human eye. Handoff and training rated 5/5 in his wrap-up survey.",
+    },
     challenge:
       "The owner wanted a clear picture of his business: client attrition, new client generation, income, retention by coach, and revenue and profit per client. His scheduling lived in Trainerize, which couldn't sync data in real time. Coach pay also depended on several factors: the session type (four of them), how many clients were in the session, and the coach.",
     builtHeading: "What I built",
@@ -69,6 +84,11 @@ export const caseStudies: CaseStudyContent[] = [
       "[[SCREENSHOT: clinician performance or referral dashboard. Grant to supply; blur clinician and client names]]",
       "[[SCREENSHOT: staff app or inquiry pipeline. Grant to supply; blur names]]",
     ],
+    phases: {
+      find: "The owner was handling most of the administration, supervision, policy work and her own clients herself, and most processes were manual.",
+      fix: "A staff app with role-based access, twice-monthly payroll submissions with owner approval, a CRM inquiry pipeline and performance dashboards.",
+      flick: "Training sessions for every employee at handoff, then ongoing enhancements as the practice grew. Handoff and training rated 5/5.",
+    },
     challenge:
       "The owner was doing most of the work herself, from administration and supervision to policy and her own clients. Growth opportunities were piling up faster than she could act on them.",
     builtHeading: "What I built",
