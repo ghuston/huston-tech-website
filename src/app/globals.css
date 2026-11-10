@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "./motion.css";
 
 @theme {
   --color-ink: #27332d;
@@ -27,9 +28,22 @@
   --shadow-note: 0 1px 1px rgb(39 51 45 / 0.08), 0 8px 18px -10px rgb(39 51 45 / 0.35);
 }
 
+/* Motion tokens: the only easing and durations used on the site (see AGENTS.md "Motion rules"). */
+@theme static {
+  --ease-site: cubic-bezier(0.22, 1, 0.36, 1);
+  --duration-feedback: 150ms;
+  --duration-panel: 200ms;
+  --duration-intro: 350ms;
+  --duration-illustration: 400ms;
+  --delay-hero-line: 80ms;
+  --delay-illustration-step: 120ms;
+
+  --default-transition-duration: var(--duration-feedback);
+  --default-transition-timing-function: var(--ease-site);
+}
+
 @layer base {
   html {
-    scroll-behavior: smooth;
     scroll-padding-top: 6rem;
     -webkit-text-size-adjust: 100%;
   }
@@ -102,37 +116,5 @@
     font-style: normal;
     font-weight: 500;
     overflow-wrap: anywhere;
-  }
-
-  .fade-up {
-    animation: fade-up 450ms ease-out both;
-  }
-
-  .fade-up-delay {
-    animation: fade-up 450ms 90ms ease-out both;
-  }
-}
-
-@keyframes fade-up {
-  from {
-    transform: translateY(10px);
-  }
-  to {
-    transform: none;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
   }
 }

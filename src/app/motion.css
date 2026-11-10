@@ -1,0 +1,211 @@
+/*
+ * Motion rules. Timing comes only from the tokens in globals.css (--ease-site, --duration-*, --delay-*).
+ * Every animation ends in the static design, so removing a rule never changes the resting state.
+ * Under prefers-reduced-motion: reduce nothing animates (see the last block), so the end state shows at once.
+ */
+
+/* Page intros: CSS only, so headlines never depend on JS. `backwards` hides only during the delay; afterwards the element is untouched. */
+@keyframes intro-rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+.intro {
+  animation: intro-rise var(--duration-intro) var(--ease-site) backwards;
+}
+
+.intro-second {
+  animation-delay: var(--delay-hero-line);
+}
+
+/* Button and link arrows nudge 3px in their pointing direction on hover and keyboard focus. */
+.arrow {
+  display: inline-block;
+  text-decoration: inherit;
+  transition: transform var(--duration-feedback) var(--ease-site);
+}
+
+:is(a, button):is(:hover, :focus-visible) .arrow[data-dir="right"] {
+  transform: translateX(3px);
+}
+
+:is(a, button):is(:hover, :focus-visible) .arrow[data-dir="down"] {
+  transform: translateY(3px);
+}
+
+:is(a, button):is(:hover, :focus-visible) .arrow[data-dir="up"] {
+  transform: translateY(-3px);
+}
+
+/*
+ * Disclosures. Opening takes --duration-panel and closing --duration-feedback, because a transition uses the
+ * timing of the state it is moving to. `.panel` (mobile menu) animates grid rows; native <details> (FAQ) animates
+ * ::details-content where supported and simply snaps elsewhere.
+ */
+@layer components {
+  .panel {
+    display: grid;
+    grid-template-rows: 0fr;
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      grid-template-rows var(--duration-feedback) var(--ease-site),
+      opacity var(--duration-feedback) var(--ease-site),
+      visibility 0s linear var(--duration-feedback);
+  }
+
+  .panel[data-open="true"] {
+    grid-template-rows: 1fr;
+    opacity: 1;
+    visibility: visible;
+    transition:
+      grid-template-rows var(--duration-panel) var(--ease-site),
+      opacity var(--duration-panel) var(--ease-site),
+      visibility 0s linear 0s;
+  }
+
+  .panel > .panel-inner {
+    min-height: 0;
+    overflow: hidden;
+  }
+}
+
+:root {
+  interpolate-size: allow-keywords;
+}
+
+details::details-content {
+  block-size: 0;
+  overflow-y: clip;
+  transition:
+    block-size var(--duration-feedback) var(--ease-site),
+    content-visibility var(--duration-feedback) var(--ease-site) allow-discrete;
+}
+
+details[open]::details-content {
+  block-size: auto;
+  transition-duration: var(--duration-panel);
+}
+
+.disclosure-icon {
+  transition: transform var(--duration-feedback) var(--ease-site);
+}
+
+details[open] > summary .disclosure-icon {
+  transform: rotate(45deg);
+  transition-duration: var(--duration-panel);
+}
+
+/*
+ * Process diagram (the homepage's one focal animation). `.js` is set by an inline script in <head>, so without JS
+ * nothing here applies and the final drawing shows. The animations are created paused at their first frame and
+ * released once by InViewOnce (data-played), so they play a single time when the diagram enters view.
+ */
+@keyframes diagram-slide-left {
+  from {
+    opacity: 0;
+    transform: translateX(-22px);
+  }
+}
+
+@keyframes diagram-slide-right {
+  from {
+    opacity: 0;
+    transform: translateX(22px);
+  }
+}
+
+@keyframes diagram-draw {
+  from {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    transform: rotate(-90deg);
+  }
+  to {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 0;
+    transform: rotate(-90deg);
+  }
+}
+
+@keyframes diagram-dot {
+  from {
+    opacity: 0;
+    transform: scale(0);
+  }
+}
+
+@keyframes diagram-rotate-outline {
+  from {
+    opacity: 0;
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes diagram-reveal-center {
+  from {
+    opacity: 0;
+    transform: rotate(45deg) scale(0);
+  }
+}
+
+svg [data-part] {
+  transform-origin: 48px 48px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .js .diagram [data-part] {
+    animation-duration: var(--duration-illustration);
+    animation-timing-function: var(--ease-site);
+    animation-fill-mode: backwards;
+    animation-play-state: paused;
+  }
+
+  .js .diagram[data-played] [data-part] {
+    animation-play-state: running;
+  }
+
+  .js .diagram [data-step="1"] [data-part] {
+    animation-delay: var(--delay-illustration-step);
+  }
+
+  .js .diagram [data-step="2"] [data-part] {
+    animation-delay: calc(var(--delay-illustration-step) * 2);
+  }
+
+  .js .diagram [data-part="find-dashed"] {
+    animation-name: diagram-slide-left;
+  }
+
+  .js .diagram [data-part="find-solid"] {
+    animation-name: diagram-slide-right;
+  }
+
+  .js .diagram [data-part="fix-ring"] {
+    animation-name: diagram-draw;
+  }
+
+  .js .diagram [data-part="fix-dot"] {
+    animation-name: diagram-dot;
+  }
+
+  .js .diagram [data-part="flick-outline"] {
+    animation-name: diagram-rotate-outline;
+  }
+
+  .js .diagram [data-part="flick-center"] {
+    animation-name: diagram-reveal-center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}

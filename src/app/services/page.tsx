@@ -45,7 +45,7 @@ export default function ServicesPage() {
                 <li key={item.href}>
                   <a
                     href={item.href}
-                    className="inline-flex min-h-11 items-center rounded-md px-3 font-mono text-xs font-medium uppercase tracking-[0.12em] text-muted transition-colors duration-150 hover:bg-signal-tint hover:text-signal-deep motion-reduce:transition-none"
+                    className="inline-flex min-h-11 items-center rounded-md px-3 font-mono text-xs font-medium uppercase tracking-[0.12em] text-muted transition-colors hover:bg-signal-tint hover:text-signal-deep"
                   >
                     {item.label}
                   </a>

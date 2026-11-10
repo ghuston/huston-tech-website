@@ -9,7 +9,7 @@ export function ServiceCard({ block, goodFitLabel = "Good fit if:" }: Props) {
     <article
       id={block.id}
       aria-labelledby={headingId}
-      className="scroll-mt-40 rounded-[14px] border border-line bg-surface p-6 transition-shadow duration-150 hover:shadow-lift motion-reduce:transition-none sm:p-8"
+      className="scroll-mt-40 rounded-[14px] border border-line bg-surface p-6 transition-shadow hover:shadow-lift sm:p-8"
     >
       <h3 id={headingId} className="text-2xl leading-snug sm:text-[1.65rem]">
         {block.title}

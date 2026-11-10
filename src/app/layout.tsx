@@ -56,7 +56,10 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${newsreader.variable} ${inter.variable} ${jetbrains.variable}`}>
+    <html lang="en" suppressHydrationWarning className={`${newsreader.variable} ${inter.variable} ${jetbrains.variable}`}>
+      <head>
+        <script>{"document.documentElement.classList.add('js')"}</script>
+      </head>
       <body className="flex min-h-dvh flex-col">
         <a
           href="#main"
