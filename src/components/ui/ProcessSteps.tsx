@@ -3,6 +3,7 @@ import { StepConnector } from "@/components/illustrations/StepConnector";
 import { framework, type FrameworkStep, type FrameworkStepKey } from "@/content/site";
 import { getStep } from "@/lib/framework";
 import { BookCallButton } from "./BookCallButton";
+import { InViewOnce } from "./InViewOnce";
 import { Callout } from "./Callout";
 import { Text } from "./Text";
 
@@ -46,10 +47,16 @@ function CompactSteps({ srHeading }: CompactProps) {
   return (
     <div>
       <h2 className="sr-only">{srHeading}</h2>
-      <ol className="grid divide-y divide-rule border-y border-rule md:grid-cols-3 md:divide-x md:divide-y-0">
-        {framework.steps.map((step) => (
-          <li key={step.key} className="flex flex-col items-center px-6 py-9 text-center md:py-12">
-            <FrameworkIcon step={step.key} className="size-20 text-signal md:size-24" />
+      <InViewOnce
+        as="ol"
+        className="diagram grid divide-y divide-rule border-y border-rule md:grid-cols-3 md:divide-x md:divide-y-0"
+      >
+        {framework.steps.map((step, i) => (
+          <li key={step.key} data-step={i} className="flex flex-col items-center px-6 py-9 text-center md:py-12">
+            <FrameworkIcon
+              step={step.key}
+              className="size-20 text-signal [stroke-width:1.8] md:size-24 md:[stroke-width:1.5]"
+            />
             <span aria-hidden="true" className="mt-7 font-mono text-xs tracking-[0.12em] text-ink">
               {step.number}
             </span>
@@ -57,7 +64,7 @@ function CompactSteps({ srHeading }: CompactProps) {
             <p className="mt-2 max-w-[17rem] text-base text-ink">{step.oneLiner}</p>
           </li>
         ))}
-      </ol>
+      </InViewOnce>
     </div>
   );
 }

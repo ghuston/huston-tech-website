@@ -13,7 +13,7 @@ export function CaseStudyPhases({ heading, phases }: Props) {
       <dl className="mt-5 grid gap-6">
         {framework.steps.map((step) => (
           <div key={step.key} className="grid grid-cols-[auto_1fr] gap-x-4 gap-y-1 sm:grid-cols-[auto_8rem_1fr]">
-            <FrameworkIcon step={step.key} className="row-span-2 size-7 text-ink sm:row-span-1" />
+            <FrameworkIcon step={step.key} className="row-span-2 size-7 text-ink [stroke-width:5.1] sm:row-span-1" />
             <dt className="font-display text-xl font-semibold leading-snug">{step.past}</dt>
             <dd className="col-start-2 text-ink/85 sm:col-start-3">
               <Text>{phases[step.key]}</Text>
