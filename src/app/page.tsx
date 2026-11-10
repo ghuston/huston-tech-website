@@ -47,7 +47,7 @@ export default function HomePage() {
 
   return (
     <>
-      <section aria-labelledby="hero-title" className="bg-paper pb-14 pt-12 sm:pt-16 lg:pb-16 lg:pt-20">
+      <section aria-labelledby="hero-title" className="bg-paper pb-12 pt-10 sm:pt-14 lg:pb-14 lg:pt-14">
         <Container className="text-center">
           <p className="font-mono text-xs font-medium uppercase tracking-[0.16em] text-ink sm:text-[0.8rem]">{hero.eyebrow}</p>
           <h1
@@ -70,7 +70,7 @@ export default function HomePage() {
             <Text>{hero.smallLine}</Text>
           </p>
         </Container>
-        <Container className="mt-12 lg:mt-14">
+        <Container className="mt-8">
           <div className="mx-auto max-w-[62rem]">
             <ProcessSteps variant="compact" srHeading={frameworkCompact.srHeading} />
           </div>

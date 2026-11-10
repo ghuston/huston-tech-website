@@ -51,12 +51,21 @@ function CompactSteps({ srHeading }: CompactProps) {
         as="ol"
         className="diagram grid divide-y divide-rule border-y border-rule md:grid-cols-3 md:divide-x md:divide-y-0"
       >
-        {framework.steps.map((step, i) => (
-          <li key={step.key} data-step={i} className="flex flex-col items-center px-6 py-9 text-center md:py-12">
-            <FrameworkIcon
-              step={step.key}
-              className="size-20 text-signal [stroke-width:1.8] md:size-24 md:[stroke-width:1.5]"
-            />
+        {framework.steps.map((step) => (
+          <li key={step.key} className="flex flex-col items-center px-6 py-9 text-center md:py-12">
+            <div className="relative">
+              <FrameworkIcon
+                step={step.key}
+                className="size-20 text-signal [stroke-width:1.8] md:size-24 md:[stroke-width:1.5]"
+              />
+              {step.key === "flick" ? (
+                <span
+                  aria-hidden="true"
+                  data-part="flick-connector"
+                  className="diagram-connector absolute right-[91.67%] top-1/2 h-[1.5px] w-10 -translate-y-1/2 bg-signal"
+                />
+              ) : null}
+            </div>
             <span aria-hidden="true" className="mt-7 font-mono text-xs tracking-[0.12em] text-ink">
               {step.number}
             </span>

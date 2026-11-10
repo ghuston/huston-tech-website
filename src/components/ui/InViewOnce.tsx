@@ -30,7 +30,7 @@ export function InViewOnce({ as: Tag = "div", className, children }: Props) {
           observer.disconnect();
         }
       },
-      { threshold: 0.4 },
+      { threshold: 0.1 },
     );
     observer.observe(el);
     return () => observer.disconnect();

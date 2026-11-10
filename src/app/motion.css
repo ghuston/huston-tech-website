@@ -101,7 +101,9 @@ details[open] > summary .disclosure-icon {
 /*
  * Process diagram (the homepage's one focal animation). `.js` is set by an inline script in <head>, so without JS
  * nothing here applies and the final drawing shows. The animations are created paused at their first frame and
- * released once by InViewOnce (data-played), so they play a single time when the diagram enters view.
+ * released once by InViewOnce (data-played), so they play a single time when the diagram enters view. Sequence, in
+ * 120ms steps of 400ms animations: Find circles slide into overlap (0), Fix rings draw (1), the Fix dot lands (3), the
+ * connector draws toward Flick (4), the Flick diamond rotates in and settles (5).
  */
 @keyframes diagram-slide-left {
   from {
@@ -133,14 +135,20 @@ details[open] > summary .disclosure-icon {
 @keyframes diagram-dot {
   from {
     opacity: 0;
-    transform: scale(0);
+    transform: scale(2);
+  }
+}
+
+@keyframes diagram-connector {
+  from {
+    transform: scaleX(0);
   }
 }
 
 @keyframes diagram-rotate-outline {
   from {
     opacity: 0;
-    transform: rotate(0deg);
+    transform: rotate(0deg) scale(0.92);
   }
 }
 
@@ -155,6 +163,10 @@ svg [data-part] {
   transform-origin: 48px 48px;
 }
 
+.diagram-connector {
+  transform-origin: left center;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .js .diagram [data-part] {
     animation-duration: var(--duration-illustration);
@@ -167,12 +179,21 @@ svg [data-part] {
     animation-play-state: running;
   }
 
-  .js .diagram [data-step="1"] [data-part] {
+  .js .diagram [data-part="fix-ring"] {
     animation-delay: var(--delay-illustration-step);
   }
 
-  .js .diagram [data-step="2"] [data-part] {
-    animation-delay: calc(var(--delay-illustration-step) * 2);
+  .js .diagram [data-part="fix-dot"] {
+    animation-delay: calc(var(--delay-illustration-step) * 3);
+  }
+
+  .js .diagram [data-part="flick-connector"] {
+    animation-delay: calc(var(--delay-illustration-step) * 4);
+  }
+
+  .js .diagram [data-part="flick-outline"],
+  .js .diagram [data-part="flick-center"] {
+    animation-delay: calc(var(--delay-illustration-step) * 5);
   }
 
   .js .diagram [data-part="find-dashed"] {
@@ -189,6 +210,10 @@ svg [data-part] {
 
   .js .diagram [data-part="fix-dot"] {
     animation-name: diagram-dot;
+  }
+
+  .js .diagram [data-part="flick-connector"] {
+    animation-name: diagram-connector;
   }
 
   .js .diagram [data-part="flick-outline"] {
