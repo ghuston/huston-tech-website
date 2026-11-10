@@ -55,6 +55,9 @@ PORT=4822 npm run preview   # http://localhost:4822
 |---|---|---|
 | Site URL | `NEXT_PUBLIC_SITE_URL` (see `.env.example`), default `https://hustontech.com` in `src/content/site.ts` | Used for canonical URLs, Open Graph, sitemap, robots and JSON-LD. Public value, not a secret. |
 | Contact email, scheduler URL, LinkedIn URL | `src/content/site.ts` | `null` renders a visible placeholder. |
+| Framework step names, numbers, one-liners | `framework.steps` in `src/content/site.ts` | The only place "Find it / Fix it / Flick it" is defined. Content strings use `{find}`, `{fix}`, `{flick}`, `{steps}` tokens via `fw()` (`src/lib/framework.ts`). Rename a step here and every page follows. |
+| Review price | `siteConfig.reviewPrice` in `src/content/site.ts` | `null` (default) keeps all prices out of the copy. A value such as `"$500"` switches the Review bar and the Services "Find it" stop-point to their with-price wording. Also update the FAQ cost answer if you publish it. |
+| Hero option | `siteConfig.heroOption` in `src/content/site.ts` | `"A"` (recommended), `"B"`, `"C"` or `"D"` from the spec. Option B restores "Sound familiar?" as the problems heading. |
 
 ## Placeholders and launch gate
 
@@ -64,6 +67,8 @@ Anything only Grant can supply is written as `[[double brackets]]` in `src/conte
 npm run check:placeholders   # lists every unresolved item, exits 1 while any remain
 npm run build:launch         # runs the gate, then builds
 ```
+
+The gate also fails while any flag in `decisionsConfirmed` (`src/content/site.ts`) is `false`: hero option, publish the Review price, step 3 name, line-art style. Set each to `true` once Grant has confirmed the choice.
 
 Normal builds (and CI) allow placeholders so the site can be previewed. **Use `npm run build:launch` as the Cloudflare build command for the real launch** (see below) so a build with unresolved placeholders cannot go live.
 
@@ -103,7 +108,9 @@ Deployment is manual and not automated by this repo.
 - [ ] Privacy policy checked against the tools actually used
 - [ ] Screenshots supplied with names blurred (or placeholders removed)
 - [ ] Submit `sitemap.xml` to Google Search Console
-- [ ] Final claims check: no prices, no "Uncarved Dream", no real client data in images, no "we/our team"
+- [ ] Decisions confirmed in `decisionsConfirmed`: hero option, Review price (default: none), step 3 name, geometric framework icons
+- [ ] Framework wording matches everywhere: three steps (step zero is the call, not a fourth step), 20-minute call, reply within one business day, 14-day correction window, "5/5 handoff & training" and "3 of 3", 21 client accounts, Review fee credited toward the fix, the stop-point line on Home and Services
+- [ ] Final claims check: no prices (unless the Review price is published), no "Uncarved Dream", no real client data in images, no "we/our team"
 
 ## Project structure
 
@@ -112,9 +119,9 @@ src/
   app/            routes, metadata files (sitemap, robots, icon, og.png)
   components/
     ui/           buttons, cards, chips, FAQ, testimonial, placeholders
-    sections/     case study, scheduler and contact-form placeholders
+    sections/     case study and phase strip, Review bar, scheduler and contact-form placeholders
     layout/       header, nav, footer, mobile CTA bar
-    illustrations/ decorative SVG (arrows, hero board)
+    illustrations/ decorative SVG (arrows, hero board, framework icons and connectors)
   content/        typed copy and site settings (single source of truth)
   lib/            metadata, JSON-LD and text-token helpers
 scripts/          placeholder gate, static preview server
