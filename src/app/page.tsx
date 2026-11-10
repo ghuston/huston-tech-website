@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { HeroBoard } from "@/components/illustrations/HeroBoard";
 import { BookCallButton } from "@/components/ui/BookCallButton";
 import { Button } from "@/components/ui/Button";
 import { Callout } from "@/components/ui/Callout";
@@ -46,37 +45,33 @@ export default function HomePage() {
 
   return (
     <>
-      <section aria-labelledby="hero-title" className="dot-grid border-b border-line pb-16 pt-12 lg:pb-24 lg:pt-20">
-        <Container className="grid items-center gap-14 lg:grid-cols-[1.3fr_1fr]">
-          <div className="fade-up">
-            <Eyebrow>{hero.eyebrow}</Eyebrow>
-            <h1 id="hero-title" className="mt-5 text-[2.5rem] leading-[1.04] sm:text-6xl lg:text-[4rem]">
-              {heroCopy.titleStart} <span className="marker">{heroCopy.titleHighlight}</span>
-            </h1>
-            <p className="mt-6 max-w-xl text-lg text-ink/85 sm:text-xl">{heroCopy.body}</p>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-5">
-              <BookCallButton fullWidthOnMobile />
-              <Button href={hero.secondaryCta.href} variant="secondary" fullWidthOnMobile>
-                {hero.secondaryCta.label}
-              </Button>
-            </div>
-            <p className="mt-5 text-sm text-muted">
-              <Text>{hero.smallLine}</Text>
-            </p>
+      <section aria-labelledby="hero-title" className="bg-paper pb-14 pt-12 sm:pt-16 lg:pb-16 lg:pt-20">
+        <Container className="text-center">
+          <p className="font-mono text-xs font-medium uppercase tracking-[0.16em] text-ink sm:text-[0.8rem]">{hero.eyebrow}</p>
+          <h1
+            id="hero-title"
+            className="mt-6 font-sans text-[2.4rem] font-extrabold leading-[1.02] tracking-[-0.045em] text-ink sm:text-6xl lg:text-[5.25rem] lg:leading-[0.98]"
+          >
+            <span className="block">{heroCopy.titleStart}</span>{" "}
+            <span className="block font-display text-[1.06em] font-medium italic tracking-[-0.025em] text-signal">
+              {heroCopy.titleHighlight}
+            </span>
+          </h1>
+          <p className="mx-auto mt-6 max-w-[40rem] text-lg text-ink sm:text-xl">{heroCopy.body}</p>
+          <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center sm:gap-4">
+            <BookCallButton fullWidthOnMobile />
+            <Button href={hero.secondaryCta.href} variant="secondary" fullWidthOnMobile>
+              {hero.secondaryCta.label}
+            </Button>
           </div>
-          <div className="fade-up-delay">
-            <HeroBoard />
-          </div>
+          <p className="mt-5 text-sm text-muted">
+            <Text>{hero.smallLine}</Text>
+          </p>
         </Container>
-      </section>
-
-      <section className="bg-paper py-12 lg:py-16">
-        <Container>
-          <ProcessSteps
-            variant="compact"
-            srHeading={frameworkCompact.srHeading}
-            link={frameworkCompact.link}
-          />
+        <Container className="mt-12 lg:mt-14">
+          <div className="mx-auto max-w-[62rem]">
+            <ProcessSteps variant="compact" srHeading={frameworkCompact.srHeading} />
+          </div>
         </Container>
       </section>
       <ReviewBar />

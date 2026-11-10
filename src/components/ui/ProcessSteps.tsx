@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { FrameworkIcon } from "@/components/illustrations/FrameworkIcon";
 import { StepConnector } from "@/components/illustrations/StepConnector";
 import { framework, type FrameworkStep, type FrameworkStepKey } from "@/content/site";
@@ -27,7 +26,6 @@ type CompactProps = {
   variant: "compact";
   /** Visually hidden H2 that names the block for screen readers. */
   srHeading: string;
-  link: { label: string; href: string };
 };
 
 type DetailedProps = {
@@ -44,33 +42,22 @@ export function ProcessSteps(props: CompactProps | DetailedProps) {
   return props.variant === "compact" ? <CompactSteps {...props} /> : <DetailedSteps {...props} />;
 }
 
-function CompactSteps({ srHeading, link }: CompactProps) {
+function CompactSteps({ srHeading }: CompactProps) {
   return (
     <div>
       <h2 className="sr-only">{srHeading}</h2>
-      <ol className="grid gap-x-12 gap-y-10 md:grid-cols-3">
-        {framework.steps.map((step, i) => (
-          <li
-            key={step.key}
-            className="relative flex gap-4 rounded-[14px] border border-line bg-surface p-5 sm:p-6 md:block"
-          >
-            <FrameworkIcon step={step.key} className="size-9 shrink-0 text-ink md:mb-4 md:size-10" />
-            <div>
-              <span aria-hidden="true" className="font-mono text-xs font-medium tracking-[0.12em] text-signal">
-                {step.number}
-              </span>
-              <h3 className="mt-1 text-2xl font-semibold leading-snug">{step.label}</h3>
-              <p className="mt-2 text-ink/85">{step.oneLiner}</p>
-            </div>
-            {i < framework.steps.length - 1 ? <Connectors gapClass="md" /> : null}
+      <ol className="grid divide-y divide-rule border-y border-rule md:grid-cols-3 md:divide-x md:divide-y-0">
+        {framework.steps.map((step) => (
+          <li key={step.key} className="flex flex-col items-center px-6 py-9 text-center md:py-12">
+            <FrameworkIcon step={step.key} className="size-20 text-signal md:size-24" />
+            <span aria-hidden="true" className="mt-7 font-mono text-xs tracking-[0.12em] text-ink">
+              {step.number}
+            </span>
+            <h3 className="mt-1 text-[1.9rem] font-semibold leading-tight">{step.label}</h3>
+            <p className="mt-2 max-w-[17rem] text-base text-ink">{step.oneLiner}</p>
           </li>
         ))}
       </ol>
-      <p className="mt-6">
-        <Link href={link.href} className="inline-flex min-h-11 items-center font-semibold text-sage underline underline-offset-4">
-          {link.label}
-        </Link>
-      </p>
     </div>
   );
 }
@@ -125,7 +112,7 @@ function DetailedSteps({ stepZero, steps }: DetailedProps) {
                 </Callout>
               ) : null}
               {content.proof ? <p className="mt-6 border-t border-line pt-4 text-[0.98rem] italic text-muted">{content.proof}</p> : null}
-              {i < steps.length - 1 ? <Connectors gapClass="lg" /> : null}
+              {i < steps.length - 1 ? <Connectors /> : null}
             </li>
           );
         })}
@@ -138,7 +125,7 @@ function StepHeading({ step, content }: { step: FrameworkStep; content: Detailed
   return (
     <>
       <div className="flex items-center gap-3">
-        <FrameworkIcon step={step.key} className="size-9 shrink-0 text-ink" />
+        <FrameworkIcon step={step.key} className="size-9 shrink-0 text-signal" />
         <span aria-hidden="true" className="font-mono text-xs font-medium tracking-[0.12em] text-signal">
           {step.number}
         </span>
@@ -153,22 +140,17 @@ function StepHeading({ step, content }: { step: FrameworkStep; content: Detailed
 }
 
 /**
- * Connector from one step card to the next: a horizontal line in the column gap at `gapClass` and above,
+ * Connector from one detailed step card to the next: a horizontal line in the column gap at `lg` and above,
  * a vertical line in the row gap below it. Both are decorative.
  */
-function Connectors({ gapClass }: { gapClass: "md" | "lg" }) {
-  const horizontal =
-    gapClass === "md"
-      ? "hidden md:block absolute left-full top-1/2 h-6 w-12 -translate-y-1/2"
-      : "hidden lg:block absolute left-full top-24 h-6 w-14";
-  const vertical =
-    gapClass === "md"
-      ? "md:hidden absolute left-1/2 top-full h-10 w-5 -translate-x-1/2"
-      : "lg:hidden absolute left-1/2 top-full h-12 w-6 -translate-x-1/2";
+function Connectors() {
   return (
     <>
-      <StepConnector direction="right" className={`${horizontal} text-ink/40`} />
-      <StepConnector direction="down" className={`${vertical} text-ink/40`} />
+      <StepConnector direction="right" className="absolute left-full top-24 hidden h-6 w-14 text-ink/40 lg:block" />
+      <StepConnector
+        direction="down"
+        className="absolute left-1/2 top-full h-12 w-6 -translate-x-1/2 text-ink/40 lg:hidden"
+      />
     </>
   );
 }

@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Fraunces, Inter, JetBrains_Mono } from "next/font/google";
+import { Inter, JetBrains_Mono, Newsreader } from "next/font/google";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { MobileCtaBar } from "@/components/layout/MobileCtaBar";
@@ -10,10 +10,11 @@ import { organizationJsonLd } from "@/lib/jsonld";
 import { OG_IMAGE_ALT, OG_IMAGE_PATH } from "@/lib/metadata";
 import "./globals.css";
 
-const fraunces = Fraunces({
+const newsreader = Newsreader({
   subsets: ["latin"],
-  axes: ["opsz", "SOFT"],
-  variable: "--font-fraunces",
+  style: ["normal", "italic"],
+  axes: ["opsz"],
+  variable: "--font-newsreader",
   display: "swap",
 });
 
@@ -48,14 +49,14 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#F8F5EF",
+  themeColor: "#F6F4ED",
   width: "device-width",
   initialScale: 1,
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${fraunces.variable} ${inter.variable} ${jetbrains.variable}`}>
+    <html lang="en" className={`${newsreader.variable} ${inter.variable} ${jetbrains.variable}`}>
       <body className="flex min-h-dvh flex-col">
         <a
           href="#main"

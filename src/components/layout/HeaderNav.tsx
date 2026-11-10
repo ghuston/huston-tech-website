@@ -13,7 +13,7 @@ function isCurrent(pathname: string, href: string) {
 }
 
 const linkClasses =
-  "inline-flex min-h-11 items-center rounded-md px-3 text-[0.95rem] font-medium transition-colors duration-150 hover:text-signal motion-reduce:transition-none";
+  "inline-flex min-h-11 items-center rounded-md px-3 text-base transition-colors duration-150 hover:text-signal motion-reduce:transition-none";
 
 export function HeaderNav({ bookHref }: Props) {
   const pathname = usePathname();
@@ -36,12 +36,12 @@ export function HeaderNav({ bookHref }: Props) {
   }, [menuOpen]);
 
   const bookClasses =
-    "inline-flex min-h-11 items-center whitespace-nowrap rounded-[10px] bg-signal px-4 text-[0.95rem] font-semibold text-white transition-colors duration-150 hover:bg-signal-deep motion-reduce:transition-none";
+    "inline-flex min-h-11 items-center whitespace-nowrap rounded-[6px] bg-ink px-4 text-[0.95rem] font-semibold text-paper transition-colors duration-150 hover:bg-ink-deep motion-reduce:transition-none";
   const bookProps = bookExternal ? { target: "_blank", rel: "noopener noreferrer" } : {};
 
   return (
     <>
-      <nav aria-label="Main" className="hidden items-center gap-1 lg:flex">
+      <nav aria-label="Main" className="hidden items-center justify-end gap-1 lg:flex">
         {mainNav.map((item) => (
           <Link
             key={item.href}
@@ -68,7 +68,7 @@ export function HeaderNav({ bookHref }: Props) {
             setOpenedAt(pathname);
             setOpen((value) => !value);
           }}
-          className="inline-flex size-11 items-center justify-center rounded-[10px] border-2 border-ink lg:hidden"
+          className="inline-flex size-11 items-center justify-center rounded-[6px] border border-ink lg:hidden"
         >
           <span className="sr-only">{menuOpen ? "Close menu" : "Open menu"}</span>
           <svg aria-hidden="true" viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round">
@@ -81,7 +81,7 @@ export function HeaderNav({ bookHref }: Props) {
         id="mobile-menu"
         aria-label="Mobile"
         hidden={!menuOpen}
-        className="col-span-full border-t border-line pb-4 pt-2 lg:hidden"
+        className="col-span-full border-t border-rule pb-4 pt-2 lg:hidden"
       >
         <ul className="grid gap-1">
           {mainNav.map((item) => (

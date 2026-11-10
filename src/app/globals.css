@@ -1,20 +1,21 @@
 @import "tailwindcss";
 
 @theme {
-  --color-ink: #1d2230;
-  --color-ink-deep: #131722;
-  --color-paper: #f8f5ef;
+  --color-ink: #27332d;
+  --color-ink-deep: #1a231e;
+  --color-paper: #f6f4ed;
   --color-surface: #ffffff;
-  --color-line: #e4ded3;
-  --color-muted: #5b6170;
-  --color-signal: #c2410c;
-  --color-signal-deep: #9a3412;
-  --color-signal-tint: #fbe3d3;
+  --color-line: #dedcd0;
+  --color-rule: #c3c2b5;
+  --color-muted: #566058;
+  --color-signal: #a4482d;
+  --color-signal-deep: #7f3620;
+  --color-signal-tint: #f0ddd3;
   --color-sage: #2f6b5e;
-  --color-sage-tint: #e3efea;
+  --color-sage-tint: #e6e9df;
   --color-note: #fff1b8;
 
-  --font-display: var(--font-fraunces), ui-serif, Georgia, serif;
+  --font-display: var(--font-newsreader), ui-serif, Georgia, serif;
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-jetbrains), ui-monospace, SFMono-Regular, monospace;
 
@@ -22,8 +23,8 @@
   --container-prose: 45rem;
   --container-site: 75rem;
 
-  --shadow-lift: 0 10px 30px -12px rgb(29 34 48 / 0.28);
-  --shadow-note: 0 1px 1px rgb(29 34 48 / 0.08), 0 8px 18px -10px rgb(29 34 48 / 0.35);
+  --shadow-lift: 0 10px 30px -12px rgb(39 51 45 / 0.28);
+  --shadow-note: 0 1px 1px rgb(39 51 45 / 0.08), 0 8px 18px -10px rgb(39 51 45 / 0.35);
 }
 
 @layer base {
@@ -52,7 +53,7 @@
   h2,
   h3 {
     font-family: var(--font-display);
-    font-weight: 650;
+    font-weight: 600;
     letter-spacing: -0.015em;
     text-wrap: balance;
   }

@@ -16,11 +16,11 @@ const base =
 
 const variants: Record<Variant, string> = {
   primary:
-    "min-h-12 rounded-[10px] bg-signal px-6 py-3 text-white hover:bg-signal-deep border border-transparent",
+    "min-h-12 rounded-[6px] bg-ink px-6 py-3 text-paper hover:bg-ink-deep border border-transparent",
   secondary:
-    "min-h-12 rounded-[10px] border-2 border-ink px-6 py-3 text-ink hover:bg-ink hover:text-paper",
+    "min-h-12 rounded-[6px] border border-ink px-6 py-3 text-ink hover:bg-ink hover:text-paper",
   onDark:
-    "min-h-12 rounded-[10px] bg-paper px-6 py-3 text-ink hover:bg-note border border-transparent",
+    "min-h-12 rounded-[6px] bg-paper px-6 py-3 text-ink hover:bg-note border border-transparent",
   link: "min-h-11 text-sage underline decoration-sage/40 underline-offset-4 hover:decoration-sage",
 };
 

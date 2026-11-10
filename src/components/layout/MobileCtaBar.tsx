@@ -26,7 +26,7 @@ export function MobileCtaBar({ href }: { href: string }) {
       <a
         href={href}
         {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-        className="flex min-h-12 w-full items-center justify-center rounded-[10px] bg-signal px-6 font-semibold text-white"
+        className="flex min-h-12 w-full items-center justify-center rounded-[6px] bg-ink px-6 font-semibold text-paper"
       >
         {bookCallShortLabel}
       </a>

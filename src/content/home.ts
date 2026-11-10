@@ -47,7 +47,6 @@ export const hero = {
 
 export const frameworkCompact = {
   srHeading: fw("How it works: {stepsList}"),
-  link: { label: "See what you get at each step ↓", href: "#how-it-works" },
 };
 
 export const reviewBar = {

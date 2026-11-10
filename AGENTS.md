@@ -21,7 +21,7 @@ Marketing site for Huston Tech (one-person business systems consultancy, Grant H
 - `src/lib/` pure helpers (`metadata.ts`, `jsonld.ts`, `placeholders.ts`).
 - `scripts/` Node scripts: `check-placeholders.mjs` (launch gate), `preview.mjs` (static preview server that also applies the `/*` block of `public/_headers`).
 - `public/_headers` is the Cloudflare Pages header config. `.github/workflows/ci.yml` runs the checks.
-- Design tokens (colors, fonts, radii, shadows) live in `src/app/globals.css` under `@theme`. Use the tokens (`ink`, `paper`, `surface`, `line`, `muted`, `signal`, `sage`, `note`, ...); never hard-code hex values in components (the OG image route is the one exception because it cannot use CSS). Fonts are loaded only through `next/font/google` in `layout.tsx` (Fraunces display, Inter body, JetBrains Mono labels), which self-hosts them at build time. No third-party font or script tags.
+- Design tokens (colors, fonts, radii, shadows) live in `src/app/globals.css` under `@theme`. Use the tokens (`ink`, `paper`, `surface`, `line`, `muted`, `signal`, `sage`, `note`, ...); never hard-code hex values in components (the OG image route is the one exception because it cannot use CSS). Fonts are loaded only through `next/font/google` in `layout.tsx` (Newsreader display serif, Inter body and heavy hero headline, JetBrains Mono labels), which self-hosts them at build time. No third-party font or script tags.
 
 ## Content rules (non-negotiable)
 
