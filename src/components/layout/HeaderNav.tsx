@@ -13,7 +13,7 @@ function isCurrent(pathname: string, href: string) {
 }
 
 const linkClasses =
-  "inline-flex min-h-11 items-center rounded-md px-3 text-base transition-colors duration-150 hover:text-signal motion-reduce:transition-none";
+  "inline-flex min-h-11 items-center rounded-md px-3 text-base transition-colors hover:text-signal";
 
 export function HeaderNav({ bookHref }: Props) {
   const pathname = usePathname();
@@ -36,7 +36,7 @@ export function HeaderNav({ bookHref }: Props) {
   }, [menuOpen]);
 
   const bookClasses =
-    "inline-flex min-h-11 items-center whitespace-nowrap rounded-[6px] bg-ink px-4 text-[0.95rem] font-semibold text-paper transition-colors duration-150 hover:bg-ink-deep motion-reduce:transition-none";
+    "inline-flex min-h-11 items-center whitespace-nowrap rounded-[6px] bg-ink px-4 text-[0.95rem] font-semibold text-paper transition-colors hover:bg-ink-deep";
   const bookProps = bookExternal ? { target: "_blank", rel: "noopener noreferrer" } : {};
 
   return (
@@ -80,10 +80,12 @@ export function HeaderNav({ bookHref }: Props) {
       <nav
         id="mobile-menu"
         aria-label="Mobile"
-        hidden={!menuOpen}
-        className="col-span-full border-t border-rule pb-4 pt-2 lg:hidden"
+        data-open={menuOpen}
+        inert={!menuOpen}
+        className="panel col-span-full lg:hidden"
       >
-        <ul className="grid gap-1">
+        <div className="panel-inner">
+        <ul className="grid gap-1 border-t border-rule pb-4 pt-2">
           {mainNav.map((item) => (
             <li key={item.href}>
               <Link
@@ -96,6 +98,7 @@ export function HeaderNav({ bookHref }: Props) {
             </li>
           ))}
         </ul>
+        </div>
       </nav>
     </>
   );

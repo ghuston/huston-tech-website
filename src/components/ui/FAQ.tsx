@@ -11,7 +11,7 @@ export function FAQ({ items }: { items: FaqItem[] }) {
             {item.question}
             <span
               aria-hidden="true"
-              className="grid size-8 shrink-0 place-items-center rounded-full bg-signal-tint font-mono text-lg text-signal-deep transition-transform duration-150 group-open:rotate-45 motion-reduce:transition-none"
+              className="grid size-8 shrink-0 place-items-center rounded-full bg-signal-tint font-mono text-lg text-signal-deep disclosure-icon"
             >
               +
             </span>
