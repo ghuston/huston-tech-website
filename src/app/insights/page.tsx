@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { ArrowLabel } from "@/components/ui/ArrowLabel";
 import { CTASection } from "@/components/ui/CTASection";
 import { PageHero } from "@/components/ui/PageHero";
 import { Section } from "@/components/ui/Section";
@@ -24,7 +25,7 @@ export default function InsightsPage() {
           <p className="mt-4 text-ink/85">
             {c.body}{" "}
             <Link href={c.askLink.href} className="font-semibold text-sage underline underline-offset-4">
-              {c.askLink.label}
+              <ArrowLabel>{c.askLink.label}</ArrowLabel>
             </Link>
           </p>
         </div>

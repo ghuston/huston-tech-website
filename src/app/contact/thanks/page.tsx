@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { ArrowLabel } from "@/components/ui/ArrowLabel";
 import { BookCallButton } from "@/components/ui/BookCallButton";
 import { PageHero } from "@/components/ui/PageHero";
 import { Section } from "@/components/ui/Section";
@@ -23,13 +24,13 @@ export default function ThanksPage() {
         <p>
           {thanks.afterCall.lead}{" "}
           <Link href={thanks.afterCall.link.href} className="font-semibold text-sage underline underline-offset-4">
-            {thanks.afterCall.link.label}
+            <ArrowLabel>{thanks.afterCall.link.label}</ArrowLabel>
           </Link>
         </p>
         <p className="mt-4">
           {thanks.next}{" "}
           <Link href={thanks.nextLink.href} className="font-semibold text-sage underline underline-offset-4">
-            {thanks.nextLink.label}
+            <ArrowLabel>{thanks.nextLink.label}</ArrowLabel>
           </Link>
         </p>
       </Section>

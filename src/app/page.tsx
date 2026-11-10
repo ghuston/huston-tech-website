@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { ArrowLabel } from "@/components/ui/ArrowLabel";
 import { BookCallButton } from "@/components/ui/BookCallButton";
 import { Button } from "@/components/ui/Button";
 import { Callout } from "@/components/ui/Callout";
 import { Container } from "@/components/ui/Container";
 import { CTASection } from "@/components/ui/CTASection";
 import { Eyebrow } from "@/components/ui/Eyebrow";
+import { Intro } from "@/components/ui/Intro";
 import { PhotoPlaceholder } from "@/components/ui/MediaPlaceholders";
 import { ProcessSteps } from "@/components/ui/ProcessSteps";
 import { ReviewBar } from "@/components/sections/ReviewBar";
@@ -52,10 +54,10 @@ export default function HomePage() {
             id="hero-title"
             className="mt-6 font-sans text-[2.4rem] font-extrabold leading-[1.02] tracking-[-0.045em] text-ink sm:text-6xl lg:text-[5.25rem] lg:leading-[0.98]"
           >
-            <span className="block">{heroCopy.titleStart}</span>{" "}
-            <span className="block font-display text-[1.06em] font-medium italic tracking-[-0.025em] text-signal">
+            <Intro className="block">{heroCopy.titleStart}</Intro>{" "}
+            <Intro second className="block font-display text-[1.06em] font-medium italic tracking-[-0.025em] text-signal">
               {heroCopy.titleHighlight}
-            </span>
+            </Intro>
           </h1>
           <p className="mx-auto mt-6 max-w-[40rem] text-lg text-ink sm:text-xl">{heroCopy.body}</p>
           <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center sm:gap-4">
@@ -126,7 +128,7 @@ export default function HomePage() {
               <strong>{whatIDo.zoho.lead}</strong> {whatIDo.zoho.body}
             </span>
             <Link href={whatIDo.zoho.link.href} className="shrink-0 font-semibold text-sage underline underline-offset-4">
-              {whatIDo.zoho.link.label}
+              <ArrowLabel>{whatIDo.zoho.link.label}</ArrowLabel>
             </Link>
           </p>
         </Callout>
@@ -147,7 +149,7 @@ export default function HomePage() {
               <p className="mt-3 text-ink/85">{teaser.body}</p>
               <p className="mt-5">
                 <Link href={teaser.href} className="inline-flex min-h-11 items-center font-semibold text-sage underline underline-offset-4">
-                  {proof.teaserLinkLabel}
+                  <ArrowLabel>{proof.teaserLinkLabel}</ArrowLabel>
                 </Link>
               </p>
             </article>
@@ -169,7 +171,7 @@ export default function HomePage() {
           <span className="font-sans text-base font-normal">
             {howItWorks.support.lead}{" "}
             <Link href={howItWorks.support.link.href} className="font-semibold text-sage underline underline-offset-4">
-              {howItWorks.support.link.label}
+              <ArrowLabel>{howItWorks.support.link.label}</ArrowLabel>
             </Link>
             .
           </span>

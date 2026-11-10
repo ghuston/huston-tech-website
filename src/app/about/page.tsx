@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { ArrowLabel } from "@/components/ui/ArrowLabel";
 import { BookCallButton } from "@/components/ui/BookCallButton";
 import { Callout } from "@/components/ui/Callout";
 import { JsonLd } from "@/components/ui/JsonLd";
@@ -106,7 +107,7 @@ export default function AboutPage() {
             <p>
               <strong>{s.partnerBox.title}</strong> {s.partnerBox.body}{" "}
               <Link href={s.partnerBox.link.href} className="font-semibold text-sage underline underline-offset-4">
-                {s.partnerBox.link.label}
+                <ArrowLabel>{s.partnerBox.link.label}</ArrowLabel>
               </Link>
             </p>
           </Callout>

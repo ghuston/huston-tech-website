@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { ArrowLabel } from "./ArrowLabel";
 
 type Variant = "primary" | "secondary" | "onDark" | "link";
 
@@ -12,7 +13,7 @@ type ButtonProps = {
 };
 
 const base =
-  "inline-flex items-center justify-center gap-2 font-semibold transition-colors duration-150 motion-reduce:transition-none";
+  "inline-flex items-center justify-center gap-2 font-semibold transition-colors";
 
 const variants: Record<Variant, string> = {
   primary:
@@ -29,6 +30,7 @@ function isExternal(href: string) {
 }
 
 export function Button({ href, variant = "primary", children, className = "", fullWidthOnMobile = false }: ButtonProps) {
+  const label = typeof children === "string" ? <ArrowLabel>{children}</ArrowLabel> : children;
   const classes = `${base} ${variants[variant]} ${fullWidthOnMobile ? "w-full sm:w-auto" : ""} ${className}`;
   if (isExternal(href)) {
     const opensNewTab = !href.startsWith("mailto:");
@@ -38,13 +40,13 @@ export function Button({ href, variant = "primary", children, className = "", fu
         className={classes}
         {...(opensNewTab ? { target: "_blank", rel: "noopener noreferrer" } : {})}
       >
-        {children}
+        {label}
       </a>
     );
   }
   return (
     <Link href={href} className={classes}>
-      {children}
+      {label}
     </Link>
   );
 }
