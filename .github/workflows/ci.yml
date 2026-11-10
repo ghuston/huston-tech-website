@@ -1,0 +1,47 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Type check
+        run: npm run typecheck
+
+      - name: Build static export
+        run: npm run build
+
+      - name: Verify deploy artifacts
+        run: |
+          for f in out/index.html out/404.html out/sitemap.xml out/robots.txt out/_headers; do
+            test -s "$f" || { echo "Missing build artifact: $f"; exit 1; }
+          done
+
+      - name: Report unresolved placeholders (informational until launch)
+        run: npm run check:placeholders
+        continue-on-error: true
