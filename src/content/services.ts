@@ -1,4 +1,7 @@
 import type { FaqItem } from "@/components/ui/FAQ";
+import type { DetailedStepContent, StepZeroContent } from "@/components/ui/ProcessSteps";
+import { fw, withPrice } from "@/lib/framework";
+import { siteConfig } from "./site";
 
 export const servicesMeta = {
   title: "Services | CRM, Automation, Reporting & Workflow Help | Huston Tech",
@@ -31,31 +34,52 @@ export type ServiceBlock = {
   note?: string;
 };
 
+const feeClause = siteConfig.reviewPrice === null ? "and I'll share it on our call." : withPrice("The Review is {price}, fixed.");
+const feeJoiner = siteConfig.reviewPrice === null ? ", " : ". ";
+
 export const startHere = {
-  heading: "Start here",
-  blocks: [
+  heading: fw("Start here: {stepsSentence}"),
+  intro: "Every engagement runs the same three steps. You can stop after the first one.",
+  stepZero: {
+    heading: "Step zero: a free 20-minute call",
+    body: "A real conversation, not a sales demo. We'll talk through one recurring problem, the tools you use today and who'd own the fix. You'll get my honest take on whether a project makes sense, or whether a settings change, your software vendor's support team or a different specialist is a better bet.",
+  } satisfies StepZeroContent,
+  steps: [
     {
-      title: "Free 20-minute fit call",
+      key: "find",
+      subtitle: "Workflow Review",
+      meta: "fixed fee, credited toward the fix",
       paragraphs: [
-        "A real conversation, not a sales demo. We'll talk through one recurring problem, the tools you use today and who'd own the fix. You'll get my honest take on whether a project makes sense, or whether a settings change, your software vendor's support team or a different specialist is a better bet.",
+        "A focused look at one process and the tools involved (up to two). We'll do an interview and a screen-share, and look at a small sample of real data where it's safe and authorized. Then I rank what's worth fixing. You get a concise written report:",
+      ],
+      list: {
+        items: [
+          "What's actually happening, and the likely cause",
+          "What your current tools can already do (often more than you think)",
+          "A prioritized plan of practical recommendations",
+          "A scoped quote for the fix, if a build makes sense",
+        ],
+      },
+      callout: {
+        lead: "You can stop here.",
+        body: `Implement the plan yourself, or hire me for the fix. If the honest answer is "you don't need a build," that's still a win. The fee is fixed and agreed before we start${feeJoiner}${feeClause} If you hire me for the fix, it's credited in full toward that project.`,
+      },
+    },
+    {
+      key: "fix",
+      subtitle: "a clearly scoped project",
+      paragraphs: [
+        "If the Review finds a fix worth building, I quote it as one clearly scoped project, with acceptance tests we agree on before I start. It's usually one of the common fixes or systems work below. I build it, usually in the tools you already pay for, and test it before it touches your live system.",
       ],
     },
     {
-      title: "Workflow Review: fixed fee, credited toward the fix",
+      key: "flick",
+      subtitle: "handoff",
       paragraphs: [
-        "A focused look at one process and the tools involved (up to two). We'll do an interview and a screen-share, and look at a small sample of real data where it's safe and authorized. You get a concise report:",
-      ],
-      bullets: [
-        "What's actually happening, and the likely cause",
-        "What your current tools can already do (often more than you think)",
-        "Prioritized, practical recommendations",
-        "A scoped implementation plan, if a build makes sense",
-      ],
-      afterBullets: [
-        "You can implement the recommendations yourself or hire me to do it. If you hire me, the Review fee is credited toward that project. The fee is fixed and agreed before we start, and I'll share it on our call.",
+        "Switched on, handed over, off your plate. I train the people who'll use it, document how it works, and make sure someone on your side owns it. For 14 days after launch, I fix anything that doesn't work as agreed.",
       ],
     },
-  ] satisfies ServiceBlock[],
+  ] satisfies DetailedStepContent[],
 };
 
 export const commonFixes = {
@@ -119,7 +143,7 @@ export const systemsWork = {
     {
       title: "Ongoing support",
       paragraphs: [
-        "After a project, I offer a small monthly support plan for clients who want someone keeping an eye on things: monitoring, small changes, troubleshooting and a regular check-in. It has a clear scope and no surprise invoices.",
+        fw("After {flick}, I offer a small monthly support plan for clients who want someone keeping an eye on things: monitoring, small changes, troubleshooting and a regular check-in. It has a clear scope and no surprise invoices."),
       ],
     },
   ] satisfies ServiceBlock[],
@@ -127,12 +151,23 @@ export const systemsWork = {
 
 export const everyProject = {
   heading: "What every project includes",
-  items: [
-    "A written scope with clear acceptance tests, so we agree on what \"done\" means",
-    "Testing with safe sample data before anything touches your live system",
-    "Documentation and a training session for the people who'll use it",
-    "A 14-day correction window after launch for anything that doesn't work as agreed",
-    "You keep ownership of your accounts, data and logins",
+  groups: [
+    {
+      label: fw("{fix}"),
+      items: [
+        "A written scope with clear acceptance tests, so we agree on what \"done\" means",
+        "Testing with safe sample data before anything touches your live system",
+        "The Review fee credited toward the project",
+      ],
+    },
+    {
+      label: fw("{flick}"),
+      items: [
+        "Documentation and a training session for the people who'll use it",
+        "A 14-day correction window after launch for anything that doesn't work as agreed",
+        "You keep ownership of your accounts, data and logins",
+      ],
+    },
   ],
 };
 
@@ -155,13 +190,14 @@ export const faq = {
     },
     {
       question: "How much does this cost?",
-      answer:
-        "Every engagement gets a fixed quote before work starts. The Workflow Review has a set fee, which I'll share on our call, and it's credited toward any project that comes out of it. No hourly meter running in the background.",
+      answer: fw(
+        "You get a fixed quote before any paid work starts. {find} (the Workflow Review) has a set fee, which I'll share on our call, and it's credited toward the {fix} project if you go ahead. No hourly meter running in the background.",
+      ),
     },
     {
-      question: "What if the Review says I don't need a project?",
+      question: fw("What if {find} shows I don't need a build?"),
       answer:
-        "Then you've saved yourself money and a headache, and you keep the report. That's a perfectly good outcome.",
+        "Then we stop there. You keep the report and save yourself the money and the headache. If the honest answer is \"you don't need a build,\" that's still a win.",
     },
     {
       question: "We handle sensitive client or health information. Can you help?",

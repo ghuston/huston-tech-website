@@ -3,6 +3,7 @@ import { BookCallButton } from "@/components/ui/BookCallButton";
 import { Container } from "@/components/ui/Container";
 import { CTASection } from "@/components/ui/CTASection";
 import { FAQ } from "@/components/ui/FAQ";
+import { ProcessSteps } from "@/components/ui/ProcessSteps";
 import { PageHero } from "@/components/ui/PageHero";
 import { PullQuote } from "@/components/ui/PullQuote";
 import { Section } from "@/components/ui/Section";
@@ -56,12 +57,10 @@ export default function ServicesPage() {
       </div>
 
       <Section id="start" labelledBy="start-title" tone="paper">
-        <SectionHeading id="start-title">{startHere.heading}</SectionHeading>
-        <div className="grid items-start gap-6 lg:grid-cols-2">
-          {startHere.blocks.map((block) => (
-            <ServiceCard key={block.title} block={block} />
-          ))}
-        </div>
+        <SectionHeading id="start-title" intro={startHere.intro}>
+          {startHere.heading}
+        </SectionHeading>
+        <ProcessSteps variant="detailed" stepZero={startHere.stepZero} steps={startHere.steps} />
       </Section>
 
       <Section id="fixes" labelledBy="fixes-title" tone="sage">
@@ -88,19 +87,26 @@ export default function ServicesPage() {
             <h2 id="every-project-title" className="text-[1.75rem] sm:text-4xl">
               {everyProject.heading}
             </h2>
-            <ul className="mt-6 space-y-3">
-              {everyProject.items.map((item) => (
-                <li key={item} className="flex gap-3">
-                  <span
-                    aria-hidden="true"
-                    className="mt-1 grid size-5 shrink-0 place-items-center rounded-full bg-sage text-xs text-white"
-                  >
-                    ✓
-                  </span>
-                  <span>{item}</span>
-                </li>
+            <div className="mt-6 space-y-8">
+              {everyProject.groups.map((group) => (
+                <div key={group.label}>
+                  <h3 className="text-2xl">{group.label}</h3>
+                  <ul className="mt-3 space-y-3">
+                    {group.items.map((item) => (
+                      <li key={item} className="flex gap-3">
+                        <span
+                          aria-hidden="true"
+                          className="mt-1 grid size-5 shrink-0 place-items-center rounded-full bg-sage text-xs text-white"
+                        >
+                          ✓
+                        </span>
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               ))}
-            </ul>
+            </div>
           </div>
           <div className="self-center">{pullQuote ? <PullQuote testimonial={pullQuote} /> : null}</div>
         </div>
