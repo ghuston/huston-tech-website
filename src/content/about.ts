@@ -1,3 +1,5 @@
+import { fw } from "@/lib/framework";
+
 export const aboutMeta = {
   title: "About Grant Huston | Huston Tech",
   description:
@@ -27,11 +29,12 @@ export const aboutSections = {
   },
   workingWithMe: {
     heading: "What working with me is like",
+    intro: fw("Every engagement runs the same three steps: **{stepsList}.** In practice, that means:"),
     items: [
       "**I listen first.** Before I suggest anything, I make sure I understand how your business actually works.",
-      "**I tell you the truth.** Including \"you don't need me for this.\"",
+      fw("**I tell you the truth.** If {find} shows you don't need a build, I'll say so."),
       "**I keep scope clear.** You'll always know what's included, what isn't, and what it costs before work begins.",
-      "**I build to hand off.** Your team gets trained, and you get documentation and a clear owner on your side.",
+      fw("**I don't vanish at launch.** {flick} means your team is trained, the documentation is written, and someone on your side owns it."),
     ],
   },
   whatIBring: {

@@ -55,6 +55,9 @@ export default function AboutPage() {
         <h2 id="working-title" className="text-3xl">
           {s.workingWithMe.heading}
         </h2>
+        <p className="mt-4 text-ink/85">
+          <Text>{s.workingWithMe.intro}</Text>
+        </p>
         <ul className="mt-6 space-y-4">
           {s.workingWithMe.items.map((item) => (
             <li key={item} className="rounded-[14px] border border-line bg-surface p-5">

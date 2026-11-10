@@ -1,3 +1,5 @@
+import { fw } from "@/lib/framework";
+
 export const contactMeta = {
   title: "Contact | Book a Free 20-Minute Call | Huston Tech",
   description:
@@ -41,7 +43,7 @@ export const noteForm = {
   },
   optionalSuffix: "(optional)",
   privacyNote:
-    "Please don't include client or patient details, account numbers or passwords. We'll handle anything sensitive the right way, later.",
+    "Please don't include client or patient details, account numbers or passwords. Anything sensitive gets handled the right way, later.",
   submitLabel: "Send it over",
   /** Kept for the day a form provider is wired up. */
   validationMessages: {
@@ -55,10 +57,10 @@ export const whatHappensNext = {
   heading: "What happens next",
   steps: [
     { title: "I read it myself", body: "and reply within one business day (Monday to Friday)." },
-    { title: "We talk for 20 minutes", body: "about one problem and the tools involved." },
+    { title: "Step zero: a free 20-minute call", body: "about one problem and the tools involved." },
     {
       title: "If there's a fit,",
-      body: "I'll send a short written scope for a Workflow Review. If not, I'll point you somewhere useful.",
+      body: fw("I'll send a short written scope for step one, {find} (your Workflow Review). If not, I'll point you somewhere useful."),
     },
   ],
   emailLabel: "Prefer email?",
@@ -68,8 +70,12 @@ export const thanks = {
   title: "Contact confirmation | Huston Tech",
   description: "Confirmation page shown after a contact form submission.",
   heading: "Got it, thanks!",
-  body: "I'll reply within one business day. Want to skip the back-and-forth?",
+  body: "That's step zero started. I'll reply within one business day. Want to skip the back-and-forth?",
   pickTimeLabel: "Pick a time now",
+  afterCall: {
+    lead: "Curious what happens after the call?",
+    link: { label: fw("{steps} →"), href: "/#how-it-works" },
+  },
   next: "In the meantime:",
   nextLink: { label: "See what I've built →", href: "/past-work" },
 };

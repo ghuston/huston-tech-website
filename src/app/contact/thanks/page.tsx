@@ -21,6 +21,12 @@ export default function ThanksPage() {
       </PageHero>
       <Section tone="paper">
         <p>
+          {thanks.afterCall.lead}{" "}
+          <Link href={thanks.afterCall.link.href} className="font-semibold text-sage underline underline-offset-4">
+            {thanks.afterCall.link.label}
+          </Link>
+        </p>
+        <p className="mt-4">
           {thanks.next}{" "}
           <Link href={thanks.nextLink.href} className="font-semibold text-sage underline underline-offset-4">
             {thanks.nextLink.label}
