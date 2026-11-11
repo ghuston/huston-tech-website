@@ -225,6 +225,207 @@ svg [data-part] {
   }
 }
 
+/*
+ * Supporting scroll effects. Shorter than the homepage diagram, and a page only uses a few.
+ * Glides stay readable (they do not start at opacity 0). Strokes draw over text that is already visible and then stay.
+ * `.js` pauses them on the first frame; InViewOnce releases each one once. Without `.js`, the rules below do not apply.
+ * A missing IntersectionObserver sets `data-motion="off"`, which forces the finished styling.
+ *
+ * Hand-drawn masks. White pixels keep the rust or note color; the wave is the stroke.
+ */
+:root {
+  --mask-underline: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 12' preserveAspectRatio='none'%3E%3Cpath d='M2 7 C 18 3.5, 28 10, 48 6.2 S 78 10.2, 108 6 S 148 3.2, 198 7.4' fill='none' stroke='white' stroke-width='2.6' stroke-linecap='round'/%3E%3C/svg%3E");
+  --mask-highlight: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 28' preserveAspectRatio='none'%3E%3Cpath fill='white' d='M2 16 C 10 7, 24 5, 42 9 C 58 4, 74 8, 96 6 C 118 3, 138 8, 160 5 C 176 3, 190 7, 198 8 C 199 15, 188 22, 168 20 C 146 24, 118 17, 94 20 C 68 24, 38 19, 20 21 C 8 22, 3 19, 2 16 Z'/%3E%3C/svg%3E");
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0.72;
+    translate: 0 8px;
+  }
+}
+
+@keyframes settle-in {
+  from {
+    opacity: 0.72;
+    translate: 0 8px;
+    rotate: 0deg;
+  }
+}
+
+@keyframes draw-x {
+  from {
+    transform: scaleX(0);
+  }
+}
+
+/* Phone stacks step by the shorter delay. From the md breakpoint, the slightly longer step. */
+.settle-group,
+.rise-stagger {
+  --stagger: var(--delay-hero-line);
+}
+
+@media (min-width: 48rem) {
+  .settle-group,
+  .rise-stagger {
+    --stagger: var(--delay-illustration-step);
+  }
+}
+
+.ink-underline {
+  position: relative;
+  width: fit-content;
+  max-width: 100%;
+}
+
+.ink-underline::after {
+  content: "";
+  position: absolute;
+  left: -0.03em;
+  right: -0.04em;
+  bottom: -0.12em;
+  height: 0.16em;
+  background-color: var(--color-signal);
+  pointer-events: none;
+  transform-origin: left center;
+  rotate: -0.6deg;
+  -webkit-mask-image: var(--mask-underline);
+  mask-image: var(--mask-underline);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+}
+
+.marker-sweep {
+  position: relative;
+  isolation: isolate;
+}
+
+.marker-sweep::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: -0.14em;
+  right: -0.1em;
+  top: 0.12em;
+  bottom: 0;
+  background-color: var(--color-note);
+  pointer-events: none;
+  transform-origin: left center;
+  rotate: -0.5deg;
+  -webkit-mask-image: var(--mask-highlight);
+  mask-image: var(--mask-highlight);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+}
+
+.ink-rule {
+  position: absolute;
+  right: 0;
+  bottom: -0.45rem;
+  left: 0;
+  height: 0.45rem;
+  background-color: var(--color-signal);
+  pointer-events: none;
+  transform-origin: left center;
+  -webkit-mask-image: var(--mask-underline);
+  mask-image: var(--mask-underline);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .js .rise,
+  .js .rise-stagger > * {
+    animation-name: rise-in;
+    animation-duration: var(--duration-intro);
+    animation-timing-function: var(--ease-site);
+    animation-fill-mode: backwards;
+    animation-play-state: paused;
+  }
+
+  .js .will-settle,
+  .js .settle-group > li {
+    animation-name: settle-in;
+    animation-duration: var(--duration-intro);
+    animation-timing-function: var(--ease-site);
+    animation-fill-mode: backwards;
+    animation-play-state: paused;
+  }
+
+  .js .rise[data-played],
+  .js .rise-stagger[data-played] > *,
+  .js .settle-group[data-played] > li,
+  .js [data-played] .will-settle {
+    animation-play-state: running;
+  }
+
+  .js .rise-stagger > *:nth-child(2),
+  .js .settle-group > li:nth-child(2) {
+    animation-delay: var(--stagger);
+  }
+
+  .js .rise-stagger > *:nth-child(3),
+  .js .settle-group > li:nth-child(3) {
+    animation-delay: calc(var(--stagger) * 2);
+  }
+
+  .js .rise-stagger > *:nth-child(4),
+  .js .settle-group > li:nth-child(4) {
+    animation-delay: calc(var(--stagger) * 3);
+  }
+
+  .js .rise-stagger > *:nth-child(5),
+  .js .settle-group > li:nth-child(5) {
+    animation-delay: calc(var(--stagger) * 4);
+  }
+
+  .js .rise-stagger > *:nth-child(6),
+  .js .settle-group > li:nth-child(6) {
+    animation-delay: calc(var(--stagger) * 5);
+  }
+
+  /* Hero line: draw as the intro settles. Not paused, because the hero is already in view. */
+  .js .ink-underline:not(.draw-on-view)::after {
+    animation-name: draw-x;
+    animation-duration: var(--duration-illustration);
+    animation-timing-function: var(--ease-site);
+    animation-fill-mode: backwards;
+    animation-delay: calc(var(--duration-intro) + var(--delay-hero-line));
+  }
+
+  .js .draw-on-view::before,
+  .js .draw-on-view::after,
+  .js .draw-on-view.ink-rule {
+    animation-name: draw-x;
+    animation-duration: var(--duration-illustration);
+    animation-timing-function: var(--ease-site);
+    animation-fill-mode: backwards;
+    animation-play-state: paused;
+    animation-delay: var(--delay-hero-line);
+  }
+
+  .js .draw-on-view[data-played]::before,
+  .js .draw-on-view[data-played]::after,
+  .js .draw-on-view.ink-rule[data-played] {
+    animation-play-state: running;
+  }
+}
+
+.js [data-motion="off"],
+.js [data-motion="off"]::before,
+.js [data-motion="off"]::after,
+.js [data-motion="off"] *,
+.js [data-motion="off"] *::before,
+.js [data-motion="off"] *::after {
+  animation: none !important;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

@@ -61,7 +61,7 @@ PORT=4822 npm run preview   # http://localhost:4822
 
 ## Motion
 
-Animation is CSS only (no library), driven by shared tokens in `src/app/globals.css` and rules in `src/app/motion.css`: one ease-out curve and four durations (150ms feedback, 200ms panels, 350ms intros, 400ms illustration steps). Headlines fade in with an 8px rise, button and link arrows nudge 3px on hover and keyboard focus, the mobile menu and FAQ share one open/close transition, and the homepage process diagram plays once when it scrolls into view. With `prefers-reduced-motion: reduce`, or with JavaScript off, the final static design shows immediately. See "Motion rules" in `AGENTS.md` before adding any.
+Animation is CSS only (no library), driven by shared tokens in `src/app/globals.css` and rules in `src/app/motion.css`: one ease-out curve and four durations (150ms feedback, 200ms panels, 350ms intros, 400ms illustration steps). Headlines fade in with an 8px rise, button and link arrows nudge 3px on hover and keyboard focus, and the mobile menu and FAQ share one open/close transition. The homepage process diagram is the focal illustration and plays once when it scrolls into view. Shorter supporting effects can sit alongside it: headings, card groups and callouts glide in, sticky notes settle into their tilt, and a few hand-drawn rust underlines and pale yellow highlights draw once and stay. With `prefers-reduced-motion: reduce`, with JavaScript off, or if the browser has no IntersectionObserver, the final static design shows immediately. See "Motion rules" in `AGENTS.md` before adding any.
 
 ## Placeholders and launch gate
 

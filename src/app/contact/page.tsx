@@ -3,6 +3,7 @@ import { ContactFormPlaceholder } from "@/components/sections/ContactFormPlaceho
 import { SchedulerPanel } from "@/components/sections/SchedulerPanel";
 import { ContactEmail } from "@/components/ui/ContactEmail";
 import { PageHero } from "@/components/ui/PageHero";
+import { Reveal, Underline } from "@/components/ui/Reveal";
 import { Section } from "@/components/ui/Section";
 import { contactHero, contactMeta, whatHappensNext } from "@/content/contact";
 import { pageMetadata } from "@/lib/metadata";
@@ -22,10 +23,10 @@ export default function ContactPage() {
       </Section>
 
       <Section tone="sage" labelledBy="next-title">
-        <h2 id="next-title" className="text-3xl sm:text-4xl">
+        <Underline as="h2" id="next-title" rise className="text-3xl sm:text-4xl">
           {whatHappensNext.heading}
-        </h2>
-        <ol className="mt-8 grid gap-6 md:grid-cols-3">
+        </Underline>
+        <Reveal as="ol" className="mt-8 grid gap-6 md:grid-cols-3">
           {whatHappensNext.steps.map((step, i) => (
             <li key={step.title} className="rounded-[14px] border border-line bg-surface p-6">
               <span className="mb-3 inline-grid size-10 place-items-center rounded-full bg-ink font-mono text-sm text-note">
@@ -36,7 +37,7 @@ export default function ContactPage() {
               </p>
             </li>
           ))}
-        </ol>
+        </Reveal>
         <p className="mt-8">
           {whatHappensNext.emailLabel} <ContactEmail />
         </p>

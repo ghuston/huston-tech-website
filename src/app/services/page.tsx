@@ -8,6 +8,7 @@ import { PageHero } from "@/components/ui/PageHero";
 import { PullQuote } from "@/components/ui/PullQuote";
 import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { Reveal } from "@/components/ui/Reveal";
 import { ServiceCard } from "@/components/ui/ServiceCard";
 import { Text } from "@/components/ui/Text";
 import {
@@ -64,19 +65,27 @@ export default function ServicesPage() {
       </Section>
 
       <Section id="fixes" labelledBy="fixes-title" tone="sage">
-        <SectionHeading id="fixes-title">{commonFixes.heading}</SectionHeading>
+        <Reveal>
+          <SectionHeading id="fixes-title">{commonFixes.heading}</SectionHeading>
+        </Reveal>
         <div className="grid gap-6">
           {commonFixes.blocks.map((block) => (
-            <ServiceCard key={block.title} block={block} goodFitLabel={commonFixes.goodFitLabel} />
+            <Reveal key={block.title}>
+              <ServiceCard block={block} goodFitLabel={commonFixes.goodFitLabel} />
+            </Reveal>
           ))}
         </div>
       </Section>
 
       <Section id="systems" labelledBy="systems-title" tone="paper">
-        <SectionHeading id="systems-title">{systemsWork.heading}</SectionHeading>
+        <Reveal>
+          <SectionHeading id="systems-title">{systemsWork.heading}</SectionHeading>
+        </Reveal>
         <div className="grid gap-6 md:grid-cols-2">
           {systemsWork.blocks.map((block) => (
-            <ServiceCard key={block.title} block={block} />
+            <Reveal key={block.title}>
+              <ServiceCard block={block} />
+            </Reveal>
           ))}
         </div>
       </Section>
@@ -108,7 +117,7 @@ export default function ServicesPage() {
               ))}
             </div>
           </div>
-          <div className="self-center">{pullQuote ? <PullQuote testimonial={pullQuote} /> : null}</div>
+          <div className="self-center">{pullQuote ? <Reveal><PullQuote testimonial={pullQuote} /></Reveal> : null}</div>
         </div>
       </Section>
 

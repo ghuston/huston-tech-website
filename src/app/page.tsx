@@ -10,6 +10,7 @@ import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Intro } from "@/components/ui/Intro";
 import { PhotoPlaceholder } from "@/components/ui/MediaPlaceholders";
 import { ProcessSteps } from "@/components/ui/ProcessSteps";
+import { MarkedText, Reveal } from "@/components/ui/Reveal";
 import { ReviewBar } from "@/components/sections/ReviewBar";
 import { ProofStrip } from "@/components/ui/ProofStrip";
 import { Section } from "@/components/ui/Section";
@@ -55,7 +56,12 @@ export default function HomePage() {
             className="mt-6 font-sans text-[2.4rem] font-extrabold leading-[1.02] tracking-[-0.045em] text-ink sm:text-6xl lg:text-[5.25rem] lg:leading-[0.98]"
           >
             <Intro className="block">{heroCopy.titleStart}</Intro>{" "}
-            <Intro second className="block font-display text-[1.06em] font-medium italic tracking-[-0.025em] text-signal">
+            <Intro
+              second
+              className={`block font-display text-[1.06em] font-medium italic tracking-[-0.025em] text-signal ${
+                heroCopy.titleHighlight === "Make the fix." ? "ink-underline mx-auto" : ""
+              }`}
+            >
               {heroCopy.titleHighlight}
             </Intro>
           </h1>
@@ -79,23 +85,27 @@ export default function HomePage() {
       <ReviewBar />
 
       <Section tone="paper" labelledBy="problems-title">
-        {problemsHeadsWithMemo ? (
-          <>
-            <div className="mb-5">
-              <Eyebrow>{problems.eyebrow}</Eyebrow>
-            </div>
-            <SectionHeading id="problems-title">{problems.heading}</SectionHeading>
-          </>
-        ) : (
-          <SectionHeading id="problems-title">{problems.eyebrow}</SectionHeading>
-        )}
-        <ul className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 lg:gap-10">
+        <Reveal>
+          {problemsHeadsWithMemo ? (
+            <>
+              <div className="mb-5">
+                <Eyebrow>{problems.eyebrow}</Eyebrow>
+              </div>
+              <SectionHeading id="problems-title">{problems.heading}</SectionHeading>
+            </>
+          ) : (
+            <SectionHeading id="problems-title">{problems.eyebrow}</SectionHeading>
+          )}
+        </Reveal>
+        <Reveal effect="settle" as="ul" className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 lg:gap-10">
           {problems.notes.map((note, i) => (
             <StickyNoteCard key={note.title} index={i} title={note.title} body={note.body} />
           ))}
-        </ul>
+        </Reveal>
         <div className="mt-12 flex flex-col gap-4 sm:flex-row sm:items-center">
-          <p className="font-display text-xl font-semibold">{problems.after}</p>
+          <p className="font-display text-xl font-semibold">
+            <MarkedText text={problems.after} phrase="we should talk" />
+          </p>
           <BookCallButton label={bookCallShortLabel} fullWidthOnMobile />
         </div>
       </Section>
@@ -106,32 +116,36 @@ export default function HomePage() {
             <h2 id="what-i-do-title" className="text-[1.75rem] leading-tight sm:text-4xl lg:text-[2.5rem]">
               {whatIDo.heading}
             </h2>
-            <p className="mt-5 text-ink/85">{whatIDo.intro}</p>
+            <p className="mt-5 text-ink/85">
+              <MarkedText text={whatIDo.intro} phrase="less time chasing" />
+            </p>
             <div className="mt-8">
               <Button href={whatIDo.cta.href} variant="secondary">
                 {whatIDo.cta.label}
               </Button>
             </div>
           </div>
-          <ul className="grid gap-4">
+          <Reveal effect="stagger" as="ul" className="grid gap-4">
             {whatIDo.items.map((item) => (
               <li key={item.title} className="rounded-[14px] border border-line bg-surface p-5 sm:p-6">
                 <h3 className="text-[1.35rem] leading-snug">{item.title}</h3>
                 <p className="mt-2 text-ink/80">{item.body}</p>
               </li>
             ))}
-          </ul>
+          </Reveal>
         </div>
-        <Callout tone="note" className="mt-12">
-          <p className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <span>
-              <strong>{whatIDo.zoho.lead}</strong> {whatIDo.zoho.body}
-            </span>
-            <Link href={whatIDo.zoho.link.href} className="shrink-0 font-semibold text-sage underline underline-offset-4">
-              <ArrowLabel>{whatIDo.zoho.link.label}</ArrowLabel>
-            </Link>
-          </p>
-        </Callout>
+        <Reveal className="mt-12">
+          <Callout tone="note">
+            <p className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <span>
+                <strong>{whatIDo.zoho.lead}</strong> {whatIDo.zoho.body}
+              </span>
+              <Link href={whatIDo.zoho.link.href} className="shrink-0 font-semibold text-sage underline underline-offset-4">
+                <ArrowLabel>{whatIDo.zoho.link.label}</ArrowLabel>
+              </Link>
+            </p>
+          </Callout>
+        </Reveal>
       </Section>
 
       <Section tone="paper" labelledBy="proof-title">
@@ -167,7 +181,7 @@ export default function HomePage() {
         <SectionHeading id="how-title">{howItWorks.heading}</SectionHeading>
         <ProcessSteps variant="detailed" stepZero={howItWorks.stepZero} steps={howItWorks.steps} />
         <p className="mt-14 max-w-[var(--container-prose)] font-display text-xl font-semibold lg:mt-12">
-          {howItWorks.after}{" "}
+          <MarkedText text={howItWorks.after} phrase="one useful improvement" />{" "}
           <span className="font-sans text-base font-normal">
             {howItWorks.support.lead}{" "}
             <Link href={howItWorks.support.link.href} className="font-semibold text-sage underline underline-offset-4">

@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { CaseStudy } from "@/components/sections/CaseStudy";
 import { Callout } from "@/components/ui/Callout";
+import { InViewOnce } from "@/components/ui/InViewOnce";
+import { Reveal } from "@/components/ui/Reveal";
 import { CTASection } from "@/components/ui/CTASection";
 import { PageHero } from "@/components/ui/PageHero";
 import { ProofStrip } from "@/components/ui/ProofStrip";
@@ -24,15 +26,17 @@ export default function PastWorkPage() {
         title={pastWorkHero.title}
         intro={<p>{pastWorkHero.intro}</p>}
         aside={
-          <Callout title={pastWorkHero.howToRead.title} tone="note" className="rotate-[0.8deg] shadow-note">
-            <ul className="space-y-3">
-              {pastWorkHero.howToRead.items.map((item) => (
-                <li key={item}>
-                  <Text>{item}</Text>
-                </li>
-              ))}
-            </ul>
-          </Callout>
+          <InViewOnce>
+            <Callout title={pastWorkHero.howToRead.title} tone="note" className="will-settle rotate-[0.8deg] shadow-note">
+              <ul className="space-y-3">
+                {pastWorkHero.howToRead.items.map((item) => (
+                  <li key={item}>
+                    <Text>{item}</Text>
+                  </li>
+                ))}
+              </ul>
+            </Callout>
+          </InViewOnce>
         }
       />
 
@@ -67,13 +71,13 @@ export default function PastWorkPage() {
             <Text>{agencyExperience.intro}</Text>
           </p>
         </header>
-        <ul className="grid gap-4 md:grid-cols-2">
+        <Reveal as="ul" className="grid gap-4 md:grid-cols-2">
           {agencyExperience.snapshots.map((snapshot) => (
             <li key={snapshot} className="rounded-[14px] border border-line bg-surface p-5 sm:p-6">
               <Text>{snapshot}</Text>
             </li>
           ))}
-        </ul>
+        </Reveal>
         <p className="mt-8 max-w-[var(--container-prose)] text-sm text-muted">{agencyExperience.footnote}</p>
       </Section>
 
