@@ -1,4 +1,6 @@
-# Cloudflare Pages response headers. https://developers.cloudflare.com/pages/configuration/headers/
+# Cloudflare response headers (Pages and Workers static assets).
+# https://developers.cloudflare.com/pages/configuration/headers/
+# https://developers.cloudflare.com/workers/static-assets/headers/
 # Next.js static export emits inline bootstrap scripts, so script-src needs 'unsafe-inline'.
 # Tighten (hashes or nonces) if the hosting setup ever allows it. Update frame-src/script-src/connect-src
 # when a scheduler or form provider is added.
@@ -18,4 +20,8 @@
 
 # Keep Cloudflare preview/production *.pages.dev URLs out of search results.
 https://:project.pages.dev/*
+  X-Robots-Tag: noindex
+
+# Same for *.workers.dev worker and preview URLs.
+https://:version.:subdomain.workers.dev/*
   X-Robots-Tag: noindex
