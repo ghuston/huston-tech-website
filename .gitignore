@@ -46,6 +46,8 @@ next-env.d.ts
 
 # cloudflare
 .wrangler
+.dev.vars
+.dev.vars.*
 /.open-next
 
 # editors
