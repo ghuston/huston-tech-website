@@ -105,6 +105,7 @@ const cases = [
   ["protect-config.mjs", feat, file(feat, ".claude/settings.json"), "ask", "settings.json asks"],
   ["protect-config.mjs", feat, file(feat, ".claude/hooks/lib.mjs"), "ask", "hook file asks"],
   ["protect-config.mjs", feat, file(feat, ".claude/skills/x/SKILL.md"), "ask", "skills ask"],
+  ["protect-config.mjs", feat, file(feat, ".claude/agents/review-code.md"), "ask", "agents ask"],
   ["protect-config.mjs", feat, file(feat, ".github/workflows/ci.yml"), "ask", "workflow asks"],
   ["protect-config.mjs", feat, file(feat, "package.json"), "ask", "package.json asks"],
   ["protect-config.mjs", feat, file(feat, "CLAUDE.md"), "ask", "CLAUDE.md asks"],
