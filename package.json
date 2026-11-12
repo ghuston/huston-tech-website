@@ -29,6 +29,12 @@
     "typescript": "^5",
     "wrangler": "4.160.1"
   },
+  "overrides": {
+    "@typescript-eslint/typescript-estree": {
+      "minimatch": "11.0.1",
+      "@isaacs/nonrecursive-glob-match": "1.0.3"
+    }
+  },
   "description": "Marketing website for Huston Tech (static export for Cloudflare Pages).",
   "engines": {
     "node": ">=22.12"
