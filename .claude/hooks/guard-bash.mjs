@@ -8,7 +8,9 @@
 //     only through a pull request)
 //   - git push --force (and --force-with-lease, +branch): it can destroy history
 //   - --no-verify on git commands: it skips the safety checks
-//   - gh pr merge: the repo owner merges, never Claude
+//   - gh pr merge (even with gh's global flags like -R owner/repo) and merging
+//     through gh api (pulls/<n>/merge, mergePullRequest, enablePullRequestAutoMerge):
+//     the repo owner merges, never Claude
 //   - wrangler deploy / publish (also via npx, or an npm script that runs them):
 //     deploys happen only by merging to main
 //   - rm -r / rm -rf unless every target is a scratch folder or a build folder
@@ -62,6 +64,24 @@ function isSecretPath(word) {
     parts.slice(0, -1).includes("secrets") ||
     w === "secrets"
   );
+}
+
+// Words after gh, skipping gh's global flags (-R owner/repo, --repo owner/repo, --repo=...).
+function ghPositionals(args) {
+  const out = [];
+  for (let i = 0; i < args.length; i++) {
+    const a = args[i];
+    if (a === "-R" || a === "--repo") i++;
+    else if (!a.startsWith("-")) out.push(a);
+  }
+  return out;
+}
+
+// True if a gh api argument merges a PR: REST pulls/<n>/merge (any method), or the
+// GraphQL mutations, including inside -f/-F query=... values.
+function mergesViaApi(arg) {
+  const text = `${arg} ${substitutionText(arg)}`;
+  return /pulls\/\d+\/merge/.test(text) || /mergePullRequest|enablePullRequestAutoMerge/.test(text);
 }
 
 function runsWrangler(words) {
@@ -204,9 +224,17 @@ guard("guard-bash", (input) => {
   for (let i = 0; i < cmds.length; i++) {
     const c = cmds[i];
 
-    // 5. The owner merges.
-    if (c.prog === "gh" && c.args[0] === "pr" && c.args[1] === "merge") {
-      block("Blocked: gh pr merge. The repo owner merges pull requests. Do this instead: tell the owner the PR is ready and link it.");
+    // 5. The owner merges: gh pr merge, and merging through gh api.
+    if (c.prog === "gh") {
+      const sub = ghPositionals(c.args);
+      if (sub[0] === "pr" && sub[1] === "merge") {
+        block("Blocked: gh pr merge. The repo owner merges pull requests. Do this instead: tell the owner the PR is ready and link it.");
+      }
+      if (sub[0] === "api" && c.args.some(mergesViaApi)) {
+        block(
+          "Blocked: merging a PR through gh api. The repo owner merges. Do this instead: tell the owner the PR is ready and link it.",
+        );
+      }
     }
 
     // 6. Deploys happen only by merging to main.
