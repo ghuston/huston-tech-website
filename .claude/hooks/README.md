@@ -22,7 +22,7 @@ Or temporarily switch branches (`git switch main`) to get the last good copy.
 |---|---|---|
 | `guard-bash.mjs` | before Bash | Blocks commits/pushes on main, force push, `--no-verify`, `gh pr merge`, `wrangler deploy/publish`, risky `rm -r`, `curl \| sh`, staging or reading secret files. Asks before Bash writes to protected files. |
 | `precommit-check.mjs` | before Bash (`git commit`) | Runs the `check` script from `package.json`; blocks the commit if it fails and shows the error. |
-| `protect-config.mjs` | before Edit/Write | Asks before changing settings, hooks, skills, workflows, `wrangler.jsonc`, `.gitignore`, `CLAUDE.md`, `AGENTS.md`, `package.json`. |
+| `protect-config.mjs` | before Edit/Write | Asks before changing settings, hooks, skills, subagents, workflows, `wrangler.jsonc`, `.gitignore`, `CLAUDE.md`, `AGENTS.md`, `package.json`. |
 | `scan-src.mjs` | after Edit/Write | Warn-only scan of changed `src/` files: hard-coded colors, `rounded-`/`shadow-`, `dangerouslySetInnerHTML`, copy in JSX. |
 
 `lib.mjs` is shared helpers (command parser, output format). `selftest.mjs`

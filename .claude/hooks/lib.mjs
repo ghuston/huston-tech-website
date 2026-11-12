@@ -30,7 +30,7 @@ const PROTECTED_FILES = [
   "AGENTS.md",
   "package.json",
 ];
-const PROTECTED_DIRS = [".claude/hooks/", ".claude/skills/", ".github/workflows/"];
+const PROTECTED_DIRS = [".claude/hooks/", ".claude/skills/", ".claude/agents/", ".github/workflows/"];
 
 const SUBST_OPEN = "\u0001";
 const SUBST_CLOSE = "\u0002";
