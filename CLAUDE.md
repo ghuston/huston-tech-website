@@ -19,6 +19,17 @@ clearly one or the other, ask me.
   exact error; do not commit.
 - When the work is done, open a pull request. Never merge it yourself; I merge.
 
+## Protect main (GitHub ruleset)
+Read from GitHub on 2026-11-12 (`gh api repos/ghuston/huston-tech-website/rulesets`).
+These can go stale if the ruleset is changed in Settings, so re-check before relying on them.
+- The ruleset is named "Protect main" and applies to the default branch (`main`).
+- A pull request is required to change `main`. Required approvals: 0.
+- One required status check: `check` (the job in `.github/workflows/ci.yml`, from
+  GitHub Actions). The branch does not have to be up to date with `main` to merge.
+- Force pushes and branch deletion are blocked.
+- No bypass actors, so the rules apply to the owner too.
+- Merge, squash and rebase are all allowed.
+
 ## Commands
 - `npm run dev`: dev server at http://localhost:4821 (port is fixed in package.json).
   If the port is busy, tell me what is using it instead of killing it.
