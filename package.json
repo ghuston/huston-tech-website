@@ -35,7 +35,7 @@
       "@isaacs/nonrecursive-glob-match": "1.0.3"
     }
   },
-  "description": "Marketing website for Huston Tech (static export for Cloudflare Pages).",
+  "description": "Marketing website for Huston Tech (static export for Cloudflare Workers).",
   "engines": {
     "node": ">=22.12"
   }
