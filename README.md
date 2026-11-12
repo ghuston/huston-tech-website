@@ -1,6 +1,6 @@
 # Huston Tech website
 
-Marketing site for **Huston Tech**, a one-person business systems consultancy run by Grant Huston. Built with Next.js (App Router), strict TypeScript and Tailwind CSS, exported as a fully static site for **Cloudflare Pages**.
+Marketing site for **Huston Tech**, a one-person business systems consultancy run by Grant Huston. Built with Next.js (App Router), strict TypeScript and Tailwind CSS, exported as a fully static site for **Cloudflare Workers**.
 
 Permanent architecture, security and content rules are in [`AGENTS.md`](./AGENTS.md). Read it before making changes.
 
@@ -20,7 +20,7 @@ Permanent architecture, security and content rules are in [`AGENTS.md`](./AGENTS
 
 ## Develop
 
-Requires Node 20.9+ (CI uses Node 22).
+Requires Node 22.12+ (matches `engines` in package.json; CI uses Node 22).
 
 ```bash
 npm install
@@ -83,23 +83,29 @@ There is intentionally **no working form and no scheduler**. `ContactFormPlaceho
 To wire real providers later:
 
 1. **Scheduler** (Zoho Bookings, Calendly, Cal.com): set `schedulerUrl` in `src/content/site.ts`. If embedding in an iframe, add the provider origin to `frame-src` in `public/_headers`.
-2. **Form**: choose a provider (for example a Cloudflare Pages Function with Turnstile plus an email service, or a hosted form service). Replace `ContactFormPlaceholder` with a real `<form>`, add the provider origin to `connect-src`/`form-action`/`script-src` as needed, add spam protection, and make `/contact/thanks` the redirect target.
+2. **Form**: choose a provider (for example a Cloudflare Worker with Turnstile plus an email service, or a hosted form service). Replace `ContactFormPlaceholder` with a real `<form>`, add the provider origin to `connect-src`/`form-action`/`script-src` as needed, add spam protection, and make `/contact/thanks` the redirect target.
 3. **Email and LinkedIn**: set `email` and `linkedInUrl` in `site.ts`.
 4. **Analytics**: none is installed. The privacy copy mentions privacy-friendly analytics, so either add a cookieless tool (and its CSP origin) or edit the privacy text.
 
-## Deploy to Cloudflare Pages
+## Deploy to Cloudflare Workers
 
-Deployment is manual and not automated by this repo.
+Merging a pull request into `main` deploys the site automatically through Cloudflare Workers Builds. Other branches get preview URLs. Never run `wrangler deploy` by hand. The Worker config is `wrangler.jsonc` (static assets from `./out`).
 
-1. Cloudflare dashboard, Workers & Pages, Create, Pages, connect the Git repository.
-2. Build settings:
-   - **Framework preset:** None (or Next.js (Static HTML Export))
-   - **Build command:** `npm run build` for previews, `npm run build:launch` for production once placeholders are resolved
-   - **Build output directory:** `out`
-   - **Root directory:** `/`
-   - **Environment variables:** `NODE_VERSION=22`, `NEXT_PUBLIC_SITE_URL=https://<final domain>`
+Current settings in the Cloudflare dashboard (read by the owner on 2026-11-12, so check them if they may have changed):
+
+- **Production branch:** `main`
+- **Build command:** `npm run build`
+- **Deploy command:** `npx wrangler deploy` (run automatically by Workers Builds)
+- **Root directory:** `/`
+- **Build variables:** `NODE_VERSION=22` is the only one set.
+
+Before launch:
+
+1. Add the build variable `NEXT_PUBLIC_SITE_URL=https://<final domain>`. It is **not set yet**, so canonical URLs, Open Graph, sitemap, robots and JSON-LD use the default in `src/content/site.ts`.
+2. Change the production build command to `npm run build:launch` so a build with unresolved placeholders cannot go live.
 3. Add the custom domain, then confirm DNS, HTTPS and (for email) SPF, DKIM and DMARC.
-4. `public/_headers` is copied into `out/` and applied by Cloudflare Pages automatically. It also adds `X-Robots-Tag: noindex` to `*.pages.dev` URLs so preview hostnames stay out of search results.
+
+`public/_headers` is copied into `out/` and applied by Workers static assets. It also adds `X-Robots-Tag: noindex` to `*.workers.dev` (and `*.pages.dev`) URLs so preview hostnames stay out of search results.
 
 `output: "export"` means there is no Node server at runtime.
 
@@ -129,5 +135,5 @@ src/
   content/        typed copy and site settings (single source of truth)
   lib/            metadata, JSON-LD and text-token helpers
 scripts/          placeholder gate, static preview server
-public/_headers   Cloudflare Pages security and cache headers
+public/_headers   Cloudflare Workers security and cache headers
 ```
