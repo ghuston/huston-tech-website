@@ -19,3 +19,21 @@ updates:
     groups:
       npm:
         patterns: ["*"]
+        update-types: ["minor", "patch"]
+    # Major bumps are not grouped. These are ignored for now (Dependabot version
+    # updates only; security updates still come through):
+    # - typescript, eslint, typescript-eslint: `npm run check` rejects TypeScript 7
+    #   ("typescript-eslint does not support TS 7.0", seen on PR #16).
+    # - @types/node: types should match Node 22 (CI and Cloudflare build).
+    # Revisit when typescript-eslint supports TypeScript 7.
+    ignore:
+      - dependency-name: "typescript"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "eslint"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "@types/node"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "typescript-eslint"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "@typescript-eslint/*"
+        update-types: ["version-update:semver-major"]
