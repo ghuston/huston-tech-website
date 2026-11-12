@@ -3,7 +3,7 @@ name: ship-check
 description: Self-review of this branch before a pull request. Runs npm run check and the three read-only reviewers, then reports. Reports only; never edits, commits or merges.
 disable-model-invocation: true
 disallowed-tools: Edit Write NotebookEdit
-allowed-tools: Bash(git branch *) Bash(git rev-parse *) Bash(git merge-base *) Bash(git diff *) Bash(git status *) Bash(git ls-files *) Bash(npm run check) Agent
+allowed-tools: Bash(git branch --show-current) Bash(git rev-parse *) Bash(git merge-base *) Bash(git diff *) Bash(git status *) Bash(git ls-files *) Bash(npm run check) Agent
 ---
 
 # /ship-check
@@ -75,7 +75,8 @@ CHECK: PASS | FAIL
   <last 40 lines, only if FAIL>
 NOT CHECKED: no axe or Lighthouse run, no visual or browser check, no mobile or
   desktop render check, no check:placeholders launch gate, no copy-accuracy check
-  against the source doc. The reviewers read code only.
+  against the source doc, no review of dependency changes in package-lock.json
+  (left out of the diff). The reviewers read code only.
 ```
 
 Verdict rules:
