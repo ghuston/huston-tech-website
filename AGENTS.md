@@ -10,7 +10,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 # Huston Tech website: permanent rules
 
-Marketing site for Huston Tech (one-person business systems consultancy, Grant Huston). Next.js App Router, strict TypeScript, Tailwind CSS v4, **static export** deployed on **Cloudflare Pages**. Nothing here is deployed automatically. Read this file before changing the repo, and update it when a rule changes.
+Marketing site for Huston Tech (one-person business systems consultancy, Grant Huston). Next.js App Router, strict TypeScript, Tailwind CSS v4, **static export** deployed on **Cloudflare Workers**. Nothing here is deployed automatically. Read this file before changing the repo, and update it when a rule changes.
 
 ## Architecture
 
@@ -20,7 +20,7 @@ Marketing site for Huston Tech (one-person business systems consultancy, Grant H
 - `src/components/ui/` reusable primitives (`ProcessSteps` has `compact` and `detailed` variants); `src/components/sections/` page-level compositions; `src/components/layout/` header/footer/nav; `src/components/illustrations/` decorative SVG. Prefer a new small reusable component over repeating markup. Server Components by default; add `"use client"` only for real interactivity (currently: `HeaderNav`, `InViewOnce`, `MobileCtaBar`, `PartnerAwareHeading`). Keep client JS minimal.
 - `src/lib/` pure helpers (`metadata.ts`, `jsonld.ts`, `placeholders.ts`).
 - `scripts/` Node scripts: `check-placeholders.mjs` (launch gate), `preview.mjs` (static preview server that also applies the `/*` block of `public/_headers`).
-- `public/_headers` is the Cloudflare Pages header config. `.github/workflows/ci.yml` runs the checks.
+- `public/_headers` is the Cloudflare Workers header config. `.github/workflows/ci.yml` runs the checks.
 - Design tokens (colors, fonts, radii, shadows) live in `src/app/globals.css` under `@theme`. Use the tokens (`ink`, `paper`, `surface`, `line`, `muted`, `signal`, `sage`, `note`, ...); never hard-code hex values in components (the OG image route is the one exception because it cannot use CSS). Fonts are loaded only through `next/font/google` in `layout.tsx` (Newsreader display serif, Inter body and heavy hero headline, JetBrains Mono labels), which self-hosts them at build time. No third-party font or script tags.
 
 ## Content rules (non-negotiable)
@@ -86,4 +86,4 @@ CI (`.github/workflows/ci.yml`) runs lint, typecheck and build on every PR, veri
 - Upgrading Next.js: read the bundled docs in `node_modules/next/dist/docs/` first, then re-run `npm run check`, re-test the static export (`npm run preview`) on every route, and re-verify the CSP in the browser console.
 - Adding a page: content module in `src/content/`, route in `src/app/<route>/page.tsx` using `pageMetadata`, nav/footer entry if needed, sitemap entry, and a check that it renders with no console errors at mobile and desktop widths.
 - Adding an Insights article: Insights is currently a "coming soon" page. The planned article format (short-version box, "Try this this week" callout, author box, CTA, related articles, `BlogPosting` JSON-LD with real published/reviewed dates) is described in the V1 copy doc; add routes, sitemap entries and a content type then. Never invent statistics; label hypothetical examples; anonymize client details.
-- Launch checklist lives in the README. Do not deploy from this repo's automation; deployment is a manual Cloudflare Pages setup done by the owner.
+- Launch checklist lives in the README. Do not deploy from this repo's automation; deployment is a manual Cloudflare Workers setup done by the owner.
