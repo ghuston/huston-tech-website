@@ -20,15 +20,27 @@ clearly one or the other, ask me.
 - When the work is done, open a pull request. Never merge it yourself; I merge.
 
 ## Protect main (GitHub ruleset)
-Read from GitHub on 2026-11-12 (`gh api repos/ghuston/huston-tech-website/rulesets`).
+Read from GitHub on 2026-11-13 (`gh api repos/ghuston/huston-tech-website/rulesets`).
 These can go stale if the ruleset is changed in Settings, so re-check before relying on them.
 - The ruleset is named "Protect main" and applies to the default branch (`main`).
 - A pull request is required to change `main`. Required approvals: 0.
-- One required status check: `check` (the job in `.github/workflows/ci.yml`, from
-  GitHub Actions). The branch does not have to be up to date with `main` to merge.
+- Three required status checks, all jobs in `.github/workflows/ci.yml` from GitHub
+  Actions: `check`, `a11y` and `lighthouse`. Each was proven with a deliberate-failure
+  PR (merge blocked). The branch does not have to be up to date with `main` to merge.
 - Force pushes and branch deletion are blocked.
 - No bypass actors, so the rules apply to the owner too.
 - Merge, squash and rebase are all allowed.
+- A required check is tied to its job name. Never rename or remove `check`, `a11y` or
+  `lighthouse`, never add a `paths:` filter or a job-level `if:` to them, and never put
+  `[skip ci]` in a commit message: a required check that never reports (filtered out by
+  `paths:` or `[skip ci]`) leaves the PR stuck waiting. To change one, change the ruleset
+  FIRST, then the workflow.
+- A new check becomes required only after 5 clean runs plus a deliberate-failure proof PR.
+  Proof PRs are titled "PROOF - DO NOT MERGE: <name>" and closed (never merged) with
+  `gh pr close --delete-branch`.
+- `lighthouse` sometimes fails with `NO_NAVSTART`, a Lighthouse trace-recording hiccup, not
+  a site problem. Use "Re-run failed jobs" on the run.
+- After switching branches, delete `.next` before `npm run check`.
 
 ## Commands
 - `npm run dev`: dev server at http://localhost:4821 (port is fixed in package.json).

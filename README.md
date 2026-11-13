@@ -40,6 +40,10 @@ npm run check       # lint + typecheck + build
 
 CI runs the same checks on every pull request (`.github/workflows/ci.yml`).
 
+### Required checks
+
+Three checks must pass before a pull request can merge into `main`: `check`, `a11y` and `lighthouse` (the "Protect main" ruleset; jobs in `.github/workflows/ci.yml`). A new check becomes required only after 5 clean runs plus a deliberate-failure proof PR that shows it blocks the merge.
+
 ### Preview the production build
 
 ```bash
@@ -65,9 +69,7 @@ Automated checks find only part of the accessibility problems. Keyboard, screen 
 
 A genuine false positive may be recorded in `tests/a11y/known-issues.ts` (one rule on one selector, with a written reason). Never add an entry just to get green.
 
-In CI this is the `a11y` job in `.github/workflows/ci.yml`. It is informational for now: it is not a required check in the "Protect main" ruleset, so a red result shows on the PR but does not block merge. On a failure the Playwright HTML report is uploaded as the `playwright-report` artifact (kept 7 days). It becomes a required check after 5 consecutive clean runs on separate PR or `main` runs, including at least one PR that changes the UI.
-
-Clean runs so far: 0 of 5.
+In CI this is the `a11y` job in `.github/workflows/ci.yml`. It is a required check in the "Protect main" ruleset, so a red result blocks merge. On a failure the Playwright HTML report is uploaded as the `playwright-report` artifact (kept 7 days).
 
 ### Lighthouse CI
 
@@ -78,7 +80,7 @@ npm run test:lighthouse
 
 `npm run build && npm run test:lighthouse` audits the built site with Lighthouse CI (mobile preset, median of 3 runs per page) against the seven pages in `src/lib/routes.ts` (indexable routes only: a `noindex` page cannot pass the SEO check, and the 404 page returns an error status). It serves `out/` through `scripts/preview.mjs`, so the headers in `public/_headers` apply, and uses the Google Chrome installed on your machine (or `CHROME_PATH`). Reports are written to `.lighthouseci/` (git-ignored). Accessibility and SEO must score 0.95 or higher and best-practices 0.9 or higher; performance only warns. The preview server does not compress files or set cache headers the way Cloudflare does, so its performance score understates the deployed site.
 
-In CI this is the `lighthouse` job in `.github/workflows/ci.yml`. It is informational: it is not a required check in the "Protect main" ruleset. Scores for every page are in the run's Summary, and the full HTML and JSON reports are the `lighthouse-reports` artifact (kept 14 days; open the `.report.html` for the failing URL to see which audits failed). It becomes required after 5 consecutive clean runs on separate PR or `main` runs. Clean runs so far: 0 of 5.
+In CI this is the `lighthouse` job in `.github/workflows/ci.yml`. It is a required check in the "Protect main" ruleset, so a red result blocks merge. Scores for every page are in the run's Summary, and the full HTML and JSON reports are the `lighthouse-reports` artifact (kept 14 days; open the `.report.html` for the failing URL to see which audits failed). If it fails with `NO_NAVSTART` (a Lighthouse trace-recording hiccup, not a site problem), click "Re-run failed jobs" on the run.
 
 `package.json` overrides `basic-ftp` to 6.2.6 because Lighthouse CI 0.16.0 bundles a version with known denial-of-service advisories in code it never runs; remove the override when Lighthouse CI ships a fix.
 
@@ -97,7 +99,7 @@ Two informational jobs, each in its own workflow file. Neither is a required che
 
 Scheduled runs only happen on the default branch, and GitHub disables schedules in a public repository after 60 days without activity.
 
-**Becoming required:** after 5 clean runs each. In Settings, Rules, Rulesets, "Protect main": add `dependency-review` as a required status check, and for CodeQL add the "Require code scanning results" rule (tool: CodeQL), which blocks on findings, rather than a status check on `codeql`, which only catches a broken scan. Clean runs so far: `dependency-review` 0 of 5, `codeql` 0 of 5.
+**Becoming required:** after 5 clean runs each plus a deliberate-failure proof PR. In Settings, Rules, Rulesets, "Protect main": add `dependency-review` as a required status check, and for CodeQL add the "Require code scanning results" rule (tool: CodeQL), which blocks on findings, rather than a status check on `codeql`, which only catches a broken scan. Clean runs so far (one per merged PR, proof PRs excluded): `dependency-review` 4 of 5, `codeql` 4 of 5.
 
 ### Configuration
 

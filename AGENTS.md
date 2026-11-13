@@ -84,9 +84,12 @@ npm run test:a11y   # Playwright + axe; needs `npm run build` first and an insta
 npm run test:lighthouse   # Lighthouse CI; needs `npm run build` first and Google Chrome; not part of `npm run check`
 ```
 
-CI job `a11y` runs `test:a11y` on every PR. It is informational until it has 5 clean runs, then it becomes a required check.
+CI job `a11y` runs `test:a11y` on every PR. It is a required check: a failure blocks merging.
 
-CI job `lighthouse` runs `test:lighthouse` on every PR. It is informational until it has 5 clean runs, then required.
+CI job `lighthouse` runs `test:lighthouse` on every PR. It is a required check: a failure blocks merging.
+
+- `check`, `a11y` and `lighthouse` are required checks in the "Protect main" ruleset. Never rename or remove those jobs, add a `paths:` filter or job-level `if:` to them, or use `[skip ci]`; change the ruleset first (see CLAUDE.md).
+- Fix a failing `a11y` or `lighthouse` job at its cause. Do not loosen a threshold or add a `known-issues.ts` entry just to get green.
 
 CI (`.github/workflows/ci.yml`) runs lint, typecheck and build on every PR, verifies the deploy artifacts exist (`out/index.html`, `404.html`, `sitemap.xml`, `robots.txt`, `_headers`), and reports unresolved placeholders informationally.
 
