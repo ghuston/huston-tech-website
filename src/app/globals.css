@@ -48,6 +48,14 @@
     -webkit-text-size-adjust: 100%;
   }
 
+  /* The fixed "Book a free call" bar (MobileCtaBar, hidden from 640px up) is 73px tall.
+     Keep keyboard focus from scrolling in underneath it (WCAG 2.4.11). */
+  @media (max-width: 639.98px) {
+    html {
+      scroll-padding-bottom: 6rem;
+    }
+  }
+
   body {
     background: var(--color-paper);
     color: var(--color-ink);
