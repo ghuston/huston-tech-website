@@ -69,6 +69,23 @@ In CI this is the `a11y` job in `.github/workflows/ci.yml`. It is informational 
 
 Clean runs so far: 0 of 5.
 
+### Security scans (dependency review and CodeQL)
+
+Two informational jobs, each in its own workflow file. Neither is a required check in the "Protect main" ruleset yet, so a red result shows on the PR but does not block merge. Both are SHA-pinned and get only the permissions they need.
+
+| Job (check name) | File | Runs on | What it does |
+|---|---|---|---|
+| `dependency-review` | `.github/workflows/dependency-review.yml` | Pull requests | Fails if the PR adds or changes a dependency to a version with a known vulnerability (any severity; runtime and development dependencies). It only judges what the PR changes, not what is already in `main`. |
+| `codeql` | `.github/workflows/codeql.yml` | Pull requests, pushes to `main`, and weekly (Mondays 04:17 UTC) | GitHub's CodeQL scans our JavaScript and TypeScript for security bugs. No build step is needed. |
+
+**Reading a `dependency-review` failure:** open the failed check's Details, then the job log or its Summary. It lists each flagged package, the version the PR adds, the severity and a GitHub advisory (GHSA) link. Fix it by moving to the patched version the advisory names, choosing another package, or removing the dependency. A deliberate, understood exception goes in the workflow as `allow-ghsas` with a written reason; never add one silently.
+
+**Reading CodeQL results:** there are two signals. The `codeql` job goes red only if the scan itself broke (read its log). Findings show up as a separate check, "Code scanning results / CodeQL", which fails for new alerts of severity error, critical or high. The PR's Conversation and Files changed tabs show each alert on its line; "Show more details" opens the path from source to sink. All alerts are under Security and quality, then Code scanning. Fix the code, or dismiss the alert with a reason.
+
+Scheduled runs only happen on the default branch, and GitHub disables schedules in a public repository after 60 days without activity.
+
+**Becoming required:** after 5 clean runs each. In Settings, Rules, Rulesets, "Protect main": add `dependency-review` as a required status check, and for CodeQL add the "Require code scanning results" rule (tool: CodeQL), which blocks on findings, rather than a status check on `codeql`, which only catches a broken scan. Clean runs so far: `dependency-review` 0 of 5, `codeql` 0 of 5.
+
 ### Configuration
 
 | Setting | Where | Notes |
