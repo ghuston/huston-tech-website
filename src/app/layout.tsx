@@ -70,9 +70,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Header />
         <main id="main" tabIndex={-1} className="flex-1 outline-none">
           {children}
+          <MobileCtaBar href={bookCallHref()} />
         </main>
         <Footer />
-        <MobileCtaBar href={bookCallHref()} />
         <JsonLd data={organizationJsonLd()} />
       </body>
     </html>
