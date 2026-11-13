@@ -11,6 +11,7 @@
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "check:placeholders": "node scripts/check-placeholders.mjs",
+    "test:a11y": "playwright test",
     "check": "npm run lint && npm run typecheck && npm run build"
   },
   "dependencies": {
@@ -19,6 +20,8 @@
     "react-dom": "19.3.1"
   },
   "devDependencies": {
+    "@axe-core/playwright": "4.14.0",
+    "@playwright/test": "1.64.1",
     "@tailwindcss/turbopack": "4.3.4",
     "@types/node": "^20",
     "@types/react": "^19",
@@ -30,6 +33,7 @@
     "wrangler": "4.160.1"
   },
   "overrides": {
+    "playwright-core": "1.64.1",
     "@typescript-eslint/typescript-estree": {
       "minimatch": "11.0.1",
       "@isaacs/nonrecursive-glob-match": "1.0.3"
