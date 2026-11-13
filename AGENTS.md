@@ -21,6 +21,7 @@ Marketing site for Huston Tech (one-person business systems consultancy, Grant H
 - `src/lib/` pure helpers (`metadata.ts`, `jsonld.ts`, `placeholders.ts`).
 - `scripts/` Node scripts: `check-placeholders.mjs` (launch gate), `preview.mjs` (static preview server that also applies the `/*` block of `public/_headers`).
 - `tests/a11y/` Playwright + axe accessibility check (CI job `a11y`, run against the built site via `scripts/preview.mjs`); `playwright.config.ts`. `src/lib/routes.ts` is the single route list used by `sitemap.ts` and the accessibility test.
+- `lighthouserc.cjs` Lighthouse CI config (CI job `lighthouse`; pages come from `src/lib/routes.ts`); `scripts/lighthouse-summary.mjs` writes the score table to the job summary.
 - `public/_headers` is the Cloudflare Workers header config. `.github/workflows/ci.yml` runs the checks.
 - Design tokens (colors, fonts, radii, shadows) live in `src/app/globals.css` under `@theme`. Use the tokens (`ink`, `paper`, `surface`, `line`, `muted`, `signal`, `sage`, `note`, ...); never hard-code hex values in components (the OG image route is the one exception because it cannot use CSS). Fonts are loaded only through `next/font/google` in `layout.tsx` (Newsreader display serif, Inter body and heavy hero headline, JetBrains Mono labels), which self-hosts them at build time. No third-party font or script tags.
 
@@ -41,7 +42,7 @@ Marketing site for Huston Tech (one-person business systems consultancy, Grant H
 - `public/_headers` must keep: CSP, `X-Content-Type-Options`, `X-Frame-Options`/`frame-ancestors`, `Referrer-Policy`, `Permissions-Policy`, HSTS, COOP/CORP. The CSP needs `'unsafe-inline'` for scripts/styles only because the Next.js static export inlines its bootstrap scripts. Do not loosen it further. When adding a provider (scheduler iframe, form endpoint, analytics script) add only the exact origin it needs (`frame-src`, `connect-src`, `script-src`) in the same change and document it in the README.
 - External links (`http(s)://`) must use `target="_blank" rel="noopener noreferrer"`. `Button` does this automatically; hand-written anchors must too.
 - Contact and scheduling are **placeholders until providers are chosen**. There are deliberately no `<form>` elements, no `action`, no submit handlers, and no fake success states. Do not add a form that appears to work. When a provider is chosen, wire it through `site.ts` / `ContactFormPlaceholder` / `SchedulerPanel`, add its origin to the CSP, add spam protection (honeypot plus Turnstile or equivalent), and never ask visitors to submit sensitive data (client or health records) through the form.
-- Dependencies: keep them minimal. Runtime dependencies are only Next, React and React DOM; justify any new one in the PR. Dev-only tooling (Tailwind, ESLint, TypeScript, Wrangler, and `@playwright/test` + `@axe-core/playwright` for the accessibility check) never ships in the site bundle. Install `@playwright/test` only; never also `playwright` (one Playwright version). Tooling added from now on is exact-pinned (no `^`) and must be at least 7 days old when added. Commit `package-lock.json`; CI installs with `npm ci`.
+- Dependencies: keep them minimal. Runtime dependencies are only Next, React and React DOM; justify any new one in the PR. Dev-only tooling (Tailwind, ESLint, TypeScript, Wrangler, and `@playwright/test` + `@axe-core/playwright` for the accessibility check, and `@lhci/cli` for Lighthouse) never ships in the site bundle. Install `@playwright/test` only; never also `playwright` (one Playwright version). Tooling added from now on is exact-pinned (no `^`) and must be at least 7 days old when added. `package.json` `overrides` pins `playwright-core` and `basic-ftp`; remove an override when the upstream package no longer needs it. Commit `package-lock.json`; CI installs with `npm ci`.
 - CI runs two informational security scans: `dependency-review` (pull requests; fails on a newly added dependency with a known vulnerability, dev dependencies included) and `codeql` (pull requests, pushes to `main`, weekly; JavaScript/TypeScript, no build). Both are SHA-pinned and declare minimal `permissions`. They are not required checks yet; make `dependency-review` required, and add the "Require code scanning results" rule for CodeQL, after 5 clean runs.
 
 ## SEO, accessibility, performance
@@ -80,9 +81,12 @@ npm run build       # static export to ./out
 npm run check       # all three, in order
 npm run check:placeholders   # launch gate; expected to fail until placeholders are resolved
 npm run test:a11y   # Playwright + axe; needs `npm run build` first and an installed Chromium; not part of `npm run check`
+npm run test:lighthouse   # Lighthouse CI; needs `npm run build` first and Google Chrome; not part of `npm run check`
 ```
 
 CI job `a11y` runs `test:a11y` on every PR. It is informational until it has 5 clean runs, then it becomes a required check.
+
+CI job `lighthouse` runs `test:lighthouse` on every PR. It is informational until it has 5 clean runs, then required.
 
 CI (`.github/workflows/ci.yml`) runs lint, typecheck and build on every PR, verifies the deploy artifacts exist (`out/index.html`, `404.html`, `sitemap.xml`, `robots.txt`, `_headers`), and reports unresolved placeholders informationally.
 
