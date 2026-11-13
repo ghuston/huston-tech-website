@@ -123,5 +123,8 @@ jobs:
         with:
           name: lighthouse-reports
           path: .lighthouseci/
+          # The folder name starts with a dot, and upload-artifact skips hidden files unless told otherwise.
+          include-hidden-files: true
           retention-days: 14
-          if-no-files-found: ignore
+          # warn, not ignore: a missing report folder (the run stopped early) should show as a warning, not a silent success.
+          if-no-files-found: warn
