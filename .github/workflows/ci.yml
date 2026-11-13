@@ -85,3 +85,46 @@ jobs:
           path: playwright-report/
           retention-days: 7
           if-no-files-found: ignore
+
+  # Lighthouse CI audit of the built site (served by scripts/preview.mjs so public/_headers applies). Informational
+  # for now: it is NOT a required check in the "Protect main" ruleset. Make it required after 5 consecutive clean
+  # runs (see README). No `paths:` filter and no `if:` on the job: a skipped required check would block merging.
+  # The `if:` on the two report steps below keeps the reports on failure too.
+  lighthouse:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build static export
+        run: npm run build
+
+      # Uses the Google Chrome preinstalled on ubuntu-latest; no browser is downloaded.
+      - name: Lighthouse CI
+        run: npm run test:lighthouse
+
+      - name: Score summary
+        if: ${{ !cancelled() }}
+        run: node scripts/lighthouse-summary.mjs >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload Lighthouse reports
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: lighthouse-reports
+          path: .lighthouseci/
+          # The folder name starts with a dot, and upload-artifact skips hidden files unless told otherwise.
+          include-hidden-files: true
+          retention-days: 14
+          # warn, not ignore: a missing report folder (the run stopped early) should show as a warning, not a silent success.
+          if-no-files-found: warn

@@ -1,5 +1,6 @@
-// The single list of site routes. The sitemap and the accessibility check (tests/a11y) both read it,
-// so a new page added here is listed for search engines and scanned by CI. No imports: Playwright loads it directly.
+// The single list of site routes. The sitemap, the accessibility check (tests/a11y) and Lighthouse CI (lighthouserc.cjs)
+// all read it, so a new page added here is listed for search engines and scanned by CI.
+// No imports and no TypeScript-only syntax (enums, path aliases): Playwright and plain Node (type stripping) load it directly.
 
 export const indexableRoutes = ["/", "/services", "/past-work", "/about", "/insights", "/contact", "/privacy"];
 

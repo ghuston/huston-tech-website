@@ -39,6 +39,8 @@ These can go stale if the ruleset is changed in Settings, so re-check before rel
 - `npm run check:placeholders`: launch gate; failing is expected until content is final.
 - `npm run test:a11y`: Playwright + axe accessibility check against the built site (run
   `npm run build` first). Installing Chromium for it is a separate approval.
+- `npm run test:lighthouse`: Lighthouse CI against the built site (run `npm run build` first).
+  Uses the installed Google Chrome; no browser download.
 
 ## Design migration
 The repo is mid-migration to design v2. The design-token and motion sections of
