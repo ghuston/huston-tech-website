@@ -22,7 +22,6 @@ export function absoluteUrl(path: string): string {
 export function pageMetadata({ title, description, path, noindex = false }: PageMetaInput): Metadata {
   return {
     title: { absolute: title },
-    description,
     alternates: { canonical: path },
     robots: noindex ? { index: false, follow: false } : undefined,
     openGraph: {
