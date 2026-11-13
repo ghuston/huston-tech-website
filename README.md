@@ -49,6 +49,26 @@ PORT=4822 npm run preview   # http://localhost:4822
 
 `scripts/preview.mjs` serves `./out` with clean URLs and `404.html`, and applies the site-wide headers from `public/_headers` (including the CSP) so header problems show up locally.
 
+### Accessibility check (Playwright + axe)
+
+```bash
+npm run build
+npx playwright install chromium   # once; downloads the browser (see Playwright's cache folder)
+npm run test:a11y
+```
+
+`playwright.config.ts` starts `npm run preview` (port 4822) and scans the built site in Chromium at desktop (1280 px) and phone (375 px) width, with `prefers-reduced-motion` set. Each page is checked against axe's WCAG 2.0/2.1/2.2 level A and AA rules plus axe's best-practice rules, twice: once at the top of the page (every rule) and once scrolled to the bottom, where the mobile call bar appears and the sticky header sits over dark sections. It also scans `/services` with every FAQ open and the opened mobile menu.
+
+One rule is skipped, in one place: `target-size` in the scrolled pass on `/services` at desktop width (added 2026-11-12). At maximum scroll the sticky header and sub-nav cover the last CTA button, so axe reports it as partly obscured, although scrolling up uncovers it. The same button is checked by every rule in the top-of-page pass. The skip and its reason are in a comment in `tests/a11y/site.a11y.spec.ts`; do not widen it. The page list comes from `src/lib/routes.ts`, the same list the sitemap uses, and a test fails if a built page is missing from it.
+
+Automated checks find only part of the accessibility problems. Keyboard, screen reader, zoom and wording checks are still manual.
+
+A genuine false positive may be recorded in `tests/a11y/known-issues.ts` (one rule on one selector, with a written reason). Never add an entry just to get green.
+
+In CI this is the `a11y` job in `.github/workflows/ci.yml`. It is informational for now: it is not a required check in the "Protect main" ruleset, so a red result shows on the PR but does not block merge. On a failure the Playwright HTML report is uploaded as the `playwright-report` artifact (kept 7 days). It becomes a required check after 5 consecutive clean runs on separate PR or `main` runs, including at least one PR that changes the UI.
+
+Clean runs so far: 0 of 5.
+
 ### Configuration
 
 | Setting | Where | Notes |
