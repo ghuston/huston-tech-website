@@ -30,6 +30,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.4.6",
+    "minimist": "1.2.5",
     "tailwindcss": "4.3.4",
     "typescript": "^5",
     "wrangler": "4.160.1"
