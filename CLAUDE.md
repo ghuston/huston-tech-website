@@ -42,6 +42,17 @@ These can go stale if the ruleset is changed in Settings, so re-check before rel
 - `npm run test:lighthouse`: Lighthouse CI against the built site (run `npm run build` first).
   Uses the installed Google Chrome; no browser download.
 
+## Command style (keeps permission prompts down)
+- One plain command per Bash call. No shell variables, `$(...)`, `for` loops, functions or
+  `VAR=value` prefixes, and no `cd`: the shell already starts in the project folder.
+- No long `&&` chains. Run each step as its own call. A short `a && b` is fine only if both
+  parts are plain commands.
+- Read and search with the Read and Grep tools, and edit with the Edit tool, not `cat`, `sed`
+  or `echo >`.
+- Run the allowed scripts bare (`npm run check`, `npm run lint`, ...): no extra flags, pipes or
+  `2>&1`. If you need a script or a temp file, write it with the Write tool first, then run it
+  as its own command.
+
 ## Design migration
 The repo is mid-migration to design v2. The design-token and motion sections of
 AGENTS.md may be out of date. Before relying on a token name, motion rule, or
