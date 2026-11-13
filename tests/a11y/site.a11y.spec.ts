@@ -121,6 +121,32 @@ test("the open mobile menu has no violations", async ({ page }, testInfo) => {
   await expectNoViolations(page, "/ (mobile menu open)");
 });
 
+// Guards the IntersectionObserver in MobileCtaBar: absent at the top, shown once the page has scrolled past ~520px,
+// gone again when you scroll back up, never on /contact, and hidden by CSS from 640px up.
+const callBar = (page: Page) => page.locator("main div.fixed");
+
+test("the mobile call bar shows after scrolling and hides again", async ({ page }, testInfo) => {
+  await page.goto("/services", { waitUntil: "networkidle" });
+  await expect(callBar(page)).toHaveCount(0);
+  await page.evaluate(() => window.scrollTo(0, 900));
+  if (testInfo.project.name === "mobile") {
+    await expect(callBar(page)).toBeVisible();
+    await page.evaluate(() => window.scrollTo(0, 0));
+    await expect(callBar(page)).toHaveCount(0);
+  } else {
+    // The bar still mounts, and the sm:hidden class keeps it off screen.
+    await expect(callBar(page)).toHaveCount(1);
+    await expect(callBar(page)).toBeHidden();
+  }
+});
+
+test("the mobile call bar never appears on /contact", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "mobile", "Only the phone layout shows the bar.");
+  await page.goto("/contact", { waitUntil: "networkidle" });
+  await scrollToBottom(page);
+  await expect(callBar(page)).toHaveCount(0);
+});
+
 test("known issues are still needed", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== "desktop", "Checked once, at desktop width.");
   test.skip(KNOWN_ISSUES.length === 0, "No known issues recorded.");
