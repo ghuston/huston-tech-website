@@ -20,9 +20,9 @@ Or temporarily switch branches (`git switch main`) to get the last good copy.
 
 | File | Event | Does |
 |---|---|---|
-| `guard-bash.mjs` | before Bash | Blocks commits/pushes on main, force push, `--no-verify`, `gh pr merge`, `wrangler deploy/publish`, risky `rm -r`, `curl \| sh`, staging or reading secret files. Asks before Bash writes to protected files. |
+| `guard-bash.mjs` | before Bash | Blocks commits/pushes on main, force push, `--no-verify`, `gh pr merge`, `wrangler deploy/publish`, risky `rm -r`, `curl \| sh`, staging or reading secret files, and Bash writes to the owner-only paths above. Asks before Bash writes to the "ask" files. |
 | `precommit-check.mjs` | before Bash (`git commit`) | Runs the `check` script from `package.json`; blocks the commit if it fails and shows the error. |
-| `protect-config.mjs` | before Edit/Write | Asks before changing settings, hooks, skills, subagents, workflows, `wrangler.jsonc`, `.gitignore`, `CLAUDE.md`, `AGENTS.md`, `package.json`. |
+| `protect-config.mjs` | before Edit/Write | **Blocks** (exit 2) any change to `.claude/hooks/**`, `.claude/agents/**`, `.claude/skills/**`, `.github/workflows/**` and `.claude/settings*.json`. **Asks** before changing `wrangler.jsonc`, `.gitignore`, `CLAUDE.md`, `AGENTS.md`, `package.json`. |
 | `scan-src.mjs` | after Edit/Write | Warn-only scan of changed `src/` files: hard-coded colors, `rounded-`/`shadow-`, `dangerouslySetInnerHTML`, copy in JSX. |
 
 `lib.mjs` is shared helpers (command parser, output format). `selftest.mjs`
@@ -36,9 +36,25 @@ checks everything with sample inputs: `node .claude/hooks/selftest.mjs`.
    `lib.mjs`, allowed `rm -r` folders in `guard-bash.mjs`, `COLOR_EXEMPT` in `scan-src.mjs`).
 4. Run `node .claude/hooks/selftest.mjs`.
 
+## Changing protected files (owner only)
+
+Claude cannot edit the owner-only paths (hooks, agents, skills, workflows, settings) in any
+mode. To change one:
+
+1. Claude writes the proposed file (or a patch) into the scratchpad folder and tells you the target path.
+2. In your own terminal or editor, copy it into place, for example `cp <scratchpad>/ci.yml.new .github/workflows/ci.yml`.
+3. Run `git diff --stat` and `node .claude/hooks/selftest.mjs`; the last line must say `All N passed`.
+4. Ask Claude to `git add`, commit and open the PR. Staging and committing are not blocked.
+
+Nothing in the repo can unlock these paths, so Claude cannot flip it either. Reading them
+(`cat`, `cp` from them) is fine.
+
 ## Known limits
 
-- In auto mode, Hook 3's "ask" does not prompt (the auto-mode classifier decides instead). Hooks 1, 2 and 4 work in every mode.
+- A hook that exits 2 stops the tool call and Claude sees the message. The Claude Code docs do not name every permission mode for this, so after any change run the live tests (try an edit of a workflow in default and in Auto mode and confirm "Blocked").
+- A hook's "ask" goes to the normal permission prompt; in Auto mode the classifier can still decide some protected-path writes first. That is why the owner-only paths are blocked, not asked.
+- Bash is only partly parsed: `cp`, `mv`, `rm`, `tee`, `sed -i`, redirects and `git restore` are checked, but a script that opens the file itself (`node -e`, `python -c`) is not. The hooks are a seatbelt, not a wall.
+- Matching is case-insensitive (macOS) and resolves `..`, but it does not follow symlinks.
 
 ## Rules these scripts follow
 

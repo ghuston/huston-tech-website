@@ -17,12 +17,15 @@
 //   - curl or wget piped into a shell or interpreter (runs unread code)
 //   - git add of secret files (.env, .dev.vars, secrets/) and Bash commands that
 //     read them (the permissions.deny rules only cover Claude's Read tool)
+//   - Bash commands that write to owner-only paths (.claude/hooks, agents, skills,
+//     .github/workflows, .claude/settings*.json): the same list Hook 3 blocks for the
+//     Edit and Write tools. cp/install/ln only count their destination, so copying
+//     FROM those paths (for example into the scratchpad) is fine.
 //   Anything it cannot parse is also blocked ("fail closed").
 //
 // WHAT IT ASKS ABOUT (pauses for the owner to approve):
-//   - Bash commands that write to protected files (settings, hooks, workflows,
-//     .gitignore, CLAUDE.md, AGENTS.md, package.json, wrangler.jsonc), the same
-//     list Hook 3 guards for the Edit and Write tools.
+//   - Bash commands that write to .gitignore, CLAUDE.md, AGENTS.md, package.json or
+//     wrangler.jsonc, the same list Hook 3 asks about for the Edit and Write tools.
 //
 // It never says "allow", so it can only make things stricter than the
 // permission rules already are.
@@ -33,13 +36,14 @@ import {
   ask,
   baseName,
   block,
+  blockOwnerOnly,
   commandsOf,
   currentBranch,
   guard,
   hasSubstitution,
   parseGit,
   projectDirOf,
-  protectedMatch,
+  protectionOf,
   readPackageJson,
   substitutionText,
 } from "./lib.mjs";
@@ -51,6 +55,7 @@ const NPM_LIKE = new Set(["npm", "pnpm", "yarn", "bun"]);
 const READ_OK = new Set(["ls", "stat", "test", "[", "[[", "git", "gh", "echo", "printf", "rm"]);
 const CODE_RUNNERS = new Set(["node", "python", "python3", "perl", "ruby", "deno", "bun", "awk", "sed"]);
 const WRITERS = new Set(["tee", "cp", "mv", "rm", "install", "ln", "truncate", "patch", "dd"]);
+const DEST_ONLY = new Set(["cp", "install", "ln"]);
 
 const stripRedirect = (w) => w.replace(/^[0-9]*[<>]+/, "");
 const isDynamic = (w) => hasSubstitution(w) || /[$*?[\]~{}]/.test(w);
@@ -285,22 +290,28 @@ guard("guard-bash", (input) => {
     }
   }
 
-  // 10. Writes to protected files through Bash: ask, don't block.
+  // 10. Writes to protected files through Bash: owner-only paths are blocked, the rest ask.
+  const denied = new Set();
   const touched = new Set();
   for (const c of cmds) {
+    const redirects = c.words.some((w) => /^[0-9]*>/.test(w));
     const writes =
       WRITERS.has(c.prog) ||
       (["sed", "perl", "awk"].includes(c.prog) && c.args.some((a) => /^-[a-zA-Z]*i/.test(a) || a === "--in-place")) ||
       (c.prog === "git" && ["apply", "restore", "checkout"].includes(parseGit(c).sub)) ||
-      c.words.some((w) => /^[0-9]*>/.test(w));
+      redirects;
     if (!writes) continue;
-    for (const w of c.words) {
-      const target = stripRedirect(w);
+    // cp, install and ln write only their last argument, so reading FROM a protected file is fine.
+    const candidates =
+      DEST_ONLY.has(c.prog) && !redirects ? c.args.filter((a) => !a.startsWith("-")).slice(-1) : c.words;
+    for (const w of candidates) {
+      const target = stripRedirect(w).replace(/^of=/, "");
       if (!target || isDynamic(target) || target.startsWith("-")) continue;
-      const hit = protectedMatch(path.resolve(cwd, target), projectDir);
-      if (hit) touched.add(hit);
+      const hit = protectionOf(path.resolve(cwd, target), projectDir);
+      if (hit) (hit.level === "deny" ? denied : touched).add(hit.path);
     }
   }
+  if (denied.size) blockOwnerOnly([...denied].join(", "));
   if (touched.size) {
     ask(
       `This Bash command writes to protected file(s): ${[...touched].join(", ")}. ` +
