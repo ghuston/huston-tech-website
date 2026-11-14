@@ -90,6 +90,7 @@ CI job `lighthouse` runs `test:lighthouse` on every PR. It is a required check: 
 
 - `check`, `a11y`, `lighthouse` and `dependency-review` are required checks in the "Protect main" ruleset, and the "Require code scanning results" rule (CodeQL) also blocks merging on new alerts. Never rename or remove those jobs, add a `paths:` filter or job-level `if:` to them, use `[skip ci]`, or change `.github/workflows/codeql.yml`'s languages or category; change the ruleset first (see CLAUDE.md).
 - Fix a failing `a11y` or `lighthouse` job at its cause. Do not loosen a threshold or add a `known-issues.ts` entry just to get green.
+- `.github/workflows/**`, `.claude/hooks/**`, `.claude/agents/**`, `.claude/skills/**` and `.claude/settings*.json` are owner-edited: Claude's hooks block changes to them, so a workflow or hook change is written to the scratchpad and copied into place by the owner (see CLAUDE.md and `.claude/hooks/README.md`).
 
 CI (`.github/workflows/ci.yml`) runs `check` (lint, typecheck, build, a check that the deploy artifacts exist: `out/index.html`, `404.html`, `sitemap.xml`, `robots.txt`, `_headers`, and an informational placeholder report), plus `a11y` and `lighthouse`, on every PR.
 

@@ -40,16 +40,19 @@ function run(script, repo, input) {
     encoding: "utf8",
     env: { ...process.env, CLAUDE_PROJECT_DIR: repo },
   });
-  if (result.status === 2) return "block";
-  if (result.status !== 0) return `crash(${result.status})`;
-  if (/"permissionDecision":"ask"/.test(result.stdout)) return "ask";
-  if (/systemMessage/.test(result.stdout)) return "warn";
-  return "allow";
+  const text = `${result.stderr}${result.stdout}`;
+  if (result.status === 2) return { kind: "block", text };
+  if (result.status !== 0) return { kind: `crash(${result.status})`, text };
+  if (/"permissionDecision":"ask"/.test(result.stdout)) return { kind: "ask", text };
+  if (/systemMessage/.test(result.stdout)) return { kind: "warn", text };
+  return { kind: "allow", text };
 }
 
 const bash = (command) => ({ tool_name: "Bash", tool_input: { command } });
 const file = (repo, rel) => ({ tool_name: "Edit", tool_input: { file_path: path.join(repo, rel) } });
 const G = "guard-bash.mjs";
+// Owner-only paths must exit 2 AND say why (the message is what Claude sees).
+const DENIED = "Blocked: .* is an owner-only protected path";
 
 const cases = [
   // Hook 1: must be blocked
@@ -92,23 +95,47 @@ const cases = [
   [G, feat, bash("git status && npm run check"), "allow", "ordinary commands"],
   [G, feat, bash("cat .env.example"), "allow", ".env.example is fine"],
   [G, feat, bash("curl -o file.sh https://example.com/x.sh"), "allow", "curl to a file"],
-  // Hook 1: asks
+  // Hook 1: asks (files that stay on "ask")
   [G, feat, bash("echo hi >> .gitignore"), "ask", "Bash write to .gitignore"],
-  [G, feat, bash("sed -i s/a/b/ .claude/hooks/lib.mjs"), "ask", "Bash edit of a hook"],
+  [G, feat, bash("echo hi >> CLAUDE.md"), "ask", "Bash write to CLAUDE.md"],
+  [G, feat, bash("echo hi >> AGENTS.md"), "ask", "Bash write to AGENTS.md"],
+  // Hook 1: owner-only paths are blocked (exit 2 plus the owner-only message)
+  [G, feat, bash("sed -i s/a/b/ .claude/hooks/lib.mjs"), "block", "Bash edit of a hook", DENIED],
+  [G, feat, bash("echo '# x' >> .github/workflows/ci.yml"), "block", "Bash append to a workflow", DENIED],
+  [G, feat, bash("cp notes.txt .github/workflows/ci.yml"), "block", "Bash cp onto a workflow", DENIED],
+  [G, feat, bash("git restore .claude/settings.json"), "block", "git restore of settings", DENIED],
+  [G, feat, bash("rm .claude/agents/review-code.md"), "block", "Bash rm of an agent", DENIED],
+  [G, feat, bash("tee .claude/skills/x/SKILL.md"), "block", "Bash tee into a skill", DENIED],
+  [G, feat, bash("mv .claude/settings.local.json /private/tmp/claude-1/x"), "block", "Bash mv of local settings", DENIED],
+  [G, feat, bash("echo x > .GitHub/Workflows/ci.yml"), "block", "case-insensitive workflow path", DENIED],
+  // Hook 1: reading owner-only files is fine
+  [G, feat, bash("cp .github/workflows/ci.yml /private/tmp/claude-1/x/scratchpad/ci.yml"), "allow", "cp FROM a workflow to scratch"],
+  [G, feat, bash("cat .github/workflows/ci.yml"), "allow", "cat a workflow"],
   // Hook 2
   ["precommit-check.mjs", feat, bash('git commit -m "x"'), "warn", "check passes (notice shown)"],
   ["precommit-check.mjs", failing, bash('git commit -m "x"'), "block", "check fails, commit blocked"],
   ["precommit-check.mjs", feat, bash("git status"), "allow", "not a commit"],
   ["precommit-check.mjs", main, bash('git commit -m "x"'), "allow", "on main (Hook 1 handles it)"],
   // Hook 3
+  // Hook 3: still "ask"
   ["protect-config.mjs", feat, file(feat, ".gitignore"), "ask", ".gitignore asks"],
-  ["protect-config.mjs", feat, file(feat, ".claude/settings.json"), "ask", "settings.json asks"],
-  ["protect-config.mjs", feat, file(feat, ".claude/hooks/lib.mjs"), "ask", "hook file asks"],
-  ["protect-config.mjs", feat, file(feat, ".claude/skills/x/SKILL.md"), "ask", "skills ask"],
-  ["protect-config.mjs", feat, file(feat, ".claude/agents/review-code.md"), "ask", "agents ask"],
-  ["protect-config.mjs", feat, file(feat, ".github/workflows/ci.yml"), "ask", "workflow asks"],
+  ["protect-config.mjs", feat, file(feat, "wrangler.jsonc"), "ask", "wrangler.jsonc asks"],
   ["protect-config.mjs", feat, file(feat, "package.json"), "ask", "package.json asks"],
   ["protect-config.mjs", feat, file(feat, "CLAUDE.md"), "ask", "CLAUDE.md asks"],
+  ["protect-config.mjs", feat, file(feat, "AGENTS.md"), "ask", "AGENTS.md asks"],
+  // Hook 3: owner-only, blocked with exit 2 and the owner-only message
+  ["protect-config.mjs", feat, file(feat, ".claude/settings.json"), "block", "settings.json blocked", DENIED],
+  ["protect-config.mjs", feat, file(feat, ".claude/settings.local.json"), "block", "settings.local.json blocked", DENIED],
+  ["protect-config.mjs", feat, file(feat, ".claude/settings.example.json"), "block", "any settings*.json blocked", DENIED],
+  ["protect-config.mjs", feat, file(feat, ".claude/hooks/lib.mjs"), "block", "hook file blocked", DENIED],
+  ["protect-config.mjs", feat, file(feat, ".claude/hooks/README.md"), "block", "hooks README blocked", DENIED],
+  ["protect-config.mjs", feat, file(feat, ".claude/skills/x/SKILL.md"), "block", "skills blocked", DENIED],
+  ["protect-config.mjs", feat, file(feat, ".claude/agents/review-code.md"), "block", "agents blocked", DENIED],
+  ["protect-config.mjs", feat, file(feat, ".github/workflows/ci.yml"), "block", "workflow blocked", DENIED],
+  ["protect-config.mjs", feat, file(feat, ".github/workflows/new.yml"), "block", "new workflow file blocked", DENIED],
+  ["protect-config.mjs", feat, file(feat, ".GitHub/Workflows/ci.yml"), "block", "case-insensitive path blocked", DENIED],
+  ["protect-config.mjs", feat, { tool_name: "Edit", tool_input: { file_path: `${feat}/src/../.github/workflows/ci.yml` } }, "block", ".. path blocked", DENIED],
+  ["protect-config.mjs", feat, { tool_name: "Write", tool_input: { file_path: "/private/tmp/claude-1/x/scratchpad/ci.yml.new" } }, "allow", "scratchpad file is fine"],
   ["protect-config.mjs", feat, file(feat, "src/app/page.tsx"), "allow", "ordinary source file"],
   ["protect-config.mjs", feat, { tool_name: "Edit", tool_input: {} }, "block", "missing file_path fails closed"],
   // Hook 4
@@ -118,11 +145,13 @@ const cases = [
 ];
 
 let failed = 0;
-for (const [script, repo, input, expected, label] of cases) {
+for (const [script, repo, input, expected, label, pattern] of cases) {
   const got = run(script, repo, input);
-  const ok = got === expected;
+  const messageOk = !pattern || new RegExp(pattern).test(got.text);
+  const ok = got.kind === expected && messageOk;
   if (!ok) failed++;
-  console.log(`${ok ? "PASS" : "FAIL"}  ${script.padEnd(20)} ${label}  (expected ${expected}, got ${got})`);
+  const note = pattern ? (messageOk ? ", message ok" : ", MESSAGE MISSING") : "";
+  console.log(`${ok ? "PASS" : "FAIL"}  ${script.padEnd(20)} ${label}  (expected ${expected}, got ${got.kind}${note})`);
 }
 console.log(failed ? `\n${failed} FAILED` : `\nAll ${cases.length} passed`);
 process.exit(failed ? 1 : 0);

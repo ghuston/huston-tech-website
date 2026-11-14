@@ -61,6 +61,17 @@ These can go stale if the ruleset is changed in Settings, so re-check before rel
   so `npm install` and `npm ci` refuse to run under npm 11 (this Mac's default). Use
   `npx --yes npm@10.9.9 ci` (or `install`); `npm run ...` scripts are unaffected.
 
+## Protected folders (hooks)
+- Claude cannot edit `.claude/hooks/**`, `.claude/agents/**`, `.claude/skills/**`,
+  `.github/workflows/**` or `.claude/settings*.json` in any mode: the hooks block Edit,
+  Write and Bash writes to them. Reading them is fine.
+- To change one, I write the proposed file to the scratchpad and tell you the target path.
+  You copy it into place in your own terminal and run `node .claude/hooks/selftest.mjs`
+  (last line must say `All N passed`); then I stage, commit and open the PR. Details are
+  in `.claude/hooks/README.md`.
+- `CLAUDE.md`, `AGENTS.md`, `package.json`, `wrangler.jsonc` and `.gitignore` still ask
+  for approval on each change.
+
 ## Commands
 - `npm run dev`: dev server at http://localhost:4821 (port is fixed in package.json).
   If the port is busy, tell me what is using it instead of killing it.

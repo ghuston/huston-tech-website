@@ -19,18 +19,15 @@ import path from "node:path";
 
 export const PROTECTED_BRANCHES = ["main", "master"];
 
-// Files that Claude must ask permission before changing (paths relative to the
-// project root). Hook 3 uses this for Edit/Write; Hook 1 reuses it for Bash.
-const PROTECTED_FILES = [
-  ".claude/settings.json",
-  ".claude/settings.local.json",
-  "wrangler.jsonc",
-  ".gitignore",
-  "CLAUDE.md",
-  "AGENTS.md",
-  "package.json",
-];
-const PROTECTED_DIRS = [".claude/hooks/", ".claude/skills/", ".claude/agents/", ".github/workflows/"];
+// Owner-only paths (relative to the project root, lower-case because macOS is
+// case-insensitive). Claude may never change these: the hooks BLOCK (exit 2) in
+// every mode. The owner edits them by hand (see README.md, "Changing protected files").
+const OWNER_ONLY_DIRS = [".claude/hooks/", ".claude/agents/", ".claude/skills/", ".github/workflows/"];
+const OWNER_ONLY_FILE = /^\.claude\/settings[^/]*\.json$/;
+
+// Files Claude must ASK the owner about before changing (lower-case).
+// Hook 3 uses the lists for Edit/Write; Hook 1 reuses them for Bash.
+const ASK_FILES = ["wrangler.jsonc", ".gitignore", "claude.md", "agents.md", "package.json"];
 
 const SUBST_OPEN = "\u0001";
 const SUBST_CLOSE = "\u0002";
@@ -105,14 +102,30 @@ export function currentBranch(cwd) {
   }
 }
 
-export function protectedMatch(absPath, projectDir) {
+// { path, level } where level is "deny" (owner-only, block) or "ask", or null.
+// Matching ignores letter case and resolves ".." (path.resolve), but does not follow symlinks.
+export function protectionOf(absPath, projectDir) {
   const rel = path.relative(projectDir, absPath).split(path.sep).join("/");
   if (rel.startsWith("..") || path.isAbsolute(rel)) return null;
-  if (PROTECTED_FILES.includes(rel)) return rel;
-  for (const dir of PROTECTED_DIRS) {
-    if (rel.startsWith(dir) || `${rel}/` === dir) return rel;
+  const key = rel.toLowerCase();
+  if (OWNER_ONLY_FILE.test(key) || OWNER_ONLY_DIRS.some((dir) => key.startsWith(dir) || `${key}/` === dir)) {
+    return { path: rel, level: "deny" };
   }
+  if (ASK_FILES.includes(key)) return { path: rel, level: "ask" };
   return null;
+}
+
+// Older callers (and copies of this folder in other repos) only want the path.
+export function protectedMatch(absPath, projectDir) {
+  return protectionOf(absPath, projectDir)?.path ?? null;
+}
+
+export function blockOwnerOnly(rel) {
+  block(
+    `Blocked: ${rel} is an owner-only protected path (hooks, agents, skills, workflows, settings). ` +
+      "Claude cannot change it in any mode. Do this instead: write the proposed content to the scratchpad " +
+      "folder and tell the owner which file to copy it to; the owner edits it by hand (see .claude/hooks/README.md).",
+  );
 }
 
 // ---------- shell command parser ----------
