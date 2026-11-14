@@ -161,6 +161,34 @@ Before launch:
 
 `output: "export"` means there is no Node server at runtime.
 
+## Monitoring
+
+- **Site down or erroring:** an UptimeRobot Free monitor checks the production URL every 5 minutes and emails the owner when it gets an error response (anything other than 2xx or 3xx), a timeout or no answer. It only sees the public HTTP response; no token or secret is involved.
+- **Tested on 2026-11-13:** a temporary monitor pointed at a page that does not exist (a 404) went Down and sent the alert email, then was deleted. The production monitor was never broken on purpose.
+- **Failed deploys have no alert.** Cloudflare has no email for a failed Workers Builds deploy; the documented route is a Queue plus a small Worker that posts to a Slack or Discord webhook. A failed production build leaves the previous version live, and the red "Workers Builds: huston-site" check on the merge commit is the only signal.
+- **When the custom domain goes live:** edit the monitor's URL (three-dot menu, Edit) to `https://<final domain>/`, then re-run the test: add a temporary monitor on a page that does not exist, wait for the Down email, delete it.
+
+## Rollback runbook
+
+A rollback points the live site at an older version within about a minute. It changes nothing in Git: `main` still contains the bad commit, and the next merge to `main` redeploys `main`'s HEAD over the rollback. Use it when a deploy broke the live site and it must be fixed now.
+
+**Roll back:** Cloudflare dashboard, Workers & Pages, `huston-site`, Deployments. Pick an older row that was a real production deployment (match its time to the merge time of the PR; never a preview). Three-dot menu, **Rollback**. Read the dialog, add a message, confirm. The Active deployment card switches to the older version (the move is recorded under View rollout history; the Deployments list itself does not gain a row).
+
+**Roll forward:** on the newer row you rolled back from, the same menu item is labelled **Promote version**. Read the dialog and confirm.
+
+**Check the live site after each move** (`curl -sI https://<site>/`): HTTP 200; the `etag` changes after a rollback and returns to its old value after rolling forward; the `/_next/static/chunks/...` files named in the page's HTML change and then return too. Practised on 2026-11-13 (rolled back from #35 to #25, then forward): both checks moved and returned exactly.
+
+**Do not click:** Delete (the Worker), Disconnect (breaks auto-deploys), Split versions (gradual deployment), Retry build, or any change to the build command, deploy command or production branch.
+
+**Bad merge: recovery sequence**
+1. Freeze: merge nothing else.
+2. Roll back to the last good production version and check the live site.
+3. Revert the bad merge on a new branch (`git revert -m 1 <merge-sha>`) and open a PR. Every lock applies (`check`, `a11y`, `lighthouse`, `dependency-review`, code scanning), so allow about 6 minutes; the rollback holds meanwhile.
+4. The owner merges the revert. Workers Builds then deploys `main`'s HEAD (the revert), which replaces the rollback.
+5. In Deployments, confirm a new Workers Builds deployment is Active and the live site is good. Then fix forward in a new PR.
+
+If a production build itself fails, nothing is deployed and the old version stays live, so no rollback is needed.
+
 ## Launch checklist
 
 - [ ] Domain, DNS and business email working; `NEXT_PUBLIC_SITE_URL` set to the final domain
