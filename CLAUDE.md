@@ -55,6 +55,9 @@ These can go stale if the ruleset is changed in Settings, so re-check before rel
   local `npm ci` passes. CI uses npm 10 (10.9.9 on 2026-11-13, Node 22). Generate
   lockfile changes with the same npm major as CI, and check the first CI run's Install
   dependencies step.
+- `.npmrc` sets `engine-strict=true` and `package.json` requires `"npm": ">=10.9.2 <11"`,
+  so `npm install` and `npm ci` refuse to run under npm 11 (this Mac's default). Use
+  `npx --yes npm@10.9.9 ci` (or `install`); `npm run ...` scripts are unaffected.
 
 ## Commands
 - `npm run dev`: dev server at http://localhost:4821 (port is fixed in package.json).
