@@ -18,6 +18,8 @@ clearly one or the other, ask me.
 - Run `npm run check` before every commit. If it fails, stop and show me the
   exact error; do not commit.
 - When the work is done, open a pull request. Never merge it yourself; I merge.
+- Merging a pull request into `main` deploys the site through Cloudflare Workers Builds.
+  Never run `wrangler deploy` by hand (a hook blocks it).
 
 ## Protect main (GitHub ruleset)
 Read from GitHub on 2026-11-13 (`gh api repos/ghuston/huston-tech-website/rulesets`).
