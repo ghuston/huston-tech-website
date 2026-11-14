@@ -42,7 +42,7 @@ CI runs the same checks on every pull request (`.github/workflows/ci.yml`).
 
 ### Required checks
 
-Three checks must pass before a pull request can merge into `main`: `check`, `a11y` and `lighthouse` (the "Protect main" ruleset; jobs in `.github/workflows/ci.yml`). A new check becomes required only after 5 clean runs plus a deliberate-failure proof PR that shows it blocks the merge.
+Four checks must pass before a pull request can merge into `main`: `check`, `a11y` and `lighthouse` (jobs in `.github/workflows/ci.yml`) and `dependency-review` (`.github/workflows/dependency-review.yml`); this is the "Protect main" ruleset. A fifth lock, the "Require code scanning results" rule (CodeQL; Alerts = Errors, Security alerts = High or higher), blocks the merge while a new CodeQL alert is open. It shows no "Required" badge: the merge box says "CodeQL has detected N security relevant alert(s) blocking this code from being merged". A new check becomes required only after 5 clean runs plus a deliberate-failure proof PR that shows it blocks the merge.
 
 ### Preview the production build
 
@@ -86,20 +86,20 @@ In CI this is the `lighthouse` job in `.github/workflows/ci.yml`. It is a requir
 
 ### Security scans (dependency review and CodeQL)
 
-Two informational jobs, each in its own workflow file. Neither is a required check in the "Protect main" ruleset yet, so a red result shows on the PR but does not block merge. Both are SHA-pinned and get only the permissions they need.
+Two security jobs, each in its own workflow file. Both block merging through the "Protect main" ruleset: `dependency-review` as a required status check, and CodeQL through the "Require code scanning results" rule. Both are SHA-pinned and get only the permissions they need.
 
 | Job (check name) | File | Runs on | What it does |
 |---|---|---|---|
 | `dependency-review` | `.github/workflows/dependency-review.yml` | Pull requests | Fails if the PR adds or changes a dependency to a version with a known vulnerability (any severity; runtime and development dependencies). It only judges what the PR changes, not what is already in `main`. |
 | `codeql` | `.github/workflows/codeql.yml` | Pull requests, pushes to `main`, and weekly (Mondays 04:17 UTC) | GitHub's CodeQL scans our JavaScript and TypeScript for security bugs. No build step is needed. |
 
-**Reading a `dependency-review` failure:** open the failed check's Details, then the job log or its Summary. It lists each flagged package, the version the PR adds, the severity and a GitHub advisory (GHSA) link. Fix it by moving to the patched version the advisory names, choosing another package, or removing the dependency. A deliberate, understood exception goes in the workflow as `allow-ghsas` with a written reason; never add one silently.
+**Reading a `dependency-review` failure:** a red `dependency-review` means a package the PR adds has a known vulnerability; the log names the package and its GHSA. Open the failed check's Details, then the job log or its Summary. It lists each flagged package, the version the PR adds, the severity and a GitHub advisory (GHSA) link. Fix it by moving to the patched version the advisory names, choosing another package, or removing the dependency. A deliberate, understood exception goes in the workflow as `allow-ghsas` with a written reason; never add one silently.
 
-**Reading CodeQL results:** there are two signals. The `codeql` job goes red only if the scan itself broke (read its log). Findings show up as a separate check, "Code scanning results / CodeQL", which fails for new alerts of severity error, critical or high. The PR's Conversation and Files changed tabs show each alert on its line; "Show more details" opens the path from source to sink. All alerts are under Security and quality, then Code scanning. Fix the code, or dismiss the alert with a reason.
+**Reading CodeQL results:** there are two signals. The `codeql` job goes red only if the scan itself broke (read its log). Findings show up as a separate check, "Code scanning results / CodeQL", which fails for new alerts of severity error, critical or high. The PR's Conversation and Files changed tabs show each alert on its line; "Show more details" opens the path from source to sink. All alerts are under Security and quality, then Code scanning. Fix the code, or dismiss the alert with a reason. A merge blocked by code scanning means the PR adds a new CodeQL alert of severity Error / High or higher (lower ones do not block); open the Code scanning results / CodeQL check to see it. The rule also blocks while the CodeQL scan is still running or not set up, so a PR with no alerts can show the same message until the scan finishes.
 
 Scheduled runs only happen on the default branch, and GitHub disables schedules in a public repository after 60 days without activity.
 
-**Becoming required:** after 5 clean runs each plus a deliberate-failure proof PR. In Settings, Rules, Rulesets, "Protect main": add `dependency-review` as a required status check, and for CodeQL add the "Require code scanning results" rule (tool: CodeQL), which blocks on findings, rather than a status check on `codeql`, which only catches a broken scan. Clean runs so far (one per merged PR, proof PRs excluded): `dependency-review` 4 of 5, `codeql` 4 of 5.
+**Required:** both are enforced in "Protect main" and were proven with deliberate-failure PRs: #31 for `dependency-review` and #32 for the CodeQL alert. To change either, change the ruleset first (see CLAUDE.md).
 
 ### Configuration
 
