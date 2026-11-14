@@ -10,7 +10,19 @@
       "Read(.env.test)",
       "Read(.dev.vars)",
       "Read(.dev.vars.*)",
-      "Read(secrets/**)"
+      "Read(secrets/**)",
+      "Edit(/.claude/hooks/**)",
+      "Edit(/.claude/agents/**)",
+      "Edit(/.claude/skills/**)",
+      "Edit(/.github/workflows/**)",
+      "Edit(/.claude/settings*.json)"
+    ],
+    "ask": [
+      "Edit(/CLAUDE.md)",
+      "Edit(/AGENTS.md)",
+      "Edit(/package.json)",
+      "Edit(/wrangler.jsonc)",
+      "Edit(/.gitignore)"
     ]
   },
   "hooks": {
@@ -35,7 +47,7 @@
         ]
       },
       {
-        "matcher": "Edit|Write",
+        "matcher": "Edit|Write|NotebookEdit",
         "hooks": [
           {
             "type": "command",
