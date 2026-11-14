@@ -24,23 +24,37 @@ Read from GitHub on 2026-11-13 (`gh api repos/ghuston/huston-tech-website/rulese
 These can go stale if the ruleset is changed in Settings, so re-check before relying on them.
 - The ruleset is named "Protect main" and applies to the default branch (`main`).
 - A pull request is required to change `main`. Required approvals: 0.
-- Three required status checks, all jobs in `.github/workflows/ci.yml` from GitHub
-  Actions: `check`, `a11y` and `lighthouse`. Each was proven with a deliberate-failure
-  PR (merge blocked). The branch does not have to be up to date with `main` to merge.
+- Four required status checks, all jobs from GitHub Actions: `check`, `a11y` and
+  `lighthouse` (in `.github/workflows/ci.yml`) and `dependency-review` (in
+  `.github/workflows/dependency-review.yml`). The branch does not have to be up to date
+  with `main` to merge.
+- The "Require code scanning results" rule (tool CodeQL, Alerts = Errors, Security alerts
+  = High or higher) blocks merging while a new alert of that severity is open, and also
+  while the CodeQL scan is still running or not set up. Lower-severity alerts do not
+  block. It shows no "Required" badge; the merge box says "CodeQL has detected N
+  security relevant alert(s) blocking this code from being merged". All five locks were
+  proven with deliberate-failure PRs (#26, #28, #29, #31, #32).
 - Force pushes and branch deletion are blocked.
 - No bypass actors, so the rules apply to the owner too.
 - Merge, squash and rebase are all allowed.
-- A required check is tied to its job name. Never rename or remove `check`, `a11y` or
-  `lighthouse`, never add a `paths:` filter or a job-level `if:` to them, and never put
-  `[skip ci]` in a commit message: a required check that never reports (filtered out by
-  `paths:` or `[skip ci]`) leaves the PR stuck waiting. To change one, change the ruleset
-  FIRST, then the workflow.
+- A required check is tied to its job name. Never rename or remove `check`, `a11y`,
+  `lighthouse` or `dependency-review`, never add a `paths:` filter or a job-level `if:`
+  to them, and never put `[skip ci]` in a commit message: a required check that never
+  reports (filtered out by `paths:` or `[skip ci]`) leaves the PR stuck waiting. To
+  change one, change the ruleset FIRST, then the workflow.
+- The code scanning rule is tied to `.github/workflows/codeql.yml` the same way: never
+  rename or remove that file, or change its `languages` or category, without changing
+  the ruleset first.
 - A new check becomes required only after 5 clean runs plus a deliberate-failure proof PR.
   Proof PRs are titled "PROOF - DO NOT MERGE: <name>" and closed (never merged) with
   `gh pr close --delete-branch`.
 - `lighthouse` sometimes fails with `NO_NAVSTART`, a Lighthouse trace-recording hiccup, not
   a site problem. Use "Re-run failed jobs" on the run.
 - After switching branches, delete `.next` before `npm run check`.
+- A lockfile written by a different npm than CI's can fail CI's `npm ci` even when a
+  local `npm ci` passes. CI uses npm 10 (10.9.9 on 2026-11-13, Node 22). Generate
+  lockfile changes with the same npm major as CI, and check the first CI run's Install
+  dependencies step.
 
 ## Commands
 - `npm run dev`: dev server at http://localhost:4821 (port is fixed in package.json).
