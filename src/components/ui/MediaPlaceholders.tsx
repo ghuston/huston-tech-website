@@ -3,7 +3,7 @@ import { Text } from "./Text";
 /** Browser-chrome frame holding a screenshot placeholder, until Grant supplies blurred images. */
 export function ScreenshotPlaceholder({ label }: { label: string }) {
   return (
-    <figure className="overflow-hidden rounded-[14px] border border-line bg-surface shadow-lift">
+    <figure className="overflow-hidden rounded-[14px] border border-line bg-surface shadow-lift-v1">
       <div className="flex items-center gap-1.5 border-b border-line bg-paper px-4 py-2.5">
         <span className="size-2.5 rounded-full bg-line" />
         <span className="size-2.5 rounded-full bg-line" />
@@ -21,7 +21,7 @@ export function ScreenshotPlaceholder({ label }: { label: string }) {
 
 export function PhotoPlaceholder({ label }: { label: string }) {
   return (
-    <figure className="relative mx-auto aspect-[4/5] w-full max-w-sm rotate-[1.5deg] rounded-[14px] border border-line bg-surface p-3 shadow-lift">
+    <figure className="relative mx-auto aspect-[4/5] w-full max-w-sm rotate-[1.5deg] rounded-[14px] border border-line bg-surface p-3 shadow-lift-v1">
       <div className="grid h-full place-items-center rounded-[10px] bg-sage-tint p-6 text-center text-sm">
         <p>
           <Text>{label}</Text>
