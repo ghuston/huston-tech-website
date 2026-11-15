@@ -16,7 +16,7 @@ export const metadata: Metadata = pageMetadata({ ...insightsMeta, path: "/insigh
  */
 export default function InsightsPage() {
   return (
-    <div className="hl relative overflow-x-clip">
+    <div className="relative overflow-x-clip">
       <PageHero eyebrow={insightsHero.eyebrow} title={insightsHero.title} intro={insightsHero.intro} />
 
       <section aria-label="Articles" className="pb-12 md:pb-16">

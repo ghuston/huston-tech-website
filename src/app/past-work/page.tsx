@@ -35,7 +35,7 @@ export default function PastWorkPage() {
   const standalone = getTestimonials("past-work").filter((t) => !t.caseStudy);
 
   return (
-    <div className="hl relative overflow-x-clip">
+    <div className="relative overflow-x-clip">
       <PageHero eyebrow={pastWorkHero.eyebrow} title={pastWorkHero.title} intro={pastWorkHero.intro} />
 
       <Container>

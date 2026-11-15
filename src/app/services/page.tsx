@@ -65,7 +65,7 @@ export default function ServicesPage() {
   const { review, commonFixes, systemsWork } = workflows;
 
   return (
-    <div className="hl relative overflow-x-clip">
+    <div className="relative overflow-x-clip">
       <PageHero
         eyebrow={servicesHero.eyebrow}
         title={servicesHero.title}

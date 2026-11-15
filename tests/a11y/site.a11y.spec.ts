@@ -21,8 +21,8 @@ function isKnown(rule: string, target: string): boolean {
   return KNOWN_ISSUES.some((k) => k.rule === rule && k.selector === target);
 }
 
-// The mobile "Book a free call" bar only mounts after the page has scrolled, so scroll to the bottom
-// (and let two frames pass so React commits it) before scanning, or the bar would never be checked.
+// Scroll to the bottom (and let two frames pass so React commits) before the scrolled scan, so the sticky header over
+// the last section and the footer are checked too.
 async function scrollToBottom(page: Page) {
   await page.evaluate(
     () =>
@@ -81,7 +81,7 @@ async function expectNoViolations(page: Page, label: string, options?: Parameter
 }
 
 // Each page is scanned twice: once at the top (every rule), and once scrolled to the bottom, which is where
-// the mobile call bar appears and where the sticky header sits over dark sections.
+// the sticky header sits over the last section.
 for (const path of pages) {
   test(`${path} has no accessibility violations (top of page)`, async ({ page }) => {
     const response = await page.goto(path, { waitUntil: "networkidle" });
@@ -119,32 +119,6 @@ test("the open mobile menu has no violations", async ({ page }, testInfo) => {
   await button.click();
   await expect(button).toHaveAttribute("aria-expanded", "true");
   await expectNoViolations(page, "/ (mobile menu open)");
-});
-
-// Guards the IntersectionObserver in MobileCtaBar: absent at the top, shown once the page has scrolled past ~520px,
-// gone again when you scroll back up, never on /contact, and hidden by CSS from 640px up.
-const callBar = (page: Page) => page.locator("main div.fixed");
-
-test("the mobile call bar shows after scrolling and hides again", async ({ page }, testInfo) => {
-  await page.goto("/services", { waitUntil: "networkidle" });
-  await expect(callBar(page)).toHaveCount(0);
-  await page.evaluate(() => window.scrollTo(0, 900));
-  if (testInfo.project.name === "mobile") {
-    await expect(callBar(page)).toBeVisible();
-    await page.evaluate(() => window.scrollTo(0, 0));
-    await expect(callBar(page)).toHaveCount(0);
-  } else {
-    // The bar still mounts, and the sm:hidden class keeps it off screen.
-    await expect(callBar(page)).toHaveCount(1);
-    await expect(callBar(page)).toBeHidden();
-  }
-});
-
-test("the mobile call bar never appears on /contact", async ({ page }, testInfo) => {
-  test.skip(testInfo.project.name !== "mobile", "Only the phone layout shows the bar.");
-  await page.goto("/contact", { waitUntil: "networkidle" });
-  await scrollToBottom(page);
-  await expect(callBar(page)).toHaveCount(0);
 });
 
 test("known issues are still needed", async ({ page }, testInfo) => {

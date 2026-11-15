@@ -1,7 +1,6 @@
 /*
- * Huston Logic design v3: tokens and base primitives (docs/STYLE-GUIDE.md).
- * This file only adds names and classes; nothing here restyles a v1 element until a v3 component or the `.hl`
- * wrapper is used, so the v1 pages look exactly as before. PR 14 deletes the v1 tokens and drops the `.hl` scope.
+ * Huston Logic design v3: tokens, components and motion (docs/STYLE-GUIDE.md). globals.css holds the base layer
+ * (body, headings, focus).
  *
  * Colors in CSS are exempt from the scan-src hook on purpose: v3 keeps its tokens, glows, door gradients and
  * fading dividers here.
@@ -50,8 +49,7 @@
 }
 
 /* v3 utilities: bg-silver, text-ink-2, border-hairline, text-green, text-rust, bg-tint ...
-   `ink` is set in globals.css (v1 had #27332d; v3 is #29332D). `hairline` is the guide's `line`, renamed because
-   v1's border-line is used in about thirty places with a different color. */
+   `ink` is set in globals.css. `hairline` is the guide's `line`. */
 @theme inline {
   --color-silver: var(--hl-silver);
   --color-silver-2: var(--hl-silver-2);
@@ -124,30 +122,39 @@
   --shadow-door: 0 40px 60px -40px rgba(31, 61, 49, 0.55);
 
   /* §3 fonts: font-ui (Outfit, src/lib/fonts.ts), font-text (Inter) and font-voice (Newsreader italic), the last two
-     declared in layout.tsx and shared with v1 (see src/lib/fonts.ts for why). */
+     declared in src/lib/fonts.ts. */
   --font-ui: var(--hl-outfit), ui-sans-serif, system-ui, sans-serif;
   --font-text: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-voice: var(--font-newsreader), Georgia, serif;
 }
 
 @layer components {
-  /*
-   * Scope for v3 content. body keeps the v1 paper background until PR 14, so a v3 page wraps its content in .hl.
-   * Focus: v1's base rule reads --focus-color, so setting it here gives v3 elements the rust ring (2px, 3px offset)
-   * without changing the signal-colored ring on v1 pages.
-   */
-  .hl {
-    --focus-color: var(--hl-rust);
-    background: var(--hl-silver);
-    color: var(--hl-ink);
-    font-family: var(--font-text);
-    font-size: var(--hl-fs-body);
-    line-height: 1.6;
+  /* The mobile menu (HeaderNav): grid rows animate from 0fr to 1fr. Opening takes --duration-panel and closing
+     --duration-feedback, because a transition uses the timing of the state it is moving to. */
+  .panel {
+    display: grid;
+    grid-template-rows: 0fr;
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      grid-template-rows var(--duration-feedback) var(--ease-site),
+      opacity var(--duration-feedback) var(--ease-site),
+      visibility 0s linear var(--duration-feedback);
   }
 
-  .hl :is(h1, h2, h3, h4) {
-    font-family: var(--font-ui);
-    font-weight: 700;
+  .panel[data-open="true"] {
+    grid-template-rows: 1fr;
+    opacity: 1;
+    visibility: visible;
+    transition:
+      grid-template-rows var(--duration-panel) var(--ease-site),
+      opacity var(--duration-panel) var(--ease-site),
+      visibility 0s linear 0s;
+  }
+
+  .panel > .panel-inner {
+    min-height: 0;
+    overflow: hidden;
   }
 
   /* §7.10 the slow underline: draws left to right on hover and focus, retracts to the right. */
@@ -774,7 +781,7 @@
 /* ---- Home motion (§9) ---- */
 
 /* The hero load is CSS only: `both` holds each element at its first frame during its delay, so no class or script can
-   leave the hero invisible. Under reduced motion motion.css switches every animation off and the end state shows. */
+   leave the hero invisible. Under reduced motion the block at the end switches every animation off and the end state shows. */
 @keyframes hl-rise {
   from {
     opacity: 0;
@@ -1078,16 +1085,24 @@
 }
 
 /* §9.1 #9: "Say hello" jumps to the band with the browser's own smooth scroll. Reduced motion keeps it instant
-   (motion.css also forces scroll-behavior: auto under reduce). */
+   (the reduced-motion block below forces scroll-behavior: auto). */
 @media (prefers-reduced-motion: no-preference) {
   html {
     scroll-behavior: smooth;
   }
 }
 
-/* Reduced motion (§9.2). motion.css already switches every animation and transition off, which makes the
-   underline appear instantly. That would still tilt the door, so the swing is removed explicitly. */
+/* Reduced motion (§9.2). Nothing animates or transitions, so every end state shows at once and the underline appears
+   instantly. That would still tilt the door, so the swing is removed explicitly. */
 @media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+
   .hl-door:is(:hover, :focus-within) .hl-leaf,
   .hl-lift:is(:hover, :focus-visible) {
     transform: none;

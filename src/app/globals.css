@@ -1,83 +1,47 @@
 @import "tailwindcss";
-@import "./motion.css";
 @import "./hl.css";
 
 @theme {
   --color-ink: #29332d;
-  --color-ink-deep: #1a231e;
-  --color-paper: #f6f4ed;
-  --color-surface: #ffffff;
-  --color-line: #dedcd0;
-  --color-rule: #c3c2b5;
-  --color-muted: #566058;
-  --color-signal: #a4482d;
-  --color-signal-deep: #7f3620;
-  --color-signal-tint: #f0ddd3;
-  --color-sage: #2f6b5e;
-  --color-sage-tint: #e6e9df;
-  --color-note: #fff1b8;
-
-  --font-display: var(--font-newsreader), ui-serif, Georgia, serif;
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--font-jetbrains), ui-monospace, SFMono-Regular, monospace;
-
-  --breakpoint-xs: 30rem;
-  --container-prose: 45rem;
-  --container-site: 75rem;
-
-  /* v1's lift shadow. Renamed so v3 can own `shadow-lift` (hl.css); removed with the rest of v1 in PR 14. */
-  --shadow-lift-v1: 0 10px 30px -12px rgb(39 51 45 / 0.28);
-  --shadow-note: 0 1px 1px rgb(39 51 45 / 0.08), 0 8px 18px -10px rgb(39 51 45 / 0.35);
 }
 
-/* Motion tokens: the only easing and durations used on the site (see AGENTS.md "Motion rules"). */
+/* Motion timing that Tailwind's default transitions and the mobile menu (.panel in hl.css) share. */
 @theme static {
   --ease-site: cubic-bezier(0.22, 1, 0.36, 1);
   --duration-feedback: 150ms;
   --duration-panel: 200ms;
-  --duration-intro: 350ms;
-  --duration-illustration: 400ms;
-  --delay-hero-line: 80ms;
-  --delay-illustration-step: 120ms;
 
   --default-transition-duration: var(--duration-feedback);
   --default-transition-timing-function: var(--ease-site);
 }
 
+/* The v3 base: silver page, ink text, Inter body, Outfit headings (docs/STYLE-GUIDE.md §2-§3). */
 @layer base {
   html {
     scroll-padding-top: 6rem;
     -webkit-text-size-adjust: 100%;
   }
 
-  /* The fixed "Book a free call" bar (MobileCtaBar, hidden from 640px up) is 73px tall.
-     Keep keyboard focus from scrolling in underneath it (WCAG 2.4.11). */
-  @media (max-width: 639.98px) {
-    html {
-      scroll-padding-bottom: 6rem;
-    }
-  }
-
   body {
-    background: var(--color-paper);
-    color: var(--color-ink);
-    font-family: var(--font-sans);
-    font-size: 1.0625rem;
+    background: var(--hl-silver);
+    color: var(--hl-ink);
+    font-family: var(--font-text);
+    font-size: var(--hl-fs-body);
     line-height: 1.6;
     font-optical-sizing: auto;
   }
 
-  @media (min-width: 64rem) {
-    body {
-      font-size: 1.125rem;
-    }
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-ui);
+    font-weight: 700;
   }
 
   h1,
   h2,
   h3 {
-    font-family: var(--font-display);
-    font-weight: 600;
     letter-spacing: -0.015em;
     text-wrap: balance;
   }
@@ -88,21 +52,13 @@
   }
 
   :focus-visible {
-    outline: 2px solid var(--focus-color, var(--color-signal));
+    outline: 2px solid var(--hl-rust);
     outline-offset: 3px;
     border-radius: 4px;
   }
 
   ::selection {
-    background: var(--color-signal-tint);
-    color: var(--color-ink);
-  }
-}
-
-@layer components {
-  .marker {
-    background-image: linear-gradient(transparent 62%, var(--color-signal-tint) 62%, var(--color-signal-tint) 92%, transparent 92%);
-    box-decoration-break: clone;
-    -webkit-box-decoration-break: clone;
+    background: var(--hl-mint);
+    color: var(--hl-ink);
   }
 }

@@ -13,7 +13,7 @@ const linkClass = "inline-flex min-h-11 items-center font-ui text-[16px] font-me
 /** Site footer (docs/STYLE-GUIDE.md §7.26, Rev 7.1 B10): fades in from the page, no hard edge. */
 export function Footer() {
   return (
-    <footer className="hl hl-footer relative overflow-hidden pb-28 pt-24 md:pb-12">
+    <footer className="hl-footer relative overflow-hidden pb-12 pt-24">
       <RingMark className="pointer-events-none absolute -bottom-[180px] -right-[180px] size-[360px] fill-white opacity-85" />
       <Container className="relative">
         <div className="grid gap-12 md:grid-cols-[1.3fr_1fr_1fr]">

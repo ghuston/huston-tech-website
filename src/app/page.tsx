@@ -48,7 +48,7 @@ export default function HomePage() {
   const testimonials = getTestimonials("home");
 
   return (
-    <div className="hl relative overflow-x-clip">
+    <div className="relative overflow-x-clip">
       <Hero content={heroContent} doors={doors} callHref={bookCallHref()} stack={<HeroStack content={heroStack} />} />
       <ArcSteps srHeading={arcContent.srHeading} />
       <DoorBand doors={doors} label={doorBandLabel} />

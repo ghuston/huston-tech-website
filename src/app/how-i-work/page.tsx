@@ -22,7 +22,7 @@ export const metadata: Metadata = pageMetadata({ ...howIWorkMeta, path: "/how-i-
 
 export default function HowIWorkPage() {
   return (
-    <div className="hl relative overflow-x-clip">
+    <div className="relative overflow-x-clip">
       <PageHero eyebrow={howIWorkHero.eyebrow} title={howIWorkHero.title} intro={howIWorkHero.intro}>
         <Button href={bookCallHref()}>{howIWorkHero.cta}</Button>
       </PageHero>
