@@ -13,11 +13,6 @@ export const siteConfig = {
   email: "info@hustonlogic.com" as string | null,
   schedulerUrl: null as string | null,
   linkedInUrl: "https://www.linkedin.com/in/granthuston/" as string | null,
-  /**
-   * Workflow Review price. `null` (the default) keeps every price out of the copy and shows the no-price Review bar.
-   * A value such as "$500" switches the Review bar and the Services "Scope it" paragraph to their with-price wording.
-   */
-  reviewPrice: null as string | null,
 } as const;
 
 export type FrameworkStepKey = "scope" | "shape" | "ship";
@@ -64,7 +59,6 @@ export const framework: { steps: FrameworkStep[] } = {
  * `npm run check:placeholders` fails while any flag is `false`.
  */
 export const decisionsConfirmed = {
-  reviewPrice: false,
   lineArtStyle: false,
 } as const;
 

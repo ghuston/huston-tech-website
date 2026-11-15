@@ -37,19 +37,12 @@ for (const key of ["email", "schedulerUrl", "linkedInUrl"]) {
 }
 
 const decisionLabels = {
-  reviewPrice: "publish the Review price? (default: no price)",
   lineArtStyle: "line-art style (geometric framework icons by default)",
 };
 for (const [key, label] of Object.entries(decisionLabels)) {
   if (new RegExp(`${key}:\\s*false`).test(site)) {
     problems.push(`src/content/site.ts  decisionsConfirmed.${key} is false: not yet confirmed by Grant (${label})`);
   }
-}
-
-if (/reviewPrice:\s*"/.test(site)) {
-  console.warn(
-    "\nNote: siteConfig.reviewPrice is set. Update the Services FAQ cost answer and any other price wording to match before launch.\n",
-  );
 }
 
 if (problems.length > 0) {

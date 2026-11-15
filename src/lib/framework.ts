@@ -1,4 +1,4 @@
-import { framework, siteConfig, type FrameworkStep, type FrameworkStepKey } from "@/content/site";
+import { framework, type FrameworkStep, type FrameworkStepKey } from "@/content/site";
 
 export function getStep(key: FrameworkStepKey): FrameworkStep {
   const step = framework.steps.find((s) => s.key === key);
@@ -33,11 +33,4 @@ export function fw(template: string): string {
     .replaceAll("{stepsSentence}", stepsSentence())
     .replaceAll("{stepsList}", stepsList())
     .replaceAll("{steps}", stepsDotted());
-}
-
-/** Fills `{price}` with the published Review price. Only call when `siteConfig.reviewPrice` is set. */
-export function withPrice(template: string): string {
-  const price = siteConfig.reviewPrice;
-  if (price === null) throw new Error("withPrice called while reviewPrice is null");
-  return template.replaceAll("{price}", price);
 }

@@ -1,143 +1,234 @@
 import type { Metadata } from "next";
-import { BookCallButton } from "@/components/ui/BookCallButton";
-import { Container } from "@/components/ui/Container";
-import { CTASection } from "@/components/ui/CTASection";
-import { FAQ } from "@/components/ui/FAQ";
-import { ProcessSteps } from "@/components/ui/ProcessSteps";
-import { PageHero } from "@/components/ui/PageHero";
-import { PullQuote } from "@/components/ui/PullQuote";
-import { Section } from "@/components/ui/Section";
-import { SectionHeading } from "@/components/ui/SectionHeading";
-import { ServiceCard } from "@/components/ui/ServiceCard";
+import { Button } from "@/components/hl/Button";
+import { ClosingCta } from "@/components/hl/ClosingCta";
+import { Container } from "@/components/hl/Container";
+import { DotList } from "@/components/hl/DotList";
+import { Faq } from "@/components/hl/Faq";
+import { FadingDivider } from "@/components/hl/FadingDivider";
+import { PageHero } from "@/components/hl/PageHero";
+import { SectionNav } from "@/components/hl/SectionNav";
+import { TestimonialRow } from "@/components/hl/TestimonialRow";
+import { TextLink } from "@/components/hl/TextLink";
+import { bookCallHref } from "@/components/ui/BookCallButton";
 import { Text } from "@/components/ui/Text";
 import {
-  commonFixes,
+  care,
   everyProject,
   faq,
   platforms,
   servicesClosingCta,
   servicesHero,
   servicesMeta,
-  startHere,
   subNav,
-  systemsWork,
+  websites,
   whatIDontDo,
+  workflows,
+  type ServiceItem,
 } from "@/content/services";
 import { getTestimonials } from "@/content/testimonials";
 import { pageMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = pageMetadata({ ...servicesMeta, path: "/services" });
 
+const h2 = "font-ui text-h2 font-bold";
+const h3 = "font-ui text-[28px] font-bold leading-tight tracking-[-0.03em]";
+const h4 = "font-ui text-item font-semibold";
+const section = "scroll-mt-12 py-12 md:py-16";
+
+function ServiceBlock({ item, goodFitLabel, headingLevel }: { item: ServiceItem; goodFitLabel?: string; headingLevel: 3 | 4 }) {
+  const Heading = headingLevel === 3 ? "h3" : "h4";
+  return (
+    <div id={item.id} className="scroll-mt-12 max-w-[64ch]">
+      <Heading className={headingLevel === 3 ? h3 : h4}>{item.title}</Heading>
+      {item.tagline ? <p className="mt-2 text-[17px] italic text-ink-2">{item.tagline}</p> : null}
+      <p className="mt-3 text-[17px] leading-[1.55]">
+        <Text>{item.paragraph}</Text>
+      </p>
+      {item.goodFit ? (
+        <p className="mt-3 text-[17px] leading-[1.55]">
+          <span className="font-ui font-semibold text-green">{goodFitLabel}</span> {item.goodFit}
+        </p>
+      ) : null}
+      {item.afterFit ? (
+        <p className="mt-3 text-[17px] leading-[1.55]">
+          <em>{item.afterFit.em}</em>
+          {item.afterFit.text ? ` ${item.afterFit.text}` : null}
+        </p>
+      ) : null}
+    </div>
+  );
+}
+
+/** Services, in the order of docs/website-plan.md B2 (Revision 7.1): H1, then one H2 per section; the bold labels in the copy are H3s and H4s. */
 export default function ServicesPage() {
-  const [pullQuote] = getTestimonials("services");
+  const [quote] = getTestimonials("services");
+  const { review, commonFixes, systemsWork } = workflows;
 
   return (
-    <>
-      {/* Anchors for the header's Websites and Workflows links until this page is rebuilt with real sections. */}
-      <div id="websites" />
-      <PageHero eyebrow={servicesHero.eyebrow} title={servicesHero.title} intro={<p>{servicesHero.intro}</p>}>
-        <BookCallButton fullWidthOnMobile />
-      </PageHero>
+    <div className="hl relative overflow-x-clip">
+      <PageHero
+        eyebrow={servicesHero.eyebrow}
+        title={servicesHero.title}
+        intro={
+          <>
+            {servicesHero.intro.before}
+            <TextLink inline href={servicesHero.intro.link.href}>
+              {servicesHero.intro.link.label}
+            </TextLink>
+            {servicesHero.intro.after}
+          </>
+        }
+      />
+      <SectionNav sticky label="On this page" items={subNav} />
 
-      <div id="workflows" />
-      <div className="sticky top-[4.5rem] z-30 hidden border-b border-line bg-paper/95 backdrop-blur lg:block">
+      <section id="websites" aria-labelledby="websites-title" className={section}>
         <Container>
-          <nav aria-label="On this page">
-            <ul className="flex gap-2 py-1.5">
-              {subNav.map((item) => (
-                <li key={item.href}>
-                  <a
-                    href={item.href}
-                    className="inline-flex min-h-11 items-center rounded-md px-3 font-mono text-xs font-medium uppercase tracking-[0.12em] text-muted transition-colors hover:bg-signal-tint hover:text-signal-deep"
-                  >
-                    {item.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </nav>
+          <h2 id="websites-title" className={h2}>
+            <Text>{websites.heading}</Text>
+          </h2>
+          <div className="mt-5 max-w-[60ch] space-y-4 text-body">
+            {websites.paragraphs.map((paragraph) => (
+              <p key={paragraph}>{paragraph}</p>
+            ))}
+          </div>
+          <h3 className={`${h3} mt-10`}>
+            <Text>{websites.includesHeading}</Text>
+          </h3>
+          <DotList items={websites.includes} className="mt-5 max-w-[64ch]" />
+          <div className="mt-8 max-w-[64ch] space-y-4 text-[17px] leading-[1.55]">
+            {websites.details.map((detail) => (
+              <p key={detail}>
+                <Text>{detail}</Text>
+              </p>
+            ))}
+          </div>
+          <div className="mt-8">
+            <Button href={websites.cta.href}>{websites.cta.label}</Button>
+          </div>
         </Container>
-      </div>
+      </section>
 
-      <Section id="start" labelledBy="start-title" tone="paper">
-        <SectionHeading id="start-title" intro={startHere.intro}>
-          {startHere.heading}
-        </SectionHeading>
-        <ProcessSteps variant="detailed" stepZero={startHere.stepZero} steps={startHere.steps} />
-      </Section>
+      <section id="workflows" aria-labelledby="workflows-title" className={section}>
+        <Container>
+          <FadingDivider className="mb-12 md:mb-16" />
+          <h2 id="workflows-title" className={h2}>
+            {workflows.heading}
+          </h2>
+          <p className="mt-5 max-w-[60ch] text-body">{workflows.intro}</p>
 
-      <Section id="fixes" labelledBy="fixes-title" tone="sage">
-        <SectionHeading id="fixes-title">{commonFixes.heading}</SectionHeading>
-        <div className="grid gap-6">
-          {commonFixes.blocks.map((block) => (
-            <ServiceCard key={block.title} block={block} goodFitLabel={commonFixes.goodFitLabel} />
-          ))}
-        </div>
-      </Section>
+          <h3 className={`${h3} mt-10`}>{review.heading}</h3>
+          <p className="mt-2 text-[17px] italic text-ink-2">({review.aside})</p>
+          <p className="mt-4 max-w-[64ch] text-[17px] leading-[1.55]">{review.intro}</p>
+          <DotList items={review.items} className="mt-4 max-w-[64ch]" />
+          <div className="mt-6 max-w-[64ch] rounded-card bg-tint px-5 py-[18px] text-[17px] leading-[1.55]">
+            <span className="font-ui font-semibold text-green">{review.stop.lead}</span> {review.stop.body}
+          </div>
+          <div className="mt-8">
+            <Button href={review.cta.href}>{review.cta.label}</Button>
+          </div>
 
-      <Section id="systems" labelledBy="systems-title" tone="paper">
-        <SectionHeading id="systems-title">{systemsWork.heading}</SectionHeading>
-        <div className="grid gap-6 md:grid-cols-2">
-          {systemsWork.blocks.map((block) => (
-            <ServiceCard key={block.title} block={block} />
-          ))}
-        </div>
-      </Section>
+          <h3 id="fixes" className={`${h3} mt-20 scroll-mt-12`}>
+            {commonFixes.heading}
+          </h3>
+          <div className="mt-8">
+            {commonFixes.items.map((item, index) => (
+              <div key={item.title}>
+                {index > 0 ? <FadingDivider className="my-12" /> : null}
+                <ServiceBlock item={item} goodFitLabel={commonFixes.goodFitLabel} headingLevel={4} />
+              </div>
+            ))}
+          </div>
 
-      <Section tone="surface" labelledBy="every-project-title">
-        <div className="grid gap-12 lg:grid-cols-2 lg:gap-20">
-          <div>
-            <h2 id="every-project-title" className="text-[1.75rem] sm:text-4xl">
-              {everyProject.heading}
-            </h2>
-            <div className="mt-6 space-y-8">
-              {everyProject.groups.map((group) => (
-                <div key={group.label}>
-                  <h3 className="text-2xl">{group.label}</h3>
-                  <ul className="mt-3 space-y-3">
-                    {group.items.map((item) => (
-                      <li key={item} className="flex gap-3">
-                        <span
-                          aria-hidden="true"
-                          className="mt-1 grid size-5 shrink-0 place-items-center rounded-full bg-sage text-xs text-white"
-                        >
-                          ✓
-                        </span>
-                        <span>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
+          <h3 id="systems" className={`${h3} mt-20 scroll-mt-12`}>
+            {systemsWork.heading}
+          </h3>
+          <div className="mt-8">
+            {systemsWork.items.map((item, index) => (
+              <div key={item.title}>
+                {index > 0 ? <FadingDivider className="my-12" /> : null}
+                <ServiceBlock item={item} headingLevel={4} />
+              </div>
+            ))}
+          </div>
+        </Container>
+      </section>
+
+      <section id="care" aria-labelledby="care-title" className={section}>
+        <Container>
+          <FadingDivider className="mb-12 md:mb-16" />
+          <h2 id="care-title" className={h2}>
+            {care.heading}
+          </h2>
+          <div className="mt-8">
+            {care.items.map((item, index) => (
+              <div key={item.title}>
+                {index > 0 ? <FadingDivider className="my-12" /> : null}
+                <ServiceBlock item={item} headingLevel={3} />
+              </div>
+            ))}
+          </div>
+          <p className="mt-8 max-w-[64ch] text-[17px] leading-[1.55]">{care.closing}</p>
+        </Container>
+      </section>
+
+      <section aria-labelledby="every-project-title" className={section}>
+        <Container>
+          <FadingDivider className="mb-12 md:mb-16" />
+          <h2 id="every-project-title" className={h2}>
+            {everyProject.heading}
+          </h2>
+          <div className="mt-8 grid gap-12 md:grid-cols-2 md:gap-16">
+            {everyProject.groups.map((group) => (
+              <div key={group.label}>
+                <h3 className={h3}>{group.label}</h3>
+                <DotList items={group.items} className="mt-5" />
+              </div>
+            ))}
+          </div>
+          {quote ? (
+            <div className="mt-12">
+              <TestimonialRow testimonials={[quote]} />
             </div>
-          </div>
-          <div className="self-center">{pullQuote ? <PullQuote testimonial={pullQuote} /> : null}</div>
-        </div>
-      </Section>
+          ) : null}
+        </Container>
+      </section>
 
-      <Section tone="paper" labelledBy="platforms-title">
-        <div className="grid gap-12 lg:grid-cols-2 lg:gap-20">
-          <div>
-            <h2 id="platforms-title" className="text-[1.75rem] sm:text-4xl">
-              {platforms.heading}
-            </h2>
-            <p className="mt-5 text-ink/85">
-              <Text>{platforms.body}</Text>
-            </p>
-          </div>
-          <div className="self-start rounded-[14px] border border-dashed border-ink/30 bg-surface p-6 sm:p-8">
-            <h2 className="text-2xl">{whatIDontDo.heading}</h2>
-            <p className="mt-3 text-ink/85">{whatIDontDo.body}</p>
-          </div>
-        </div>
-      </Section>
+      <section aria-labelledby="platforms-title" className={section}>
+        <Container>
+          <FadingDivider className="mb-12 md:mb-16" />
+          <h2 id="platforms-title" className={h2}>
+            {platforms.heading}
+          </h2>
+          <p className="mt-5 max-w-[64ch] text-body">
+            <Text>{platforms.body}</Text>
+          </p>
+        </Container>
+      </section>
 
-      <Section id="faq" labelledBy="faq-title" tone="sage">
-        <SectionHeading id="faq-title">{faq.heading}</SectionHeading>
-        <FAQ items={faq.items} />
-      </Section>
+      <section aria-labelledby="dont-title" className={section}>
+        <Container>
+          <h2 id="dont-title" className={h2}>
+            {whatIDontDo.heading}
+          </h2>
+          <p className="mt-5 max-w-[64ch] text-body">{whatIDontDo.body}</p>
+        </Container>
+      </section>
 
-      <CTASection id="services-cta-title" heading={servicesClosingCta.heading} body={servicesClosingCta.body} />
-    </>
+      <section id="faq" aria-labelledby="faq-title" className={section}>
+        <Container>
+          <FadingDivider className="mb-12 md:mb-16" />
+          <h2 id="faq-title" className={h2}>
+            {faq.heading}
+          </h2>
+          <div className="mt-8 max-w-[860px]">
+            <Faq items={faq.items} />
+          </div>
+        </Container>
+      </section>
+
+      <ClosingCta heading={<h2 className={h2}>{servicesClosingCta.heading}</h2>} body={servicesClosingCta.body}>
+        <Button href={bookCallHref()}>{servicesClosingCta.cta}</Button>
+      </ClosingCta>
+    </div>
   );
 }

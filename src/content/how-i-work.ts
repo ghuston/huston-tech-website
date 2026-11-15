@@ -80,10 +80,13 @@ export const howIWorkProof = {
 
 export const afterLaunch = {
   heading: "After launch",
-  paragraphs: [
-    "Some clients want someone keeping an eye on things. Site Care covers a website's updates, monitoring and small changes. Care covers a workflow: monitoring, small changes, troubleshooting and a regular check-in. Both have a clear monthly scope, and neither is required.",
-    "I don't make 40-slide strategy decks. You get one useful improvement at a time.",
-  ],
+  /** The first paragraph's last sentence links to /services#care (Rev 7.1 B1b), with no words added. */
+  care: {
+    before:
+      "Some clients want someone keeping an eye on things. Site Care covers a website's updates, monitoring and small changes. Care covers a workflow: monitoring, small changes, troubleshooting and a regular check-in. ",
+    link: { label: "Both have a clear monthly scope, and neither is required.", href: "/services#care" },
+  },
+  closing: "I don't make 40-slide strategy decks. You get one useful improvement at a time.",
 };
 
 export const howIWorkClosing = {
