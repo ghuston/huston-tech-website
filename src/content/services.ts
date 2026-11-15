@@ -46,7 +46,7 @@ export const startHere = {
   } satisfies StepZeroContent,
   steps: [
     {
-      key: "find",
+      key: "scope",
       subtitle: "Workflow Review",
       meta: "fixed fee, credited toward the fix",
       paragraphs: [
@@ -66,14 +66,14 @@ export const startHere = {
       },
     },
     {
-      key: "fix",
+      key: "shape",
       subtitle: "a clearly scoped project",
       paragraphs: [
         "If the Review finds a fix worth building, I quote it as one clearly scoped project, with acceptance tests we agree on before I start. It's usually one of the common fixes or systems work below. I build it, usually in the tools you already pay for, and test it before it touches your live system.",
       ],
     },
     {
-      key: "flick",
+      key: "ship",
       subtitle: "handoff",
       paragraphs: [
         "Switched on, handed over, off your plate. I train the people who'll use it, document how it works, and make sure someone on your side owns it. For 14 days after launch, I fix anything that doesn't work as agreed.",
@@ -143,7 +143,7 @@ export const systemsWork = {
     {
       title: "Ongoing support",
       paragraphs: [
-        fw("After {flick}, I offer a small monthly support plan for clients who want someone keeping an eye on things: monitoring, small changes, troubleshooting and a regular check-in. It has a clear scope and no surprise invoices."),
+        fw("After {ship}, I offer a small monthly support plan for clients who want someone keeping an eye on things: monitoring, small changes, troubleshooting and a regular check-in. It has a clear scope and no surprise invoices."),
       ],
     },
   ] satisfies ServiceBlock[],
@@ -153,7 +153,7 @@ export const everyProject = {
   heading: "What every project includes",
   groups: [
     {
-      label: fw("{fix}"),
+      label: fw("{shape}"),
       items: [
         "A written scope with clear acceptance tests, so we agree on what \"done\" means",
         "Testing with safe sample data before anything touches your live system",
@@ -161,7 +161,7 @@ export const everyProject = {
       ],
     },
     {
-      label: fw("{flick}"),
+      label: fw("{ship}"),
       items: [
         "Documentation and a training session for the people who'll use it",
         "A 14-day correction window after launch for anything that doesn't work as agreed",
@@ -191,11 +191,11 @@ export const faq = {
     {
       question: "How much does this cost?",
       answer: fw(
-        "You get a fixed quote before any paid work starts. {find} (the Workflow Review) has a set fee, which I'll share on our call, and it's credited toward the {fix} project if you go ahead. No hourly meter running in the background.",
+        "You get a fixed quote before any paid work starts. {scope} (the Workflow Review) has a set fee, which I'll share on our call, and it's credited toward the {shape} project if you go ahead. No hourly meter running in the background.",
       ),
     },
     {
-      question: fw("What if {find} shows I don't need a build?"),
+      question: fw("What if {scope} shows I don't need a build?"),
       answer:
         "Then we stop there. You keep the report and save yourself the money and the headache. If the honest answer is \"you don't need a build,\" that's still a win.",
     },

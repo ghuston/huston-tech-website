@@ -1,4 +1,4 @@
-import { FrameworkIcon } from "@/components/illustrations/FrameworkIcon";
+import { LineIcon } from "@/components/illustrations/LineIcon";
 import { StepConnector } from "@/components/illustrations/StepConnector";
 import { framework, type FrameworkStep, type FrameworkStepKey } from "@/content/site";
 import { getStep } from "@/lib/framework";
@@ -36,7 +36,7 @@ type DetailedProps = {
 };
 
 /**
- * The Find it / Fix it / Flick it framework. Step names, numbers and one-liners come from `site.ts`.
+ * The Scope it / Shape it / Ship it framework. Step names, numbers and one-liners come from `site.ts`.
  * Step zero (the free call) is never a list item.
  */
 export function ProcessSteps(props: CompactProps | DetailedProps) {
@@ -54,14 +54,14 @@ function CompactSteps({ srHeading }: CompactProps) {
         {framework.steps.map((step) => (
           <li key={step.key} className="flex flex-col items-center px-6 py-9 text-center md:py-12">
             <div className="relative">
-              <FrameworkIcon
+              <LineIcon
                 step={step.key}
                 className="size-20 text-signal [stroke-width:1.8] md:size-24 md:[stroke-width:1.5]"
               />
-              {step.key === "flick" ? (
+              {step.key === "ship" ? (
                 <span
                   aria-hidden="true"
-                  data-part="flick-connector"
+                  data-part="ship-connector"
                   className="diagram-connector absolute right-[91.67%] top-1/2 h-[1.5px] w-10 -translate-y-1/2 bg-signal"
                 />
               ) : null}
@@ -141,7 +141,7 @@ function StepHeading({ step, content }: { step: FrameworkStep; content: Detailed
   return (
     <>
       <div className="flex items-center gap-3">
-        <FrameworkIcon step={step.key} className="size-9 shrink-0 text-signal" />
+        <LineIcon step={step.key} className="size-9 shrink-0 text-signal" />
         <span aria-hidden="true" className="font-mono text-xs font-medium tracking-[0.12em] text-signal">
           {step.number}
         </span>

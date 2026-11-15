@@ -39,7 +39,6 @@ for (const key of ["email", "schedulerUrl", "linkedInUrl"]) {
 const decisionLabels = {
   heroOption: "hero option (spec B1; A is the recommended default)",
   reviewPrice: "publish the Review price? (default: no price)",
-  stepThreeName: "step 3 name (\"Flick it\" by default)",
   lineArtStyle: "line-art style (geometric framework icons by default)",
 };
 for (const [key, label] of Object.entries(decisionLabels)) {

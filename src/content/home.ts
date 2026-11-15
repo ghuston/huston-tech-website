@@ -33,8 +33,8 @@ export const heroOptions: Record<HeroOptionId, HeroOption> = {
     body: "Hands-on systems help for owner-led teams. I find what's slowing you down, fix it in the tools you already use, and hand it over for good.",
   },
   D: {
-    titleStart: fw("{find}. {fix}."),
-    titleHighlight: fw("{flick}."),
+    titleStart: fw("{scope}. {shape}."),
+    titleHighlight: fw("{ship}."),
     body: "The friction in your week: found, fixed in the tools you already use, and flicked off your plate.",
   },
 };
@@ -159,7 +159,7 @@ export const howItWorks = {
   } satisfies StepZeroContent,
   steps: [
     {
-      key: "find",
+      key: "scope",
       subtitle: "the Workflow Review",
       paragraphs: [
         "I dig into one process: what's happening, why, and what your current tools can already do about it. Then I rank what's worth fixing.",
@@ -175,7 +175,7 @@ export const howItWorks = {
       },
     },
     {
-      key: "fix",
+      key: "shape",
       subtitle: "a clearly scoped project",
       paragraphs: [
         "I build the change, usually in the tools you already pay for, and test it with safe sample data against acceptance tests we agreed on before I started.",
@@ -190,7 +190,7 @@ export const howItWorks = {
       },
     },
     {
-      key: "flick",
+      key: "ship",
       subtitle: "the handoff",
       paragraphs: [
         "Switched on, handed over, off your plate. I train the people who'll use it, document how it works, and make sure someone on your side owns it.",

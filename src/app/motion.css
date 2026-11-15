@@ -102,8 +102,8 @@ details[open] > summary .disclosure-icon {
  * Process diagram (the homepage's one focal animation). `.js` is set by an inline script in <head>, so without JS
  * nothing here applies and the final drawing shows. The animations are created paused at their first frame and
  * released once by InViewOnce (data-played), so they play a single time when the diagram enters view. Sequence, in
- * 120ms steps of 400ms animations: Find circles slide into overlap (0), Fix rings draw (1), the Fix dot lands (3), the
- * connector draws toward Flick (4), the Flick diamond rotates in and settles (5).
+ * 120ms steps of 400ms animations: Scope circles slide into overlap (0), Shape rings draw (1), the Shape dot lands (3),
+ * the connector draws toward Ship (4), the Ship diamond rotates in and settles (5).
  */
 @keyframes diagram-slide-left {
   from {
@@ -179,48 +179,48 @@ svg [data-part] {
     animation-play-state: running;
   }
 
-  .js .diagram [data-part="fix-ring"] {
+  .js .diagram [data-part="shape-ring"] {
     animation-delay: var(--delay-illustration-step);
   }
 
-  .js .diagram [data-part="fix-dot"] {
+  .js .diagram [data-part="shape-dot"] {
     animation-delay: calc(var(--delay-illustration-step) * 3);
   }
 
-  .js .diagram [data-part="flick-connector"] {
+  .js .diagram [data-part="ship-connector"] {
     animation-delay: calc(var(--delay-illustration-step) * 4);
   }
 
-  .js .diagram [data-part="flick-outline"],
-  .js .diagram [data-part="flick-center"] {
+  .js .diagram [data-part="ship-outline"],
+  .js .diagram [data-part="ship-center"] {
     animation-delay: calc(var(--delay-illustration-step) * 5);
   }
 
-  .js .diagram [data-part="find-dashed"] {
+  .js .diagram [data-part="scope-dashed"] {
     animation-name: diagram-slide-left;
   }
 
-  .js .diagram [data-part="find-solid"] {
+  .js .diagram [data-part="scope-solid"] {
     animation-name: diagram-slide-right;
   }
 
-  .js .diagram [data-part="fix-ring"] {
+  .js .diagram [data-part="shape-ring"] {
     animation-name: diagram-draw;
   }
 
-  .js .diagram [data-part="fix-dot"] {
+  .js .diagram [data-part="shape-dot"] {
     animation-name: diagram-dot;
   }
 
-  .js .diagram [data-part="flick-connector"] {
+  .js .diagram [data-part="ship-connector"] {
     animation-name: diagram-connector;
   }
 
-  .js .diagram [data-part="flick-outline"] {
+  .js .diagram [data-part="ship-outline"] {
     animation-name: diagram-rotate-outline;
   }
 
-  .js .diagram [data-part="flick-center"] {
+  .js .diagram [data-part="ship-center"] {
     animation-name: diagram-reveal-center;
   }
 }
