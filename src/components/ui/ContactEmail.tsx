@@ -1,7 +1,7 @@
 import { siteConfig } from "@/content/site";
 import { Placeholder } from "./Placeholder";
 
-/** Email link, or a visible placeholder until a real mailbox exists. */
+/** Email link, or a visible placeholder while `siteConfig.email` is null. */
 export function ContactEmail() {
   if (siteConfig.email) {
     return (
@@ -10,5 +10,5 @@ export function ContactEmail() {
       </a>
     );
   }
-  return <Placeholder>{["[[", siteConfig.emailPlaceholder, "]]"].join("")}</Placeholder>;
+  return <Placeholder>[[email address]]</Placeholder>;
 }

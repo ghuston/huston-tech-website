@@ -33,11 +33,14 @@ export default function ServicesPage() {
 
   return (
     <>
+      {/* Anchors for the header's Websites and Workflows links until this page is rebuilt with real sections. */}
+      <div id="websites" />
       <PageHero eyebrow={servicesHero.eyebrow} title={servicesHero.title} intro={<p>{servicesHero.intro}</p>}>
         <BookCallButton fullWidthOnMobile />
       </PageHero>
 
-      <div className="sticky top-[3.75rem] z-30 hidden border-b border-line bg-paper/95 backdrop-blur lg:block">
+      <div id="workflows" />
+      <div className="sticky top-[4.5rem] z-30 hidden border-b border-line bg-paper/95 backdrop-blur lg:block">
         <Container>
           <nav aria-label="On this page">
             <ul className="flex gap-2 py-1.5">

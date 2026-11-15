@@ -1,18 +1,8 @@
 export type NavItem = { label: string; href: string };
 
-export const mainNav: NavItem[] = [
-  { label: "Services", href: "/services" },
-  { label: "Past Work", href: "/past-work" },
-  { label: "About", href: "/about" },
-  { label: "Insights", href: "/insights" },
-];
-
-export const footerNav: NavItem[] = [{ label: "Home", href: "/" }, ...mainNav, { label: "Contact", href: "/contact" }];
-
 /**
- * Revision 7.1 navigation (docs/website-plan.md, A7). Not wired up yet: the v1 header and footer above still read
- * `mainNav` and `footerNav`, because /how-i-work, the #websites and #workflows anchors and the #hello band do not
- * exist until later PRs. The v3 header and footer (PR 5) switch to these two lists. A trailing "↘" jumps to a section.
+ * Revision 7.1 navigation (docs/website-plan.md, A7 and B10). A trailing "↘" jumps to a section of the page.
+ * The Websites and Workflows links point at anchors on /services, and Say hello at the band on Home (`id="hello"`).
  */
 export const headerNav: NavItem[] = [
   { label: "How I work", href: "/how-i-work" },
@@ -39,3 +29,6 @@ export const partnerLink: NavItem = {
 };
 
 export const privacyLink: NavItem = { label: "Privacy", href: "/privacy" };
+
+/** The mobile menu button's text (docs/STYLE-GUIDE.md §7.1); `aria-expanded` says whether it is open. */
+export const menuLabel = "Menu";

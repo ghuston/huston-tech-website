@@ -1,18 +1,18 @@
 export const siteConfig = {
-  name: "Huston Tech",
+  name: "Huston Logic",
   founder: "Grant Huston",
   url: (process.env.NEXT_PUBLIC_SITE_URL ?? "https://hustonlogic.com").replace(/\/+$/, ""),
+  /** The Rev 7.1 one-line positioning (docs/website-plan.md, A1). Feeds the JSON-LD description. */
   oneLiner:
-    "Huston Tech fixes the operational headaches that pile up when a small business grows faster than its systems. It starts with the tools the business already pays for.",
+    "Huston Logic builds custom websites and fixes the workflows behind them, for small businesses, solo pros and bands. One person does the work, from the first call to the handoff.",
   copyrightYear: 2026,
-  /** Footer and bios (docs/website-plan.md, A1 and B10). Read by the v3 footer from PR 5. */
+  /** Footer and bios (docs/website-plan.md, A1 and B10). */
   tagline: "Custom websites and workflows, from hello to handled.",
   footerBrandLine: "Grant Huston · [[Based in Orange County, CA]] · Working with clients anywhere",
   /** Provider-dependent values. `null` renders a visible placeholder and fails `npm run check:placeholders`. */
-  email: null as string | null,
-  emailPlaceholder: "hello@hustontech.com",
+  email: "info@hustonlogic.com" as string | null,
   schedulerUrl: null as string | null,
-  linkedInUrl: null as string | null,
+  linkedInUrl: "https://www.linkedin.com/in/granthuston/" as string | null,
   /**
    * Workflow Review price. `null` (the default) keeps every price out of the copy and shows the no-price Review bar.
    * A value such as "$500" switches the Review bar and the Services "Scope it" paragraph to their with-price wording.
@@ -75,5 +75,4 @@ export const decisionsConfirmed = {
 
 export const bookCallLabel = "Book a free 20-minute call";
 export const bookCallShortLabel = "Book a free call";
-export const bookCallMobileLabel = "Book a call";
 export const SCHEDULER_FALLBACK_HREF = "/contact#book";

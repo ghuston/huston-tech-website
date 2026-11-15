@@ -8,9 +8,9 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 <!-- END:nextjs-agent-rules -->
 
-# Huston Tech website: permanent rules
+# Huston Logic website: permanent rules
 
-Marketing site for Huston Tech (one-person business systems consultancy, Grant Huston). Next.js App Router, strict TypeScript, Tailwind CSS v4, **static export** deployed on **Cloudflare Workers**. Merging a pull request into `main` deploys automatically through Cloudflare Workers Builds; other branches get preview URLs. Never run `wrangler deploy` by hand. Read this file before changing the repo, and update it when a rule changes.
+Marketing site for Huston Logic (one-person consultancy for custom websites and workflows, Grant Huston). Next.js App Router, strict TypeScript, Tailwind CSS v4, **static export** deployed on **Cloudflare Workers**. Merging a pull request into `main` deploys automatically through Cloudflare Workers Builds; other branches get preview URLs. Never run `wrangler deploy` by hand. Read this file before changing the repo, and update it when a rule changes.
 
 ## Sources of truth (Phase 6, from Nov 14, 2026)
 
@@ -18,7 +18,6 @@ Marketing site for Huston Tech (one-person business systems consultancy, Grant H
 - **Design:** `docs/STYLE-GUIDE.md` (style guide v3), then the approved first screen in `design-v3/reference/home-top.html`. The logo files are in `public/brand/`; never redraw the mark.
 - **The v1 and v2 designs are retired.** Don't reuse their tokens, fonts, components or patterns, even where they still exist in `src/` during the rebuild.
 - **Superseded by Revision 7.1 and v3, pending the Phase 6 build PRs.** Until each PR below rewrites its section, these rules in this file no longer apply; follow the sources above instead:
-  - The name **Huston Tech** → **Huston Logic** (final).
   - **"Never display pricing"** → the site publishes one price, "from `[[$750]]`" for a website. The Workflow Review fee stays unpublished. `siteConfig.reviewPrice` goes away.
   - **"Anything needing a server must use an external provider"** and the contact-form placeholder rules → the contact form posts to a small Worker script (`POST /api/contact`, website-plan E6), built in its own PR. Until then, the placeholder rules still hold: no working `<form>`, no fake success state.
   - The **design-token, font and image bullets** under Architecture and SEO → STYLE-GUIDE.md §2–§4 and §7.34 (Outfit, Inter, Newsreader italic; no mono face). The v3 tokens and base CSS live in `src/app/hl.css`, the fonts in `src/lib/fonts.ts`, and the base primitives in `src/components/hl/`; v1's `src/components/ui/` stays until PR 14. New v3 pages wrap their content in the `.hl` class.
@@ -40,11 +39,11 @@ Marketing site for Huston Tech (one-person business systems consultancy, Grant H
 
 ## Content rules (non-negotiable)
 
-- The authoritative source is the Huston Tech Website V1 strategy/copy doc and the launch article draft. **Preserve approved copy verbatim.** Do not paraphrase, "improve", or add claims.
+- The authoritative source is `docs/website-plan.md` (Revision 7.1, Section B) and the launch article draft. **Preserve approved copy verbatim.** Do not paraphrase, "improve", or add claims.
 - **Testimonials are authentic and render exactly as stored** in `testimonials.ts`, including "…" cuts and original punctuation. Only entries with `approved: true` render. Never edit a quote to fix punctuation. New testimonials need written approval first (record where it may appear and the date).
 - **Never display pricing**, rates, or dollar amounts. The Workflow Review fee is discussed on the call. The one exception is `siteConfig.reviewPrice` in `site.ts`: it is `null` until Grant decides to publish the Review price, and only the Review bar and the Services "Scope it" stop-point read it. Never hard-code a price anywhere else.
 - **The Scope it · Shape it · Ship it framework** (Revision 7.1) is the operating model on every page; the case-study strip reads Scoped / Shaped / Shipped. Step names, numbers and one-liners live only in `framework.steps` in `site.ts`; content strings use `fw()` tokens (`{scope}`, `{shape}`, `{ship}`, `{steps}`, `{stepsList}`, `{stepsSentence}`) and never type the labels by hand. The free 20-minute call is "step zero" and is never a fourth numbered step or a list item. Case studies describe what happened in each phase but never claim a formal paid Review took place.
-- Do not invent credentials, results, statistics, client names, or certifications. Do not name the former agency or its clients. Agency work is never presented as Huston Tech client work. Do not claim time savings for Irvine Family Counseling.
+- Do not invent credentials, results, statistics, client names, or certifications. Do not name the former agency or its clients. Agency work is never presented as Huston Logic client work. Do not claim time savings for Irvine Family Counseling.
 - Voice: first person ("I"), one person, never "we/our team/hundreds of clients". Avoid "digital transformation", "unlock", "leverage", "synergy", "AI-powered". Zoho never appears in the hero, headlines or nav. The "Huston, we have a problem" pun is used exactly twice (Contact eyebrow and 404).
 - Unknowns are written as `[[double-bracket placeholders]]` inside content strings. The `Text` component renders them as highlighted, visible markers. Do not delete a placeholder to hide a gap; resolve it with the real value. `npm run check:placeholders` lists every unresolved one and fails while any remain; `npm run build:launch` runs it before building. Provider settings in `site.ts` (`email`, `schedulerUrl`, `linkedInUrl`) must also be non-null at launch, and every flag in `decisionsConfirmed` must be `true`.
 - Copy is rendered as plain React text. `Text` supports only `**bold**` and `[[placeholder]]`. **Never use `dangerouslySetInnerHTML`** except in `components/ui/JsonLd.tsx`, which serializes static objects and escapes `<`. No markdown-to-HTML or user-supplied HTML.

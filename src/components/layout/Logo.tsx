@@ -1,10 +1,20 @@
 import Link from "next/link";
+import { Badge, Wordmark } from "@/components/hl/Marks";
 import { siteConfig } from "@/content/site";
 
-export function Logo() {
+const sizes = {
+  // docs/STYLE-GUIDE.md §7.1: badge 34 with the wordmark 21 tall (30 and 18 on phones).
+  header: { badge: "size-[30px] md:size-[34px]", word: "h-[18px] md:h-[21px]" },
+  // §7.26: the footer logo is 28px tall.
+  footer: { badge: "size-7", word: "h-[17px]" },
+} as const;
+
+/** The badge and wordmark, linking home. The names come from `public/brand`; they are never redrawn. */
+export function Logo({ size = "header" }: { size?: keyof typeof sizes }) {
   return (
-    <Link href="/" className="inline-flex min-h-11 items-center rounded-md font-sans text-[1.35rem] font-extrabold tracking-[-0.04em]">
-      {siteConfig.name}
+    <Link href="/" aria-label={`${siteConfig.name}, home`} className="inline-flex min-h-11 items-center gap-[10px] rounded-btn text-ink">
+      <Badge className={sizes[size].badge} />
+      <Wordmark className={sizes[size].word} />
     </Link>
   );
 }

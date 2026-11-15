@@ -1,6 +1,6 @@
-# Huston Tech website
+# Huston Logic website
 
-Marketing site for **Huston Tech**, a one-person business systems consultancy run by Grant Huston. Built with Next.js (App Router), strict TypeScript and Tailwind CSS, exported as a fully static site for **Cloudflare Workers**.
+Marketing site for **Huston Logic**, a one-person consultancy that builds custom websites and fixes the workflows behind them, run by Grant Huston. Built with Next.js (App Router), strict TypeScript and Tailwind CSS, exported as a fully static site for **Cloudflare Workers**.
 
 Permanent architecture, security and content rules are in [`AGENTS.md`](./AGENTS.md). Read it before making changes.
 
