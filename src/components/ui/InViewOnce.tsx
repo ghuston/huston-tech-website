@@ -5,6 +5,8 @@ import { useEffect, useRef, type ElementType, type ReactNode } from "react";
 type Props = {
   as?: ElementType;
   className?: string;
+  /** Share of the element that must be in view before it counts as seen. */
+  threshold?: number;
   children: ReactNode;
 };
 
@@ -13,7 +15,7 @@ type Props = {
  * released by `[data-played]` run exactly once. No scroll or touch listeners; where IntersectionObserver is missing
  * the animation is released immediately.
  */
-export function InViewOnce({ as: Tag = "div", className, children }: Props) {
+export function InViewOnce({ as: Tag = "div", className, threshold = 0.1, children }: Props) {
   const ref = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -30,11 +32,11 @@ export function InViewOnce({ as: Tag = "div", className, children }: Props) {
           observer.disconnect();
         }
       },
-      { threshold: 0.1 },
+      { threshold },
     );
     observer.observe(el);
     return () => observer.disconnect();
-  }, []);
+  }, [threshold]);
 
   return (
     <Tag ref={ref} className={className}>
