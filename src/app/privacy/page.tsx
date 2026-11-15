@@ -11,7 +11,7 @@ export const metadata: Metadata = pageMetadata({ ...privacyMeta, path: "/privacy
 
 export default function PrivacyPage() {
   return (
-    <div className="hl relative overflow-x-clip">
+    <div className="relative overflow-x-clip">
       <PageHero title={privacy.heading} />
       <section className="pb-16 md:pb-24">
         <Container>

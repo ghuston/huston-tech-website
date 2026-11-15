@@ -62,7 +62,7 @@ export function DetailedSteps({ steps, labels, headingLevel = 3, proof }: Detail
             return (
               <li key={step.key} className="relative grid grid-cols-[56px_1fr] gap-x-4 pb-16 last:pb-12 md:grid-cols-[78px_1fr] md:gap-x-8">
                 <span className="relative z-10 grid size-14 place-items-center rounded-pill bg-white ring-1 ring-ink/10 md:size-[78px]">
-                  <LineIcon variant="v3" step={step.key} className="w-10 text-green md:w-14" />
+                  <LineIcon step={step.key} className="w-10 text-green md:w-14" />
                 </span>
                 <div>
                   <Heading className="font-ui text-[28px] font-bold leading-[1.1] tracking-[-0.03em] md:text-[32px]">

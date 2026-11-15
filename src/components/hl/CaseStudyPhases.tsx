@@ -23,7 +23,7 @@ export function CaseStudyPhases({ label, phases }: CaseStudyPhasesProps) {
           <div key={step.key} className="relative">
             {index > 0 ? <FadingDivider direction="vertical" className="absolute -left-6 bottom-0 top-0 hidden md:block" /> : null}
             <dt>
-              <LineIcon variant="v3" step={step.key} className="w-8 text-green" />
+              <LineIcon step={step.key} className="w-8 text-green" />
               <span className="mt-3 block font-ui text-[18px] font-semibold">{step.past}</span>
             </dt>
             <dd className="mt-2 text-[17px] leading-[1.55]">

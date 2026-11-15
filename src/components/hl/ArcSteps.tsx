@@ -29,7 +29,7 @@ export function ArcSteps({ srHeading }: { srHeading: string }) {
             return (
               <li key={step.key}>
                 <span className="hl-st" style={{ left: `${at.station.left}%`, top: `${at.station.top}%` }}>
-                  <LineIcon variant="v3" step={step.key} className="w-[52px] text-green" />
+                  <LineIcon step={step.key} className="w-[52px] text-green" />
                 </span>
                 <div className="hl-tx" style={{ left: `${at.text.left}%`, top: `${at.text.top}%` }}>
                   <span className="hl-n" aria-hidden="true">

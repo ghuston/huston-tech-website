@@ -27,7 +27,7 @@ export default function AboutPage() {
   const s = aboutSections;
 
   return (
-    <div className="hl relative overflow-x-clip">
+    <div className="relative overflow-x-clip">
       <JsonLd data={personJsonLd()} />
       <PageHero eyebrow={aboutHero.eyebrow} title={aboutHero.title} intro={aboutHero.intro} />
 

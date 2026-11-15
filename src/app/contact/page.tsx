@@ -16,7 +16,7 @@ const h2 = "font-ui text-[28px] font-bold leading-tight tracking-[-0.03em]";
 /** Contact (docs/website-plan.md B7, STYLE-GUIDE §7.32): the scheduler column, the note form, then what happens next. */
 export default function ContactPage() {
   return (
-    <div className="hl relative overflow-x-clip">
+    <div className="relative overflow-x-clip">
       <PageHero eyebrow={contactHero.eyebrow} title={contactHero.title} intro={contactHero.intro} />
 
       <section className="pb-12 md:pb-16">

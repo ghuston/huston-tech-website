@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 export default function NotFound() {
   return (
-    <div className="hl relative overflow-x-clip">
+    <div className="relative overflow-x-clip">
       <PageHero title={notFound.heading} intro={notFound.body} dotOut>
         <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
           <Button href="/">{notFound.homeLabel}</Button>

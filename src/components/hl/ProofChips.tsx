@@ -1,7 +1,7 @@
 import type { ProofStripContent } from "@/content/home";
 
 /**
- * The proof figures (docs/STYLE-GUIDE.md §7.15), replacing v2's big-number strip: a row of chips on the page
+ * The proof figures (docs/STYLE-GUIDE.md §7.15): a row of chips on the page
  * background, then the small print. The figures are client-reported survey scores from the three systems projects.
  */
 export function ProofChips({ content }: { content: ProofStripContent }) {

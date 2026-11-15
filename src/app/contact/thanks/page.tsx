@@ -17,7 +17,7 @@ export const metadata: Metadata = pageMetadata({
 /** Thanks (docs/website-plan.md B7b). The "Or read:" article line waits for the first published article. */
 export default function ThanksPage() {
   return (
-    <div className="hl relative overflow-x-clip">
+    <div className="relative overflow-x-clip">
       <PageHero title={thanks.heading} intro={thanks.body}>
         <Button href={bookCallHref()} fullWidthOnMobile>
           {thanks.pickTimeLabel}

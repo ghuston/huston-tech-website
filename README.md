@@ -12,7 +12,7 @@ Permanent architecture, security and content rules are in [`AGENTS.md`](./AGENTS
 | `/services` | Services (Start here, Common fixes, Systems work, FAQ) |
 | `/past-work` | Past Work and testimonials |
 | `/about` | About Grant |
-| `/insights` | Insights (polished "coming soon" placeholder in V1) |
+| `/insights` | Insights ("coming soon" until the first article) |
 | `/contact` | Scheduler and contact form placeholders (`?topic=partner` shows the Zoho partner variant) |
 | `/contact/thanks` | Form confirmation (noindex, not linked until a form provider exists) |
 | `/privacy` | Privacy policy (draft, needs review) |
@@ -61,7 +61,7 @@ npx playwright install chromium   # once; downloads the browser (see Playwright'
 npm run test:a11y
 ```
 
-`playwright.config.ts` starts `npm run preview` (port 4822) and scans the built site in Chromium at desktop (1280 px) and phone (375 px) width, with `prefers-reduced-motion` set. Each page is checked against axe's WCAG 2.0/2.1/2.2 level A and AA rules plus axe's best-practice rules, twice: once at the top of the page (every rule) and once scrolled to the bottom, where the mobile call bar appears and the sticky header sits over dark sections. It also scans `/services` with every FAQ open and the opened mobile menu.
+`playwright.config.ts` starts `npm run preview` (port 4822) and scans the built site in Chromium at desktop (1280 px) and phone (375 px) width, with `prefers-reduced-motion` set. Each page is checked against axe's WCAG 2.0/2.1/2.2 level A and AA rules plus axe's best-practice rules, twice: once at the top of the page (every rule) and once scrolled to the bottom, where the sticky header sits over the last section. It also scans `/services` with every FAQ open and the opened mobile menu.
 
 One rule is skipped, in one place: `target-size` in the scrolled pass on `/services` at desktop width (added 2026-11-12). At maximum scroll the sticky header and sub-nav cover the last CTA button, so axe reports it as partly obscured, although scrolling up uncovers it. The same button is checked by every rule in the top-of-page pass. The skip and its reason are in a comment in `tests/a11y/site.a11y.spec.ts`; do not widen it. The page list comes from `src/lib/routes.ts`, the same list the sitemap uses, and a test fails if a built page is missing from it.
 
@@ -111,7 +111,7 @@ Scheduled runs only happen on the default branch, and GitHub disables schedules 
 
 ## Motion
 
-Animation is CSS only (no library), driven by shared tokens in `src/app/globals.css` and rules in `src/app/motion.css`: one ease-out curve and four durations (150ms feedback, 200ms panels, 350ms intros, 400ms illustration steps). Headlines fade in with an 8px rise, button and link arrows nudge 3px on hover and keyboard focus, the mobile menu and FAQ share one open/close transition, and the homepage process diagram plays once when it scrolls into view. With `prefers-reduced-motion: reduce`, or with JavaScript off, the final static design shows immediately. See "Motion rules" in `AGENTS.md` before adding any.
+Animation is CSS only (no library), in `src/app/hl.css`, following `docs/STYLE-GUIDE.md` §9: the Home hero cards fan in, link arrows nudge 3px and the slow underline draws on hover and keyboard focus, doors swing, the mobile menu opens with one short transition, the homepage process diagram plays once when it scrolls into view, and the header badge turns with the scroll. With `prefers-reduced-motion: reduce`, or with JavaScript off, the final static design shows immediately. See "Motion rules" in `AGENTS.md` before adding any.
 
 ## Placeholders and launch gate
 
@@ -206,12 +206,12 @@ If a production build itself fails, nothing is deployed and the old version stay
 src/
   app/            routes, metadata files (sitemap, robots, icon, og.png)
   components/
-    ui/           buttons, cards, chips, FAQ, testimonial, placeholders
-    sections/     case study and phase strip, scheduler and contact-form placeholders
-    layout/       header, nav, footer, mobile CTA bar
-    illustrations/ decorative SVG (hero board, framework icons and connectors)
+    hl/           the v3 design: buttons, cards, doors, hero, steps, FAQ, contact form shell
+    layout/       header, nav, badge turn, footer
+    ui/           copy helpers (Text, Placeholder, JsonLd, InViewOnce, BookCallButton)
+    illustrations/ framework step icons
   content/        typed copy and site settings (single source of truth)
-  lib/            metadata, JSON-LD and text-token helpers
+  lib/            fonts, metadata, JSON-LD, routes and text-token helpers
 scripts/          placeholder gate, static preview server
 public/_headers   Cloudflare Workers security and cache headers
 ```
