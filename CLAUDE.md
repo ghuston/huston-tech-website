@@ -95,11 +95,15 @@ These can go stale if the ruleset is changed in Settings, so re-check before rel
   `2>&1`. If you need a script or a temp file, write it with the Write tool first, then run it
   as its own command.
 
-## Design migration
-The repo is mid-migration to design v2. The design-token and motion sections of
-AGENTS.md may be out of date. Before relying on a token name, motion rule, or
-component described there, confirm it exists in `src/app/globals.css`,
-`src/app/motion.css`, or the component itself, and tell me if they disagree.
+## Sources of truth (Phase 6 rebuild)
+- Copy: `docs/website-plan.md` (Revision 7.1), Section B only.
+- Design: `docs/STYLE-GUIDE.md` (v3), then `design-v3/reference/home-top.html`.
+  Compare builds against the reference at 1440 × 900 and 390 × 844.
+- The v1 and v2 designs are retired. Code still in `src/` from them is being replaced,
+  not a pattern to follow.
+- Where AGENTS.md's "Superseded" list names a rule, these sources win over AGENTS.md
+  until the build PR for that rule rewrites it. If a source and the code disagree,
+  or a rule isn't clearly covered by either, tell me.
 
 ## Secrets
 - No secrets in code, ever. `NEXT_PUBLIC_*` variables are public, so nothing
