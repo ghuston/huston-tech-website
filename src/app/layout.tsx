@@ -35,7 +35,7 @@ const jetbrains = JetBrains_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
-    default: "Huston Tech | Business Systems & Workflow Help for Small Teams",
+    default: "Huston Logic | Business Systems & Workflow Help for Small Teams",
     template: `%s | ${siteConfig.name}`,
   },
   applicationName: siteConfig.name,

@@ -11,7 +11,7 @@ type PageMetaInput = {
 };
 
 export const OG_IMAGE_PATH = "/og.png";
-export const OG_IMAGE_ALT = "Huston Tech: business systems and workflow help for small teams";
+export const OG_IMAGE_ALT = "Huston Logic: business systems and workflow help for small teams";
 
 const ogImages = [{ url: OG_IMAGE_PATH, width: 1200, height: 630, alt: OG_IMAGE_ALT }];
 

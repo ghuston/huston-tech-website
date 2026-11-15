@@ -4,7 +4,7 @@ import { fw, withPrice } from "@/lib/framework";
 import { siteConfig } from "./site";
 
 export const servicesMeta = {
-  title: "Services | CRM, Automation, Reporting & Workflow Help | Huston Tech",
+  title: "Services | CRM, Automation, Reporting & Workflow Help | Huston Logic",
   description:
     "Workflow Reviews, inquiry follow-up, payment and staff-pay fixes, CRM cleanup, automations, integrations and custom business tools for small teams. No rip-and-replace.",
 };

@@ -1,5 +1,5 @@
 export const insightsMeta = {
-  title: "Insights: Practical Systems Advice for Small Businesses | Huston Tech",
+  title: "Insights: Practical Systems Advice for Small Businesses | Huston Logic",
   description:
     "Plain-English articles on follow-up, reporting, payments, staff pay and getting more from the software you already use. Written for owners of small, growing teams.",
 };

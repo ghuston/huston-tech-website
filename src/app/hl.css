@@ -281,6 +281,25 @@
     background: linear-gradient(90deg, rgba(41, 51, 45, 0.22) 60%, rgba(41, 51, 45, 0));
   }
 
+  /* §7.1 header: silver at 97% with a hairline under it. No blur behind it, so the page never shows through. */
+  .hl-header {
+    background: rgba(243, 245, 244, 0.97);
+    box-shadow: 0 1px 0 rgba(41, 51, 45, 0.06);
+  }
+
+  /* §7.26 footer: a 120px fade from the page's silver into silver-2, so there is no hard edge at its top. */
+  .hl-footer {
+    background:
+      linear-gradient(var(--hl-silver), var(--hl-silver-2) 120px) top / 100% 120px no-repeat,
+      var(--hl-silver-2);
+  }
+
+  /* §7.1 the current page's link keeps its underline drawn. */
+  [aria-current="page"] .hl-u {
+    background-position: left 100%;
+    background-size: 100% 1.5px;
+  }
+
   /* §7.27 placeholder: `[[...]]` renders as a visible chip (Placeholder.tsx). It is a development marker, so it
      deliberately sits outside the palette: #3A3200 on #FFF3B0 is 11.4:1 (§2). `mark` has its own UA colors. */
   .ph {
@@ -312,6 +331,14 @@
 
   .hl-door:is(:hover, :focus-within) .hl-leaf {
     transform: none;
+  }
+}
+
+/* §9.1 #9: "Say hello" jumps to the band with the browser's own smooth scroll. Reduced motion keeps it instant
+   (motion.css also forces scroll-behavior: auto under reduce). */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
   }
 }
 

@@ -1,27 +1,27 @@
 "use client";
 
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { bookCallMobileLabel, bookCallShortLabel } from "@/content/site";
-import { mainNav } from "@/content/nav";
+import { ArrowLabel } from "@/components/hl/Arrow";
+import { HlLink } from "@/components/hl/HlLink";
+import { headerNav, menuLabel } from "@/content/nav";
 
-type Props = { bookHref: string };
-
+/** A hash link points at a section, not a page, so it is never the current page. */
 function isCurrent(pathname: string, href: string) {
-  return pathname === href || pathname.startsWith(`${href}/`);
+  if (href.includes("#")) return false;
+  return pathname === href || (href !== "/" && pathname.startsWith(`${href}/`));
 }
 
-const linkClasses =
-  "inline-flex min-h-11 items-center rounded-md px-3 text-base transition-colors hover:text-signal";
+const desktopLink = "inline-flex min-h-11 items-center font-ui text-nav font-medium text-ink";
+const mobileLink = "flex min-h-14 items-center font-ui text-[20px] font-medium text-ink";
 
-export function HeaderNav({ bookHref }: Props) {
+export function HeaderNav() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [openedAt, setOpenedAt] = useState(pathname);
   const buttonRef = useRef<HTMLButtonElement>(null);
+  // The menu closes by itself when the page changes.
   const menuOpen = open && openedAt === pathname;
-  const bookExternal = /^https?:\/\//.test(bookHref);
 
   useEffect(() => {
     if (!menuOpen) return;
@@ -35,30 +35,22 @@ export function HeaderNav({ bookHref }: Props) {
     return () => document.removeEventListener("keydown", onKey);
   }, [menuOpen]);
 
-  const bookClasses =
-    "inline-flex min-h-11 items-center whitespace-nowrap rounded-[6px] bg-ink px-4 text-[0.95rem] font-semibold text-paper transition-colors hover:bg-ink-deep";
-  const bookProps = bookExternal ? { target: "_blank", rel: "noopener noreferrer" } : {};
-
   return (
     <>
-      <nav aria-label="Main" className="hidden items-center justify-end gap-1 lg:flex">
-        {mainNav.map((item) => (
-          <Link
+      <nav aria-label="Main" className="hidden items-center justify-end gap-[30px] md:flex">
+        {headerNav.map((item) => (
+          <HlLink
             key={item.href}
             href={item.href}
             aria-current={isCurrent(pathname, item.href) ? "page" : undefined}
-            className={`${linkClasses} ${isCurrent(pathname, item.href) ? "text-signal" : ""}`}
+            className={desktopLink}
           >
-            {item.label}
-          </Link>
+            <ArrowLabel>{item.label}</ArrowLabel>
+          </HlLink>
         ))}
       </nav>
 
-      <div className="flex items-center justify-self-end gap-2">
-        <a href={bookHref} className={bookClasses} {...bookProps}>
-          <span className="lg:hidden">{bookCallMobileLabel}</span>
-          <span className="hidden lg:inline">{bookCallShortLabel}</span>
-        </a>
+      <div className="flex justify-end md:hidden">
         <button
           ref={buttonRef}
           type="button"
@@ -68,36 +60,29 @@ export function HeaderNav({ bookHref }: Props) {
             setOpenedAt(pathname);
             setOpen((value) => !value);
           }}
-          className="inline-flex size-11 items-center justify-center rounded-[6px] border border-ink lg:hidden"
+          className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-btn px-0.5 font-ui text-[16px] font-medium text-ink"
         >
-          <span className="sr-only">{menuOpen ? "Close menu" : "Open menu"}</span>
-          <svg aria-hidden="true" viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round">
-            {menuOpen ? <path d="M6 6l12 12M18 6L6 18" /> : <path d="M4 7h16M4 12h16M4 17h16" />}
-          </svg>
+          <span className="hl-u">{menuLabel}</span>
         </button>
       </div>
 
-      <nav
-        id="mobile-menu"
-        aria-label="Mobile"
-        data-open={menuOpen}
-        inert={!menuOpen}
-        className="panel col-span-full lg:hidden"
-      >
+      <nav id="mobile-menu" aria-label="Mobile" data-open={menuOpen} inert={!menuOpen} className="panel col-span-full md:hidden">
         <div className="panel-inner">
-        <ul className="grid gap-1 border-t border-rule pb-4 pt-2">
-          {mainNav.map((item) => (
-            <li key={item.href}>
-              <Link
-                href={item.href}
-                aria-current={isCurrent(pathname, item.href) ? "page" : undefined}
-                className={`flex min-h-12 items-center rounded-md px-2 font-display text-xl font-semibold ${isCurrent(pathname, item.href) ? "text-signal" : ""}`}
-              >
-                {item.label}
-              </Link>
-            </li>
-          ))}
-        </ul>
+          <ul className="pb-3">
+            {headerNav.map((item, index) => (
+              <li key={item.href}>
+                {index > 0 ? <div aria-hidden="true" className="hl-divider-h" /> : null}
+                <HlLink
+                  href={item.href}
+                  aria-current={isCurrent(pathname, item.href) ? "page" : undefined}
+                  className={mobileLink}
+                  onClick={() => setOpen(false)}
+                >
+                  <ArrowLabel>{item.label}</ArrowLabel>
+                </HlLink>
+              </li>
+            ))}
+          </ul>
         </div>
       </nav>
     </>

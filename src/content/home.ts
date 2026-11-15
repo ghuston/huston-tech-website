@@ -8,9 +8,9 @@ export type ProofStripContent = {
 };
 
 export const homeMeta = {
-  title: "Huston Tech | Business Systems & Workflow Help for Small Teams",
+  title: "Huston Logic | Business Systems & Workflow Help for Small Teams",
   description:
-    "Huston Tech helps owner-led service businesses fix follow-up, payments, reporting and messy software, starting with the tools you already use. Book a free 20-minute call.",
+    "Huston Logic helps owner-led service businesses fix follow-up, payments, reporting and messy software, starting with the tools you already use. Book a free 20-minute call.",
 };
 
 export type HeroOption = { titleStart: string; titleHighlight: string; body: string };
@@ -20,7 +20,7 @@ export const heroOptions: Record<HeroOptionId, HeroOption> = {
   A: {
     titleStart: "Find the friction.",
     titleHighlight: "Make the fix.",
-    body: "Huston Tech is hands-on systems help for owner-led teams. I find what's slowing your week down, fix it in the tools you already pay for, and hand it over so it's off your plate.",
+    body: "Huston Logic is hands-on systems help for owner-led teams. I find what's slowing your week down, fix it in the tools you already pay for, and hand it over so it's off your plate.",
   },
   B: {
     titleStart: "Your business grew.",
@@ -229,7 +229,7 @@ export const whyHustonTech = {
 
 export const aboutTeaser = {
   heading: "Hi, I'm Grant.",
-  body: "I've been building business systems for small teams since 2024. The first was a group therapy practice that had outgrown doing everything by hand. Before starting Huston Tech, I led delivery for 21 client accounts at a Zoho consulting partner, in industries from healthcare to wholesale to local government. I love the moment a messy process finally clicks.",
+  body: "I've been building business systems for small teams since 2024. The first was a group therapy practice that had outgrown doing everything by hand. Before starting Huston Logic, I led delivery for 21 client accounts at a Zoho consulting partner, in industries from healthcare to wholesale to local government. I love the moment a messy process finally clicks.",
   link: { label: "More about me →", href: "/about" },
   photoLabel: "[[PHOTO: headshot of Grant. Grant to supply]]",
 };

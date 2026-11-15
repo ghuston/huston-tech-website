@@ -2,7 +2,7 @@ import type { FrameworkStepKey } from "./site";
 import { fw } from "@/lib/framework";
 
 export const pastWorkMeta = {
-  title: "Past Work & Client Results | Huston Tech",
+  title: "Past Work & Client Results | Huston Logic",
   description:
     "Real projects for a group therapy practice and a personal training studio, client testimonials, and agency experience across 21 client accounts. See what Grant Huston has built.",
 };
@@ -109,7 +109,7 @@ export const caseStudies: CaseStudyContent[] = [
 ];
 
 export const agencyExperience = {
-  heading: "Before Huston Tech: leading projects at a Zoho consulting partner",
+  heading: "Before Huston Logic: leading projects at a Zoho consulting partner",
   intro:
     "In 2026 I worked at a Zoho consulting partner, first as a developer and then as a business systems consultant. I led delivery for **21 client accounts**, often directing a bench of developers. A few snapshots (client names withheld):",
   snapshots: [

@@ -1,7 +1,7 @@
 import { fw } from "@/lib/framework";
 
 export const contactMeta = {
-  title: "Contact | Book a Free 20-Minute Call | Huston Tech",
+  title: "Contact | Book a Free 20-Minute Call | Huston Logic",
   description:
     "Tell Grant what's slowing your business down. Book a free 20-minute call or send a quick note. Replies within one business day.",
 };
@@ -37,7 +37,7 @@ export const noteForm = {
     },
     website: { label: "Website (optional)", placeholder: "" },
     source: {
-      label: "How did you hear about Huston Tech?",
+      label: "How did you hear about Huston Logic?",
       options: ["Referral", "Google", "LinkedIn", "Article", "Other"],
     },
   },
@@ -67,7 +67,7 @@ export const whatHappensNext = {
 };
 
 export const thanks = {
-  title: "Contact confirmation | Huston Tech",
+  title: "Contact confirmation | Huston Logic",
   description: "Confirmation page shown after a contact form submission.",
   heading: "Got it, thanks!",
   body: "That's step zero started. I'll reply within one business day. Want to skip the back-and-forth?",
@@ -81,7 +81,7 @@ export const thanks = {
 };
 
 export const notFound = {
-  title: "Page not found | Huston Tech",
+  title: "Page not found | Huston Logic",
   heading: "Huston, we have a problem.",
   body: "This page doesn't exist, or it moved without telling anyone. (Ironic, I know.)",
   homeLabel: "Back to home",

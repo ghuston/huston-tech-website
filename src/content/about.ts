@@ -1,7 +1,7 @@
 import { fw } from "@/lib/framework";
 
 export const aboutMeta = {
-  title: "About Grant Huston | Huston Tech",
+  title: "About Grant Huston | Huston Logic",
   description:
     "Grant Huston is a hands-on business systems consultant who helps small teams fix follow-up, reporting and messy software. Zoho specialist, platform-agnostic, refreshingly honest.",
 };
@@ -16,7 +16,7 @@ export const aboutHero = {
 export const aboutSections = {
   shortVersion: {
     heading: "The short version",
-    body: "I'm the founder of Huston Tech and, for now, the whole team. I help owner-led businesses get their systems to do more of the work: follow-up that doesn't slip, numbers you can see, staff pay that adds up, and software that finally earns its subscription fee.",
+    body: "I'm the founder of Huston Logic and, for now, the whole team. I help owner-led businesses get their systems to do more of the work: follow-up that doesn't slip, numbers you can see, staff pay that adds up, and software that finally earns its subscription fee.",
   },
   howIGotHere: {
     heading: "How I got here",
@@ -24,7 +24,7 @@ export const aboutSections = {
       "My background is in business analysis, QA and application support. Basically, I've spent my career finding where things break and why. [[Confirm wording and add one line of detail, such as years or the type of company.]]",
       "In 2024 I started building systems for small businesses. My first big project was a group therapy practice that had outgrown doing everything by hand. I built the team a staff app, payroll submissions, an inquiry pipeline and dashboards, and the practice went on to grow from 5 to 10 people. Next came a personal training studio whose owner wanted real numbers on his coaches and clients, without giving up the scheduling app his team already used.",
       "In 2026 I joined a Zoho consulting partner as a developer and moved into a consulting role within a few months. There, I led delivery for 21 client accounts: a Medicaid disability services provider, an interior design firm, a newly formed distributor, a wholesaler, a municipal government and more, often directing a team of developers. I learned a lot about what makes projects succeed, and about what happens when a business gets a system that's bigger than its problem.",
-      "So I started Huston Tech to do the kind of work I love most: close to the owner, focused on the real problem, and sized to the business.",
+      "So I started Huston Logic to do the kind of work I love most: close to the owner, focused on the real problem, and sized to the business.",
     ],
   },
   workingWithMe: {
