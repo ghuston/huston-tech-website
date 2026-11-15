@@ -72,6 +72,14 @@ These can go stale if the ruleset is changed in Settings, so re-check before rel
 - `CLAUDE.md`, `AGENTS.md`, `package.json`, `wrangler.jsonc` and `.gitignore` still ask
   for approval on each change.
 
+## Decision authority (fast lane)
+- Default for every task: plan, decide and build without asking me. Make implementation, layout, naming, refactor and test-placement decisions yourself, following AGENTS.md, docs/website-plan.md and docs/STYLE-GUIDE.md.
+- Copy is verbatim from docs/website-plan.md. If copy is missing or contradictory, use a [[placeholder]] and list it in the PR description; do not ask.
+- Local checks: npm run check only. CI runs a11y, Lighthouse, dependency review and CodeQL. Run local Lighthouse only if the task changes fonts or images or adds scripts over 1 KB.
+- Ask me only before: adding or upgrading a dependency; changing required checks, lighthouserc thresholds or CI behavior; anything involving credentials, secrets, accounts, DNS, email sending or payments; deleting user data; a change to the meaning of copy.
+- Every PR description starts with a "Needs your eyes" line listing any change to AGENTS.md, CLAUDE.md, package.json or README, or "none".
+- Open the PR and stop. The owner enables auto-merge; never try to merge.
+
 ## Commands
 - `npm run dev`: dev server at http://localhost:4821 (port is fixed in package.json).
   If the port is busy, tell me what is using it instead of killing it.
