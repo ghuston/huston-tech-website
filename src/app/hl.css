@@ -281,6 +281,366 @@
     background: linear-gradient(90deg, rgba(41, 51, 45, 0.22) 60%, rgba(41, 51, 45, 0));
   }
 
+  /* ---- §5 the Home first screen ---- */
+  .hl-hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+    gap: 48px;
+    align-items: center;
+    padding-top: 64px;
+    padding-bottom: 72px;
+  }
+
+  .hl-hero-text {
+    position: relative;
+    z-index: 2;
+  }
+
+  /* The stage is a fixed 477 × 600 box, so nothing shifts when the cards animate (CLS 0). */
+  .hl-stage {
+    position: relative;
+    height: 600px;
+    perspective: 1300px;
+  }
+
+  .hl-stack {
+    position: absolute;
+    inset: 0;
+    transform-style: preserve-3d;
+    will-change: transform;
+  }
+
+  .hl-ringbg {
+    position: absolute;
+    z-index: -1;
+    width: 800px;
+    height: 800px;
+    left: 262px;
+    top: 326px;
+    margin: -400px 0 0 -400px;
+    pointer-events: none;
+  }
+
+  .hl-ring-r {
+    fill: #fff;
+    opacity: 0.85;
+  }
+
+  .hl-ring-d {
+    fill: var(--hl-rust);
+  }
+
+  .hl-card {
+    position: absolute;
+    background: #fff;
+    border: 1px solid rgba(41, 51, 45, 0.1);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+    font: 400 12px/1.4 var(--font-text);
+    color: var(--hl-ink);
+    transition: translate 0.5s var(--hl-ease);
+  }
+
+  .hl-card b {
+    font-weight: 600;
+  }
+
+  .hl-tag {
+    display: inline-block;
+    margin-bottom: 9px;
+    padding: 5px 9px;
+    border-radius: 999px;
+    background: var(--hl-tint);
+    color: var(--hl-green);
+    font: 600 11.5px/1 var(--font-ui);
+  }
+
+  .hl-row {
+    display: flex;
+    gap: 8px;
+    align-items: baseline;
+    justify-content: space-between;
+  }
+
+  .hl-row span {
+    white-space: nowrap;
+  }
+
+  .hl-muted {
+    color: var(--hl-ink-2);
+  }
+
+  .hl-c-inbox {
+    left: -34px;
+    top: -20px;
+    width: 276px;
+    padding: 14px 16px 24px;
+    transform: translateZ(-30px) rotate(-4deg);
+  }
+
+  .hl-c-reply {
+    left: 196px;
+    top: 362px;
+    width: 282px;
+    padding: 22px 16px 14px;
+    transform: translateZ(-10px) rotate(3deg);
+  }
+
+  .hl-c-sheet {
+    left: -36px;
+    top: 486px;
+    width: 300px;
+    padding: 14px 14px 12px;
+    transform: translateZ(-20px) rotate(-2.5deg);
+  }
+
+  .hl-c-sheet table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 11.5px;
+  }
+
+  .hl-c-sheet td {
+    max-width: 120px;
+    padding: 4px 6px;
+    border: 1px solid #dde3df;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .hl-c-sheet tr.hl-old td {
+    color: var(--hl-ink-2);
+  }
+
+  .hl-c-sheet tr.hl-new td {
+    background: var(--hl-tint);
+    font-weight: 500;
+  }
+
+  .hl-chip {
+    position: absolute;
+    left: -44px;
+    top: 318px;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    border: 1px solid rgba(41, 51, 45, 0.1);
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: var(--shadow-chip);
+    font: 400 12px/1.3 var(--font-text);
+    white-space: nowrap;
+    transform: translateZ(60px);
+  }
+
+  .hl-chip b {
+    display: block;
+    font: 600 14px/1.2 var(--font-ui);
+  }
+
+  .hl-chip i {
+    flex: none;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--hl-green);
+  }
+
+  /* The front card: a made-up band's website. Its palette is the client's, not Huston Logic's, so it lives in
+     custom properties scoped to this card (§5.1). Never reuse these anywhere else. */
+  .hl-client-site {
+    --client-navy: #1c2233;
+    --client-cream: #f3eadb;
+    --client-amber: #e0a458;
+    --client-bar: #c9c3b8;
+    --client-nav: #d9d1c3;
+    --client-shows: #e9dfcf;
+  }
+
+  .hl-c-site {
+    left: 56px;
+    top: 104px;
+    width: 400px;
+    overflow: hidden;
+    border-color: rgba(0, 0, 0, 0.3);
+    background: var(--client-navy);
+    color: var(--client-cream);
+    transform: translateZ(30px);
+  }
+
+  .hl-site-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 12px;
+    background: rgba(255, 255, 255, 0.07);
+    color: var(--client-bar);
+    font: 400 11px/1 var(--font-text);
+  }
+
+  .hl-site-bar i {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--client-amber);
+  }
+
+  .hl-site-body {
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    gap: 16px;
+    padding: 16px 16px 18px;
+  }
+
+  .hl-site-nav {
+    grid-column: 1 / -1;
+    display: flex;
+    gap: 14px;
+    align-items: baseline;
+    color: var(--client-nav);
+    font: 400 11.5px/1 var(--font-text);
+  }
+
+  .hl-site-nav b {
+    margin-right: auto;
+    color: var(--client-cream);
+    font-weight: 600;
+  }
+
+  .hl-site-h {
+    margin: 4px 0 10px;
+    color: var(--client-cream);
+    font-family: var(--font-voice);
+    font-size: 27px;
+    font-style: italic;
+    line-height: 1.05;
+  }
+
+  .hl-site-shows li {
+    display: flex;
+    gap: 10px;
+    padding: 6px 0;
+    border-top: 1px solid rgba(243, 234, 219, 0.18);
+    color: var(--client-shows);
+  }
+
+  .hl-site-shows time {
+    flex: none;
+    color: var(--client-amber);
+  }
+
+  .hl-site-form {
+    display: grid;
+    gap: 6px;
+    align-content: start;
+  }
+
+  .hl-site-form .hl-lab {
+    color: var(--client-cream);
+    font-weight: 600;
+  }
+
+  .hl-site-form .hl-in {
+    display: block;
+    padding: 6px 8px;
+    border: 1px solid rgba(243, 234, 219, 0.35);
+    border-radius: 6px;
+    color: var(--client-cream);
+  }
+
+  .hl-site-form .hl-sbtn {
+    justify-self: start;
+    padding: 6px 14px;
+    border-radius: 6px;
+    background: var(--client-amber);
+    color: var(--client-navy);
+    font-weight: 600;
+  }
+
+  /* ---- §7.7 the arc: three steps on a piece of the logo's ring ---- */
+  .hl-steps {
+    position: relative;
+    padding: 72px 0 0;
+  }
+
+  .hl-arcbox {
+    position: relative;
+    aspect-ratio: 1240 / 470;
+    margin: 0;
+  }
+
+  .hl-arc {
+    position: absolute;
+    left: 40px;
+    right: 40px;
+    top: 0;
+    z-index: 0;
+    width: calc(100% - 80px);
+    height: auto;
+    aspect-ratio: 1240 / 470;
+    overflow: visible;
+  }
+
+  .hl-track {
+    fill: none;
+    stroke: #fff;
+    stroke-width: 16;
+    stroke-linecap: round;
+  }
+
+  .hl-arc-dot {
+    fill: var(--hl-rust);
+  }
+
+  .hl-st {
+    position: absolute;
+    z-index: 1;
+    display: grid;
+    place-items: center;
+    width: 74px;
+    height: 74px;
+    margin: -37px 0 0 -37px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 0 0 1px rgba(41, 51, 45, 0.08);
+  }
+
+  .hl-tx {
+    position: absolute;
+    z-index: 1;
+    width: 300px;
+    font-size: 16px;
+    line-height: normal;
+  }
+
+  .hl-n {
+    color: var(--hl-green);
+    font: 600 15px/1 var(--font-ui);
+    letter-spacing: 0.02em;
+  }
+
+  .hl-tx h3 {
+    margin: 8px 0;
+    font-family: var(--font-ui);
+    font-size: var(--hl-fs-step);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.035em;
+  }
+
+  .hl-tx p {
+    font-size: var(--hl-fs-blurb);
+    line-height: 1.4;
+  }
+
+  /* The icons' parts turn about the icon's centre (200 × 150 viewBox). */
+  [data-hl] {
+    transform-origin: 100px 75px;
+  }
+
   /* §7.1 header: silver at 97% with a hairline under it. No blur behind it, so the page never shows through. */
   .hl-header {
     background: rgba(243, 245, 244, 0.97);
@@ -331,6 +691,312 @@
 
   .hl-door:is(:hover, :focus-within) .hl-leaf {
     transform: none;
+  }
+}
+
+/* ---- Home motion (§9) ---- */
+
+/* The hero load is CSS only: `both` holds each element at its first frame during its delay, so no class or script can
+   leave the hero invisible. Under reduced motion motion.css switches every animation off and the end state shows. */
+@keyframes hl-rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+/* Rotation lives inside `transform` (not the separate `rotate` property): the build's CSS optimizer drops `rotate`
+   when it sits beside `transform`. */
+@keyframes hl-fan1 {
+  from {
+    opacity: 0;
+    transform: translate3d(110px, 150px, -30px) scale(0.9) rotate(0deg);
+  }
+}
+
+@keyframes hl-fan2 {
+  from {
+    opacity: 0;
+    transform: translate3d(140px, -220px, -20px) scale(0.9) rotate(0deg);
+  }
+}
+
+@keyframes hl-fan3 {
+  from {
+    opacity: 0;
+    transform: translate3d(-60px, -160px, -10px) scale(0.9) rotate(0deg);
+  }
+}
+
+@keyframes hl-pop {
+  from {
+    opacity: 0;
+    transform: translateZ(60px) scale(0.9);
+  }
+}
+
+@keyframes hl-orbit {
+  from {
+    transform: rotate(-250deg);
+  }
+}
+
+.hl-rise {
+  animation: hl-rise 0.45s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+
+.hl-rise-2 {
+  animation-delay: 0.08s;
+}
+
+.hl-c-inbox {
+  animation: hl-fan1 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.25s both;
+}
+
+.hl-c-sheet {
+  animation: hl-fan2 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.37s both;
+}
+
+.hl-c-reply {
+  animation: hl-fan3 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.49s both;
+}
+
+.hl-chip {
+  animation: hl-pop 0.4s ease-out 1.1s both;
+}
+
+.hl-orbit {
+  animation: hl-orbit 2.2s cubic-bezier(0.3, 0.7, 0.2, 1) 0.2s both;
+}
+
+/* Hover drift: the back cards move apart a little. Mouse only; the tilt itself is StackTilt. */
+@media (hover: hover) and (pointer: fine) {
+  .hl-stage:hover .hl-c-inbox {
+    translate: -8px -8px;
+  }
+
+  .hl-stage:hover .hl-c-reply {
+    translate: 10px 8px;
+  }
+
+  .hl-stage:hover .hl-c-sheet {
+    translate: -8px 10px;
+  }
+}
+
+/* The arc plays once when 35% of it is in view (InViewOnce sets data-played). The first frames exist only while the
+   page has scripting (html.js) and motion is allowed, so without JS, or under reduced motion, the end state shows. */
+@keyframes hl-arc-orbit {
+  from {
+    transform: rotate(43.8deg);
+  }
+}
+
+@keyframes hl-i-left {
+  from {
+    opacity: 0;
+    transform: translateX(-18px);
+  }
+}
+
+@keyframes hl-i-right {
+  from {
+    opacity: 0;
+    transform: translateX(18px);
+  }
+}
+
+@keyframes hl-i-draw {
+  from {
+    opacity: 1;
+    stroke-dasharray: 430;
+    stroke-dashoffset: 430;
+  }
+
+  to {
+    opacity: 1;
+    stroke-dasharray: 430;
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes hl-i-pop {
+  from {
+    opacity: 0;
+    transform: scale(0);
+  }
+}
+
+@keyframes hl-i-turn {
+  from {
+    opacity: 0;
+    transform: rotate(-45deg) scale(0.92);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html.js .hl-steps:not([data-played]) .hl-arc-orbit,
+  html.js .hl-steps:not([data-played]) [data-hl] {
+    opacity: 0;
+  }
+
+  .hl-steps[data-played] .hl-arc-orbit {
+    animation: hl-arc-orbit 1.9s cubic-bezier(0.3, 0.6, 0.2, 1) 0.15s both;
+  }
+
+  .hl-steps[data-played] [data-hl="scope-dashed"] {
+    animation: hl-i-left 0.4s ease-out 0.15s both;
+  }
+
+  .hl-steps[data-played] [data-hl="scope-solid"] {
+    animation: hl-i-right 0.4s ease-out 0.15s both;
+  }
+
+  .hl-steps[data-played] [data-hl="shape-outer"] {
+    animation: hl-i-draw 0.3s ease-out 0.45s both;
+  }
+
+  .hl-steps[data-played] [data-hl="shape-inner"] {
+    animation: hl-i-draw 0.26s ease-out 0.51s both;
+  }
+
+  .hl-steps[data-played] [data-hl="shape-dot"] {
+    animation: hl-i-pop 0.14s ease-out 0.71s both;
+  }
+
+  .hl-steps[data-played] [data-hl="ship-outline"] {
+    animation: hl-i-turn 0.28s ease-out 0.85s both;
+  }
+
+  .hl-steps[data-played] [data-hl="ship-center"] {
+    animation: hl-i-pop 0.2s ease-out 1.05s both;
+  }
+}
+
+/* ---- Home responsive (§10) ---- */
+@media (max-width: 1100px) {
+  .hl-hero-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    padding-top: 40px;
+  }
+
+  .hl-stage {
+    width: 478px;
+    max-width: 100%;
+    margin: 0 auto;
+  }
+}
+
+@media (min-width: 900px) and (max-width: 1100px) {
+  .hl-tx {
+    width: 240px;
+  }
+
+  .hl-tx h3 {
+    font-size: 32px;
+  }
+
+  .hl-tx p {
+    font-size: 17px;
+  }
+}
+
+/* Below 900px the arc becomes a vertical track with the dot resting at its foot. */
+@media (max-width: 899px) {
+  .hl-steps {
+    padding-top: 56px;
+  }
+
+  .hl-arcbox {
+    display: grid;
+    gap: 28px 0;
+    aspect-ratio: auto;
+    padding: 0 0 12px;
+  }
+
+  .hl-arc {
+    display: none;
+  }
+
+  .hl-arcbox::before {
+    content: "";
+    position: absolute;
+    left: 29px;
+    top: 20px;
+    bottom: 54px;
+    width: 16px;
+    border-radius: 8px;
+    background: #fff;
+  }
+
+  .hl-arcbox::after {
+    content: "";
+    position: absolute;
+    left: 29px;
+    bottom: 0;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--hl-rust);
+  }
+
+  .hl-arcbox li {
+    display: grid;
+    grid-template-columns: 74px 1fr;
+    gap: 0 20px;
+    align-items: start;
+  }
+
+  .hl-st,
+  .hl-tx {
+    position: relative;
+    left: auto !important;
+    top: auto !important;
+    margin: 0;
+    width: auto;
+  }
+}
+
+/* Phones: the stack is a plain column (no 3D, no rotation), the ring shrinks behind its top-right corner. */
+@media (max-width: 767px) {
+  .hl-stage {
+    width: auto;
+    height: auto;
+    padding-top: 44px;
+    perspective: none;
+  }
+
+  .hl-stack {
+    position: static;
+    display: grid;
+    gap: 12px;
+  }
+
+  .hl-card,
+  .hl-chip {
+    position: relative;
+    left: auto;
+    top: auto;
+    width: auto;
+    transform: none;
+  }
+
+  .hl-c-site {
+    order: -1;
+  }
+
+  .hl-chip {
+    justify-self: start;
+  }
+
+  .hl-ringbg {
+    left: auto;
+    right: -60px;
+    top: -56px;
+    width: 460px;
+    height: 460px;
+    margin: 0;
   }
 }
 

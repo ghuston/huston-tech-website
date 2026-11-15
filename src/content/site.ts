@@ -18,11 +18,7 @@ export const siteConfig = {
    * A value such as "$500" switches the Review bar and the Services "Scope it" paragraph to their with-price wording.
    */
   reviewPrice: null as string | null,
-  /** Hero headline/subhead option from the spec (B1). "A" is the recommended default. */
-  heroOption: "A" as HeroOptionId,
 } as const;
-
-export type HeroOptionId = "A" | "B" | "C" | "D";
 
 export type FrameworkStepKey = "scope" | "shape" | "ship";
 
@@ -68,7 +64,6 @@ export const framework: { steps: FrameworkStep[] } = {
  * `npm run check:placeholders` fails while any flag is `false`.
  */
 export const decisionsConfirmed = {
-  heroOption: false,
   reviewPrice: false,
   lineArtStyle: false,
 } as const;

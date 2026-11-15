@@ -1,65 +1,91 @@
 import type { DetailedStepContent, StepZeroContent } from "@/components/ui/ProcessSteps";
 import { fw } from "@/lib/framework";
-import type { HeroOptionId } from "./site";
+import { bookCallShortLabel } from "./site";
 
 export type ProofStripContent = {
   stats: { value: string; label: string }[];
   footnote: string;
 };
 
+// docs/website-plan.md, B1 (Revision 7.1): the SEO title and description, word for word. The description keeps its
+// literal [[$750]] until the price is confirmed (E9 #1).
 export const homeMeta = {
-  title: "Huston Logic | Business Systems & Workflow Help for Small Teams",
+  title: "Huston Logic | Custom Websites & Workflow Consulting for Small Businesses",
   description:
-    "Huston Logic helps owner-led service businesses fix follow-up, payments, reporting and messy software, starting with the tools you already use. Book a free 20-minute call.",
+    "Custom websites from [[$750]] with a contact form that writes back, plus workflow consulting for small businesses and bands. You see the price before I build.",
 };
 
-export type HeroOption = { titleStart: string; titleHighlight: string; body: string };
-
-/** The four hero options from the spec (B1). `siteConfig.heroOption` picks one; A is the recommended default. */
-export const heroOptions: Record<HeroOptionId, HeroOption> = {
-  A: {
-    titleStart: "Find the friction.",
-    titleHighlight: "Make the fix.",
-    body: "Huston Logic is hands-on systems help for owner-led teams. I find what's slowing your week down, fix it in the tools you already pay for, and hand it over so it's off your plate.",
-  },
-  B: {
-    titleStart: "Your business grew.",
-    titleHighlight: "Your systems didn't get the memo.",
-    body: "I find the friction in your week, fix it in the tools you already pay for, and flick it off your plate: tested, documented, and your team trained.",
-  },
-  C: {
-    titleStart: "Less friction.",
-    titleHighlight: "More business.",
-    body: "Hands-on systems help for owner-led teams. I find what's slowing you down, fix it in the tools you already use, and hand it over for good.",
-  },
-  D: {
-    titleStart: fw("{scope}. {shape}."),
-    titleHighlight: fw("{ship}."),
-    body: "The friction in your week: found, fixed in the tools you already use, and flicked off your plate.",
-  },
+// B1 hero. Both H1 lines are Grant's final copy. The doors use typographic quotes (docs/STYLE-GUIDE.md §3).
+export const heroContent = {
+  eyebrow: "Websites and workflows for small businesses",
+  line1: "The site brings them in.",
+  line2: "The system answers.",
+  subhead: "Custom websites for small businesses, and the follow-up that turns an inquiry into a booking.",
+  supportingLine: "AI-accelerated, checked by hand.",
+  /** Phones only, under the compact doors (Rev 7.1 E8). */
+  callLink: `${bookCallShortLabel} →`,
 };
 
-export const hero = {
-  eyebrow: "Business systems for growing small teams",
-  secondaryCta: { label: "See what I've built →", href: "/past-work" },
-  smallLine: "Hands-on help from Grant Huston · [[Based in Orange County, CA]] · Working with teams anywhere",
+/** The two doors (B1): small cards in the hero, full doors in the band below the arc. */
+export const doors = [
+  {
+    title: "“I need a website.”",
+    line: "Custom, from [[$750]]. The contact form writes back.",
+    button: "Start a website →",
+    href: "/contact?topic=website",
+  },
+  {
+    title: "“Things keep slipping.”",
+    line: "A fixed-fee Workflow Review, credited toward the fix.",
+    button: "Fix a workflow →",
+    href: "/contact?topic=workflow",
+  },
+] as const;
+
+/** Approved interface string for the door band's accessible name (docs/STYLE-GUIDE.md §7.8). */
+export const doorBandLabel = "Two ways to start";
+
+// The hero's card stack (docs/STYLE-GUIDE.md §5.1): a band's website in front; behind it the owner's inbox, a
+// spreadsheet row and an automatic reply, all set off by one message through the contact form.
+// stand-in until W3 approved: the band, the person and the dates are invented, and no real person's data is used.
+export const heroStack = {
+  ariaLabel:
+    "A band’s website in front. Behind it: the owner’s inbox, a spreadsheet row and an automatic reply, all set off by one message through the contact form.",
+  inbox: { tag: "Your inbox", title: "New inquiry from the website", time: "9:41 pm", preview: "Dana Ortiz: Wedding, June 6. Are you free?" },
+  reply: {
+    tag: "An automatic reply, right away",
+    title: "Got it, thanks",
+    time: "9:41 pm",
+    body: "Hi Dana, your note reached the band. You’ll hear back within one business day.",
+  },
+  sheet: {
+    tag: "A spreadsheet you own",
+    rows: [
+      ["Nov 28", "R. Alvarez", "Bar, Jan 17"],
+      ["Dec 1", "Kim Lee", "Private party"],
+      ["Dec 3", "Dana Ortiz", "Wedding, June 6"],
+    ],
+  },
+  site: {
+    address: "thenightherons.example",
+    name: "The Night Herons",
+    nav: ["Shows", "Music", "Book us"],
+    headline: "Blues that stays up late.",
+    shows: [
+      { date: "Fri 12 Dec", venue: "The Harbor Room" },
+      { date: "Sat 20 Dec", venue: "Linden Hall" },
+    ],
+    formLabel: "Book the band",
+    formName: "Dana Ortiz",
+    message: "Wedding, June 6. Are you free?",
+    send: "Send",
+  },
+  chip: { figure: "5/5 on handoff & training", label: "Systems projects, 2024–2025" },
 };
 
-export const frameworkCompact = {
+// B1 "How it works" compact block: the hidden H2. The three steps themselves come from `framework.steps`.
+export const arcContent = {
   srHeading: fw("How it works: {stepsList}"),
-};
-
-export const reviewBar = {
-  default: {
-    lead: "Start with a Workflow Review.",
-    body: "Written findings and a prioritized plan for one process, at a fixed fee agreed up front, credited in full toward the fix.",
-    link: { label: "How it works ↓", href: "#how-it-works" },
-  },
-  priced: {
-    lead: "Workflow Review: {price}, fixed.",
-    body: "Written findings and a prioritized plan, with the full {price} credited toward the fix.",
-    link: { label: "Book a free call →" },
-  },
 };
 
 export const problems = {

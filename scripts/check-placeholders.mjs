@@ -37,7 +37,6 @@ for (const key of ["email", "schedulerUrl", "linkedInUrl"]) {
 }
 
 const decisionLabels = {
-  heroOption: "hero option (spec B1; A is the recommended default)",
   reviewPrice: "publish the Review price? (default: no price)",
   lineArtStyle: "line-art style (geometric framework icons by default)",
 };

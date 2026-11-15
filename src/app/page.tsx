@@ -1,29 +1,31 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { ArcSteps } from "@/components/hl/ArcSteps";
+import { DoorBand } from "@/components/hl/DoorBand";
+import { Hero } from "@/components/hl/Hero";
+import { HeroStack } from "@/components/hl/HeroStack";
 import { ArrowLabel } from "@/components/ui/ArrowLabel";
-import { BookCallButton } from "@/components/ui/BookCallButton";
+import { BookCallButton, bookCallHref } from "@/components/ui/BookCallButton";
 import { Button } from "@/components/ui/Button";
 import { Callout } from "@/components/ui/Callout";
-import { Container } from "@/components/ui/Container";
 import { CTASection } from "@/components/ui/CTASection";
 import { Eyebrow } from "@/components/ui/Eyebrow";
-import { Intro } from "@/components/ui/Intro";
 import { PhotoPlaceholder } from "@/components/ui/MediaPlaceholders";
 import { ProcessSteps } from "@/components/ui/ProcessSteps";
-import { ReviewBar } from "@/components/sections/ReviewBar";
 import { ProofStrip } from "@/components/ui/ProofStrip";
 import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { StatusChip } from "@/components/ui/StatusChip";
 import { StickyNoteCard } from "@/components/ui/StickyNoteCard";
 import { TestimonialCard } from "@/components/ui/TestimonialCard";
-import { Text } from "@/components/ui/Text";
 import {
   aboutTeaser,
+  arcContent,
   closingCta,
-  frameworkCompact,
-  hero,
-  heroOptions,
+  doorBandLabel,
+  doors,
+  heroContent,
+  heroStack,
   homeMeta,
   howItWorks,
   insightsTeaser,
@@ -33,7 +35,7 @@ import {
   whatIDo,
   whyHustonTech,
 } from "@/content/home";
-import { bookCallShortLabel, siteConfig } from "@/content/site";
+import { bookCallShortLabel } from "@/content/site";
 import { getTestimonials } from "@/content/testimonials";
 import { pageMetadata } from "@/lib/metadata";
 
@@ -41,54 +43,21 @@ export const metadata: Metadata = pageMetadata({ ...homeMeta, path: "/" });
 
 export default function HomePage() {
   const testimonials = getTestimonials("home");
-  const heroCopy = heroOptions[siteConfig.heroOption];
-  // Hero option B already uses the "memo" line, so the problems section goes back to "Sound familiar?" as its heading.
-  const problemsHeadsWithMemo = siteConfig.heroOption !== "B";
 
   return (
     <>
-      <section aria-labelledby="hero-title" className="bg-paper pb-12 pt-10 sm:pt-14 lg:pb-14 lg:pt-14">
-        <Container className="text-center">
-          <p className="font-mono text-xs font-medium uppercase tracking-[0.16em] text-ink sm:text-[0.8rem]">{hero.eyebrow}</p>
-          <h1
-            id="hero-title"
-            className="mt-6 font-sans text-[2.4rem] font-extrabold leading-[1.02] tracking-[-0.045em] text-ink sm:text-6xl lg:text-[5.25rem] lg:leading-[0.98]"
-          >
-            <Intro className="block">{heroCopy.titleStart}</Intro>{" "}
-            <Intro second className="block font-display text-[1.06em] font-medium italic tracking-[-0.025em] text-signal">
-              {heroCopy.titleHighlight}
-            </Intro>
-          </h1>
-          <p className="mx-auto mt-6 max-w-[40rem] text-lg text-ink sm:text-xl">{heroCopy.body}</p>
-          <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center sm:gap-4">
-            <BookCallButton fullWidthOnMobile />
-            <Button href={hero.secondaryCta.href} variant="secondary" fullWidthOnMobile>
-              {hero.secondaryCta.label}
-            </Button>
-          </div>
-          <p className="mt-5 text-sm text-muted">
-            <Text>{hero.smallLine}</Text>
-          </p>
-        </Container>
-        <Container className="mt-8">
-          <div className="mx-auto max-w-[62rem]">
-            <ProcessSteps variant="compact" srHeading={frameworkCompact.srHeading} />
-          </div>
-        </Container>
-      </section>
-      <ReviewBar />
+      {/* The top of Home (style guide v3): hero, the arc, the two doors. The sections below are still v1. */}
+      <div className="hl relative overflow-x-clip">
+        <Hero content={heroContent} doors={doors} callHref={bookCallHref()} stack={<HeroStack content={heroStack} />} />
+        <ArcSteps srHeading={arcContent.srHeading} />
+        <DoorBand doors={doors} label={doorBandLabel} />
+      </div>
 
       <Section tone="paper" labelledBy="problems-title">
-        {problemsHeadsWithMemo ? (
-          <>
-            <div className="mb-5">
-              <Eyebrow>{problems.eyebrow}</Eyebrow>
-            </div>
-            <SectionHeading id="problems-title">{problems.heading}</SectionHeading>
-          </>
-        ) : (
-          <SectionHeading id="problems-title">{problems.eyebrow}</SectionHeading>
-        )}
+        <div className="mb-5">
+          <Eyebrow>{problems.eyebrow}</Eyebrow>
+        </div>
+        <SectionHeading id="problems-title">{problems.heading}</SectionHeading>
         <ul className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 lg:gap-10">
           {problems.notes.map((note, i) => (
             <StickyNoteCard key={note.title} index={i} title={note.title} body={note.body} />

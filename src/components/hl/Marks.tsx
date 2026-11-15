@@ -14,8 +14,12 @@ function readSvg(file: string) {
 
 const badge = readSvg("huston-logic-badge-black.svg");
 const wordmark = readSvg("huston-logic-wordmark-black.svg");
-const [ring] = badge.d.match(/M[^MZ]*Z/g) ?? [];
-if (!ring) throw new Error("Could not find the ring subpath in the badge");
+const [ring, dot] = badge.d.match(/M[^MZ]*Z/g) ?? [];
+if (!ring || !dot) throw new Error("Could not find the ring and dot subpaths in the badge");
+
+/** The ring and the dot, for the hero's inline drawing, where the dot travels around the ring. Same path data as the badge. */
+export const RING_PATH = ring;
+export const DOT_PATH = dot;
 
 const WORDMARK_ASPECT = "aspect-[823.975/133.837]";
 
