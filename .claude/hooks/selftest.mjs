@@ -32,6 +32,18 @@ writeFileSync(
   'export const A = () => <p className="rounded-lg shadow-md" style={{ color: "#ff0000" }}>This is written copy here</p>;\n',
 );
 writeFileSync(path.join(feat, "src/good.tsx"), "export const B = () => <p>{copy.title}</p>;\n");
+// Design v3 (docs/STYLE-GUIDE.md): token classes are silent, off-token classes warn, colors in CSS are silent,
+// retired v2 colors and uppercase labels warn even in CSS.
+writeFileSync(
+  path.join(feat, "src/v3-good.tsx"),
+  'export const C = () => <p className="rounded-card shadow-lift hover:shadow-card">{copy.title}</p>;\n',
+);
+writeFileSync(path.join(feat, "src/off-token.tsx"), 'export const D = () => <p className="rounded-[14px]">{copy.title}</p>;\n');
+writeFileSync(
+  path.join(feat, "src/glows.css"),
+  ".glow{background:radial-gradient(closest-side,rgba(180,222,200,.75),#F3F5F4)}\n.client-site{--client-navy:#1C2233}\n",
+);
+writeFileSync(path.join(feat, "src/v2-bad.css"), ".x{background:#F6F4EE;text-transform:uppercase}\n");
 
 function run(script, repo, input) {
   const payload = { session_id: "t", cwd: repo, permission_mode: "default", scratchpad_dir: "/private/tmp/claude-1/x/scratchpad", ...input };
@@ -142,6 +154,10 @@ const cases = [
   ["scan-src.mjs", feat, file(feat, "src/bad.tsx"), "warn", "color/rounded/shadow/copy warn"],
   ["scan-src.mjs", feat, file(feat, "src/good.tsx"), "allow", "clean file is silent"],
   ["scan-src.mjs", feat, file(feat, "README.md"), "allow", "outside src is ignored"],
+  ["scan-src.mjs", feat, file(feat, "src/v3-good.tsx"), "allow", "v3 token classes are silent"],
+  ["scan-src.mjs", feat, file(feat, "src/off-token.tsx"), "warn", "off-token rounded- warns"],
+  ["scan-src.mjs", feat, file(feat, "src/glows.css"), "allow", "colors in CSS are silent"],
+  ["scan-src.mjs", feat, file(feat, "src/v2-bad.css"), "warn", "v2 color and uppercase warn in CSS"],
 ];
 
 let failed = 0;
