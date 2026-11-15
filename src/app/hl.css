@@ -281,6 +281,18 @@
     background: linear-gradient(90deg, rgba(41, 51, 45, 0.22) 60%, rgba(41, 51, 45, 0));
   }
 
+  /* §7.28 sub-nav: the current section's slow underline stays drawn (set by SectionNav's observer). */
+  .hl-secnav a[aria-current] .hl-u {
+    background-position: left 100%;
+    background-size: 100% 1.5px;
+  }
+
+  /* §7.30 agency list: each lead in Outfit 600. */
+  .hl-leads strong {
+    font-family: var(--font-ui);
+    font-weight: 600;
+  }
+
   /* ---- §5 the Home first screen ---- */
   .hl-hero-grid {
     display: grid;

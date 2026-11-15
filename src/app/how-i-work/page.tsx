@@ -4,6 +4,7 @@ import { ClosingCta } from "@/components/hl/ClosingCta";
 import { Container } from "@/components/hl/Container";
 import { DetailedSteps } from "@/components/hl/DetailedSteps";
 import { PageHero } from "@/components/hl/PageHero";
+import { TextLink } from "@/components/hl/TextLink";
 import { bookCallHref } from "@/components/ui/BookCallButton";
 import {
   afterLaunch,
@@ -47,9 +48,13 @@ export default function HowIWorkPage() {
             {afterLaunch.heading}
           </h2>
           <div className="mt-5 max-w-[60ch] space-y-4 text-body">
-            {afterLaunch.paragraphs.map((paragraph) => (
-              <p key={paragraph}>{paragraph}</p>
-            ))}
+            <p>
+              {afterLaunch.care.before}
+              <TextLink inline href={afterLaunch.care.link.href}>
+                {afterLaunch.care.link.label}
+              </TextLink>
+            </p>
+            <p>{afterLaunch.closing}</p>
           </div>
         </Container>
       </section>

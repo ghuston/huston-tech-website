@@ -1,25 +1,41 @@
 import type { FrameworkStepKey } from "./site";
 import { fw } from "@/lib/framework";
 
+// docs/website-plan.md, B3 (Revision 7.1). Word for word.
+
 export const pastWorkMeta = {
-  title: "Past Work & Client Results | Huston Logic",
+  title: "Past Work | Websites & Systems Projects | Huston Logic",
   description:
-    "Real projects for a group therapy practice and a personal training studio, client testimonials, and agency experience across 21 client accounts. See what Grant Huston has built.",
+    "Systems projects for a group therapy practice and a personal training studio, in the clients' own words, plus agency experience across 21 client accounts. Website case studies follow as each site goes live.",
 };
 
 export const pastWorkHero = {
   eyebrow: "Past work",
-  title: "Proof beats promises.",
-  intro:
-    "I'd rather show you what I've built than tell you how great I am. Here are real projects, in my clients' own words.",
+  title: "What I've built, and what the clients said.",
+  intro: "Real projects, in my clients' own words. The website section is new, so it starts small.",
   howToRead: {
     title: "How to read this page",
     items: [
-      "**Client projects (2024–2025):** scoped, designed, built and supported by me.",
+      "**Websites (2026):** designed, built and launched by me. Each appears only after it's live and the owner says yes.",
+      "**Client systems projects (2024–2025):** scoped, built and supported by me.",
       "**Agency experience (2026):** delivered while employed at a Zoho consulting partner, often leading a team of developers. Client names withheld.",
     ],
   },
 };
+
+/** The section nav under the hero (docs/STYLE-GUIDE.md §7.30). */
+export const pastWorkNav = [
+  { label: "Websites", href: "#websites" },
+  { label: "Systems projects", href: "#systems" },
+  { label: "Agency experience", href: "#agency" },
+];
+
+export const pastWorkWebsites = {
+  heading: "Websites",
+  line: "The first three sites are being built now, for two engineering firms and a band. Each one shows up here once it's live and the owner has said yes.",
+};
+
+export const pastWorkSystems = { heading: "Systems projects" };
 
 export type CasePhases = Record<FrameworkStepKey, string>;
 
@@ -127,5 +143,5 @@ export const agencyExperience = {
 };
 
 export const pastWorkClosing = {
-  heading: "Want to be the next project on this page?",
+  heading: "This page has room for your project.",
 };

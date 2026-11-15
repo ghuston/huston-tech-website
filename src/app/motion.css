@@ -41,8 +41,8 @@
 
 /*
  * Disclosures. Opening takes --duration-panel and closing --duration-feedback, because a transition uses the
- * timing of the state it is moving to. `.panel` (mobile menu) animates grid rows; native <details> (FAQ) animates
- * ::details-content where supported and simply snaps elsewhere.
+ * timing of the state it is moving to. `.panel` (mobile menu) animates grid rows. The FAQ's native <details> does not
+ * animate (docs/STYLE-GUIDE.md §7.29).
  */
 @layer components {
   .panel {
@@ -70,32 +70,6 @@
     min-height: 0;
     overflow: hidden;
   }
-}
-
-:root {
-  interpolate-size: allow-keywords;
-}
-
-details::details-content {
-  block-size: 0;
-  overflow-y: clip;
-  transition:
-    block-size var(--duration-feedback) var(--ease-site),
-    content-visibility var(--duration-feedback) var(--ease-site) allow-discrete;
-}
-
-details[open]::details-content {
-  block-size: auto;
-  transition-duration: var(--duration-panel);
-}
-
-.disclosure-icon {
-  transition: transform var(--duration-feedback) var(--ease-site);
-}
-
-details[open] > summary .disclosure-icon {
-  transform: rotate(45deg);
-  transition-duration: var(--duration-panel);
 }
 
 @media (prefers-reduced-motion: reduce) {
