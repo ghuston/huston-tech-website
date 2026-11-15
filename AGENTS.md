@@ -12,6 +12,20 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 Marketing site for Huston Tech (one-person business systems consultancy, Grant Huston). Next.js App Router, strict TypeScript, Tailwind CSS v4, **static export** deployed on **Cloudflare Workers**. Merging a pull request into `main` deploys automatically through Cloudflare Workers Builds; other branches get preview URLs. Never run `wrangler deploy` by hand. Read this file before changing the repo, and update it when a rule changes.
 
+## Sources of truth (Phase 6, from Nov 14, 2026)
+
+- **Copy:** `docs/website-plan.md` (Revision 7.1), **Section B** only. It is the single source of every visible string. Preserve it verbatim.
+- **Design:** `docs/STYLE-GUIDE.md` (style guide v3), then the approved first screen in `design-v3/reference/home-top.html`. The logo files are in `public/brand/`; never redraw the mark.
+- **The v1 and v2 designs are retired.** Don't reuse their tokens, fonts, components or patterns, even where they still exist in `src/` during the rebuild.
+- **Superseded by Revision 7.1 and v3, pending the Phase 6 build PRs.** Until each PR below rewrites its section, these rules in this file no longer apply; follow the sources above instead:
+  - The name **Huston Tech** → **Huston Logic** (final).
+  - **Find it · Fix it · Flick it** → **Scope it · Shape it · Ship it** (case-study strip: Scoped / Shaped / Shipped). The `fw()` labels and `framework.steps` change in the content-model PR. Step zero stays the free 20-minute call, unnumbered.
+  - **"Never display pricing"** → the site publishes one price, "from `[[$750]]`" for a website. The Workflow Review fee stays unpublished. `siteConfig.reviewPrice` goes away.
+  - **"Anything needing a server must use an external provider"** and the contact-form placeholder rules → the contact form posts to a small Worker script (`POST /api/contact`, website-plan E6), built in its own PR. Until then, the placeholder rules still hold: no working `<form>`, no fake success state.
+  - The **design-token, font and image bullets** under Architecture and SEO → STYLE-GUIDE.md §2–§4 and §7.34 (Outfit, Inter, Newsreader italic; no mono face).
+  - The whole **Motion rules** section → STYLE-GUIDE.md §9, including §9.3: the header badge turns with the scroll (one passive scroll listener; off under reduced motion).
+  - The **sticky mobile call bar** (`MobileCtaBar`) and the **`ProcessSteps` compact variant** → removed in v3 (§10, §7.7).
+
 ## Architecture
 
 - `output: "export"` in `next.config.ts`. The site is 100% static: no API routes, no server actions, no runtime server code, no `next/image` optimization (images are `unoptimized`; ship pre-sized files). Anything needing a server must use an external provider (form, scheduler, analytics).
