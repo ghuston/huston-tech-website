@@ -105,10 +105,10 @@ Scheduled runs only happen on the default branch, and GitHub disables schedules 
 
 | Setting | Where | Notes |
 |---|---|---|
-| Site URL | `NEXT_PUBLIC_SITE_URL` (see `.env.example`), default `https://hustontech.com` in `src/content/site.ts` | Used for canonical URLs, Open Graph, sitemap, robots and JSON-LD. Public value, not a secret. |
+| Site URL | `NEXT_PUBLIC_SITE_URL` (see `.env.example`), default `https://hustonlogic.com` in `src/content/site.ts` | Used for canonical URLs, Open Graph, sitemap, robots and JSON-LD. Public value, not a secret. |
 | Contact email, scheduler URL, LinkedIn URL | `src/content/site.ts` | `null` renders a visible placeholder. |
-| Framework step names, numbers, one-liners | `framework.steps` in `src/content/site.ts` | The only place "Find it / Fix it / Flick it" is defined. Content strings use `{find}`, `{fix}`, `{flick}`, `{steps}` tokens via `fw()` (`src/lib/framework.ts`). Rename a step here and every page follows. |
-| Review price | `siteConfig.reviewPrice` in `src/content/site.ts` | `null` (default) keeps all prices out of the copy. A value such as `"$500"` switches the Review bar and the Services "Find it" stop-point to their with-price wording. Also update the FAQ cost answer if you publish it. |
+| Framework step names, numbers, one-liners | `framework.steps` in `src/content/site.ts` | The only place "Scope it / Shape it / Ship it" is defined. Content strings use `{scope}`, `{shape}`, `{ship}`, `{steps}` tokens via `fw()` (`src/lib/framework.ts`). Rename a step here and every page follows. |
+| Review price | `siteConfig.reviewPrice` in `src/content/site.ts` | `null` (default) keeps all prices out of the copy. A value such as `"$500"` switches the Review bar and the Services "Scope it" stop-point to their with-price wording. Also update the FAQ cost answer if you publish it. |
 | Hero option | `siteConfig.heroOption` in `src/content/site.ts` | `"A"` (recommended), `"B"`, `"C"` or `"D"` from the spec. Option B restores "Sound familiar?" as the problems heading. |
 
 ## Motion

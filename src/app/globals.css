@@ -114,17 +114,4 @@
     box-decoration-break: clone;
     -webkit-box-decoration-break: clone;
   }
-
-  .placeholder-mark {
-    background: #fde68a;
-    color: #4a3200;
-    border: 1px dashed #b45309;
-    border-radius: 4px;
-    padding: 0 0.3em;
-    font-family: var(--font-mono);
-    font-size: 0.82em;
-    font-style: normal;
-    font-weight: 500;
-    overflow-wrap: anywhere;
-  }
 }

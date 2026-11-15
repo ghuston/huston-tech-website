@@ -1,10 +1,13 @@
 export const siteConfig = {
   name: "Huston Tech",
   founder: "Grant Huston",
-  url: (process.env.NEXT_PUBLIC_SITE_URL ?? "https://hustontech.com").replace(/\/+$/, ""),
+  url: (process.env.NEXT_PUBLIC_SITE_URL ?? "https://hustonlogic.com").replace(/\/+$/, ""),
   oneLiner:
     "Huston Tech fixes the operational headaches that pile up when a small business grows faster than its systems. It starts with the tools the business already pays for.",
   copyrightYear: 2026,
+  /** Footer and bios (docs/website-plan.md, A1 and B10). Read by the v3 footer from PR 5. */
+  tagline: "Custom websites and workflows, from hello to handled.",
+  footerBrandLine: "Grant Huston · [[Based in Orange County, CA]] · Working with clients anywhere",
   /** Provider-dependent values. `null` renders a visible placeholder and fails `npm run check:placeholders`. */
   email: null as string | null,
   emailPlaceholder: "hello@hustontech.com",
@@ -12,7 +15,7 @@ export const siteConfig = {
   linkedInUrl: null as string | null,
   /**
    * Workflow Review price. `null` (the default) keeps every price out of the copy and shows the no-price Review bar.
-   * A value such as "$500" switches the Review bar and the Services "Find it" paragraph to their with-price wording.
+   * A value such as "$500" switches the Review bar and the Services "Scope it" paragraph to their with-price wording.
    */
   reviewPrice: null as string | null,
   /** Hero headline/subhead option from the spec (B1). "A" is the recommended default. */
@@ -21,46 +24,41 @@ export const siteConfig = {
 
 export type HeroOptionId = "A" | "B" | "C" | "D";
 
-export type FrameworkStepKey = "find" | "fix" | "flick";
+export type FrameworkStepKey = "scope" | "shape" | "ship";
 
 export type FrameworkStep = {
   key: FrameworkStepKey;
   number: string;
   /** The step name, used everywhere the framework is named. Changing it here updates every page. */
   label: string;
-  /** One word, for the "Find · Fix · Flick" shorthand. */
-  short: string;
   /** Past tense, for the case-study strip. */
   past: string;
   oneLiner: string;
 };
 
-/** Single source of truth for the Find it / Fix it / Flick it framework. Step zero (the free call) is not a step. */
+/** Single source of truth for the Scope it / Shape it / Ship it framework (Revision 7.1). Step zero (the free call) is not a step. */
 export const framework: { steps: FrameworkStep[] } = {
   steps: [
     {
-      key: "find",
+      key: "scope",
       number: "01",
-      label: "Find it",
-      short: "Find",
-      past: "Found",
-      oneLiner: "I trace where the work gets stuck and rank what's worth fixing.",
+      label: "Scope it",
+      past: "Scoped",
+      oneLiner: "Plan and price, before I build.",
     },
     {
-      key: "fix",
+      key: "shape",
       number: "02",
-      label: "Fix it",
-      short: "Fix",
-      past: "Fixed",
-      oneLiner: "I build the change and test it before it touches your live system.",
+      label: "Shape it",
+      past: "Shaped",
+      oneLiner: "Built, then I try to break it.",
     },
     {
-      key: "flick",
+      key: "ship",
       number: "03",
-      label: "Flick it",
-      short: "Flick",
-      past: "Flicked",
-      oneLiner: "Switched on, handed over, off your plate.",
+      label: "Ship it",
+      past: "Shipped",
+      oneLiner: "Live, and the logins are yours.",
     },
   ],
 };
@@ -72,7 +70,6 @@ export const framework: { steps: FrameworkStep[] } = {
 export const decisionsConfirmed = {
   heroOption: false,
   reviewPrice: false,
-  stepThreeName: false,
   lineArtStyle: false,
 } as const;
 

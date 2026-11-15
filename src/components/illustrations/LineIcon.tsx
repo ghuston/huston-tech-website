@@ -11,7 +11,7 @@ type Props = { step: FrameworkStepKey; className?: string };
  * "draw" animation needs a scaled stroke: they use viewBox units (4 is about 1.5px at 36px) and callers override
  * them with `[stroke-width:n]` for other sizes. Decorative only.
  */
-export function FrameworkIcon({ step, className = "size-9" }: Props) {
+export function LineIcon({ step, className = "size-9" }: Props) {
   return (
     <svg
       aria-hidden="true"
@@ -22,23 +22,23 @@ export function FrameworkIcon({ step, className = "size-9" }: Props) {
       strokeWidth="4"
       className={className}
     >
-      {step === "find" ? (
+      {step === "scope" ? (
         <>
-          <circle data-part="find-dashed" cx="37" cy="48" r="27" strokeDasharray="3 4" {...fixedStroke} />
-          <circle data-part="find-solid" cx="59" cy="48" r="27" {...fixedStroke} />
+          <circle data-part="scope-dashed" cx="37" cy="48" r="27" strokeDasharray="3 4" {...fixedStroke} />
+          <circle data-part="scope-solid" cx="59" cy="48" r="27" {...fixedStroke} />
         </>
       ) : null}
-      {step === "fix" ? (
+      {step === "shape" ? (
         <>
-          <circle data-part="fix-ring" cx="48" cy="48" r="36" pathLength={1} />
-          <circle data-part="fix-ring" cx="48" cy="48" r="20" pathLength={1} />
-          <circle data-part="fix-dot" cx="48" cy="48" r="5" fill="currentColor" stroke="none" />
+          <circle data-part="shape-ring" cx="48" cy="48" r="36" pathLength={1} />
+          <circle data-part="shape-ring" cx="48" cy="48" r="20" pathLength={1} />
+          <circle data-part="shape-dot" cx="48" cy="48" r="5" fill="currentColor" stroke="none" />
         </>
       ) : null}
-      {step === "flick" ? (
+      {step === "ship" ? (
         <>
           <rect
-            data-part="flick-outline"
+            data-part="ship-outline"
             x="19.72"
             y="19.72"
             width="56.57"
@@ -48,7 +48,7 @@ export function FrameworkIcon({ step, className = "size-9" }: Props) {
             style={{ transform: "rotate(45deg)" }}
           />
           <rect
-            data-part="flick-center"
+            data-part="ship-center"
             x="33.86"
             y="33.86"
             width="28.28"

@@ -60,7 +60,7 @@ export const whatHappensNext = {
     { title: "Step zero: a free 20-minute call", body: "about one problem and the tools involved." },
     {
       title: "If there's a fit,",
-      body: fw("I'll send a short written scope for step one, {find} (your Workflow Review). If not, I'll point you somewhere useful."),
+      body: fw("I'll send a short written scope for step one, {scope} (your Workflow Review). If not, I'll point you somewhere useful."),
     },
   ],
   emailLabel: "Prefer email?",

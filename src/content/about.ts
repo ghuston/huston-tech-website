@@ -32,9 +32,9 @@ export const aboutSections = {
     intro: fw("Every engagement runs the same three steps: **{stepsList}.** In practice, that means:"),
     items: [
       "**I listen first.** Before I suggest anything, I make sure I understand how your business actually works.",
-      fw("**I tell you the truth.** If {find} shows you don't need a build, I'll say so."),
+      fw("**I tell you the truth.** If {scope} shows you don't need a build, I'll say so."),
       "**I keep scope clear.** You'll always know what's included, what isn't, and what it costs before work begins.",
-      fw("**I don't vanish at launch.** {flick} means your team is trained, the documentation is written, and someone on your side owns it."),
+      fw("**I don't vanish at launch.** {ship} means your team is trained, the documentation is written, and someone on your side owns it."),
     ],
   },
   whatIBring: {
