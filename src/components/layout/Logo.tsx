@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Badge, Wordmark } from "@/components/hl/Marks";
 import { siteConfig } from "@/content/site";
+import { BadgeTurn } from "./BadgeTurn";
 
 const sizes = {
   // docs/STYLE-GUIDE.md §7.1: badge 34 with the wordmark 21 tall (30 and 18 on phones).
@@ -13,7 +14,14 @@ const sizes = {
 export function Logo({ size = "header" }: { size?: keyof typeof sizes }) {
   return (
     <Link href="/" aria-label={`${siteConfig.name}, home`} className="inline-flex min-h-11 items-center gap-[10px] rounded-btn text-ink">
-      <Badge className={sizes[size].badge} />
+      {size === "header" ? (
+        <BadgeTurn>
+          <Badge className={`hl-turn-face ${sizes[size].badge}`} />
+          <Badge className={`hl-turn-face hl-turn-back ${sizes[size].badge}`} />
+        </BadgeTurn>
+      ) : (
+        <Badge className={sizes[size].badge} />
+      )}
       <Wordmark className={sizes[size].word} />
     </Link>
   );
