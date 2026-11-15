@@ -1,6 +1,6 @@
 import type { heroStack } from "@/content/home";
 import { DOT_PATH, RING_PATH } from "./Marks";
-import { StackTilt } from "./StackTilt";
+import { StackTilt } from "./PointerTilt";
 
 /**
  * The H1 drawn as a picture (docs/STYLE-GUIDE.md §5.1 and §5.2): in front, a client's website; behind it, the workflow

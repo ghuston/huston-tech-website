@@ -1,9 +1,8 @@
 import { LineIcon } from "@/components/illustrations/LineIcon";
 import { StepConnector } from "@/components/illustrations/StepConnector";
-import { framework, type FrameworkStep, type FrameworkStepKey } from "@/content/site";
+import type { FrameworkStep, FrameworkStepKey } from "@/content/site";
 import { getStep } from "@/lib/framework";
 import { BookCallButton } from "./BookCallButton";
-import { InViewOnce } from "./InViewOnce";
 import { Callout } from "./Callout";
 import { Text } from "./Text";
 
@@ -23,12 +22,6 @@ export type DetailedStepContent = {
 
 export type StepZeroContent = { heading?: string; body: string };
 
-type CompactProps = {
-  variant: "compact";
-  /** Visually hidden H2 that names the block for screen readers. */
-  srHeading: string;
-};
-
 type DetailedProps = {
   variant: "detailed";
   stepZero: StepZeroContent;
@@ -36,46 +29,11 @@ type DetailedProps = {
 };
 
 /**
- * The Scope it / Shape it / Ship it framework. Step names, numbers and one-liners come from `site.ts`.
- * Step zero (the free call) is never a list item.
+ * The v1 Scope it / Shape it / Ship it step cards, still used by the Services page until it is rebuilt. Step names,
+ * numbers and one-liners come from `site.ts`. Step zero (the free call) is never a list item.
  */
-export function ProcessSteps(props: CompactProps | DetailedProps) {
-  return props.variant === "compact" ? <CompactSteps {...props} /> : <DetailedSteps {...props} />;
-}
-
-function CompactSteps({ srHeading }: CompactProps) {
-  return (
-    <div>
-      <h2 className="sr-only">{srHeading}</h2>
-      <InViewOnce
-        as="ol"
-        className="diagram grid divide-y divide-rule border-y border-rule md:grid-cols-3 md:divide-x md:divide-y-0"
-      >
-        {framework.steps.map((step) => (
-          <li key={step.key} className="flex flex-col items-center px-6 py-9 text-center md:py-12">
-            <div className="relative">
-              <LineIcon
-                step={step.key}
-                className="size-20 text-signal [stroke-width:1.8] md:size-24 md:[stroke-width:1.5]"
-              />
-              {step.key === "ship" ? (
-                <span
-                  aria-hidden="true"
-                  data-part="ship-connector"
-                  className="diagram-connector absolute right-[91.67%] top-1/2 h-[1.5px] w-10 -translate-y-1/2 bg-signal"
-                />
-              ) : null}
-            </div>
-            <span aria-hidden="true" className="mt-7 font-mono text-xs tracking-[0.12em] text-ink">
-              {step.number}
-            </span>
-            <h3 className="mt-1 text-[1.9rem] font-semibold leading-tight">{step.label}</h3>
-            <p className="mt-2 max-w-[17rem] text-base text-ink">{step.oneLiner}</p>
-          </li>
-        ))}
-      </InViewOnce>
-    </div>
-  );
+export function ProcessSteps(props: DetailedProps) {
+  return <DetailedSteps {...props} />;
 }
 
 function DetailedSteps({ stepZero, steps }: DetailedProps) {

@@ -1,11 +1,13 @@
 import { LineIcon } from "@/components/illustrations/LineIcon";
+import { Text } from "@/components/ui/Text";
 import type { FrameworkStepKey } from "@/content/site";
 import { getStep } from "@/lib/framework";
 
 export type StepColumn = {
+  /** Plain text, with optional **bold** runs. */
   paragraph: string;
-  /** What the person gets, as written in the copy (middle dots included). */
-  youGet: string;
+  /** What the person gets, as written in the copy (middle dots included). Home's short version has none. */
+  youGet?: string;
   /** The "you can stop here" stop-point. Worded identically wherever it appears. */
   callout?: { lead: string; body: string };
 };
@@ -14,21 +16,25 @@ export type DetailedStep = { key: FrameworkStepKey; website: StepColumn; workflo
 
 type DetailedStepsProps = {
   steps: DetailedStep[];
-  labels: { website: string; workflow: string; youGet: string };
+  labels: { website: string; workflow: string; youGet?: string };
   /** H2 on /how-i-work, where the copy writes the steps as H2s; H3 when the block sits under another H2. */
   headingLevel?: 2 | 3;
   /** The line under the steps, with its italic note. */
   proof?: { text: string; note: string };
 };
 
-function Column({ label, youGetLabel, column }: { label: string; youGetLabel: string; column: StepColumn }) {
+function Column({ label, youGetLabel, column }: { label: string; youGetLabel?: string; column: StepColumn }) {
   return (
     <div>
       <p className="font-ui text-[15px] font-semibold text-green">{label}</p>
-      <p className="mt-2 text-body">{column.paragraph}</p>
-      <p className="mt-4 text-body">
-        <span className="font-ui font-semibold text-green">{youGetLabel}</span> {column.youGet}
+      <p className="mt-2 text-body">
+        <Text>{column.paragraph}</Text>
       </p>
+      {column.youGet ? (
+        <p className="mt-4 text-body">
+          <span className="font-ui font-semibold text-green">{youGetLabel}</span> {column.youGet}
+        </p>
+      ) : null}
       {column.callout ? (
         <div className="mt-6 rounded-card bg-tint px-5 py-[18px] text-body">
           <span className="font-ui text-[17px] font-semibold text-green">{column.callout.lead}</span> {column.callout.body}

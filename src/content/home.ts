@@ -1,6 +1,6 @@
-import type { DetailedStepContent, StepZeroContent } from "@/components/ui/ProcessSteps";
+import type { DetailedStep } from "@/components/hl/DetailedSteps";
 import { fw } from "@/lib/framework";
-import { bookCallShortLabel } from "./site";
+import { bookCallLabel, bookCallShortLabel } from "./site";
 
 export type ProofStripContent = {
   stats: { value: string; label: string }[];
@@ -88,70 +88,99 @@ export const arcContent = {
   srHeading: fw("How it works: {stepsList}"),
 };
 
+// ---- Below the doors: docs/website-plan.md, B1 (Revision 7.1), word for word. ----
+
 export const problems = {
   eyebrow: "Sound familiar?",
-  heading: "Your business grew. Your systems didn't get the memo.",
-  notes: [
+  line1: "You've been busy with the real work.",
+  line2: "Your website and your inbox can tell.",
+  items: [
     {
-      title: "A new client inquiry came in Friday. Nobody saw it until Tuesday.",
-      body: "New business slips through the cracks between your website, inbox and calendar.",
+      title: "You send someone your website and wince a little.",
+      line: "The business has moved on since the site went up. The site hasn't.",
+    },
+    {
+      title: "Someone filled in your contact form on Friday. You found it Tuesday.",
+      line: "New business slips between the website, the inbox and the calendar.",
     },
     {
       title: "Payroll means a weekend with three spreadsheets and a calculator.",
-      body: "Staff pay depends on rules nobody wants to calculate by hand twice a month.",
+      line: "Staff pay follows rules nobody wants to work out by hand twice a month.",
     },
     {
-      title: "The payment failed. Nobody knows who's supposed to chase it.",
-      body: "Exceptions sit in a report until they become a problem.",
+      title: "A payment failed, and nobody knows who's supposed to chase it.",
+      line: "Exceptions sit in a report until they turn into a problem.",
     },
     {
-      title: "We pay for a CRM. We use it as a very expensive address book.",
-      body: "The setup was never finished, or it was finished for a business you no longer are.",
+      title: "You pay for a CRM and use it as a very expensive address book.",
+      line: "The setup was never finished, or it was finished for the business you used to be.",
     },
     {
-      title: "Every number I need lives in a different app.",
-      body: "You make big decisions on gut feel because pulling the real numbers takes too long.",
-    },
-    {
-      title: "Everything works… as long as I'm the one doing it.",
-      body: "You hired a team, but the processes still live in your head.",
+      title: "It all works, as long as you're the one doing it.",
+      line: "You hired a team. The process still lives in your head.",
     },
   ],
-  after: "If you nodded at two or more of these, we should talk.",
+  after: "If two of these sounded familiar, that's a good 20-minute call.",
+  cta: `${bookCallShortLabel} →`,
 };
 
 export const whatIDo = {
-  heading: "Practical fixes for the stuff that slows you down",
+  heading: "What you can hire me for",
   intro:
-    "I'm a business systems consultant. In plain English, I make your software, data and day-to-day processes work together so your team spends less time chasing and more time doing the work you're actually in business for.",
-  items: [
+    "I build custom websites, and I fix the workflows behind small businesses: how an inquiry gets answered, how staff get paid, how the numbers reach you. You can start with either one.",
+  groups: [
     {
-      title: "Follow-up that doesn't fall through the cracks",
-      body: "Every inquiry gets an owner, a fast and useful reply, and a clear path to a first appointment.",
+      heading: "Websites",
+      items: [
+        {
+          title: "A custom site, from [[$750]]",
+          body: "Designed for your business from scratch, on your own domain, in accounts you own. Checked for speed, accessibility, security and search basics before it goes live.",
+        },
+        {
+          title: "A contact form that writes back",
+          body: "Every inquiry lands in your inbox and in a spreadsheet you own, and the person gets an automatic reply right away. A personalized follow-up sequence and online booking are add-ons.",
+        },
+        {
+          title: "Someone looking after it",
+          body: "Site Care covers updates, monitoring and small changes after launch, if you want it.",
+        },
+      ],
+      link: { label: "See what's included →", href: "/services#websites" },
     },
     {
-      title: "Numbers you can actually see",
-      body: "Owner dashboards and reports for revenue, retention, staff performance and pay, pulled together from the tools you already use.",
-    },
-    {
-      title: "Payments and staff pay without the spreadsheet weekend",
-      body: "Failed payments get flagged and owned. Pay calculations follow your rules, every time.",
-    },
-    {
-      title: "Software that finally pulls its weight",
-      body: "CRM setup and cleanup, automations, integrations, and custom tools when off-the-shelf doesn't fit.",
+      heading: "Workflows & systems",
+      items: [
+        {
+          title: "Follow-up that doesn't slip",
+          body: "Every inquiry gets an owner, a useful reply and a clear path to a first appointment.",
+        },
+        {
+          title: "Numbers you can see",
+          body: "Owner dashboards for revenue, retention, staff performance and pay, from the tools you already use.",
+        },
+        {
+          title: "Payments and staff pay",
+          body: "Failed payments get flagged and owned. Pay follows your rules and gets checked before anyone is paid.",
+        },
+        {
+          title: "Software that pulls its weight",
+          body: "CRM setup and cleanup, automations, integrations, and custom tools when off-the-shelf doesn't fit.",
+        },
+      ],
+      link: { label: "See workflow work →", href: "/services#workflows" },
     },
   ],
-  cta: { label: "Explore services →", href: "/services" },
   zoho: {
     lead: "Already on Zoho?",
-    body: "It's one of my deepest specialties. I fix underused and messy Zoho setups without starting over.",
+    body: "It's my deepest specialty. I fix underused and messy Zoho setups without starting over.",
     link: { label: "See how →", href: "/services#zoho" },
   },
 };
 
 export const proof = {
-  heading: "Real projects. Real owners. Their words, not mine.",
+  heading: "What clients said afterward",
+  /** Each testimonial carries this label: the three so far are systems projects, never website proof (C3). */
+  tag: "Systems project",
   teasers: [
     {
       name: "Hideout Fitness",
@@ -165,11 +194,13 @@ export const proof = {
     },
   ],
   teaserLinkLabel: "Read the project →",
+  /** Shown until the first website is live and the owner approves it (the three cards come later). */
+  websitesFallback: "This site was built the same way I'll build yours.",
 };
 
 export const proofStrip: ProofStripContent = {
   stats: [
-    { value: "3 of 3", label: "clients said we met the goals set at kickoff" },
+    { value: "3 of 3", label: "clients said the project met the goals set at kickoff" },
     { value: "5/5", label: "on communication" },
     { value: "5/5", label: "on handoff & training" },
   ],
@@ -179,98 +210,78 @@ export const proofStrip: ProofStripContent = {
 
 export const howItWorks = {
   eyebrow: fw("{steps}"),
-  heading: "What you get at each step",
-  stepZero: {
-    body: "Every project runs the same three steps, and nothing starts until you've seen the scope and the price. It all begins with a free 20-minute call: tell me what's bugging you and what you use today, and I'll tell you honestly whether I can help.",
-  } satisfies StepZeroContent,
+  line1: "Same three steps,",
+  line2: "website or workflow.",
+  /** The unnumbered step zero: the free call. It is never a fourth step. */
+  stepZero:
+    "Nothing starts until you've seen the plan and the price. It begins with a free 20-minute call: tell me what you need and what you use today, and I'll tell you straight whether I can help.",
+  cta: `${bookCallLabel} →`,
+  labels: { website: "Website:", workflow: "Workflow:" },
   steps: [
     {
       key: "scope",
-      subtitle: "the Workflow Review",
-      paragraphs: [
-        "I dig into one process: what's happening, why, and what your current tools can already do about it. Then I rank what's worth fixing.",
-      ],
-      list: {
-        label: "You get",
-        items: ["Written findings", "A prioritized plan", "A scoped quote for the fix, if one is worth building"],
-      },
-      afterList: "It's a fixed fee agreed up front, and the report is yours to keep.",
-      callout: {
-        lead: "You can stop here.",
-        body: "Take the plan and run with it yourself, or put it on the shelf for later. If the honest answer is \"you don't need a build,\" that's still a win.",
-      },
+      website: { paragraph: "a short brief, then a written plan and a fixed price." },
+      workflow: { paragraph: "a fixed-fee Workflow Review, with written findings and a plan. **You can stop here.**" },
     },
     {
       key: "shape",
-      subtitle: "a clearly scoped project",
-      paragraphs: [
-        "I build the change, usually in the tools you already pay for, and test it with safe sample data against acceptance tests we agreed on before I started.",
-      ],
-      list: {
-        label: "You get",
-        items: [
-          "A written scope and acceptance tests up front",
-          "The build, tested",
-          "The Review fee credited toward the project",
-        ],
-      },
+      website: { paragraph: "a private preview, one round of changes, then testing on your phone and mine." },
+      workflow: { paragraph: "built in your tools where possible, and tested with safe sample data against checks agreed in advance." },
     },
     {
       key: "ship",
-      subtitle: "the handoff",
-      paragraphs: [
-        "Switched on, handed over, off your plate. I train the people who'll use it, document how it works, and make sure someone on your side owns it.",
-      ],
-      list: {
-        label: "You get",
-        items: ["Team training", "Documentation", "A 14-day correction window", "Full ownership of your accounts, data and logins"],
-      },
-      proof: "All three client wrap-up surveys so far rated handoff and training 5/5.",
+      website: { paragraph: "live on your domain, with the accounts in your name and 14 days of fixes." },
+      workflow: { paragraph: "your team trained, the process written down, and 14 days of corrections." },
     },
-  ] satisfies DetailedStepContent[],
-  after: "No rip-and-replace. No 40-slide strategy deck. Just one useful improvement at a time.",
-  support: {
-    lead: "Want me to keep an eye on things after handoff?",
-    link: { label: "Ongoing support is available", href: "/services#systems" },
+  ] satisfies DetailedStep[],
+  proof: {
+    text: "All three client wrap-up surveys so far rated handoff and training 5/5.",
+    note: "(Systems projects.)",
   },
+  link: { label: "See how each step works →", href: "/how-i-work" },
 };
 
-export const whyHustonTech = {
-  heading: "Why owners work with me",
+export const why = {
+  heading: "Why people hire me",
   items: [
+    {
+      title: "You work with me.",
+      body: "Not an account manager or a junior team. The person on the call is the person doing the work.",
+    },
+    {
+      title: "You see the price first.",
+      body: "Fixed prices, agreed in writing before I start. No meter running in the background.",
+    },
+    {
+      title: "You own it.",
+      body: "The domain, the hosting account, the data and the logins are in your name from day one.",
+    },
     {
       title: "I start with what you have.",
       body: "New software isn't always the answer. Often the fix is a setting, a process or a connection between tools you already pay for.",
-    },
-    {
-      title: "You work with me.",
-      body: "Not an account manager, not a rotating junior team. The person on your call is the person doing the work.",
-    },
-    {
-      title: "You always know what you're paying for.",
-      body: "Fixed fees, agreed in writing before work starts. No hourly meter running in the background.",
     },
   ],
 };
 
 export const aboutTeaser = {
   heading: "Hi, I'm Grant.",
-  body: "I've been building business systems for small teams since 2024. The first was a group therapy practice that had outgrown doing everything by hand. Before starting Huston Logic, I led delivery for 21 client accounts at a Zoho consulting partner, in industries from healthcare to wholesale to local government. I love the moment a messy process finally clicks.",
+  body: "I've built business systems for small teams since 2024, starting with a group therapy practice that had outgrown doing everything by hand. Before Huston Logic, I led delivery for 21 client accounts at a Zoho consulting partner, in industries from healthcare to wholesale to local government. Now I build websites too. This one was first.",
   link: { label: "More about me →", href: "/about" },
-  photoLabel: "[[PHOTO: headshot of Grant. Grant to supply]]",
+  /** For the headshot once Grant supplies one (docs/STYLE-GUIDE.md §7.22). Until then the ring shows an empty disc. */
+  photoAlt: "Grant Huston",
 };
 
 export const insightsTeaser = {
-  heading: "Useful stuff, no fluff",
-  body: "Practical articles on systems, follow-up, reporting and running a growing team.",
+  heading: "Notes from the work",
+  body: "Plain-English articles on websites, follow-up, reporting and running a small team.",
   link: { label: "Read Insights →", href: "/insights" },
-  comingSoon: "The first articles are on the way.",
 };
 
 export const closingCta = {
-  heading: "Let's find the thing that's slowing you down.",
-  body: "Twenty minutes, no pitch deck, no pressure. You'll leave with at least one useful idea, even if we never work together.",
+  line1: "Twenty minutes.",
+  line2: "Worst case, you get one good idea.",
+  body: "Tell me what's going on with your website or your workflow. If I'm not the right person, I'll tell you who is.",
+  cta: `${bookCallLabel} →`,
   secondary: { label: "send a quick note →", href: "/contact" },
-  microcopy:
-    "Not in health & wellness? I work with all kinds of small businesses. If it involves messy processes and software, I'm interested.",
+  note: "Not a business, exactly? Bands and solo pros are welcome too.",
 };

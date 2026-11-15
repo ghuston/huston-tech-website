@@ -54,7 +54,7 @@ export default function HowIWorkPage() {
         </Container>
       </section>
 
-      <ClosingCta heading={howIWorkClosing.heading} body={howIWorkClosing.body}>
+      <ClosingCta heading={<h2 className="font-ui text-h2 font-bold">{howIWorkClosing.heading}</h2>} body={howIWorkClosing.body}>
         <Button href={bookCallHref()}>{howIWorkClosing.cta}</Button>
       </ClosingCta>
     </div>
