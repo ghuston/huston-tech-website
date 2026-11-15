@@ -1,23 +1,23 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import { AboutTeaser } from "@/components/hl/AboutTeaser";
 import { ArcSteps } from "@/components/hl/ArcSteps";
+import { Button } from "@/components/hl/Button";
+import { CaseStudyTeaser } from "@/components/hl/CaseStudyTeaser";
+import { ClosingCta } from "@/components/hl/ClosingCta";
+import { Container } from "@/components/hl/Container";
+import { DetailedSteps } from "@/components/hl/DetailedSteps";
 import { DoorBand } from "@/components/hl/DoorBand";
+import { Eyebrow } from "@/components/hl/Eyebrow";
 import { Hero } from "@/components/hl/Hero";
 import { HeroStack } from "@/components/hl/HeroStack";
-import { ArrowLabel } from "@/components/ui/ArrowLabel";
-import { BookCallButton, bookCallHref } from "@/components/ui/BookCallButton";
-import { Button } from "@/components/ui/Button";
-import { Callout } from "@/components/ui/Callout";
-import { CTASection } from "@/components/ui/CTASection";
-import { Eyebrow } from "@/components/ui/Eyebrow";
-import { PhotoPlaceholder } from "@/components/ui/MediaPlaceholders";
-import { ProcessSteps } from "@/components/ui/ProcessSteps";
-import { ProofStrip } from "@/components/ui/ProofStrip";
-import { Section } from "@/components/ui/Section";
-import { SectionHeading } from "@/components/ui/SectionHeading";
-import { StatusChip } from "@/components/ui/StatusChip";
-import { StickyNoteCard } from "@/components/ui/StickyNoteCard";
-import { TestimonialCard } from "@/components/ui/TestimonialCard";
+import { ProblemGrid } from "@/components/hl/ProblemGrid";
+import { ProofChips } from "@/components/hl/ProofChips";
+import { ReasonList } from "@/components/hl/ReasonList";
+import { ServiceGroups } from "@/components/hl/ServiceGroups";
+import { TestimonialRow } from "@/components/hl/TestimonialRow";
+import { TextLink } from "@/components/hl/TextLink";
+import { TwoVoice } from "@/components/hl/TwoVoice";
+import { bookCallHref } from "@/components/ui/BookCallButton";
 import {
   aboutTeaser,
   arcContent,
@@ -33,178 +33,91 @@ import {
   proof,
   proofStrip,
   whatIDo,
-  whyHustonTech,
+  why,
 } from "@/content/home";
-import { bookCallShortLabel } from "@/content/site";
 import { getTestimonials } from "@/content/testimonials";
 import { pageMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = pageMetadata({ ...homeMeta, path: "/" });
 
+/**
+ * Home, in the order of docs/website-plan.md B1 (Revision 7.1). One H1 (the hero), the arc's hidden H2 and step H3s, the
+ * door H2s, then one H2 per section; the step H3s of "Same three steps" sit under their own H2.
+ */
 export default function HomePage() {
   const testimonials = getTestimonials("home");
 
   return (
-    <>
-      {/* The top of Home (style guide v3): hero, the arc, the two doors. The sections below are still v1. */}
-      <div className="hl relative overflow-x-clip">
-        <Hero content={heroContent} doors={doors} callHref={bookCallHref()} stack={<HeroStack content={heroStack} />} />
-        <ArcSteps srHeading={arcContent.srHeading} />
-        <DoorBand doors={doors} label={doorBandLabel} />
-      </div>
+    <div className="hl relative overflow-x-clip">
+      <Hero content={heroContent} doors={doors} callHref={bookCallHref()} stack={<HeroStack content={heroStack} />} />
+      <ArcSteps srHeading={arcContent.srHeading} />
+      <DoorBand doors={doors} label={doorBandLabel} />
 
-      <Section tone="paper" labelledBy="problems-title">
-        <div className="mb-5">
-          <Eyebrow>{problems.eyebrow}</Eyebrow>
-        </div>
-        <SectionHeading id="problems-title">{problems.heading}</SectionHeading>
-        <ul className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 lg:gap-10">
-          {problems.notes.map((note, i) => (
-            <StickyNoteCard key={note.title} index={i} title={note.title} body={note.body} />
-          ))}
-        </ul>
-        <div className="mt-12 flex flex-col gap-4 sm:flex-row sm:items-center">
-          <p className="font-display text-xl font-semibold">{problems.after}</p>
-          <BookCallButton label={bookCallShortLabel} fullWidthOnMobile />
-        </div>
-      </Section>
+      <ProblemGrid content={problems} ctaHref={bookCallHref()} />
 
-      <Section tone="sage" labelledBy="what-i-do-title">
-        <div className="grid gap-12 lg:grid-cols-[1fr_1.2fr] lg:gap-16">
-          <div>
-            <h2 id="what-i-do-title" className="text-[1.75rem] leading-tight sm:text-4xl lg:text-[2.5rem]">
-              {whatIDo.heading}
-            </h2>
-            <p className="mt-5 text-ink/85">{whatIDo.intro}</p>
-            <div className="mt-8">
-              <Button href={whatIDo.cta.href} variant="secondary">
-                {whatIDo.cta.label}
-              </Button>
-            </div>
+      <ServiceGroups content={whatIDo} />
+
+      <section aria-labelledby="proof-title" className="py-16 md:py-24">
+        <Container>
+          <h2 id="proof-title" className="font-ui text-h2 font-bold">
+            {proof.heading}
+          </h2>
+          <div className="mt-12">
+            <TestimonialRow testimonials={testimonials} tag={proof.tag} />
           </div>
-          <ul className="grid gap-4">
-            {whatIDo.items.map((item) => (
-              <li key={item.title} className="rounded-[14px] border border-line bg-surface p-5 sm:p-6">
-                <h3 className="text-[1.35rem] leading-snug">{item.title}</h3>
-                <p className="mt-2 text-ink/80">{item.body}</p>
-              </li>
+          <div className="mt-14 grid gap-8 md:grid-cols-2">
+            {proof.teasers.map((teaser) => (
+              <CaseStudyTeaser key={teaser.name} name={teaser.name} body={teaser.body} href={teaser.href} linkLabel={proof.teaserLinkLabel} />
             ))}
-          </ul>
-        </div>
-        <Callout tone="note" className="mt-12">
-          <p className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <span>
-              <strong>{whatIDo.zoho.lead}</strong> {whatIDo.zoho.body}
-            </span>
-            <Link href={whatIDo.zoho.link.href} className="shrink-0 font-semibold text-sage underline underline-offset-4">
-              <ArrowLabel>{whatIDo.zoho.link.label}</ArrowLabel>
-            </Link>
-          </p>
-        </Callout>
-      </Section>
-
-      <Section tone="paper" labelledBy="proof-title">
-        <SectionHeading id="proof-title">{proof.heading}</SectionHeading>
-        <div className="grid gap-6 lg:grid-cols-3">
-          {testimonials.map((testimonial) => (
-            <TestimonialCard key={testimonial.id} testimonial={testimonial} />
-          ))}
-        </div>
-        <div className="mt-8 grid gap-6 md:grid-cols-2">
-          {proof.teasers.map((teaser) => (
-            <article key={teaser.name} className="rounded-[14px] border border-line bg-surface p-6 sm:p-8">
-              <StatusChip tone="signal">Project</StatusChip>
-              <h3 className="mt-4 text-2xl">{teaser.name}</h3>
-              <p className="mt-3 text-ink/85">{teaser.body}</p>
-              <p className="mt-5">
-                <Link href={teaser.href} className="inline-flex min-h-11 items-center font-semibold text-sage underline underline-offset-4">
-                  <ArrowLabel>{proof.teaserLinkLabel}</ArrowLabel>
-                </Link>
-              </p>
-            </article>
-          ))}
-        </div>
-        <div className="mt-8">
-          <ProofStrip content={proofStrip} />
-        </div>
-      </Section>
-
-      <Section id="how-it-works" tone="sage" labelledBy="how-title">
-        <div className="mb-5">
-          <Eyebrow>{howItWorks.eyebrow}</Eyebrow>
-        </div>
-        <SectionHeading id="how-title">{howItWorks.heading}</SectionHeading>
-        <ProcessSteps variant="detailed" stepZero={howItWorks.stepZero} steps={howItWorks.steps} />
-        <p className="mt-14 max-w-[var(--container-prose)] font-display text-xl font-semibold lg:mt-12">
-          {howItWorks.after}{" "}
-          <span className="font-sans text-base font-normal">
-            {howItWorks.support.lead}{" "}
-            <Link href={howItWorks.support.link.href} className="font-semibold text-sage underline underline-offset-4">
-              <ArrowLabel>{howItWorks.support.link.label}</ArrowLabel>
-            </Link>
-            .
-          </span>
-        </p>
-      </Section>
-
-      <Section tone="paper" labelledBy="why-title">
-        <SectionHeading id="why-title">{whyHustonTech.heading}</SectionHeading>
-        <ul className="grid gap-x-12 gap-y-10 lg:grid-cols-3">
-          {whyHustonTech.items.map((item, i) => (
-            <li key={item.title} className="flex gap-5">
-              <span aria-hidden="true" className="font-mono text-sm font-medium text-signal">
-                0{i + 1}
-              </span>
-              <div>
-                <h3 className="text-2xl leading-snug">{item.title}</h3>
-                <p className="mt-2 text-ink/85">{item.body}</p>
-              </div>
-            </li>
-          ))}
-        </ul>
-      </Section>
-
-      <Section tone="surface" labelledBy="about-teaser-title">
-        <div className="grid items-center gap-12 lg:grid-cols-[1fr_1.4fr] lg:gap-20">
-          <PhotoPlaceholder label={aboutTeaser.photoLabel} />
-          <div>
-            <h2 id="about-teaser-title" className="text-[1.75rem] sm:text-4xl lg:text-[2.5rem]">
-              {aboutTeaser.heading}
-            </h2>
-            <p className="mt-5 text-ink/85">{aboutTeaser.body}</p>
-            <div className="mt-8">
-              <Button href={aboutTeaser.link.href} variant="secondary">
-                {aboutTeaser.link.label}
-              </Button>
-            </div>
           </div>
-        </div>
-      </Section>
-
-      <Section tone="paper" labelledBy="insights-teaser-title">
-        <div className="flex flex-col gap-6 rounded-[14px] border border-dashed border-ink/30 bg-surface p-6 sm:p-10 lg:flex-row lg:items-center lg:justify-between">
-          <div className="max-w-xl">
-            <StatusChip tone="note">Coming soon</StatusChip>
-            <h2 id="insights-teaser-title" className="mt-4 text-[1.75rem] sm:text-4xl">
-              {insightsTeaser.heading}
-            </h2>
-            <p className="mt-3 text-ink/85">
-              {insightsTeaser.body} {insightsTeaser.comingSoon}
-            </p>
+          <p className="mt-14 max-w-[60ch] text-lede">{proof.websitesFallback}</p>
+          <div className="mt-10">
+            <ProofChips content={proofStrip} />
           </div>
-          <Button href={insightsTeaser.link.href} variant="secondary" fullWidthOnMobile>
-            {insightsTeaser.link.label}
-          </Button>
-        </div>
-      </Section>
+        </Container>
+      </section>
 
-      <CTASection
-        id="closing-cta-title"
-        heading={closingCta.heading}
+      <section id="how-it-works" aria-labelledby="how-title" className="py-16 md:py-24">
+        <Container>
+          <Eyebrow className="mb-[14px]">{howItWorks.eyebrow}</Eyebrow>
+          <TwoVoice id="how-title" line1={howItWorks.line1} line2={howItWorks.line2} />
+          <p className="mt-6 max-w-[60ch] text-body">{howItWorks.stepZero}</p>
+          <div className="mt-6">
+            <Button href={bookCallHref()}>{howItWorks.cta}</Button>
+          </div>
+          <div className="mt-14">
+            <DetailedSteps steps={howItWorks.steps} labels={howItWorks.labels} headingLevel={3} proof={howItWorks.proof} />
+          </div>
+          <div className="mt-8">
+            <TextLink href={howItWorks.link.href}>{howItWorks.link.label}</TextLink>
+          </div>
+        </Container>
+      </section>
+
+      <ReasonList heading={why.heading} items={why.items} />
+
+      <AboutTeaser heading={aboutTeaser.heading} body={aboutTeaser.body} link={aboutTeaser.link} />
+
+      <section aria-labelledby="insights-title" className="py-16 md:py-24">
+        <Container>
+          <h2 id="insights-title" className="font-ui text-h2 font-bold">
+            {insightsTeaser.heading}
+          </h2>
+          <p className="mt-5 max-w-[60ch] text-body">{insightsTeaser.body}</p>
+          <div className="mt-6">
+            <TextLink href={insightsTeaser.link.href}>{insightsTeaser.link.label}</TextLink>
+          </div>
+        </Container>
+      </section>
+
+      <ClosingCta
+        heading={<TwoVoice line1={closingCta.line1} line2={closingCta.line2} />}
         body={closingCta.body}
-        secondary={closingCta.secondary}
-        microcopy={closingCta.microcopy}
-      />
-    </>
+        note={closingCta.note}
+      >
+        <Button href={bookCallHref()}>{closingCta.cta}</Button>
+        <TextLink href={closingCta.secondary.href}>{closingCta.secondary.label}</TextLink>
+      </ClosingCta>
+    </div>
   );
 }
