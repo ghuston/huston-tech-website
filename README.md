@@ -128,12 +128,12 @@ Normal builds (and CI) allow placeholders so the site can be previewed. **Use `n
 
 ### Contact and scheduling are placeholders
 
-There is intentionally **no working form and no scheduler**. `ContactFormPlaceholder` renders disabled fields (not a `<form>`, no handler) and `SchedulerPanel` renders a disabled button, both clearly marked. Every "Book a free call" button points at `/contact#book` until `siteConfig.schedulerUrl` is set, then points at the scheduler.
+There is intentionally **no working form and no scheduler**. `ContactForm` validates in the browser but sends nothing (a valid submit shows a marked "not connected" note), and the contact page shows a disabled "Pick a time" button, both clearly marked. Every "Book a free call" button points at `/contact#book` until `siteConfig.schedulerUrl` is set, then points at the scheduler.
 
 To wire real providers later:
 
 1. **Scheduler** (Zoho Bookings, Calendly, Cal.com): set `schedulerUrl` in `src/content/site.ts`. If embedding in an iframe, add the provider origin to `frame-src` in `public/_headers`.
-2. **Form**: choose a provider (for example a Cloudflare Worker with Turnstile plus an email service, or a hosted form service). Replace `ContactFormPlaceholder` with a real `<form>`, add the provider origin to `connect-src`/`form-action`/`script-src` as needed, add spam protection, and make `/contact/thanks` the redirect target.
+2. **Form**: choose a provider (for example a Cloudflare Worker with Turnstile plus an email service, or a hosted form service). Give `ContactForm` a real submit handler (and remove its not-connected note), add the provider origin to `connect-src`/`form-action`/`script-src` as needed, add spam protection, and make `/contact/thanks` the redirect target.
 3. **Email and LinkedIn**: set `email` and `linkedInUrl` in `site.ts`.
 4. **Analytics**: none is installed. The privacy copy mentions privacy-friendly analytics, so either add a cookieless tool (and its CSP origin) or edit the privacy text.
 

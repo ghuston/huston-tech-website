@@ -66,3 +66,32 @@ export function RingMark({ className = "" }: { className?: string }) {
     </svg>
   );
 }
+
+/**
+ * The ring and its dot as one inline drawing, centered on the viewBox origin (same geometry as the About teaser).
+ * `dotRotate` turns only the dot around the ring's center; the 404 uses it to park the dot away from the gap (§7.33).
+ */
+export function RingWithDot({
+  className = "",
+  ringColor,
+  dotColor,
+  dotRotate = 0,
+}: {
+  className?: string;
+  ringColor: string;
+  dotColor: string;
+  dotRotate?: number;
+}) {
+  return (
+    <svg viewBox="-380.18 -380.18 760.36 760.36" aria-hidden="true" focusable="false" className={className}>
+      <g transform="translate(-766.97 -435.17)">
+        <path d={RING_PATH} fill={ringColor} />
+      </g>
+      <g transform={`rotate(${dotRotate})`}>
+        <g transform="translate(-766.97 -435.17)">
+          <path d={DOT_PATH} fill={dotColor} />
+        </g>
+      </g>
+    </svg>
+  );
+}

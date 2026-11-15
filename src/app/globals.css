@@ -93,10 +93,6 @@
     border-radius: 4px;
   }
 
-  .on-dark {
-    --focus-color: #ffffff;
-  }
-
   ::selection {
     background: var(--color-signal-tint);
     color: var(--color-ink);
@@ -104,11 +100,6 @@
 }
 
 @layer components {
-  .dot-grid {
-    background-image: radial-gradient(var(--color-line) 1.2px, transparent 1.2px);
-    background-size: 22px 22px;
-  }
-
   .marker {
     background-image: linear-gradient(transparent 62%, var(--color-signal-tint) 62%, var(--color-signal-tint) 92%, transparent 92%);
     box-decoration-break: clone;
