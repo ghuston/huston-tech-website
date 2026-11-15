@@ -22,7 +22,7 @@ Marketing site for Huston Tech (one-person business systems consultancy, Grant H
   - **Find it · Fix it · Flick it** → **Scope it · Shape it · Ship it** (case-study strip: Scoped / Shaped / Shipped). The `fw()` labels and `framework.steps` change in the content-model PR. Step zero stays the free 20-minute call, unnumbered.
   - **"Never display pricing"** → the site publishes one price, "from `[[$750]]`" for a website. The Workflow Review fee stays unpublished. `siteConfig.reviewPrice` goes away.
   - **"Anything needing a server must use an external provider"** and the contact-form placeholder rules → the contact form posts to a small Worker script (`POST /api/contact`, website-plan E6), built in its own PR. Until then, the placeholder rules still hold: no working `<form>`, no fake success state.
-  - The **design-token, font and image bullets** under Architecture and SEO → STYLE-GUIDE.md §2–§4 and §7.34 (Outfit, Inter, Newsreader italic; no mono face).
+  - The **design-token, font and image bullets** under Architecture and SEO → STYLE-GUIDE.md §2–§4 and §7.34 (Outfit, Inter, Newsreader italic; no mono face). The v3 tokens and base CSS live in `src/app/hl.css`, the fonts in `src/lib/fonts.ts`, and the base primitives in `src/components/hl/`; v1's `src/components/ui/` stays until PR 14. New v3 pages wrap their content in the `.hl` class.
   - The whole **Motion rules** section → STYLE-GUIDE.md §9, including §9.3: the header badge turns with the scroll (one passive scroll listener; off under reduced motion).
   - The **sticky mobile call bar** (`MobileCtaBar`) and the **`ProcessSteps` compact variant** → removed in v3 (§10, §7.7).
 

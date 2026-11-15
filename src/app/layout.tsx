@@ -6,6 +6,7 @@ import { MobileCtaBar } from "@/components/layout/MobileCtaBar";
 import { bookCallHref } from "@/components/ui/BookCallButton";
 import { JsonLd } from "@/components/ui/JsonLd";
 import { siteConfig } from "@/content/site";
+import { outfit } from "@/lib/fonts";
 import { organizationJsonLd } from "@/lib/jsonld";
 import { OG_IMAGE_ALT, OG_IMAGE_PATH } from "@/lib/metadata";
 import "./globals.css";
@@ -56,7 +57,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning className={`${newsreader.variable} ${inter.variable} ${jetbrains.variable}`}>
+    <html lang="en" suppressHydrationWarning className={`${newsreader.variable} ${inter.variable} ${jetbrains.variable} ${outfit.variable}`}>
       <head>
         <script>{"document.documentElement.classList.add('js')"}</script>
       </head>

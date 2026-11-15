@@ -1,8 +1,9 @@
 @import "tailwindcss";
 @import "./motion.css";
+@import "./hl.css";
 
 @theme {
-  --color-ink: #27332d;
+  --color-ink: #29332d;
   --color-ink-deep: #1a231e;
   --color-paper: #f6f4ed;
   --color-surface: #ffffff;
@@ -24,7 +25,8 @@
   --container-prose: 45rem;
   --container-site: 75rem;
 
-  --shadow-lift: 0 10px 30px -12px rgb(39 51 45 / 0.28);
+  /* v1's lift shadow. Renamed so v3 can own `shadow-lift` (hl.css); removed with the rest of v1 in PR 14. */
+  --shadow-lift-v1: 0 10px 30px -12px rgb(39 51 45 / 0.28);
   --shadow-note: 0 1px 1px rgb(39 51 45 / 0.08), 0 8px 18px -10px rgb(39 51 45 / 0.35);
 }
 
