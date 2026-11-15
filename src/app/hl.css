@@ -700,6 +700,30 @@
     box-shadow: 0 1px 0 rgba(41, 51, 45, 0.06);
   }
 
+  /* §9.3 the header badge turns with the scroll. Two faces share one grid cell; the back face is turned 180deg so it
+     reads correctly (not mirrored) once the badge is past edge-on. BadgeTurn writes the inner element's transform. */
+  .hl-turn {
+    display: inline-grid;
+    perspective: 240px;
+  }
+  .hl-turn-inner {
+    display: grid;
+    transform-style: preserve-3d;
+  }
+  .hl-turn-face {
+    grid-area: 1 / 1;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
+  .hl-turn-back {
+    transform: rotateY(180deg);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hl-turn-inner {
+      transform: none !important;
+    }
+  }
+
   /* §7.26 footer: a 120px fade from the page's silver into silver-2, so there is no hard edge at its top. */
   .hl-footer {
     background:
