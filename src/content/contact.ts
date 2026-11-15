@@ -1,66 +1,88 @@
 import { fw } from "@/lib/framework";
 
+/** Copy: docs/website-plan.md Revision 7.1, B7, B7b and B8. */
 export const contactMeta = {
   title: "Contact | Book a Free 20-Minute Call | Huston Logic",
   description:
-    "Tell Grant what's slowing your business down. Book a free 20-minute call or send a quick note. Replies within one business day.",
+    "Need a website, or help with a workflow? Book a free 20-minute call or send a quick note. You get an automatic reply right away and Grant's own reply within one business day.",
 };
 
 export const contactHero = {
   eyebrow: "Huston, we have a problem.",
   title: "Good. Tell me about it.",
-  intro: "Two easy ways to start. Both are free, and neither comes with a 12-email follow-up sequence.",
+  intro: "Two ways to start, and both are free. Send a note and you'll get one automatic reply right away, then a real one from me.",
 };
 
 export const scheduler = {
   heading: "Book a 20-minute call",
-  body: "Pick a time that works. We'll talk about one problem, the tools you use and whether there's a sensible next step.",
-  buttonLabel: "Pick a time",
+  body: "Pick a time that works. Tell me what you need and what you use today, and I'll tell you whether there's a sensible next step.",
+  buttonLabel: "Pick a time →",
+  /** Dev-only marker until `siteConfig.schedulerUrl` is set; fails the launch gate on purpose. */
   placeholder: "[[SCHEDULER: embed or booking link goes here once a provider is chosen]]",
 };
+
+export type Topic = "website" | "workflow" | "both" | "unsure";
 
 export const noteForm = {
   heading: "Or send a quick note",
   partnerHeading: "Zoho partner? Tell me about the work and your timeline.",
-  placeholder: "[[CONTACT FORM: not connected. Fields are disabled until a form provider is chosen]]",
-  fields: {
-    name: { label: "Your name", placeholder: "" },
-    email: { label: "Best email", placeholder: "" },
-    business: { label: "Business name", placeholder: "" },
-    message: {
-      label: "What's going on?",
-      placeholder: "e.g. New inquiries come in from three places and nobody's sure who follows up.",
-    },
-    tools: {
-      label: "What tools do you use today?",
-      placeholder: "e.g. SimplePractice, QuickBooks, Google Sheets, Zoho… or 'not sure'",
-    },
-    website: { label: "Website (optional)", placeholder: "" },
-    source: {
-      label: "How did you hear about Huston Logic?",
-      options: ["Referral", "Google", "LinkedIn", "Article", "Other"],
+  needLegend: "What do you need?",
+  needOptions: [
+    { value: "website", label: "A website" },
+    { value: "workflow", label: "Help with a workflow" },
+    { value: "both", label: "Both" },
+    { value: "unsure", label: "Not sure" },
+  ] as { value: Topic; label: string }[],
+  name: { label: "Your name" },
+  email: { label: "Best email" },
+  business: { label: "Business or band name (optional)" },
+  message: {
+    label: "What's going on?",
+    placeholders: {
+      website: "e.g. A site for my band with show dates and a booking form.",
+      workflow: "e.g. New inquiries come in from three places and nobody's sure who follows up.",
+      other: "e.g. Our site is old, and inquiries from it get lost.",
     },
   },
-  optionalSuffix: "(optional)",
+  tools: {
+    label: "What do you use today?",
+    placeholders: {
+      website: "e.g. Squarespace, a Facebook page, or nothing yet.",
+      workflow: "e.g. SimplePractice, QuickBooks, Google Sheets, Zoho… or 'not sure'.",
+      other: "e.g. Squarespace, a Facebook page, or nothing yet.",
+    },
+  },
+  website: { label: "Current website (optional)" },
+  source: {
+    label: "How did you hear about Huston Logic?",
+    /** Interface string, not in Section B; flagged for Grant's OK. */
+    empty: "Choose one",
+    options: ["Referral", "Google", "LinkedIn", "Article", "Other"],
+  },
   privacyNote:
     "Please don't include client or patient details, account numbers or passwords. Anything sensitive gets handled the right way, later.",
-  submitLabel: "Send it over",
-  /** Kept for the day a form provider is wired up. */
-  validationMessages: {
+  submitLabel: "Send it over →",
+  errors: {
+    need: "Pick the closest one. 'Not sure' counts.",
     name: "Please add your name.",
     email: "That email doesn't look quite right.",
     message: "A sentence or two is plenty, but I do need something to go on.",
   },
+  /** Dev-only: shown after a valid submit until the Worker exists. Nothing is sent. Fails the launch gate on purpose. */
+  notConnected: "[[CONTACT FORM: not connected. Nothing was sent.]]",
 };
 
 export const whatHappensNext = {
   heading: "What happens next",
   steps: [
-    { title: "I read it myself", body: "and reply within one business day (Monday to Friday)." },
-    { title: "Step zero: a free 20-minute call", body: "about one problem and the tools involved." },
     {
-      title: "If there's a fit,",
-      body: fw("I'll send a short written scope for step one, {scope} (your Workflow Review). If not, I'll point you somewhere useful."),
+      lead: "An automatic reply",
+      body: "reaches you right away, so you know it arrived. Then I read your note myself and reply within one business day (Monday to Friday).",
+    },
+    { lead: "Step zero: a free 20-minute call", body: "about what you need and the tools involved." },
+    {
+      lead: "If there's a fit,",
+      body: "you get a written plan and price for a website, or a short written scope for a Workflow Review. If not, I'll point you somewhere useful.",
     },
   ],
   emailLabel: "Prefer email?",
@@ -69,20 +91,23 @@ export const whatHappensNext = {
 export const thanks = {
   title: "Contact confirmation | Huston Logic",
   description: "Confirmation page shown after a contact form submission.",
-  heading: "Got it, thanks!",
-  body: "That's step zero started. I'll reply within one business day. Want to skip the back-and-forth?",
-  pickTimeLabel: "Pick a time now",
-  afterCall: {
-    lead: "Curious what happens after the call?",
-    link: { label: fw("{steps} →"), href: "/#how-it-works" },
+  heading: "Got it, thanks.",
+  body: "That's step zero started. Your automatic reply is on its way (check spam the first time), and I'll write back myself within one business day. Want to skip the back-and-forth?",
+  pickTimeLabel: "Pick a time now →",
+  after: { lead: "Curious what happens after the call?", label: fw("{steps} →"), href: "/how-i-work" },
+  meanwhile: {
+    lead: "While you wait:",
+    links: [
+      { label: "What's included in a website →", href: "/services#websites" },
+      { label: "How a Workflow Review works →", href: "/services#workflows" },
+    ],
   },
-  next: "In the meantime:",
-  nextLink: { label: "See what I've built →", href: "/past-work" },
 };
 
 export const notFound = {
   title: "Page not found | Huston Logic",
   heading: "Huston, we have a problem.",
   body: "This page doesn't exist, or it moved without telling anyone. (Ironic, I know.)",
-  homeLabel: "Back to home",
+  homeLabel: "Back to home →",
+  callLabel: "Book a free call →",
 };

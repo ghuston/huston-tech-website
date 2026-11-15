@@ -1,30 +1,36 @@
 import type { Metadata } from "next";
-import { ContactEmail } from "@/components/ui/ContactEmail";
-import { PageHero } from "@/components/ui/PageHero";
-import { Section } from "@/components/ui/Section";
+import { Container } from "@/components/hl/Container";
+import { PageHero } from "@/components/hl/PageHero";
+import { TextLink } from "@/components/hl/TextLink";
 import { Text } from "@/components/ui/Text";
 import { privacy, privacyMeta } from "@/content/privacy";
+import { siteConfig } from "@/content/site";
 import { pageMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = pageMetadata({ ...privacyMeta, path: "/privacy" });
 
 export default function PrivacyPage() {
   return (
-    <>
-      <PageHero eyebrow="Legal" title={privacy.heading} />
-      <Section tone="paper" prose>
-        <div className="space-y-5">
-          {privacy.body.map((paragraph) => (
-            <p key={paragraph}>{paragraph}</p>
-          ))}
-          <p>
-            {privacy.deletionLead} <ContactEmail />. <Text>{privacy.lastUpdated}</Text>
-          </p>
-          <p className="text-sm">
-            <Text>{privacy.reviewNote}</Text>
-          </p>
-        </div>
-      </Section>
-    </>
+    <div className="hl relative overflow-x-clip">
+      <PageHero title={privacy.heading} />
+      <section className="pb-16 md:pb-24">
+        <Container>
+          <div className="max-w-[64ch] space-y-5 text-body">
+            <p>
+              {privacy.body}{" "}
+              {siteConfig.email ? (
+                <TextLink inline href={`mailto:${siteConfig.email}`}>
+                  {siteConfig.email}
+                </TextLink>
+              ) : null}
+              . <Text>{privacy.lastUpdated}</Text>
+            </p>
+            <p className="text-small">
+              <Text>{privacy.reviewNote}</Text>
+            </p>
+          </div>
+        </Container>
+      </section>
+    </div>
   );
 }

@@ -1,46 +1,81 @@
 import type { Metadata } from "next";
-import { ContactFormPlaceholder } from "@/components/sections/ContactFormPlaceholder";
-import { SchedulerPanel } from "@/components/sections/SchedulerPanel";
-import { ContactEmail } from "@/components/ui/ContactEmail";
-import { PageHero } from "@/components/ui/PageHero";
-import { Section } from "@/components/ui/Section";
-import { contactHero, contactMeta, whatHappensNext } from "@/content/contact";
+import { Button } from "@/components/hl/Button";
+import { Container } from "@/components/hl/Container";
+import { ContactForm } from "@/components/hl/ContactForm";
+import { PageHero } from "@/components/hl/PageHero";
+import { TextLink } from "@/components/hl/TextLink";
+import { Text } from "@/components/ui/Text";
+import { contactHero, contactMeta, scheduler, whatHappensNext } from "@/content/contact";
+import { siteConfig } from "@/content/site";
 import { pageMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = pageMetadata({ ...contactMeta, path: "/contact" });
 
+const h2 = "font-ui text-[28px] font-bold leading-tight tracking-[-0.03em]";
+
+/** Contact (docs/website-plan.md B7, STYLE-GUIDE §7.32): the scheduler column, the note form, then what happens next. */
 export default function ContactPage() {
   return (
-    <>
-      <PageHero eyebrow={contactHero.eyebrow} title={contactHero.title} intro={<p>{contactHero.intro}</p>} />
+    <div className="hl relative overflow-x-clip">
+      <PageHero eyebrow={contactHero.eyebrow} title={contactHero.title} intro={contactHero.intro} />
 
-      <Section tone="paper">
-        <div className="grid items-start gap-8 lg:grid-cols-2 lg:gap-12">
-          <SchedulerPanel />
-          <ContactFormPlaceholder />
-        </div>
-      </Section>
+      <section className="pb-12 md:pb-16">
+        <Container className="grid items-start gap-12 min-[900px]:grid-cols-[5fr_7fr] min-[900px]:gap-12">
+          <div id="book" className="scroll-mt-24">
+            <h2 className={h2}>{scheduler.heading}</h2>
+            <p className="mt-4 max-w-[48ch] text-body">{scheduler.body}</p>
+            <div className="mt-6">
+              {siteConfig.schedulerUrl ? (
+                <Button href={siteConfig.schedulerUrl} fullWidthOnMobile>
+                  {scheduler.buttonLabel}
+                </Button>
+              ) : (
+                <>
+                  <button
+                    type="button"
+                    disabled
+                    className="inline-flex min-h-[54px] w-full cursor-not-allowed items-center justify-center rounded-btn bg-ink/40 px-6 font-ui text-btn font-semibold text-white md:w-auto md:justify-start"
+                  >
+                    {scheduler.buttonLabel}
+                  </button>
+                  <p className="mt-4 text-small">
+                    <Text>{scheduler.placeholder}</Text>
+                  </p>
+                </>
+              )}
+            </div>
+          </div>
+          <ContactForm />
+        </Container>
+      </section>
 
-      <Section tone="sage" labelledBy="next-title">
-        <h2 id="next-title" className="text-3xl sm:text-4xl">
-          {whatHappensNext.heading}
-        </h2>
-        <ol className="mt-8 grid gap-6 md:grid-cols-3">
-          {whatHappensNext.steps.map((step, i) => (
-            <li key={step.title} className="rounded-[14px] border border-line bg-surface p-6">
-              <span className="mb-3 inline-grid size-10 place-items-center rounded-full bg-ink font-mono text-sm text-note">
-                {i + 1}
-              </span>
-              <p>
-                <strong>{step.title}</strong> {step.body}
-              </p>
-            </li>
-          ))}
-        </ol>
-        <p className="mt-8">
-          {whatHappensNext.emailLabel} <ContactEmail />
-        </p>
-      </Section>
-    </>
+      <section aria-labelledby="next-title" className="py-12 md:py-16">
+        <Container>
+          <h2 id="next-title" className="font-ui text-h2 font-bold">
+            {whatHappensNext.heading}
+          </h2>
+          <ol className="mt-8 max-w-[64ch] space-y-5 text-[17px] leading-[1.55]">
+            {whatHappensNext.steps.map((step, index) => (
+              <li key={step.lead} className="flex gap-4">
+                <span aria-hidden="true" className="w-6 shrink-0 font-ui text-item font-semibold text-green">
+                  {index + 1}
+                </span>
+                <span>
+                  <strong>{step.lead}</strong> {step.body}
+                </span>
+              </li>
+            ))}
+          </ol>
+          <p className="mt-8 flex flex-wrap items-center gap-x-2 text-[17px]">
+            {whatHappensNext.emailLabel}{" "}
+            {siteConfig.email ? (
+              <TextLink inline href={`mailto:${siteConfig.email}`}>
+                {siteConfig.email}
+              </TextLink>
+            ) : null}
+          </p>
+        </Container>
+      </section>
+    </div>
   );
 }

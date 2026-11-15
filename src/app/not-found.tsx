@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
-import { BookCallButton } from "@/components/ui/BookCallButton";
-import { Button } from "@/components/ui/Button";
-import { PageHero } from "@/components/ui/PageHero";
+import { Button } from "@/components/hl/Button";
+import { PageHero } from "@/components/hl/PageHero";
+import { TextLink } from "@/components/hl/TextLink";
+import { bookCallHref } from "@/components/ui/BookCallButton";
 import { notFound } from "@/content/contact";
 
 export const metadata: Metadata = {
@@ -11,11 +12,13 @@ export const metadata: Metadata = {
 
 export default function NotFound() {
   return (
-    <PageHero eyebrow="404" title={notFound.heading} intro={<p>{notFound.body}</p>}>
-      <Button href="/" variant="secondary" fullWidthOnMobile>
-        {notFound.homeLabel}
-      </Button>
-      <BookCallButton label="Book a free call" fullWidthOnMobile />
-    </PageHero>
+    <div className="hl relative overflow-x-clip">
+      <PageHero title={notFound.heading} intro={notFound.body} dotOut>
+        <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
+          <Button href="/">{notFound.homeLabel}</Button>
+          <TextLink href={bookCallHref()}>{notFound.callLabel}</TextLink>
+        </div>
+      </PageHero>
+    </div>
   );
 }

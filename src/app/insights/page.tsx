@@ -1,47 +1,52 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { ArrowLabel } from "@/components/ui/ArrowLabel";
-import { CTASection } from "@/components/ui/CTASection";
-import { PageHero } from "@/components/ui/PageHero";
-import { Section } from "@/components/ui/Section";
-import { StatusChip } from "@/components/ui/StatusChip";
-import { insightsClosing, insightsComingSoon, insightsHero, insightsMeta } from "@/content/insights";
+import { Button } from "@/components/hl/Button";
+import { ClosingCta } from "@/components/hl/ClosingCta";
+import { Container } from "@/components/hl/Container";
+import { PageHero } from "@/components/hl/PageHero";
+import { TextLink } from "@/components/hl/TextLink";
+import { bookCallHref } from "@/components/ui/BookCallButton";
+import { insightCategories, insightsClosing, insightsEmpty, insightsHero, insightsMeta } from "@/content/insights";
 import { pageMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = pageMetadata({ ...insightsMeta, path: "/insights" });
 
+/**
+ * Insights index (docs/website-plan.md B5). There are no posts yet, so the category row is static: "All" is current and
+ * the rest are plain labels, not links. The empty-state line shows under it.
+ */
 export default function InsightsPage() {
-  const c = insightsComingSoon;
   return (
-    <>
-      <PageHero eyebrow={insightsHero.eyebrow} title={insightsHero.title} intro={<p>{insightsHero.intro}</p>} />
+    <div className="hl relative overflow-x-clip">
+      <PageHero eyebrow={insightsHero.eyebrow} title={insightsHero.title} intro={insightsHero.intro} />
 
-      <Section tone="paper" labelledBy="coming-soon-title">
-        <div className="mx-auto max-w-3xl rounded-[14px] border border-dashed border-ink/30 bg-surface p-8 text-center sm:p-12">
-          <StatusChip tone="note">{c.chip}</StatusChip>
-          <h2 id="coming-soon-title" className="mt-5 text-3xl sm:text-4xl">
-            {c.heading}
-          </h2>
-          <p className="mt-4 text-ink/85">
-            {c.body}{" "}
-            <Link href={c.askLink.href} className="font-semibold text-sage underline underline-offset-4">
-              <ArrowLabel>{c.askLink.label}</ArrowLabel>
-            </Link>
+      <section aria-label="Articles" className="pb-12 md:pb-16">
+        <Container>
+          <ul aria-label="Categories" className="flex flex-wrap gap-x-7">
+            {insightCategories.map((category, index) => {
+              const active = index === 0;
+              return (
+                <li
+                  key={category}
+                  aria-current={active ? "true" : undefined}
+                  className={`inline-flex min-h-11 items-center font-ui text-[16px] font-medium ${active ? "underline decoration-rust decoration-[1.5px] underline-offset-[.35em]" : "text-ink-2"}`}
+                >
+                  {category}
+                </li>
+              );
+            })}
+          </ul>
+          <p className="mt-10 max-w-[60ch] text-body">
+            {insightsEmpty.body}{" "}
+            <TextLink inline href={insightsEmpty.askLink.href}>
+              {insightsEmpty.askLink.label}
+            </TextLink>
           </p>
-        </div>
+        </Container>
+      </section>
 
-        <h2 className="mb-6 mt-16 text-2xl">{c.topicsHeading}</h2>
-        <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {c.categories.map((category) => (
-            <li key={category.name} className="rounded-[14px] border border-line bg-surface p-5">
-              <StatusChip tone="sage">{category.name}</StatusChip>
-              <p className="mt-3 text-[0.98rem] text-ink/80">{category.blurb}</p>
-            </li>
-          ))}
-        </ul>
-      </Section>
-
-      <CTASection id="insights-cta-title" heading={insightsClosing.heading} buttonLabel="Book a free 20-minute call" />
-    </>
+      <ClosingCta heading={<h2 className="font-ui text-h2 font-bold">{insightsClosing.heading}</h2>}>
+        <Button href={bookCallHref()}>{insightsClosing.cta}</Button>
+      </ClosingCta>
+    </div>
   );
 }
