@@ -18,7 +18,7 @@ const MAX_BODY_BYTES = 16 * 1024;
 const MAX_TOKEN_LENGTH = 2048;
 const TOKEN_KEY = "turnstileToken";
 const ALLOWED_KEYS = new Set<string>([...contactKeys, honeypot.name, TOKEN_KEY]);
-const SITE_EMAIL = providers.email ?? "info@hustonlogic.com";
+const SITE_EMAIL = providers.email ?? "grant@hustonlogic.com";
 const FROM = `Huston Logic <${SITE_EMAIL}>`;
 
 /** What the form reads. `error` picks the message; `fields` lists the Rev 7.1 field errors. */
