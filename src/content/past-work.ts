@@ -32,7 +32,7 @@ export const pastWorkNav = [
 
 export const pastWorkWebsites = {
   heading: "Websites",
-  line: "The first three sites are being built now, for two engineering firms and a band. Each one shows up here once it's live and the owner has said yes.",
+  line: "The first three sites are being built now. Each one shows up here once it's live and the owner has said yes.",
 };
 
 export const pastWorkSystems = { heading: "Systems projects" };
@@ -42,7 +42,7 @@ export type CasePhases = Record<FrameworkStepKey, string>;
 /** The strip describes what happened in each phase. Neither project claims a formal paid Review took place. */
 export const casePhasesHeading = fw("{steps} at a glance");
 
-/** A blurred screenshot, or a [[placeholder]] string until Grant supplies one. Alt text describes the view, never numbers or names. */
+/** A blurred screenshot, or a placeholder string until Grant supplies one. Alt text describes the view, never numbers or names. */
 export type ScreenshotImage = { src: string; alt: string; width: number; height: number };
 export type ScreenshotSlot = string | ScreenshotImage;
 

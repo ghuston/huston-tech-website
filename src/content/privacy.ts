@@ -6,7 +6,5 @@ export const privacyMeta = {
 
 export const privacy = {
   heading: "Privacy Policy",
-  body: "Huston Logic (\"I\") collects only what you send through the contact form or scheduling tool (your name, email, what you need, your business or band name if you give it, and your message) and uses it to reply to you and to discuss potential work. You can also tell me the tools you use, your website and how you found me (all optional), and Cloudflare checks the form for bots, which briefly uses your IP address. The form sends you one automatic reply. I don't sell or share your information, except with the services that run this site (hosting, email delivery, a spreadsheet I own, scheduling and analytics), which process it on my behalf. The site uses privacy-friendly analytics that don't use advertising cookies. To have your information deleted, email",
-  lastUpdated: "Last updated [[date]].",
-  reviewNote: "[[Have this checked against the tools you actually use; it isn't legal advice.]]",
-};
+  body: "Huston Logic (\"I\") collects only what you send through the contact form or scheduling tool (your name, email, what you need, your business name if you give it, and your message) and uses it to reply to you and to discuss potential work. You can also tell me the tools you use, your website and how you found me (all optional), and Cloudflare checks the form for bots, which briefly uses your IP address. The form sends you one automatic reply. I don't sell or share your information, except with the services that run this site (hosting, email delivery, a spreadsheet I own, scheduling and analytics), which process it on my behalf. To have your information deleted, email",
+  lastUpdated: "Last updated November 15, 2026.",};

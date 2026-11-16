@@ -19,7 +19,7 @@ export const scheduler = {
   body: "Pick a time that works. Tell me what you need and what you use today, and I'll tell you whether there's a sensible next step.",
   buttonLabel: "Pick a time →",
   /** Dev-only marker until `siteConfig.schedulerUrl` is set; fails the launch gate on purpose. */
-  placeholder: "[[SCHEDULER: embed or booking link goes here once a provider is chosen]]",
+  placeholder: "Booking link not set yet.",
 };
 
 export const noteForm = {
@@ -29,11 +29,11 @@ export const noteForm = {
   needOptions,
   name: { label: "Your name" },
   email: { label: "Best email" },
-  business: { label: "Business or band name (optional)" },
+  business: { label: "Business name (optional)" },
   message: {
     label: "What's going on?",
     placeholders: {
-      website: "e.g. A site for my band with show dates and a booking form.",
+      website: "e.g. A site for my business with a services page and a booking form.",
       workflow: "e.g. New inquiries come in from three places and nobody's sure who follows up.",
       other: "e.g. Our site is old, and inquiries from it get lost.",
     },
@@ -41,9 +41,9 @@ export const noteForm = {
   tools: {
     label: "What do you use today?",
     placeholders: {
-      website: "e.g. Squarespace, a Facebook page, or nothing yet.",
+      website: "e.g. A Facebook page, an old site, or nothing yet.",
       workflow: "e.g. SimplePractice, QuickBooks, Google Sheets, Zoho… or 'not sure'.",
-      other: "e.g. Squarespace, a Facebook page, or nothing yet.",
+      other: "e.g. A Facebook page, an old site, or nothing yet.",
     },
   },
   website: { label: "Current website (optional)" },

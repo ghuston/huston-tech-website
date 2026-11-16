@@ -17,10 +17,10 @@ First prepared November 9, 2026. Revision 7 (Nov 14, 2026) sources: Grant's fina
 - **Public-repo trim (Nov 14, Grant):** this copy lives in a public repository, so internal-only notes were removed: all of C5 (referral business names, a project critique and client sales notes), the internal output note in A1, the unused edited-review note in C2, and the internal wording on payment terms (here, E9 and G).
 
 **Revision 7 (Nov 14, 2026): two equal service lines, new copy, new voice, Scope it · Shape it · Ship it**
-- **Two equal lines.** Websites are no longer a side door. Huston Logic sells custom websites (from `[[$750]]`) and workflow consulting, side by side, to small businesses, solo pros and creatives (bands included). Every "side door", "start smaller" and systems-only line is gone.
+- **Two equal lines.** Websites are no longer a side door. Huston Logic sells custom websites (from $750) and workflow consulting, side by side, to small businesses, and solo pros. Every "side door", "start smaller" and systems-only line is gone.
 - **Grant's final lines are in place, word for word:** the tagline, eyebrow, H1, subhead, supporting line, the three two-voice H2s, both doors and the header link (B1). The supporting line's first-screen spot is marked `[[DESIGN: placement]]` until style guide v3.
 - **Steps renamed (D33 resolved, D40):** 01 Scope it, 02 Shape it, 03 Ship it, with new one-liners. Step zero is still the free 20-minute call, unnumbered. The case-study strip reads Scoped / Shaped / Shipped. Every Find it / Fix it / Flick it is gone, including Section G.
-- **Price (D37):** the site publishes "from `[[$750]]`". It stays a placeholder until Grant confirms the number. The base site includes an automatic reply to every inquiry; a personalized follow-up sequence is an add-on. No other price appears on the site.
+- **Price (D37):** the site publishes "from $750". Grant confirmed the number on Nov 15, 2026. The base site includes an automatic reply to every inquiry; a personalized follow-up sequence is an add-on. No other price appears on the site.
 - **AI wording (D39):** "AI-accelerated, checked by hand." The long version appears once on Services and once on About. Never "AI-powered", no multipliers, no comparisons with agencies.
 - **Voice (A1b):** the voice rules from the Nov 14 copy options replace Revision 6's table, with the step examples swapped to Scope it, Shape it, Ship it. Grant's final lines are approved exceptions to the banned-shapes list. All other copy was rewritten to these rules; testimonials stay word for word.
 - **New page:** `/how-i-work` holds the detailed steps, with a Website and a Workflow column for each step. Services now has three sections (Websites, Workflows, Care) and a longer FAQ. Past Work has a Websites section with three `[[case study]]` slots. Contact gains a required "What do you need?" field, prefilled by the door buttons; "Business" becomes optional.
@@ -40,7 +40,7 @@ First prepared November 9, 2026. Revision 7 (Nov 14, 2026) sources: Grant's fina
 - `[[DOUBLE BRACKETS]]` mark something only Grant can supply, confirm or decide. Section E9 lists all of them.
 - Testimonial quotes match the source files word for word. The only change is "Grant" in place of the name Jacob mistyped, which he confirmed. "…" marks a cut that keeps the meaning.
 - `*Italic text*` inside a heading marks the rust serif-italic second voice (STYLE-GUIDE.md §3).
-- The only price in the site copy is `[[$750]]`.
+- The only price in the site copy is $750.
 
 ---
 
@@ -48,13 +48,13 @@ First prepared November 9, 2026. Revision 7 (Nov 14, 2026) sources: Grant's fina
 
 ### A1. Brand positioning
 
-**One line:** Huston Logic builds custom websites and fixes the workflows behind them, for small businesses, solo pros and bands. One person does the work, from the first call to the handoff.
+**One line:** Huston Logic builds custom websites and fixes the workflows behind them, for small businesses and solo pros. One person does the work, from the first call to the handoff.
 
 **Tagline (footer, bios):** Custom websites and workflows, from hello to handled.
 
 **Positioning statement:**
 Huston Logic is one business with two ways in.
-- **Websites.** Every site is custom, designed for one client, never a template. The price starts at `[[$750]]` because AI does the slow parts of the build; Grant designs every page and checks it himself. The base site includes a contact form that writes back: every inquiry reaches the owner and a spreadsheet they own, and the person gets an automatic reply right away. A personalized follow-up sequence, online booking, an editable blog and extra pages are add-ons.
+- **Websites.** Every site is custom, designed for one client, never a template. The price starts at $750 because AI does the slow parts of the build; Grant designs every page and checks it himself. The base site includes a contact form that writes back: every inquiry reaches the owner and a spreadsheet they own, and the person gets an automatic reply right away. A personalized follow-up sequence, online booking, an editable blog and extra pages are add-ons.
 - **Workflow consulting.** For owner-led teams whose admin has outgrown them: follow-up, payments, reporting, staff pay, CRM cleanup, automations and custom tools. It starts with a fixed-fee Workflow Review, credited toward the fix, and usually works inside the software the business already pays for.
 
 **How the two connect:** the contact form on every site is already a small piece of workflow work. A website client sees how Grant thinks about the moment someone says hello. A workflow client often needs a site that feeds the pipeline properly. That is what the H1 says: the site brings people in, and the system behind it answers them.
@@ -87,7 +87,7 @@ The balance in one line: serious about the work, relaxed about himself. These re
 4. **The joke is on Grant or on the situation.** Never on the client, and never on the quality of the work. Models: "(please don't go looking for those old videos)" and "A small sample, I know."
 5. **Credibility comes from precision, not adjectives.** State the price before work starts, what's included, who owns the logins, how long the call is. Praise comes only from clients, in their own words.
 6. **Cut the hedges and the volume.** No "no pressure," "just," "hopefully" or "I think." No exclamation points. Sound like someone who has done this before and enjoyed it.
-7. **Say how it's made before anyone asks:** "AI-accelerated, checked by hand." Never "AI-powered," never a multiplier, never a comparison with agencies. Anything unconfirmed stays a `[[placeholder]]`. The only price is `[[$750]]`.
+7. **Say how it's made before anyone asks:** "AI-accelerated, checked by hand." Never "AI-powered," never a multiplier, never a comparison with agencies. Anything unconfirmed stays a `[[placeholder]]`. The only price is $750.
 8. **Alliteration belongs in names and labels** (Scope it, Shape it, Ship it; "from hello to handled"). Sentences stay plain. Labels a client will see on an invoice are never jokes. If a line works only because it's catchy, cut it.
 9. **Shapes that kept turning up in drafts and were cut:** mirrored pairs ("Websites up front. Workflows out back."), lists of three ("designed, built and tested"), a list whose third item is the joke, question headlines ("Got twenty minutes?"), "more X, fewer Y" result claims, "everything" and "always" promises, and stock process words (Discover, Design, Deliver). **Banned words:** elevate, seamless, effortless, unlock, empower, solutions, tailored, crafted, journey, "built for," "without the hassle."
 10. **Three tests before a line ships.** Could a competitor paste it unchanged? Does it name something a client has lived through? Would Grant say it out loud to a friend? Fail one and it gets rewritten.
@@ -109,7 +109,7 @@ The balance in one line: serious about the work, relaxed about himself. These re
 1. **Tagline:** Custom websites and workflows, from hello to handled.
 2. **Hero:** The site brings them in. *The system answers.* Subhead: Custom websites for small businesses, and the follow-up that turns an inquiry into a booking. Supporting line: AI-accelerated, checked by hand.
 3. **How:** 01 Scope it, 02 Shape it, 03 Ship it, the same for a website or a workflow, right under the hero.
-4. **Two doors, in the first screen:** "I need a website." (custom, from `[[$750]]`, the contact form writes back) and "Things keep slipping." (a fixed-fee Workflow Review, credited toward the fix).
+4. **Two doors, in the first screen:** "I need a website." (custom, from $750, the contact form writes back) and "Things keep slipping." (a fixed-fee Workflow Review, credited toward the fix).
 5. **Problem recognition:** You've been busy with the real work. *Your website and your inbox can tell.* Six moments, two of them about the website.
 6. **What you can hire me for:** websites and workflow consulting, as two equal groups.
 7. **Why trust me:** client words (systems projects so far), agency experience across 21 client accounts, and website case studies once the first three are live.
@@ -120,7 +120,7 @@ The balance in one line: serious about the work, relaxed about himself. These re
 
 | Differentiator | Website phrasing | Evidence |
 |---|---|---|
-| Custom, with a published starting price | "Custom, from `[[$750]]`." | Grant's decision (D37). The price is confirmed only after the free sites' hours are logged |
+| Custom, with a published starting price | "Custom, from $750." | Grant's decision (D37). The price is confirmed only after the free sites' hours are logged |
 | The contact form writes back | "The contact form writes back." | Included in the base site (D37). The same flow runs on this site (E6) and in the IFC inquiry pipeline |
 | Says how it's made | "AI-accelerated, checked by hand." | D39. The build pipeline's required checks (accessibility, Lighthouse, dependency review, code scanning) and Grant's own review |
 | You see the price before I build | "Plan and price, before I build." | Fixed-fee Review and fixed website prices agreed in writing (Business Plan) |
@@ -169,7 +169,7 @@ The balance in one line: serious about the work, relaxed about himself. These re
 
 **Header nav (text links only, no button):** How I work (→ /how-i-work) · Websites (→ /services#websites) · Workflows (→ /services#workflows) · Past work · About · Say hello ↘ (→ /#hello). Mobile: the wordmark and "Menu". Insights, Contact and Privacy are linked from the footer and in-page CTAs.
 
-**Footer:** wordmark · tagline "Custom websites and workflows, from hello to handled." · brand line "Grant Huston · `[[Based in Orange County, CA]]` · Working with clients anywhere" · nav links · Insights · Contact · info@hustonlogic.com · [LinkedIn](https://www.linkedin.com/in/granthuston/) · "Zoho partners: need overflow help?" (→ /contact?topic=partner) · Privacy · © 2026 Huston Logic
+**Footer:** wordmark · tagline "Custom websites and workflows, from hello to handled." · brand line "Grant Huston · Based in Southern California · Working with clients anywhere" · nav links · Insights · Contact · info@hustonlogic.com · [LinkedIn](https://www.linkedin.com/in/granthuston/) · "Zoho partners: need overflow help?" (→ /contact?topic=partner) · Privacy · © 2026 Huston Logic
 
 ### A8. Engagement framework (the operating model)
 
@@ -188,7 +188,7 @@ The same three steps run the marketing and the delivery, for both lines. Step ze
 
 **After Ship it:** Site Care or Care is optional and offered only when a continuing need exists. Run an outcome review after a suitable observation period, keeping technical acceptance separate from business results.
 
-*Prices other than the published `[[$750]]`, internal hour budgets and invoice splits live in the Business Plan, not in this file, because this file goes into the code repository.*
+*Prices other than the published $750, internal hour budgets and invoice splits live in the Business Plan, not in this file, because this file goes into the code repository.*
 
 ---
 
@@ -199,7 +199,7 @@ The same three steps run the marketing and the delivery, for both lines. Step ze
 ### B1. HOME
 
 **SEO title:** Huston Logic | Custom Websites & Workflow Consulting for Small Businesses
-**Meta description:** Custom websites from `[[$750]]` with a contact form that writes back, plus workflow consulting for small businesses and bands. You see the price before I build.
+**Meta description:** Custom websites from $750 with a contact form that writes back, plus workflow consulting for small businesses. You see the price before I build.
 
 ---
 
@@ -238,7 +238,7 @@ Custom websites for small businesses, and the follow-up that turns an inquiry in
 | | Door 1 | Door 2 |
 |---|---|---|
 | *Title* | "I need a website." | "Things keep slipping." |
-| *Line* | Custom, from `[[$750]]`. The contact form writes back. | A fixed-fee Workflow Review, credited toward the fix. |
+| *Line* | Custom, from $750. The contact form writes back. | A fixed-fee Workflow Review, credited toward the fix. |
 | *Button* | **[Start a website →]** (→ /contact?topic=website) | **[Fix a workflow →]** (→ /contact?topic=workflow) |
 
 *(Each button opens the contact page with the matching "What do you need?" answer already chosen. The quotation marks on the titles are part of the copy: they're the visitor speaking.)*
@@ -280,7 +280,7 @@ I build custom websites, and I fix the workflows behind small businesses: how an
 
 ### Websites
 
-**A custom site, from `[[$750]]`**
+**A custom site, from $750**
 Designed for your business from scratch, on your own domain, in accounts you own. Checked for speed, accessibility, security and search basics before it goes live.
 
 **A contact form that writes back**
@@ -496,7 +496,7 @@ Twenty minutes is enough to know which column you're in.
 ### B2. SERVICES
 
 **SEO title:** Services | Custom Websites & Workflow Consulting | Huston Logic
-**Meta description:** Custom websites from `[[$750]]` with a contact form that writes back, plus workflow consulting: follow-up, payments, reporting, CRM cleanup and automations. Fixed prices, agreed before I start.
+**Meta description:** Custom websites from $750 with a contact form that writes back, plus workflow consulting: follow-up, payments, reporting, CRM cleanup and automations. Fixed prices, agreed before I start.
 
 ---
 
@@ -512,13 +512,13 @@ Some people come to me for a website. Some come because work keeps slipping betw
 
 **[Section: Websites]** *(anchor: #websites)*
 
-## Custom websites, from `[[$750]]`
+## Custom websites, from $750
 
-Every site I build is designed from scratch for one business or band. No templates, and no page builder you're stuck with afterward.
+Every site I build is designed from scratch for one business. No templates, and no page builder you're stuck with afterward.
 
 AI does the slow parts of the build, so the price doesn't have to cover them. I design every page and check it myself before you see it.
 
-**What `[[$750]]` includes**
+**What $750 includes**
 - Up to 7 pages, designed around your brand and two or three sites you like
 - A contact form that writes back: every inquiry goes to your inbox and to a spreadsheet you own, and the person gets an automatic reply right away
 - Fast on phones and desktops, and checked for accessibility, security and search basics before launch
@@ -531,7 +531,7 @@ AI does the slow parts of the build, so the price doesn't have to cover them. I 
 
 **Add-ons:** a personalized follow-up sequence (emails in your voice, sent on a schedule after each inquiry) · online booking · a blog you can update yourself · extra pages · help writing the words · Site Care after launch. Each one is priced in the plan before I start.
 
-**Who it's for:** small businesses, solo practices and bands. If people need to find you and get in touch, this is the place to start.
+**Who it's for:** small businesses and solo practices. If people need to find you and get in touch, this is the place to start.
 
 **What I need from you:** your words, photos and logo, two or three websites you like, and access to your domain. No words yet? I can write them with you.
 
@@ -646,7 +646,7 @@ Clinical, medical-coding or insurance-billing advice · debt collection · runni
 ## Questions people ask
 
 **How much does a website cost?**
-From `[[$750]]` for a custom site of up to 7 pages with a contact form that writes back. Bigger or unusual sites get a fixed quote after the call. Either way, the price is agreed in writing before I start, and you pay 50% to start and 50% at launch.
+From $750 for a custom site of up to 7 pages with a contact form that writes back. Bigger or unusual sites get a fixed quote after the call. Either way, the price is agreed in writing before I start, and you pay 50% to start and 50% at launch.
 
 **Do you use AI?**
 Yes, to build faster. I design, decide and check every page myself.
@@ -655,13 +655,13 @@ Yes, to build faster. I design, decide and check every page myself.
 You do. The domain, the hosting account, the form and the logins are in your name from day one. If you stop working with me, the site stays yours.
 
 **Where is it hosted?**
-On Cloudflare, in an account set up in your name. `[[Typical yearly hosting and domain cost, once confirmed.]]`
+On Cloudflare, in an account set up in your name. Hosting is free for most small sites; the domain is about $15 a year.
 
 **Can I edit it myself?**
 With the blog add-on, you can write and edit articles yourself. Other changes are covered by Site Care, or quoted when you need them.
 
 **How long does a website take?**
-`[[Timeline, once the first three sites are done.]]`
+2 to 4 weeks.
 
 **How much does workflow work cost?**
 You get a fixed quote before any paid work starts. The Workflow Review has a set fee, which I'll share on our call, and it's credited toward the fix if you go ahead. No hourly meter running in the background.
@@ -676,13 +676,13 @@ No. I'll work with what you have whenever it can do the job. Zoho is a strength 
 Yes, carefully. Before I touch any protected data, the right agreements go in place (like a Business Associate Agreement where required) and access controls get set up. I'll never ask you to send client records over email or a website form.
 
 **What kinds of clients do you work with?**
-Small businesses, solo professionals and creatives, from therapy practices and training studios to engineering firms and bands. If it involves a website or a messy process, I'm interested.
+Small businesses and solo professionals, from therapy practices and training studios to engineering firms. If it involves a website or a messy process, I'm interested.
 
 **Who actually does the work?**
 I do. You'll work directly with me from the first call to the handoff.
 
 **Do you work remotely?**
-Yes, all of it can be done over video and screen-share. `[[If true: I'm based in Orange County and happy to meet in person locally.]]`
+Yes, all of it can be done over video and screen-share. I'm based in Southern California and happy to meet in person locally.
 
 **What do you need from me?**
 For a website: your words, photos and logo, two or three sites you like, and access to your domain. For a workflow: an hour or two of your time for the Review, access to the tools involved, and someone on your team who'll own the process afterward.
@@ -725,7 +725,7 @@ Real projects, in my clients' own words. The website section is new, so it start
 
 ## Websites
 
-*Until the first site is live, this section shows one line:* The first three sites are being built now, for two engineering firms and a band. Each one shows up here once it's live and the owner has said yes.
+*Until the first site is live, this section shows one line:* The first three sites are being built now. Each one shows up here once it's live and the owner has said yes.
 
 **Website case study template** *(one per site; repeat three times)*
 
@@ -860,7 +860,7 @@ In 2026 I worked at a Zoho consulting partner, first as a developer and then as 
 ### B4. ABOUT
 
 **SEO title:** About Grant Huston | Huston Logic
-**Meta description:** Grant Huston builds custom websites and fixes the workflows behind small businesses, solo pros and bands. Zoho specialist, platform-agnostic, and the one person doing the work from the first call to the handoff.
+**Meta description:** Grant Huston builds custom websites and fixes the workflows behind small businesses and solo pros. Zoho specialist, platform-agnostic, and the one person doing the work from the first call to the handoff.
 
 ---
 
@@ -904,10 +904,10 @@ Every project runs the same three steps: **Scope it, Shape it, Ship it.** In pra
 - Dashboards and reporting people actually use
 - Requirements, process mapping, testing and training
 - Experience with healthcare and other sensitive data, where the agreements and access controls come first
-- `[[Certifications, e.g. CAPM / CSM, only if current and verified. Otherwise delete this line.]]`
+- Years of consulting experience, and the relevantly boring certifications to go with it, across small businesses and large enterprises. I've seen how all kinds of small businesses, from therapists and interior design firms to wealth management and structural engineering, use technology to take the next step: automating the busywork and empowering their people.
 
 **Off the clock**
-I also play blues guitar and write songs, which turns out to be decent training for this work: listen first, keep time, and make the parts fit together. `[[One personal line: where you live, what you're into.]]` `[[Optional: one line on why you like building for bands and other creatives.]]`
+I was born and raised in Southern California, and I'm recently married (September 2026!). My wife and I like going on adventures, and my cat likes to supervise from a distance. I also play blues guitar and write songs, which turns out to be decent training for this work: listen first, keep time, and make the parts fit together. The rest of the time it's horror movies, video games, concerts, comedy shows and hunting down the best restaurants in town. I like building for people I'd want to work with anyway. I enjoy making real connections and helping real people with their dreams, and I'm working on mine too.
 
 **[Book a free 20-minute call →]**
 
@@ -982,9 +982,9 @@ Pick a time that works. Tell me what you need and what you use today, and I'll t
 | What do you need? | radio | Yes | A website · Help with a workflow · Both · Not sure. Prefilled from `?topic=website` (A website) or `?topic=workflow` (Help with a workflow) |
 | Name | text | Yes | "Your name" |
 | Email | email | Yes | "Best email" |
-| Business or band name | text | No | "Business or band name (optional)" |
+| Business name | text | No | "Business name (optional)" |
 | What's going on? | textarea | Yes | Placeholder swaps with the answer above. A website: "e.g. A site for my band with show dates and a booking form." Help with a workflow: "e.g. New inquiries come in from three places and nobody's sure who follows up." Both or Not sure: "e.g. Our site is old, and inquiries from it get lost." |
-| What do you use today? | text | No | A website: "e.g. Squarespace, a Facebook page, or nothing yet." Help with a workflow: "e.g. SimplePractice, QuickBooks, Google Sheets, Zoho… or 'not sure'." |
+| What do you use today? | text | No | A website: "e.g. A Facebook page, an old site, or nothing yet." Help with a workflow: "e.g. SimplePractice, QuickBooks, Google Sheets, Zoho… or 'not sure'." |
 | Current website | url | No | "Current website (optional)" |
 | How did you hear about Huston Logic? | select | No | Referral · Google · LinkedIn · Article · Other |
 | *(hidden)* topic | hidden | n/a | `website`, `workflow` or `partner`, from the URL |
@@ -1036,8 +1036,7 @@ This page doesn't exist, or it moved without telling anyone. (Ironic, I know.)
 ### B9. PRIVACY (short V1, review before launch)
 
 **Title:** Privacy Policy | Huston Logic
-Huston Logic ("I") collects only what you send through the contact form or scheduling tool (your name, email, what you need, your business or band name if you give it, and your message) and uses it to reply to you and to discuss potential work. You can also tell me the tools you use, your website and how you found me (all optional), and Cloudflare checks the form for bots, which briefly uses your IP address. The form sends you one automatic reply. I don't sell or share your information, except with the services that run this site (hosting, email delivery, a spreadsheet I own, scheduling and analytics), which process it on my behalf. The site uses privacy-friendly analytics that don't use advertising cookies. To have your information deleted, email info@hustonlogic.com. Last updated `[[date]]`.
-*`[[Have this checked against the tools you actually use; it isn't legal advice.]]`*
+Huston Logic ("I") collects only what you send through the contact form or scheduling tool (your name, email, what you need, your business name if you give it, and your message) and uses it to reply to you and to discuss potential work. You can also tell me the tools you use, your website and how you found me (all optional), and Cloudflare checks the form for bots, which briefly uses your IP address. The form sends you one automatic reply. I don't sell or share your information, except with the services that run this site (hosting, email delivery, a spreadsheet I own, scheduling and analytics), which process it on my behalf. To have your information deleted, email info@hustonlogic.com. Last updated November 15, 2026.
 
 ---
 
@@ -1046,7 +1045,7 @@ Huston Logic ("I") collects only what you send through the contact form or sched
 *(Component: `Footer`; `band` background. Order, top to bottom:)*
 - Wordmark: Huston Logic
 - Tagline: Custom websites and workflows, from hello to handled.
-- Brand line: Grant Huston · `[[Based in Orange County, CA]]` · Working with clients anywhere
+- Brand line: Grant Huston · Based in Southern California · Working with clients anywhere
 - Links: How I work · Websites · Workflows · Past work · About · Insights · Contact
 - info@hustonlogic.com · [LinkedIn](https://www.linkedin.com/in/granthuston/)
 - Zoho partners: need overflow help? (→ /contact?topic=partner)
@@ -1196,7 +1195,7 @@ content/
   insights/*.md
   testimonials.json
   site.ts               (name, tagline, email, scheduler URL, LinkedIn, location, step labels
-                         and one-liners, websitePrice: "[[$750]]", doors: titles, lines,
+                         and one-liners, websitePrice: "$750", doors: titles, lines,
                          buttons and topics: single source of truth)
 ```
 
@@ -1300,7 +1299,7 @@ Render quotes exactly as stored. Don't let the component "fix" punctuation or ca
 ### E7. SEO, accessibility and quality essentials
 - Per-page `title` and `description` exactly as in Section B; canonical URLs; Open Graph images generated with `next/og` in brand style (bone background, two-voice headline).
 - `sitemap.xml`, `robots.txt`; submit to Google Search Console.
-- JSON-LD: `ProfessionalService` sitewide (name, URL, areaServed, founder; `makesOffer` for the two lines, with no price until `[[$750]]` is confirmed); `Person` on About, with `sameAs` pointing to https://www.linkedin.com/in/granthuston/; `BlogPosting` on articles.
+- JSON-LD: `ProfessionalService` sitewide (name, URL, areaServed, founder; `makesOffer` for the two lines, with no price until $750 is confirmed); `Person` on About, with `sameAs` pointing to https://www.linkedin.com/in/granthuston/; `BlogPosting` on articles.
 - One H1 per page; logical heading order; descriptive link text; alt text on all meaningful images.
 - **WCAG 2.2 AA:** contrast per tokens; visible focus rings (2px `rust` outline + offset); skip-to-content link; labeled fields with inline `aria-live` errors; the "What do you need?" radios as a `fieldset` with a `legend`; 44×44px tap targets; keyboard-operable menu and accordion; `prefers-reduced-motion`.
 - Performance: Lighthouse ≥ 90 on mobile across all four categories (enforced by the `lighthouse` check); no layout shift from fonts or embeds; the scheduler script loads lazily.
@@ -1320,15 +1319,15 @@ See STYLE-GUIDE.md §8. Desktop scales the mockup proportionally (`--u`); below 
 The site can be built and previewed with every placeholder in place. Each `[[…]]` renders as a visible highlighted placeholder in development and **fails the production build** if any remain (a grep check in CI).
 
 **Facts and assets to supply**
-1. **`[[$750]]`:** confirm the starting price after the free sites' hours are logged (D37). It appears in the Home meta, the website door, the Home "What I do" group, the Services meta, heading, list and FAQ. The base now covers up to 7 pages, so watch whether the 6–8 hour estimate holds.
-2. **`[[Typical yearly hosting and domain cost, once confirmed.]]`** (Services FAQ).
-3. **`[[Timeline, once the first three sites are done.]]`** (Services FAQ).
+1. **$750:** confirm the starting price after the free sites' hours are logged (D37). It appears in the Home meta, the website door, the Home "What I do" group, the Services meta, heading, list and FAQ. The base now covers up to 7 pages, so watch whether the 6–8 hour estimate holds.
+2. **Hosting is free for most small sites; the domain is about $15 a year.** (Services FAQ).
+3. **2 to 4 weeks.** (Services FAQ).
 4. **Scheduler URL** for the 20-minute call (`site.ts`).
 5. **Photos:** a headshot plus one or two candid working shots.
 6. **Client screenshots:** four placeholders across the two systems case studies (blur client, patient and employee names).
 7. **Website case studies:** `[[WEBSITE CASE STUDY 1–3]]`, the `[[WEBSITE CARDS]]` on Home, and their fields (business type, pages, Scoped / Shaped / Shipped lines, testimonial). Each needs the owner's permission. Client names `[[Engineering firm 1]]`, `[[Engineering firm 2]]` and `[[Band]]` stay out of the repo until then.
-8. **Facts to confirm:** `[[Based in Orange County, CA]]` and the in-person FAQ line; the personal line (`[[One personal line: …]]`); the optional creatives line; any current certifications.
-9. **Privacy:** `[[date]]`, and a check against the tools actually used.
+8. **Facts to confirm:** *(resolved Nov 15, 2026: Southern California location and in-person FAQ line, the About personal line, certifications, and the removal of the band/creatives line.)*
+9. **Privacy:** *(resolved Nov 15, 2026: dated November 15, 2026; analytics sentence removed.)*
 10. A one-business-day reply commitment you're comfortable keeping.
 
 **Design decisions (style guide v3, built from Grant's inspiration sites)**
@@ -1348,7 +1347,7 @@ The site can be built and previewed with every placeholder in place. Each `[[…
 - Background (About): "I've spent my career where software meets business, as an application developer, business analyst and software consultant. Checking what AI builds is the same work, done faster."
 - Musician (About): "I also play blues guitar and write songs, which turns out to be decent training for this work: listen first, keep time, and make the parts fit together."
 - Step names: **Scope it · Shape it · Ship it** (D40; resolves D33 and the Revision 6 step-3 question).
-- Publishing a price: **yes, "from `[[$750]]`"** (D37). The Workflow Review fee stays unpublished (voice rule 7).
+- Publishing a price: **yes, "from $750"** (D37). The Workflow Review fee stays unpublished (voice rule 7).
 - AI wording: **"AI-accelerated, checked by hand"** (D39).
 - Hero, doors, H2s, tagline and header link: Grant's final lines (Nov 14).
 - No connector arrows; geometric line art (Revision 5).
@@ -1372,7 +1371,7 @@ The site can be built and previewed with every placeholder in place. Each `[[…
 - [ ] **Old wording sweep:** a search for `Find it`, `Fix it`, `Flick it`, `Found`, `Flicked`, `side door`, `Starter Website`, `Workflow Review ↘`, `AI-powered` and `id="review"` returns nothing in the site source
 - [ ] **Visual QA:** the first screen matches the v2 references wherever v2 still applies, and the interim rules in E3 elsewhere
 - [ ] **Motion QA (STYLE-GUIDE.md §7):** the hero reveal and the diagram each play once; reduced motion and no-JS show the static end state; arrows nudge on hover and focus; CLS stays at 0
-- [ ] Final claims check: the only price is `[[$750]]` (confirmed); no real client data in images; no "we/our team"; no multipliers; no agency comparisons
+- [ ] Final claims check: the only price is $750 (confirmed); no real client data in images; no "we/our team"; no multipliers; no agency comparisons
 - [ ] **Do the numbers and wording match everywhere?**
   - three steps (step zero is the call, not a fourth step)
   - 20-minute call; automatic reply right away, Grant's reply within one business day
@@ -1390,7 +1389,7 @@ The site can be built and previewed with every placeholder in place. Each `[[…
 - [ ] Google Business Profile if serving locally
 - [ ] A standard testimonial and case-study permission step in every project wrap-up (the Toolkit template)
 - [ ] Ask Emily whether there's enough for a short Orange County Therapy case study, and whether she still wants help with her website
-- [ ] Compare each free site's logged hours with the `[[$750]]` assumption before confirming the price
+- [ ] Compare each free site's logged hours with the $750 assumption before confirming the price
 - [ ] Use the same three steps in proposals, Drive folders, invoices and CRM stages (Section G)
 
 **3. Future enhancements**

@@ -244,7 +244,7 @@ describe("a good submission in production", () => {
     assert.equal(reply.json?.subject, "Got it, thanks");
     assert.equal(
       reply.json?.text,
-      "Hi Ada, your note reached me. I read every message myself and will reply within one business day. If it's easier to talk, you can pick a time here: https://hustonlogic.com/contact#book.\n\n— Grant, Huston Logic",
+      "Hi Ada, your note reached me. I read every message myself and will reply within one business day. If it's easier to talk, you can pick a time here: https://calendar.app.google/ZEcZAf9NdPn59i579.\n\n— Grant, Huston Logic",
     );
     assert.ok(!String(reply.json?.text).includes(VISITOR.message), "the auto-reply never echoes the message");
 

@@ -4,7 +4,7 @@ import { fw } from "@/lib/framework";
 export const aboutMeta = {
   title: "About Grant Huston | Huston Logic",
   description:
-    "Grant Huston builds custom websites and fixes the workflows behind small businesses, solo pros and bands. Zoho specialist, platform-agnostic, and the one person doing the work from the first call to the handoff.",
+    "Grant Huston builds custom websites and fixes the workflows behind small businesses and solo pros. Zoho specialist, platform-agnostic, and the one person doing the work from the first call to the handoff.",
 };
 
 export const aboutHero = {
@@ -50,12 +50,12 @@ export const aboutSections = {
       "Dashboards and reporting people actually use",
       "Requirements, process mapping, testing and training",
       "Experience with healthcare and other sensitive data, where the agreements and access controls come first",
-      "[[Certifications, e.g. CAPM / CSM, only if current and verified. Otherwise delete this line.]]",
+      "Years of consulting experience, and the relevantly boring certifications to go with it, across small businesses and large enterprises. I've seen how all kinds of small businesses, from therapists and interior design firms to wealth management and structural engineering, use technology to take the next step: automating the busywork and empowering their people.",
     ],
   },
   offTheClock: {
     heading: "Off the clock",
-    body: "I also play blues guitar and write songs, which turns out to be decent training for this work: listen first, keep time, and make the parts fit together. [[One personal line: where you live, what you're into.]] [[Optional: one line on why you like building for bands and other creatives.]]",
+    body: "I was born and raised in Southern California, and I'm recently married (September 2026!). My wife and I like going on adventures, and my cat likes to supervise from a distance. I also play blues guitar and write songs, which turns out to be decent training for this work: listen first, keep time, and make the parts fit together. The rest of the time it's horror movies, video games, concerts, comedy shows and hunting down the best restaurants in town. I like building for people I'd want to work with anyway. I enjoy making real connections and helping real people with their dreams, and I'm working on mine too.",
   },
   cta: { label: "Book a free 20-minute call →" },
   partnerBox: {

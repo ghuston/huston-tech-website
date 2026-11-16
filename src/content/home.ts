@@ -8,11 +8,11 @@ export type ProofStripContent = {
 };
 
 // docs/website-plan.md, B1 (Revision 7.1): the SEO title and description, word for word. The description keeps its
-// literal [[$750]] until the price is confirmed (E9 #1).
+// literal $750 until the price is confirmed (E9 #1).
 export const homeMeta = {
   title: "Huston Logic | Custom Websites & Workflow Consulting for Small Businesses",
   description:
-    "Custom websites from [[$750]] with a contact form that writes back, plus workflow consulting for small businesses and bands. You see the price before I build.",
+    "Custom websites from $750 with a contact form that writes back, plus workflow consulting for small businesses. You see the price before I build.",
 };
 
 // B1 hero. Both H1 lines are Grant's final copy. The doors use typographic quotes (docs/STYLE-GUIDE.md §3).
@@ -30,7 +30,7 @@ export const heroContent = {
 export const doors = [
   {
     title: "“I need a website.”",
-    line: "Custom, from [[$750]]. The contact form writes back.",
+    line: "Custom, from $750. The contact form writes back.",
     button: "Start a website →",
     href: "/contact?topic=website",
   },
@@ -133,7 +133,7 @@ export const whatIDo = {
       heading: "Websites",
       items: [
         {
-          title: "A custom site, from [[$750]]",
+          title: "A custom site, from $750",
           body: "Designed for your business from scratch, on your own domain, in accounts you own. Checked for speed, accessibility, security and search basics before it goes live.",
         },
         {
@@ -283,5 +283,5 @@ export const closingCta = {
   body: "Tell me what's going on with your website or your workflow. If I'm not the right person, I'll tell you who is.",
   cta: `${bookCallLabel} →`,
   secondary: { label: "send a quick note →", href: "/contact" },
-  note: "Not a business, exactly? Bands and solo pros are welcome too.",
+  note: "Not a business, exactly? Solo pros are welcome too.",
 };

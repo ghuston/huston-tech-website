@@ -6,11 +6,11 @@ export const siteConfig = {
   url: (process.env.NEXT_PUBLIC_SITE_URL ?? "https://hustonlogic.com").replace(/\/+$/, ""),
   /** The Rev 7.1 one-line positioning (docs/website-plan.md, A1). Feeds the JSON-LD description. */
   oneLiner:
-    "Huston Logic builds custom websites and fixes the workflows behind them, for small businesses, solo pros and bands. One person does the work, from the first call to the handoff.",
+    "Huston Logic builds custom websites and fixes the workflows behind them, for small businesses and solo pros. One person does the work, from the first call to the handoff.",
   copyrightYear: 2026,
   /** Footer and bios (docs/website-plan.md, A1 and B10). */
   tagline: "Custom websites and workflows, from hello to handled.",
-  footerBrandLine: "Grant Huston · [[Based in Orange County, CA]] · Working with clients anywhere",
+  footerBrandLine: "Grant Huston · Based in Southern California · Working with clients anywhere",
   /** Provider-dependent values, set in `providers.ts`. */
   email: providers.email,
   schedulerUrl: providers.schedulerUrl,
@@ -62,7 +62,7 @@ export const framework: { steps: FrameworkStep[] } = {
  * `npm run check:placeholders` fails while any flag is `false`.
  */
 export const decisionsConfirmed = {
-  lineArtStyle: false,
+  lineArtStyle: true,
 } as const;
 
 export const bookCallLabel = "Book a free 20-minute call";
