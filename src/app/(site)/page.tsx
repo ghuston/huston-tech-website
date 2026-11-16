@@ -96,7 +96,7 @@ export default function HomePage() {
 
       <ReasonList heading={why.heading} items={why.items} />
 
-      <AboutTeaser heading={aboutTeaser.heading} body={aboutTeaser.body} link={aboutTeaser.link} />
+      <AboutTeaser heading={aboutTeaser.heading} paragraphs={aboutTeaser.paragraphs} link={aboutTeaser.link} />
 
       <ClosingCta
         heading={<TwoVoice line1={closingCta.line1} line2={closingCta.line2} />}

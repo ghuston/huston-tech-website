@@ -431,7 +431,7 @@ The arc's vertical form, at full width: a 16px white track on the left with a 56
 - On Home the step zero line and "Book a free 20-minute call →" button sit above the steps; the proof line sits below, Inter 15 `ink-2`.
 
 ### 7.21 Why people hire me (`ReasonList`)
-Four items in a 2 × 2 grid (1 column on mobile), no cards, fading dividers: lead in Outfit 600 22, line Inter 17.
+Five items in a 2-column grid (1 column on mobile; the fifth sits alone in the last row), no cards, fading dividers: lead in Outfit 600 22, line Inter 17.
 
 ### 7.22 About teaser and the headshot (`AboutTeaser`)
 Photo left (desktop 360px), text right. **The headshot sits inside the logo ring:** the photo cropped to a circle at 82% of the ring's inner diameter, centered in the ring + dot paths (§6.1) drawn in `green` with the dot in `rust`. Static. `alt="Grant Huston"`. Until the real headshot is supplied, render only the ring with a `silver-2` disc inside (no stock photo, ever). Heading single-voice; the text link with →.

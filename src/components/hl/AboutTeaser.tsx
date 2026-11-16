@@ -30,12 +30,12 @@ export function RingHeadshot({ className = "", eager = false }: { className?: st
 
 type AboutTeaserProps = {
   heading: string;
-  body: string;
+  paragraphs: readonly string[];
   link: { label: string; href: string };
 };
 
 /** About teaser (docs/STYLE-GUIDE.md §7.22). */
-export function AboutTeaser({ heading, body, link }: AboutTeaserProps) {
+export function AboutTeaser({ heading, paragraphs, link }: AboutTeaserProps) {
   return (
     <section aria-labelledby="about-teaser-title" className="py-16 md:py-24">
       <Container className="grid items-center gap-12 md:grid-cols-[320px_1fr] md:gap-16 lg:grid-cols-[360px_1fr]">
@@ -44,7 +44,11 @@ export function AboutTeaser({ heading, body, link }: AboutTeaserProps) {
           <h2 id="about-teaser-title" className="font-ui text-h2 font-bold">
             {heading}
           </h2>
-          <p className="mt-5 max-w-[60ch] text-body">{body}</p>
+          <div className="mt-5 max-w-[60ch] space-y-4 text-body">
+            {paragraphs.map((paragraph) => (
+              <p key={paragraph}>{paragraph}</p>
+            ))}
+          </div>
           <div className="mt-6">
             <TextLink href={link.href}>{link.label}</TextLink>
           </div>

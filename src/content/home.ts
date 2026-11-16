@@ -249,6 +249,10 @@ export const why = {
   heading: "Why people hire me",
   items: [
     {
+      title: "Nothing goes live untested.",
+      body: "Every change has to pass automatic checks for security, accessibility and speed before it goes live. That's how big software teams work. I set it up once and use it on every project, so it isn't a line on your invoice.",
+    },
+    {
       title: "You work with me.",
       body: "Not an account manager or a junior team. The person on the call is the person doing the work.",
     },
@@ -269,7 +273,10 @@ export const why = {
 
 export const aboutTeaser = {
   heading: "A bit about me",
-  body: "I've built business systems for small teams since 2024, starting with a group therapy practice that had outgrown doing everything by hand. Before Huston Logic, I led delivery for 21 client accounts at a Zoho consulting partner, in industries from healthcare to wholesale to local government. Now I build websites too. This one was first.",
+  paragraphs: [
+    "I've built business systems for small teams since 2024, starting with a group therapy practice that had outgrown doing everything by hand. Before Huston Logic, I led delivery for 21 client accounts at a Zoho consulting partner, in industries from healthcare to wholesale to local government. Now I build websites too. This one was first.",
+    "I've worked in software since 2020, at startups and at big corporations. At a global consulting firm, I ran the app that 50-plus consultants used on large bankruptcy cases. Its reports went to court, so every release was tested first. AI does the slow parts of that kind of build now, which is why a custom site starts at $750.",
+  ],
   link: { label: "More about me →", href: "/about" },
   /** Alt text for the ring headshot (docs/STYLE-GUIDE.md §7.22). */
   photoAlt: "Grant Huston",
