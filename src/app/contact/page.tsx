@@ -4,6 +4,7 @@ import { Container } from "@/components/hl/Container";
 import { ContactForm } from "@/components/hl/ContactForm";
 import { PageHero } from "@/components/hl/PageHero";
 import { TextLink } from "@/components/hl/TextLink";
+import { ContactFlowArt } from "@/components/illustrations/BrandArt";
 import { Text } from "@/components/ui/Text";
 import { contactHero, contactMeta, scheduler, whatHappensNext } from "@/content/contact";
 import { siteConfig } from "@/content/site";
@@ -44,6 +45,8 @@ export default function ContactPage() {
                 </>
               )}
             </div>
+            {/* The note's path, drawn: form → inbox, sheet row and reply. Beside the form only; on narrow screens the form comes first. */}
+            <ContactFlowArt draw className="mt-14 hidden max-w-[360px] min-[900px]:block" />
           </div>
           <ContactForm />
         </Container>

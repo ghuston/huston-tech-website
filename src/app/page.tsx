@@ -17,6 +17,7 @@ import { ServiceGroups } from "@/components/hl/ServiceGroups";
 import { TestimonialRow } from "@/components/hl/TestimonialRow";
 import { TextLink } from "@/components/hl/TextLink";
 import { TwoVoice } from "@/components/hl/TwoVoice";
+import { TwentyMinutesArt } from "@/components/illustrations/BrandArt";
 import { bookCallHref } from "@/components/ui/BookCallButton";
 import {
   aboutTeaser,
@@ -114,6 +115,7 @@ export default function HomePage() {
         heading={<TwoVoice line1={closingCta.line1} line2={closingCta.line2} />}
         body={closingCta.body}
         note={closingCta.note}
+        art={<TwentyMinutesArt className="max-w-[220px]" />}
       >
         <Button href={bookCallHref()}>{closingCta.cta}</Button>
         <TextLink href={closingCta.secondary.href}>{closingCta.secondary.label}</TextLink>

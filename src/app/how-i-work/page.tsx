@@ -5,6 +5,7 @@ import { Container } from "@/components/hl/Container";
 import { DetailedSteps } from "@/components/hl/DetailedSteps";
 import { PageHero } from "@/components/hl/PageHero";
 import { TextLink } from "@/components/hl/TextLink";
+import { ArtAside, TwentyMinutesArt } from "@/components/illustrations/BrandArt";
 import { bookCallHref } from "@/components/ui/BookCallButton";
 import {
   afterLaunch,
@@ -29,10 +30,12 @@ export default function HowIWorkPage() {
 
       <section aria-labelledby="step-zero-title" className="py-12 md:py-16">
         <Container>
-          <h2 id="step-zero-title" className="font-ui text-h2 font-bold">
-            {stepZero.heading}
-          </h2>
-          <p className="mt-5 max-w-[60ch] text-body">{stepZero.body}</p>
+          <ArtAside align="center" phone="below" art={<TwentyMinutesArt draw className="md:max-w-[220px]" />}>
+            <h2 id="step-zero-title" className="font-ui text-h2 font-bold">
+              {stepZero.heading}
+            </h2>
+            <p className="mt-5 max-w-[60ch] text-body">{stepZero.body}</p>
+          </ArtAside>
         </Container>
       </section>
 

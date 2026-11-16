@@ -9,6 +9,7 @@ import { PageHero } from "@/components/hl/PageHero";
 import { SectionNav } from "@/components/hl/SectionNav";
 import { TestimonialRow } from "@/components/hl/TestimonialRow";
 import { TextLink } from "@/components/hl/TextLink";
+import { ArtAside, ReviewRingArt, SiteFramesArt } from "@/components/illustrations/BrandArt";
 import { bookCallHref } from "@/components/ui/BookCallButton";
 import { Text } from "@/components/ui/Text";
 import {
@@ -83,14 +84,16 @@ export default function ServicesPage() {
 
       <section id="websites" aria-labelledby="websites-title" className={section}>
         <Container>
-          <h2 id="websites-title" className={h2}>
-            <Text>{websites.heading}</Text>
-          </h2>
-          <div className="mt-5 max-w-[60ch] space-y-4 text-body">
-            {websites.paragraphs.map((paragraph) => (
-              <p key={paragraph}>{paragraph}</p>
-            ))}
-          </div>
+          <ArtAside art={<SiteFramesArt draw />}>
+            <h2 id="websites-title" className={h2}>
+              <Text>{websites.heading}</Text>
+            </h2>
+            <div className="mt-5 max-w-[60ch] space-y-4 text-body">
+              {websites.paragraphs.map((paragraph) => (
+                <p key={paragraph}>{paragraph}</p>
+              ))}
+            </div>
+          </ArtAside>
           <h3 className={`${h3} mt-10`}>
             <Text>{websites.includesHeading}</Text>
           </h3>
@@ -111,21 +114,24 @@ export default function ServicesPage() {
       <section id="workflows" aria-labelledby="workflows-title" className={section}>
         <Container>
           <FadingDivider className="mb-12 md:mb-16" />
-          <h2 id="workflows-title" className={h2}>
-            {workflows.heading}
-          </h2>
-          <p className="mt-5 max-w-[60ch] text-body">{workflows.intro}</p>
+          {/* Static: the Websites drawing above is this page's one draw-in. */}
+          <ArtAside art={<ReviewRingArt />}>
+            <h2 id="workflows-title" className={h2}>
+              {workflows.heading}
+            </h2>
+            <p className="mt-5 max-w-[60ch] text-body">{workflows.intro}</p>
 
-          <h3 className={`${h3} mt-10`}>{review.heading}</h3>
-          <p className="mt-2 text-[17px] italic text-ink-2">({review.aside})</p>
-          <p className="mt-4 max-w-[64ch] text-[17px] leading-[1.55]">{review.intro}</p>
-          <DotList items={review.items} className="mt-4 max-w-[64ch]" />
-          <div className="mt-6 max-w-[64ch] rounded-card bg-tint px-5 py-[18px] text-[17px] leading-[1.55]">
-            <span className="font-ui font-semibold text-green">{review.stop.lead}</span> {review.stop.body}
-          </div>
-          <div className="mt-8">
-            <Button href={review.cta.href}>{review.cta.label}</Button>
-          </div>
+            <h3 className={`${h3} mt-10`}>{review.heading}</h3>
+            <p className="mt-2 text-[17px] italic text-ink-2">({review.aside})</p>
+            <p className="mt-4 max-w-[64ch] text-[17px] leading-[1.55]">{review.intro}</p>
+            <DotList items={review.items} className="mt-4 max-w-[64ch]" />
+            <div className="mt-6 max-w-[64ch] rounded-card bg-tint px-5 py-[18px] text-[17px] leading-[1.55]">
+              <span className="font-ui font-semibold text-green">{review.stop.lead}</span> {review.stop.body}
+            </div>
+            <div className="mt-8">
+              <Button href={review.cta.href}>{review.cta.label}</Button>
+            </div>
+          </ArtAside>
 
           <h3 id="fixes" className={`${h3} mt-20 scroll-mt-12`}>
             {commonFixes.heading}
