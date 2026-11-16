@@ -1,6 +1,4 @@
 import type { Metadata, Viewport } from "next";
-import { Footer } from "@/components/layout/Footer";
-import { Header } from "@/components/layout/Header";
 import { JsonLd } from "@/components/ui/JsonLd";
 import { siteConfig } from "@/content/site";
 import { inter, newsreader, outfit } from "@/lib/fonts";
@@ -44,11 +42,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         >
           Skip to main content
         </a>
-        <Header />
-        <main id="main" tabIndex={-1} className="flex-1 outline-none">
-          {children}
-        </main>
-        <Footer />
+        {/* The header, main and footer come from app/(site)/layout.tsx (SiteChrome); /card renders its own main. */}
+        {children}
         <JsonLd data={organizationJsonLd()} />
       </body>
     </html>

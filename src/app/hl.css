@@ -128,6 +128,9 @@
   --font-voice: var(--font-newsreader), Georgia, serif;
 }
 
+/* `short:` short viewports (a small phone with the browser bars showing). Used by /card, which must fit one screen. */
+@custom-variant short (@media (max-height: 640px));
+
 @layer components {
   /* The mobile menu (HeaderNav): grid rows animate from 0fr to 1fr. Opening takes --duration-panel and closing
      --duration-feedback, because a transition uses the timing of the state it is moving to. */
