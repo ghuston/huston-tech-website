@@ -183,7 +183,7 @@ export default function ServicesPage() {
           <h2 id="every-project-title" className={h2}>
             {everyProject.heading}
           </h2>
-          <div className="mt-8 grid gap-12 md:grid-cols-2 md:gap-16">
+          <div className="mt-8 grid gap-12 md:grid-cols-3 md:gap-10 lg:gap-16">
             {everyProject.groups.map((group) => (
               <div key={group.label}>
                 <h3 className={h3}>{group.label}</h3>

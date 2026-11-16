@@ -109,7 +109,7 @@ Scheduled runs only happen on the default branch, and GitHub disables schedules 
 |---|---|---|
 | Site URL | `NEXT_PUBLIC_SITE_URL` (see `.env.example`), default `https://hustonlogic.com` in `src/content/site.ts` | Used for canonical URLs, Open Graph, sitemap, robots and JSON-LD. Public value, not a secret. |
 | Contact email, scheduler URL, LinkedIn URL, Turnstile site key | `src/content/providers.ts` (re-exported by `site.ts`) | `null` renders a visible placeholder. The Worker reads this file too. The Turnstile site key is public. |
-| Content-Security-Policy | `public/_headers` | `https://challenges.cloudflare.com` is allowed in `script-src` and `frame-src` for Turnstile on the contact form, and nothing else is loaded from outside. `_headers` covers static files only; the Worker sets its own headers on `/api/*`. |
+| Content-Security-Policy | `public/_headers` | `https://challenges.cloudflare.com` is allowed in `script-src` and `frame-src` for Turnstile on the contact form, and `https://static.cloudflareinsights.com` (`script-src`) and `https://cloudflareinsights.com` (`connect-src`) for Cloudflare Web Analytics. Nothing else is loaded from outside. `_headers` covers static files only; the Worker sets its own headers on `/api/*`. |
 | Worker settings | `wrangler.jsonc` | Secret **names** only, never values. After changing it, run `npx wrangler types worker/worker-configuration.d.ts`. |
 | Framework step names, numbers, one-liners | `framework.steps` in `src/content/site.ts` | The only place "Scope it / Shape it / Ship it" is defined. Content strings use `{scope}`, `{shape}`, `{ship}`, `{steps}` tokens via `fw()` (`src/lib/framework.ts`). Rename a step here and every page follows. |
 
@@ -132,7 +132,7 @@ Normal builds (and CI) allow placeholders so the site can be previewed. **Use `n
 
 ### Scheduler and analytics are still placeholders
 
-The contact page shows a disabled "Pick a time" button, clearly marked, and every "Book a free call" button points at `/contact#book` until `schedulerUrl` is set in `src/content/providers.ts`. If the scheduler is embedded in an iframe, add its origin to `frame-src` in `public/_headers`. No analytics is installed; the privacy copy mentions privacy-friendly analytics, so either add a cookieless tool (and its CSP origin) or edit the privacy text.
+The contact page shows a disabled "Pick a time" button, clearly marked, and every "Book a free call" button points at `/contact#book` until `schedulerUrl` is set in `src/content/providers.ts`. If the scheduler is embedded in an iframe, add its origin to `frame-src` in `public/_headers`. Analytics is Cloudflare Web Analytics, which is cookieless: its two origins are in the CSP and the privacy page says so. Turn it on in the Cloudflare dashboard (nothing is added to the site's code).
 
 ## Contact form
 

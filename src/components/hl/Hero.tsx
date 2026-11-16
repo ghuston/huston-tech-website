@@ -10,7 +10,7 @@ import { TextLink } from "./TextLink";
 type HeroProps = {
   content: { eyebrow: string; line1: string; line2: string; subhead: string; supportingLine: string; callLink: string };
   doors: readonly { title: string; button: string; href: string }[];
-  /** Where the phone-only "Book a free call →" link goes. */
+  /** Where the "Book a free call →" link goes. */
   callHref: string;
   /** The card stack on the right (HeroStack). */
   stack: ReactNode;
@@ -66,7 +66,7 @@ export function Hero({ content, doors, callHref, stack }: HeroProps) {
               </Card>
             ))}
           </div>
-          <p className="mt-4 md:hidden">
+          <p className="mt-4">
             <TextLink href={callHref}>{content.callLink}</TextLink>
           </p>
         </div>
