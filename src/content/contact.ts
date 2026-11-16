@@ -1,6 +1,7 @@
 import { fw } from "@/lib/framework";
+import { honeypot, needOptions, sourceOptions } from "./contact-fields";
 
-/** Copy: docs/website-plan.md Revision 7.1, B7, B7b and B8. */
+/** Copy: docs/website-plan.md Revision 7.1, B7, B7b and B8. Field options and limits live in `contact-fields.ts`. */
 export const contactMeta = {
   title: "Contact | Book a Free 20-Minute Call | Huston Logic",
   description:
@@ -21,18 +22,11 @@ export const scheduler = {
   placeholder: "[[SCHEDULER: embed or booking link goes here once a provider is chosen]]",
 };
 
-export type Topic = "website" | "workflow" | "both" | "unsure";
-
 export const noteForm = {
   heading: "Or send a quick note",
   partnerHeading: "Zoho partner? Tell me about the work and your timeline.",
   needLegend: "What do you need?",
-  needOptions: [
-    { value: "website", label: "A website" },
-    { value: "workflow", label: "Help with a workflow" },
-    { value: "both", label: "Both" },
-    { value: "unsure", label: "Not sure" },
-  ] as { value: Topic; label: string }[],
+  needOptions,
   name: { label: "Your name" },
   email: { label: "Best email" },
   business: { label: "Business or band name (optional)" },
@@ -57,8 +51,9 @@ export const noteForm = {
     label: "How did you hear about Huston Logic?",
     /** Interface string, not in Section B; flagged for Grant's OK. */
     empty: "Choose one",
-    options: ["Referral", "Google", "LinkedIn", "Article", "Other"],
+    options: sourceOptions,
   },
+  honeypotLabel: honeypot.label,
   privacyNote:
     "Please don't include client or patient details, account numbers or passwords. Anything sensitive gets handled the right way, later.",
   submitLabel: "Send it over →",
@@ -68,8 +63,12 @@ export const noteForm = {
     email: "That email doesn't look quite right.",
     message: "A sentence or two is plenty, but I do need something to go on.",
   },
-  /** Dev-only: shown after a valid submit until the Worker exists. Nothing is sent. Fails the launch gate on purpose. */
-  notConnected: "[[CONTACT FORM: not connected. Nothing was sent.]]",
+  /** Shown when sending fails (B7, Grant, Nov 15). The form keeps the visitor's answers. */
+  sendErrors: {
+    notVerified: "That didn't go through. Please try again.",
+    rateLimited: "That's a few tries in a row. Give it a minute and try again.",
+    failed: "Something broke on my end and your note didn't send. Your answers are still here, or email info@hustonlogic.com.",
+  },
 };
 
 export const whatHappensNext = {
@@ -92,7 +91,11 @@ export const thanks = {
   title: "Contact confirmation | Huston Logic",
   description: "Confirmation page shown after a contact form submission.",
   heading: "Got it, thanks.",
+  /** B7b, with the first name the form saved in sessionStorage. */
+  headingWithName: "Got it, thanks {firstName}.",
   body: "That's step zero started. Your automatic reply is on its way (check spam the first time), and I'll write back myself within one business day. Want to skip the back-and-forth?",
+  /** B7b (Grant, Nov 15): replaces the auto-reply sentence when the automatic reply failed to send. */
+  bodyAutoReplyFailed: "That's step zero started. Your note reached me. The automatic reply didn't send, so don't wait for it. Want to skip the back-and-forth?",
   pickTimeLabel: "Pick a time now →",
   after: { lead: "Curious what happens after the call?", label: fw("{steps} →"), href: "/how-i-work" },
   meanwhile: {

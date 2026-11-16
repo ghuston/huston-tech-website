@@ -4,9 +4,12 @@
 # Next.js static export emits inline bootstrap scripts, so script-src needs 'unsafe-inline'.
 # Tighten (hashes or nonces) if the hosting setup ever allows it. Update frame-src/script-src/connect-src
 # when a scheduler or form provider is added.
+# https://challenges.cloudflare.com (script-src, frame-src): Cloudflare Turnstile on the contact form.
+# The form posts to the same-origin Worker (/api/contact), so connect-src and form-action stay 'self'.
+# These headers apply to static files only; the Worker sets its own headers on /api/* responses.
 
 /*
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-src https://challenges.cloudflare.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests
   X-Content-Type-Options: nosniff
   X-Frame-Options: DENY
   Referrer-Policy: strict-origin-when-cross-origin

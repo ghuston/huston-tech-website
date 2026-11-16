@@ -3,6 +3,7 @@ import { Button } from "@/components/hl/Button";
 import { Container } from "@/components/hl/Container";
 import { PageHero } from "@/components/hl/PageHero";
 import { TextLink } from "@/components/hl/TextLink";
+import { ThanksText } from "@/components/hl/ThanksText";
 import { bookCallHref } from "@/components/ui/BookCallButton";
 import { thanks } from "@/content/contact";
 import { pageMetadata } from "@/lib/metadata";
@@ -14,11 +15,11 @@ export const metadata: Metadata = pageMetadata({
   noindex: true,
 });
 
-/** Thanks (docs/website-plan.md B7b). The "Or read:" article line waits for the first published article. */
+/** Thanks (docs/website-plan.md B7b). The heading and intro read the contact form's sessionStorage hand-off. The "Or read:" article line waits for the first published article. */
 export default function ThanksPage() {
   return (
     <div className="relative overflow-x-clip">
-      <PageHero title={thanks.heading} intro={thanks.body}>
+      <PageHero title={<ThanksText part="heading" />} intro={<ThanksText part="body" />}>
         <Button href={bookCallHref()} fullWidthOnMobile>
           {thanks.pickTimeLabel}
         </Button>

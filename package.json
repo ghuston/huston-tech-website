@@ -9,11 +9,12 @@
     "start": "node scripts/preview.mjs",
     "preview": "node scripts/preview.mjs",
     "lint": "eslint .",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "tsc --noEmit && tsc --noEmit -p worker",
     "check:placeholders": "node scripts/check-placeholders.mjs",
+    "test:worker": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --test \"worker/*.test.ts\"",
     "test:a11y": "playwright test",
     "test:lighthouse": "lhci autorun",
-    "check": "npm run lint && npm run typecheck && npm run build"
+    "check": "npm run lint && npm run typecheck && npm run test:worker && npm run build"
   },
   "dependencies": {
     "next": "16.4.6",

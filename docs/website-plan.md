@@ -13,6 +13,7 @@ First prepared November 9, 2026. Revision 7 (Nov 14, 2026) sources: Grant's fina
 - **About:** the real background (application developer, business analyst, software consultant) replaces "business analysis, QA and application support" and the QA placeholder line; the musician line is now blues guitar and songwriting. "QA" in "What I bring" becomes "testing".
 - **E9** is updated: these items move to Resolved.
 - **Hero copy (Nov 14, Grant):** the eyebrow becomes "Websites and workflows for small businesses" (was "…for small outfits"), and the H1 becomes "The site brings them in. *The system answers.*" (was "The part people see. *And the part they shouldn't.*"). Updated in B1, A1, A1b and A3, and in STYLE-GUIDE.md v3 and its reference page.
+- **Contact form wording (Nov 15, Grant, PR 13):** three send errors and the hidden spam-trap label (B7), the thanks-page line for a failed automatic reply (B7b), and one Privacy sentence on the optional fields and the bot check (B9).
 - **Public-repo trim (Nov 14, Grant):** this copy lives in a public repository, so internal-only notes were removed: all of C5 (referral business names, a project critique and client sales notes), the internal output note in A1, the unused edited-review note in C2, and the internal wording on payment terms (here, E9 and G).
 
 **Revision 7 (Nov 14, 2026): two equal service lines, new copy, new voice, Scope it · Shape it · Ship it**
@@ -991,6 +992,8 @@ Pick a time that works. Tell me what you need and what you use today, and I'll t
 *Under textarea:* Please don't include client or patient details, account numbers or passwords. Anything sensitive gets handled the right way, later.
 *Button:* **Send it over →**
 *Validation errors:* "Pick the closest one. 'Not sure' counts." · "Please add your name." · "That email doesn't look quite right." · "A sentence or two is plenty, but I do need something to go on."
+*Send errors (Grant, Nov 15):* couldn't verify (bot check or a blocked request): "That didn't go through. Please try again." · rate limited: "That's a few tries in a row. Give it a minute and try again." · failed to send: "Something broke on my end and your note didn't send. Your answers are still here, or email info@hustonlogic.com."
+*Hidden spam-trap field label (never shown):* "Leave this empty"
 *Partner variant (when topic=partner):* the "What do you need?" field is hidden, and the heading above the form reads "Zoho partner? Tell me about the work and your timeline."
 
 **[What happens next]**
@@ -1009,6 +1012,8 @@ Pick a time that works. Tell me what you need and what you use today, and I'll t
 # Got it, thanks [First name].
 
 That's step zero started. Your automatic reply is on its way (check spam the first time), and I'll write back myself within one business day. Want to skip the back-and-forth? **[Pick a time now →]**
+
+*If the automatic reply failed to send (Grant, Nov 15), these sentences replace the sentence "Your automatic reply is on its way (check spam the first time), and I'll write back myself within one business day.":* Your note reached me. The automatic reply didn't send, so don't wait for it.
 
 Curious what happens after the call? [Scope it · Shape it · Ship it →] (→ /how-i-work)
 While you wait: [What's included in a website →] (→ /services#websites) · [How a Workflow Review works →] (→ /services#workflows)
@@ -1031,7 +1036,7 @@ This page doesn't exist, or it moved without telling anyone. (Ironic, I know.)
 ### B9. PRIVACY (short V1, review before launch)
 
 **Title:** Privacy Policy | Huston Logic
-Huston Logic ("I") collects only what you send through the contact form or scheduling tool (your name, email, what you need, your business or band name if you give it, and your message) and uses it to reply to you and to discuss potential work. The form sends you one automatic reply. I don't sell or share your information, except with the services that run this site (hosting, email delivery, a spreadsheet I own, scheduling and analytics), which process it on my behalf. The site uses privacy-friendly analytics that don't use advertising cookies. To have your information deleted, email info@hustonlogic.com. Last updated `[[date]]`.
+Huston Logic ("I") collects only what you send through the contact form or scheduling tool (your name, email, what you need, your business or band name if you give it, and your message) and uses it to reply to you and to discuss potential work. You can also tell me the tools you use, your website and how you found me (all optional), and Cloudflare checks the form for bots, which briefly uses your IP address. The form sends you one automatic reply. I don't sell or share your information, except with the services that run this site (hosting, email delivery, a spreadsheet I own, scheduling and analytics), which process it on my behalf. The site uses privacy-friendly analytics that don't use advertising cookies. To have your information deleted, email info@hustonlogic.com. Last updated `[[date]]`.
 *`[[Have this checked against the tools you actually use; it isn't legal advice.]]`*
 
 ---

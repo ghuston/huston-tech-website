@@ -13,8 +13,9 @@ Permanent architecture, security and content rules are in [`AGENTS.md`](./AGENTS
 | `/past-work` | Past Work and testimonials |
 | `/about` | About Grant |
 | `/insights` | Insights ("coming soon" until the first article) |
-| `/contact` | Scheduler and contact form placeholders (`?topic=partner` shows the Zoho partner variant) |
-| `/contact/thanks` | Form confirmation (noindex, not linked until a form provider exists) |
+| `/contact` | Scheduler placeholder and the contact form (`?topic=partner` shows the Zoho partner variant) |
+| `/contact/thanks` | Form confirmation, reached only after a real send (noindex) |
+| `POST /api/contact` | The contact form Worker (`worker/contact.ts`), not a page |
 | `/privacy` | Privacy policy (draft, needs review) |
 | `404` | Not found |
 
@@ -32,10 +33,11 @@ All copy lives in typed modules under `src/content/`. Components are in `src/com
 ### Checks
 
 ```bash
-npm run lint        # ESLint
-npm run typecheck   # tsc --noEmit
-npm run build       # static export to ./out
-npm run check       # lint + typecheck + build
+npm run lint          # ESLint
+npm run typecheck     # tsc --noEmit for the site, then for the Worker (worker/tsconfig.json)
+npm run test:worker   # contact Worker tests (Node's built-in test runner; no network)
+npm run build         # static export to ./out
+npm run check         # lint + typecheck + test:worker + build
 ```
 
 CI runs the same checks on every pull request (`.github/workflows/ci.yml`).
@@ -106,7 +108,9 @@ Scheduled runs only happen on the default branch, and GitHub disables schedules 
 | Setting | Where | Notes |
 |---|---|---|
 | Site URL | `NEXT_PUBLIC_SITE_URL` (see `.env.example`), default `https://hustonlogic.com` in `src/content/site.ts` | Used for canonical URLs, Open Graph, sitemap, robots and JSON-LD. Public value, not a secret. |
-| Contact email, scheduler URL, LinkedIn URL | `src/content/site.ts` | `null` renders a visible placeholder. |
+| Contact email, scheduler URL, LinkedIn URL, Turnstile site key | `src/content/providers.ts` (re-exported by `site.ts`) | `null` renders a visible placeholder. The Worker reads this file too. The Turnstile site key is public. |
+| Content-Security-Policy | `public/_headers` | `https://challenges.cloudflare.com` is allowed in `script-src` and `frame-src` for Turnstile on the contact form, and nothing else is loaded from outside. `_headers` covers static files only; the Worker sets its own headers on `/api/*`. |
+| Worker settings | `wrangler.jsonc` | Secret **names** only, never values. After changing it, run `npx wrangler types worker/worker-configuration.d.ts`. |
 | Framework step names, numbers, one-liners | `framework.steps` in `src/content/site.ts` | The only place "Scope it / Shape it / Ship it" is defined. Content strings use `{scope}`, `{shape}`, `{ship}`, `{steps}` tokens via `fw()` (`src/lib/framework.ts`). Rename a step here and every page follows. |
 
 ## Motion
@@ -115,7 +119,7 @@ Animation is CSS only (no library), in `src/app/hl.css`, following `docs/STYLE-G
 
 ## Placeholders and launch gate
 
-Anything only Grant can supply is written as `[[double brackets]]` in `src/content/*` and renders as a highlighted marker on the page. Provider-dependent values (`email`, `schedulerUrl`, `linkedInUrl`) are `null` in `src/content/site.ts`.
+Anything only Grant can supply is written as `[[double brackets]]` in `src/content/*` and renders as a highlighted marker on the page. Provider-dependent values (`email`, `schedulerUrl`, `linkedInUrl`, `turnstileSiteKey`) stay `null` in `src/content/providers.ts` until set.
 
 ```bash
 npm run check:placeholders   # lists every unresolved item, exits 1 while any remain
@@ -126,20 +130,81 @@ The gate also fails while any flag in `decisionsConfirmed` (`src/content/site.ts
 
 Normal builds (and CI) allow placeholders so the site can be previewed. **Use `npm run build:launch` as the Cloudflare build command for the real launch** (see below) so a build with unresolved placeholders cannot go live.
 
-### Contact and scheduling are placeholders
+### Scheduler and analytics are still placeholders
 
-There is intentionally **no working form and no scheduler**. `ContactForm` validates in the browser but sends nothing (a valid submit shows a marked "not connected" note), and the contact page shows a disabled "Pick a time" button, both clearly marked. Every "Book a free call" button points at `/contact#book` until `siteConfig.schedulerUrl` is set, then points at the scheduler.
+The contact page shows a disabled "Pick a time" button, clearly marked, and every "Book a free call" button points at `/contact#book` until `schedulerUrl` is set in `src/content/providers.ts`. If the scheduler is embedded in an iframe, add its origin to `frame-src` in `public/_headers`. No analytics is installed; the privacy copy mentions privacy-friendly analytics, so either add a cookieless tool (and its CSP origin) or edit the privacy text.
 
-To wire real providers later:
+## Contact form
 
-1. **Scheduler** (Zoho Bookings, Calendly, Cal.com): set `schedulerUrl` in `src/content/site.ts`. If embedding in an iframe, add the provider origin to `frame-src` in `public/_headers`.
-2. **Form**: choose a provider (for example a Cloudflare Worker with Turnstile plus an email service, or a hosted form service). Give `ContactForm` a real submit handler (and remove its not-connected note), add the provider origin to `connect-src`/`form-action`/`script-src` as needed, add spam protection, and make `/contact/thanks` the redirect target.
-3. **Email and LinkedIn**: set `email` and `linkedInUrl` in `site.ts`.
-4. **Analytics**: none is installed. The privacy copy mentions privacy-friendly analytics, so either add a cookieless tool (and its CSP origin) or edit the privacy text.
+The form on `/contact` (`src/components/hl/ContactForm.tsx`) posts JSON to `POST /api/contact`, handled by a small Worker script, `worker/contact.ts`. `wrangler.jsonc` runs the Worker **only for `/api/*`** (`run_worker_first`); every page and file is still the static export in `./out`.
+
+**What one submission does**, in order: same-origin check, JSON only, at most 16 KB; rate limit (5 per minute per IP, the `CONTACT_RATE_LIMIT` binding); spam-trap field (`company_fax`, refused with an honest error); the same validation as the form (`src/lib/contact-validation.ts`); Cloudflare Turnstile verified server-side (hostname and `action: "contact"` must match). Then it appends a row to Grant's Google Sheet, emails the submission to info@hustonlogic.com (Reply-To = the visitor) with a line saying whether the Sheet row was saved, and sends the visitor the B7b automatic reply. Both emails are **plain text only**, through Resend, from `Huston Logic <info@hustonlogic.com>`. The Sheet is written with `valueInputOption=RAW`, and cells starting with `= + - @` get a leading `'`.
+
+**What the visitor sees.** Success only when the note reached Grant (the Sheet row or the email). Then the form saves the first name and whether the automatic reply went out in `sessionStorage` (never the URL) and moves to `/contact/thanks`, which says "Got it, thanks {name}." If the automatic reply failed, the thanks page says so. Every failure keeps the visitor's answers and shows one of the three B7 send errors. Without JavaScript nothing is sent.
+
+| Sheet | Email to Grant | Result |
+|---|---|---|
+| saved | sent | Success. |
+| failed | sent | Success. The email says "Sheet: NOT saved - add this one by hand". |
+| saved | failed | Success (the row is real), logged as `notify_failed_sheet_saved`. Covered by the weekly Sheet check below. |
+| failed | failed | Error "Something broke on my end…", and no automatic reply. |
+
+**Weekly check:** once a week, open the Sheet's `Submissions` tab and make sure every row has had a reply. A row with no email in the inbox means the notification failed.
+
+**Modes** (`SITE_ENV`, from `wrangler.jsonc`):
+- `production`: the live site.
+- `preview`: branch previews (Cloudflare Worker Previews). Rows go to the Sheet's `Preview` tab, every subject starts with `[Preview]`, and the automatic reply goes to info@hustonlogic.com instead of the visitor (its subject names who it would have gone to). Any `*.workers.dev` host other than `huston-site.<account>.workers.dev` is treated as a preview even if `SITE_ENV` says production.
+- `development`: `wrangler dev` on localhost only. Turnstile is checked with Cloudflare's test keys, then nothing is emailed or written.
+
+**Logs:** Workers Logs is on, invocation logs are off. The Worker logs fixed event names and status codes only (for example `sheet_append_failed` with `status=403`), never names, emails, messages, IP addresses or keys.
+
+### Secrets
+
+Four Worker secrets, set by Grant in his own Terminal from the repo folder, never in the repo, chat or logs. `wrangler.jsonc` lists their names (`secrets.required`), and a deploy fails while one is missing. Each command asks for the value with hidden input.
+
+| Name | Value |
+|---|---|
+| `RESEND_API_KEY` | Resend API key, "Sending access" for hustonlogic.com only |
+| `TURNSTILE_SECRET_KEY` | The Turnstile widget's secret key |
+| `GOOGLE_SERVICE_ACCOUNT_KEY` | The whole service-account JSON key file |
+| `GOOGLE_SHEET_ID` | The Sheet ID (between `/d/` and `/edit` in its URL) |
+
+```bash
+npx wrangler secret put RESEND_API_KEY
+npx wrangler secret put TURNSTILE_SECRET_KEY
+npx wrangler secret put GOOGLE_SERVICE_ACCOUNT_KEY < path/to/key.json
+npx wrangler secret put GOOGLE_SHEET_ID
+```
+
+Previews do not share production secrets. Set the same four for all previews with `npx wrangler preview base-config secret put <NAME>` (same values). A preview copies the base secrets **when it is created**, so set them before pushing a branch; later changes don't reach existing previews. `npx wrangler secret list` shows names only. Each `secret put` creates a new production version (a row in Deployments). If it fails with "latest version of your Worker isn't currently deployed", use the dashboard instead: Workers & Pages, huston-site, Settings, Variables and Secrets.
+
+### Accounts and DNS
+
+- **Turnstile:** Cloudflare dashboard, Turnstile, widget `huston-site contact`, Managed mode. Hostnames: `hustonlogic.com` (covers its subdomains) and the account's `<account>.workers.dev` (meant to cover the production and preview workers.dev hosts, which are its subdomains; Cloudflare's docs don't mention workers.dev, so the first preview test confirms it, and error 110200 there means it doesn't). The site key goes in `src/content/providers.ts`; the secret key is the Worker secret.
+- **Resend:** domain `hustonlogic.com`, set up by Resend with its Forge records (as added on 2026-11-15). They sit on their own names, so they never touch Google Workspace's. All "DNS only". Open and click tracking stay off.
+
+  | Type | Name | Content |
+  |---|---|---|
+  | TXT | `resend._domainkey` | DKIM key (value from Resend) |
+  | CNAME | `send` | `send.forge.rmta.net` |
+  | CNAME | `rsend` | `rsend.forge.rmta.net` |
+
+  There is **no MX and no SPF TXT on `send`**: a CNAME can't share its name with other records, and Resend serves the bounce (Return-Path) records through the CNAME target. Don't add any.
+- **Google Workspace** owns mail for the root domain (info@ is a Workspace mailbox): root MX, the root SPF `v=spf1 include:_spf.google.com ~all` (the only SPF record on the root; **never add Resend to it**) and DKIM at `google._domainkey`. DMARC (`_dmarc`) passes for Resend mail through the aligned DKIM signature on `hustonlogic.com`, and SPF passes on `send.hustonlogic.com` (aligned under relaxed alignment).
+- **Google Sheet** `Huston Logic contact form`, tabs `Submissions` and `Preview`, header row `Received (UTC) | Need | Topic | Name | Email | Business | Message | Tools | Website | Source | Mode`, shared as Editor with the service account only. Google Cloud project `huston-logic-site`, Google Sheets API enabled, service account `contact-form-writer` with no project roles. The Worker signs the service-account JWT with Web Crypto (no library).
+
+### Local test of the Worker
+
+```bash
+npm run build
+npx wrangler dev --port 4823 --ip localhost --var SITE_ENV:development --var TURNSTILE_SECRET_KEY:1x0000000000000000000000000000000AA --var RESEND_API_KEY:x --var GOOGLE_SERVICE_ACCOUNT_KEY:x --var GOOGLE_SHEET_ID:x
+```
+
+This serves the built site and the Worker at http://localhost:4823 in development mode (also in `.claude/launch.json` as `worker`). On localhost the form uses Cloudflare's always-pass test site key. To see the "couldn't verify" error, use the always-fail secret `2x0000000000000000000000000000000AA`. These are Cloudflare's published test values, not secrets. A local `.dev.vars` file would also work and is git-ignored, but never put real keys in it.
 
 ## Deploy to Cloudflare Workers
 
-Merging a pull request into `main` deploys the site automatically through Cloudflare Workers Builds. Other branches get preview URLs. Never run `wrangler deploy` by hand. The Worker config is `wrangler.jsonc` (static assets from `./out`).
+Merging a pull request into `main` deploys the site automatically through Cloudflare Workers Builds. Other branches get preview URLs (Cloudflare Worker Previews, configured by the `previews` block in `wrangler.jsonc`). Never run `wrangler deploy` by hand. The Worker config is `wrangler.jsonc`: static assets from `./out`, plus the contact form Worker (`worker/contact.ts`), which wrangler bundles at deploy time. The build and deploy commands did not change when the Worker was added.
 
 Current settings in the Cloudflare dashboard (read by the owner on 2026-11-12, so check them if they may have changed):
 
@@ -155,9 +220,9 @@ Before launch:
 2. Change the production build command to `npm run build:launch` so a build with unresolved placeholders cannot go live.
 3. Add the custom domain, then confirm DNS, HTTPS and (for email) SPF, DKIM and DMARC.
 
-`public/_headers` is copied into `out/` and applied by Workers static assets. It also adds `X-Robots-Tag: noindex` to `*.workers.dev` (and `*.pages.dev`) URLs so preview hostnames stay out of search results.
+`public/_headers` is copied into `out/` and applied by Workers static assets (not to Worker responses). It also adds `X-Robots-Tag: noindex` to `*.workers.dev` (and `*.pages.dev`) URLs so preview hostnames stay out of search results.
 
-`output: "export"` means there is no Node server at runtime.
+`output: "export"` means there is no Node server at runtime. The only server code is the contact Worker on `/api/*`.
 
 ## Monitoring
 
@@ -176,6 +241,8 @@ A rollback points the live site at an older version within about a minute. It ch
 
 **Check the live site after each move** (`curl -sI https://<site>/`): HTTP 200; the `etag` changes after a rollback and returns to its old value after rolling forward; the `/_next/static/chunks/...` files named in the page's HTML change and then return too. Practised on 2026-11-13 (rolled back from #35 to #25, then forward): both checks moved and returned exactly.
 
+**The contact Worker and rollbacks.** A version holds its code, config and static files together, so a rollback moves the form and its Worker as one. Rolling back to a version from before the Worker (before PR 13) gives the old form that sends nothing, which is consistent. `curl -s -X GET https://<site>/api/contact` returns `{"error":"method_not_allowed"}` (405) while the Worker is live. Cloudflare's rollback docs don't say whether secret values roll back with a version, so never delete or rename a secret while older versions may still be needed. Each `wrangler secret put` adds a version to the Deployments list; keep picking rows by merge time.
+
 **Do not click:** Delete (the Worker), Disconnect (breaks auto-deploys), Split versions (gradual deployment), Retry build, or any change to the build command, deploy command or production branch.
 
 **Bad merge: recovery sequence**
@@ -190,9 +257,10 @@ If a production build itself fails, nothing is deployed and the old version stay
 ## Launch checklist
 
 - [ ] Domain, DNS and business email working; `NEXT_PUBLIC_SITE_URL` set to the final domain
-- [ ] `email`, `schedulerUrl`, `linkedInUrl` set in `src/content/site.ts`
+- [ ] `email`, `schedulerUrl`, `linkedInUrl`, `turnstileSiteKey` set in `src/content/providers.ts`
 - [ ] `npm run check:placeholders` passes (photos, screenshots, titles, location, background wording, musician line, certifications, privacy date)
-- [ ] Real contact form and scheduler wired, tested end to end on desktop and phone, CSP updated
+- [ ] Contact form tested end to end on desktop and phone on the live domain: the email to info@, the automatic reply (SPF, DKIM and DMARC all PASS in "Show original"), the Sheet row; then delete the test row
+- [ ] Scheduler wired and its CSP origin added
 - [ ] Privacy policy checked against the tools actually used
 - [ ] Screenshots supplied with names blurred (or placeholders removed)
 - [ ] Submit `sitemap.xml` to Google Search Console
@@ -206,12 +274,13 @@ If a production build itself fails, nothing is deployed and the old version stay
 src/
   app/            routes, metadata files (sitemap, robots, icon, og.png)
   components/
-    hl/           the v3 design: buttons, cards, doors, hero, steps, FAQ, contact form shell
+    hl/           the v3 design: buttons, cards, doors, hero, steps, FAQ, contact form
     layout/       header, nav, badge turn, footer
     ui/           copy helpers (Text, Placeholder, JsonLd, InViewOnce, BookCallButton)
     illustrations/ framework step icons
   content/        typed copy and site settings (single source of truth)
   lib/            fonts, metadata, JSON-LD, routes and text-token helpers
 scripts/          placeholder gate, static preview server
-public/_headers   Cloudflare Workers security and cache headers
+worker/           contact form Worker (POST /api/contact) and its tests
+public/_headers   Cloudflare Workers security and cache headers (static files)
 ```

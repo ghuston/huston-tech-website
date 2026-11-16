@@ -1,19 +1,25 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useRef, useState, type ReactNode, type SyntheticEvent } from "react";
 import { Text } from "@/components/ui/Text";
-import { noteForm, type Topic } from "@/content/contact";
+import { noteForm } from "@/content/contact";
+import { fieldLimits, honeypot, urlTopics, type Need, type UrlTopic } from "@/content/contact-fields";
+import { providers } from "@/content/providers";
+import { saveHandoff } from "@/lib/contact-handoff";
+import { validateContact, type ContactField, type ContactInput } from "@/lib/contact-validation";
+import { firstName } from "@/lib/first-name";
+import { turnstileSiteKey, useTurnstile } from "./useTurnstile";
 
-type Field = "need" | "name" | "email" | "message";
-type Errors = Partial<Record<Field, string>>;
+type Errors = Partial<Record<ContactField, string>>;
+type SendError = keyof typeof noteForm.sendErrors;
+
+const FIELD_ORDER: ContactField[] = ["need", "name", "email", "message"];
 
 const label = "block font-ui text-[15px] font-medium text-ink";
 const control =
   "mt-2 block w-full rounded-field border border-ink-2 bg-white px-[14px] font-text text-[17px] text-ink placeholder:text-ink-2 focus:border-ink aria-[invalid=true]:border-rust";
 const input = `${control} h-[52px]`;
-
-const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 function ErrorLine({ id, message }: { id: string; message?: string }) {
   return (
@@ -41,45 +47,122 @@ function Labeled({ id, text, children }: { id: string; text: string; children: R
   );
 }
 
+function asUrlTopic(value: string | null): UrlTopic | "" {
+  return value !== null && (urlTopics as readonly string[]).includes(value) ? (value as UrlTopic) : "";
+}
+
 /**
- * The shell of the contact form (docs/website-plan.md B7). It validates with the Rev 7.1 messages, but nothing is sent
- * yet: the Worker, email sending and Turnstile arrive in a later PR. A valid submit shows a marked "not connected"
- * note (it fails the launch gate on purpose), never a success state. No `action`, and `method="post"`, so a visitor
- * without JavaScript can never put their answers into the URL.
+ * The contact form (docs/website-plan.md B7). It validates with the same rules as the Worker
+ * (`src/lib/contact-validation.ts`), gets a Turnstile token, and posts JSON to `/api/contact` (worker/contact.ts).
+ * Only a real success moves on to /contact/thanks, with the first name passed through sessionStorage, never the URL.
+ * Every failure keeps the visitor's answers. No `action`, and `method="post"`, so without JavaScript nothing is sent
+ * and nothing lands in the URL.
  */
 function Form({ urlTopic }: { urlTopic: string | null }) {
-  const partner = urlTopic === "partner";
-  const [need, setNeed] = useState<Topic | null>(urlTopic === "website" || urlTopic === "workflow" ? urlTopic : null);
+  const topic = asUrlTopic(urlTopic);
+  const partner = topic === "partner";
+  const router = useRouter();
+  const [need, setNeed] = useState<Need | null>(topic === "website" || topic === "workflow" ? topic : null);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [errors, setErrors] = useState<Errors>({});
-  const [sent, setSent] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [sendError, setSendError] = useState<SendError | null>(null);
   const formRef = useRef<HTMLFormElement>(null);
+  const { containerRef: turnstileRef, start: startTurnstile, getToken, reset: resetTurnstile } = useTurnstile(providers.turnstileSiteKey);
 
   const key = need === "website" || need === "workflow" ? need : "other";
   const e = noteForm.errors;
 
-  function submit(event: SyntheticEvent) {
-    event.preventDefault();
+  function showFieldErrors(fields: ContactField[]) {
     const next: Errors = {};
-    if (!partner && !need) next.need = e.need;
-    if (!name.trim()) next.name = e.name;
-    if (!EMAIL.test(email.trim())) next.email = e.email;
-    if (!message.trim()) next.message = e.message;
+    for (const field of fields) next[field] = e[field];
     setErrors(next);
-    setSent(false);
-    const first = (["need", "name", "email", "message"] as Field[]).find((f) => next[f]);
-    if (first) {
-      const target = first === "need" ? formRef.current?.querySelector<HTMLInputElement>('input[name="need"]') : formRef.current?.querySelector<HTMLElement>(`#cf-${first}`);
-      target?.focus();
-      return;
-    }
-    setSent(true);
+    const first = FIELD_ORDER.find((f) => next[f]);
+    if (!first) return;
+    const target =
+      first === "need"
+        ? formRef.current?.querySelector<HTMLInputElement>('input[name="need"]')
+        : formRef.current?.querySelector<HTMLElement>(`#cf-${first}`);
+    target?.focus();
   }
 
-  const invalid = (f: Field) => (errors[f] ? ("true" as const) : undefined);
-  const described = (f: Field, extra?: string) => [extra, errors[f] ? `cf-${f}-error` : undefined].filter(Boolean).join(" ") || undefined;
+  function fail(error: SendError) {
+    resetTurnstile();
+    setSending(false);
+    setSendError(error);
+  }
+
+  async function submit(event: SyntheticEvent) {
+    event.preventDefault();
+    if (sending || !formRef.current) return;
+    const data = new FormData(formRef.current);
+    const text = (field: string) => {
+      const value = data.get(field);
+      return typeof value === "string" ? value : "";
+    };
+    const answers: ContactInput = {
+      need: need ?? "",
+      topic,
+      name,
+      email,
+      message,
+      business: text("business"),
+      tools: text("tools"),
+      website: text("website"),
+      source: text("source"),
+    };
+
+    setSendError(null);
+    const result = validateContact(answers);
+    if (!result.ok) {
+      showFieldErrors(result.fields);
+      if (result.fields.length === 0) setSendError("notVerified");
+      return;
+    }
+    setErrors({});
+    // A missing site key can't verify anything, so it is an honest failure. The launch gate checks the key itself.
+    if (!turnstileSiteKey(providers.turnstileSiteKey)) {
+      setSendError("failed");
+      return;
+    }
+
+    setSending(true);
+    const token = await getToken();
+    if (!token) return fail("notVerified");
+
+    let response: Response;
+    try {
+      response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        credentials: "same-origin",
+        body: JSON.stringify({ ...answers, [honeypot.name]: text(honeypot.name), turnstileToken: token }),
+      });
+    } catch {
+      return fail("failed");
+    }
+    const body = (await response.json().catch(() => null)) as { ok?: boolean; autoReply?: boolean; error?: string; fields?: unknown } | null;
+
+    if (response.ok && body?.ok === true) {
+      saveHandoff(firstName(result.value.name), body.autoReply !== false);
+      router.push("/contact/thanks");
+      return;
+    }
+    if (response.status === 400 && body?.error === "invalid" && Array.isArray(body.fields)) {
+      resetTurnstile();
+      setSending(false);
+      showFieldErrors(body.fields.filter((f): f is ContactField => FIELD_ORDER.includes(f as ContactField)));
+      return;
+    }
+    if (response.status === 429) return fail("rateLimited");
+    if (body?.error === "rejected") return fail("notVerified");
+    return fail("failed");
+  }
+
+  const invalid = (f: ContactField) => (errors[f] ? ("true" as const) : undefined);
+  const described = (f: ContactField, extra?: string) => [extra, errors[f] ? `cf-${f}-error` : undefined].filter(Boolean).join(" ") || undefined;
 
   return (
     <div className="rounded-panel bg-white p-6 shadow-card md:p-9">
@@ -87,8 +170,8 @@ function Form({ urlTopic }: { urlTopic: string | null }) {
         {partner ? noteForm.partnerHeading : noteForm.heading}
       </h2>
 
-      <form ref={formRef} method="post" noValidate onSubmit={submit} className="mt-6 space-y-6">
-        <input type="hidden" name="topic" value={urlTopic ?? ""} />
+      <form ref={formRef} method="post" noValidate onSubmit={submit} onFocus={startTurnstile} className="mt-6 space-y-6">
+        <input type="hidden" name="topic" value={topic} />
 
         {partner ? null : (
           <fieldset role="radiogroup" aria-required="true" aria-describedby={described("need")}>
@@ -130,6 +213,7 @@ function Form({ urlTopic }: { urlTopic: string | null }) {
             autoComplete="name"
             required
             aria-required="true"
+            maxLength={fieldLimits.name}
             aria-invalid={invalid("name")}
             aria-describedby={described("name")}
             value={name}
@@ -147,6 +231,7 @@ function Form({ urlTopic }: { urlTopic: string | null }) {
             autoComplete="email"
             required
             aria-required="true"
+            maxLength={fieldLimits.email}
             aria-invalid={invalid("email")}
             aria-describedby={described("email")}
             value={email}
@@ -157,7 +242,7 @@ function Form({ urlTopic }: { urlTopic: string | null }) {
         </Labeled>
 
         <Labeled id="cf-business" text={noteForm.business.label}>
-          <input id="cf-business" name="business" type="text" autoComplete="organization" className={input} />
+          <input id="cf-business" name="business" type="text" autoComplete="organization" maxLength={fieldLimits.business} className={input} />
         </Labeled>
 
         <Labeled id="cf-message" text={noteForm.message.label}>
@@ -167,6 +252,7 @@ function Form({ urlTopic }: { urlTopic: string | null }) {
             rows={5}
             required
             aria-required="true"
+            maxLength={fieldLimits.message}
             aria-invalid={invalid("message")}
             aria-describedby={described("message", "cf-privacy")}
             placeholder={noteForm.message.placeholders[key]}
@@ -181,11 +267,11 @@ function Form({ urlTopic }: { urlTopic: string | null }) {
         </Labeled>
 
         <Labeled id="cf-tools" text={noteForm.tools.label}>
-          <input id="cf-tools" name="tools" type="text" placeholder={noteForm.tools.placeholders[key]} className={input} />
+          <input id="cf-tools" name="tools" type="text" maxLength={fieldLimits.tools} placeholder={noteForm.tools.placeholders[key]} className={input} />
         </Labeled>
 
         <Labeled id="cf-site" text={noteForm.website.label}>
-          <input id="cf-site" name="website" type="url" autoComplete="url" className={input} />
+          <input id="cf-site" name="website" type="url" autoComplete="url" maxLength={fieldLimits.website} className={input} />
         </Labeled>
 
         <Labeled id="cf-source" text={noteForm.source.label}>
@@ -199,17 +285,29 @@ function Form({ urlTopic }: { urlTopic: string | null }) {
           </select>
         </Labeled>
 
-        <button
-          type="submit"
-          className="inline-flex min-h-[54px] w-full items-center justify-center rounded-btn bg-ink px-6 font-ui text-btn font-semibold text-silver md:w-auto md:justify-start md:pl-[22px]"
-        >
-          {noteForm.submitLabel}
-        </button>
+        {/* Spam trap: hidden from people and screen readers, out of the tab order. A filled value is refused. */}
+        <div aria-hidden="true" className="sr-only">
+          <label htmlFor="cf-fax">{noteForm.honeypotLabel}</label>
+          <input id="cf-fax" name={honeypot.name} type="text" tabIndex={-1} autoComplete="off" defaultValue="" />
+        </div>
+
+        <div>
+          {/* Turnstile draws here only if Cloudflare needs the visitor to click. */}
+          <div ref={turnstileRef}className="not-empty:mb-4" />
+          <button
+            type="submit"
+            aria-disabled={sending ? "true" : undefined}
+            aria-busy={sending ? "true" : undefined}
+            className="inline-flex min-h-[54px] w-full items-center justify-center rounded-btn bg-ink px-6 font-ui text-btn font-semibold text-silver aria-disabled:cursor-wait aria-disabled:opacity-70 md:w-auto md:justify-start md:pl-[22px]"
+          >
+            {noteForm.submitLabel}
+          </button>
+        </div>
 
         <div role="status">
-          {sent ? (
-            <p className="text-small">
-              <Text>{noteForm.notConnected}</Text>
+          {sendError ? (
+            <p className="text-[15px] text-rust">
+              <Text>{noteForm.sendErrors[sendError]}</Text>
             </p>
           ) : null}
         </div>
