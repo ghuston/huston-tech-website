@@ -62,15 +62,15 @@ export default function HomePage() {
           <h2 id="proof-title" className="font-ui text-h2 font-bold">
             {proof.heading}
           </h2>
+          <p className="mt-3 text-[17px] text-ink-2">{proof.note}</p>
           <div className="mt-12">
-            <TestimonialRow testimonials={testimonials} tag={proof.tag} />
+            <TestimonialRow testimonials={testimonials} />
           </div>
           <div className="mt-14 grid gap-8 md:grid-cols-2">
             {proof.teasers.map((teaser) => (
               <CaseStudyTeaser key={teaser.name} name={teaser.name} body={teaser.body} href={teaser.href} linkLabel={proof.teaserLinkLabel} />
             ))}
           </div>
-          <p className="mt-14 max-w-[60ch] text-lede">{proof.websitesFallback}</p>
           <div className="mt-10">
             <ProofChips content={proofStrip} />
           </div>
@@ -86,7 +86,7 @@ export default function HomePage() {
             <Button href={bookCallHref()}>{howItWorks.cta}</Button>
           </div>
           <div className="mt-14">
-            <DetailedSteps steps={howItWorks.steps} labels={howItWorks.labels} headingLevel={3} proof={howItWorks.proof} />
+            <DetailedSteps steps={howItWorks.steps} labels={howItWorks.labels} headingLevel={3} />
           </div>
           <div className="mt-8">
             <TextLink href={howItWorks.link.href}>{howItWorks.link.label}</TextLink>

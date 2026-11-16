@@ -35,7 +35,7 @@ export const testimonials: Testimonial[] = [
   },
   {
     id: "T1b-hideout-short",
-    quoteShort: "They delivered exactly what they promised!",
+    quoteShort: "He delivered everything exactly as we discussed, and now all the logistic guesswork is gone.",
     name: "Jacob Rodriguez",
     role: "Owner",
     business: "Hideout Fitness",

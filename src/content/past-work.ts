@@ -128,6 +128,15 @@ export const caseStudies: CaseStudyContent[] = [
   },
 ];
 
+/** A short block for the project behind the standalone Emily Mayot quote; it sits between the case studies and the survey row. */
+export const ocTherapy = {
+  id: "orange-county-therapy",
+  heading: "Orange County Therapy",
+  tag: "Therapy practice",
+  description:
+    "Automation, a sales pipeline set up and optimized, and data analytics. The same kind of project as Irvine Family Counseling.",
+};
+
 export const agencyExperience = {
   heading: "Before Huston Logic: leading projects at a Zoho consulting partner",
   intro:
