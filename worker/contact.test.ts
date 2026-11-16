@@ -185,6 +185,27 @@ describe("Turnstile", () => {
     assert.equal((await worker.fetch(post(valid), env())).status, 403);
     responders.siteverify = () => jsonResponse({ success: true, hostname: "hustonlogic.com", action: "login" });
     assert.equal((await worker.fetch(post(valid), env())).status, 403);
+    assert.ok(logs.some((l) => l.includes('"reason":"hostname_mismatch"')));
+    assert.ok(logs.some((l) => l.includes('"reason":"action_mismatch"')));
+  });
+
+  test("a missing Turnstile secret is our failure (502), not the visitor's, and calls nothing", async () => {
+    const response = await worker.fetch(post(valid), env({ TURNSTILE_SECRET_KEY: undefined }));
+    assert.equal(response.status, 502);
+    assert.equal((await bodyOf(response)).error, "failed");
+    assert.equal(calls.length, 0);
+    assert.ok(logs.some((l) => l.includes("turnstile_config_missing")));
+  });
+
+  test("a secret Cloudflare refuses, or an unreachable siteverify, is our failure (502)", async () => {
+    responders.siteverify = () => jsonResponse({ success: false, "error-codes": ["invalid-input-secret"] });
+    const refused = await worker.fetch(post(valid), env());
+    assert.equal(refused.status, 502);
+    assert.equal((await bodyOf(refused)).error, "failed");
+    assert.ok(logs.some((l) => l.includes("turnstile_unavailable") && l.includes("invalid-input-secret")));
+    responders.siteverify = () => jsonResponse({}, 500);
+    assert.equal((await worker.fetch(post(valid), env())).status, 502);
+    assert.deepEqual(calls.map((c) => route(c.url, c.init)), ["siteverify", "siteverify"]);
   });
 
   test("the secret, token and IP go to siteverify", async () => {
