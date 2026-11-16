@@ -1,5 +1,6 @@
+import Image from "next/image";
 import { Text } from "@/components/ui/Text";
-import { casePhasesHeading, type CaseStudyContent } from "@/content/past-work";
+import { casePhasesHeading, type CaseStudyContent, type ScreenshotSlot } from "@/content/past-work";
 import { getTestimonialById } from "@/content/testimonials";
 import { Card } from "./Card";
 import { CaseStudyPhases } from "./CaseStudyPhases";
@@ -8,12 +9,28 @@ import { Tag } from "./Tag";
 import { TestimonialRow } from "./TestimonialRow";
 
 /** A screenshot on a plain white frame (§7.30): radius 14, card shadow, no tilt. Holds the placeholder until Grant supplies a blurred image. */
-function ScreenshotFrame({ label }: { label: string }) {
+function ScreenshotFrame({ shot }: { shot: ScreenshotSlot }) {
+  if (typeof shot === "string") {
+    return (
+      <Card as="figure" className="grid aspect-[16/10] max-w-[900px] place-items-center p-8 text-center">
+        <p className="max-w-[44ch] text-small text-ink-2">
+          <Text>{shot}</Text>
+        </p>
+      </Card>
+    );
+  }
   return (
-    <Card as="figure" className="grid aspect-[16/10] max-w-[900px] place-items-center p-8 text-center">
-      <p className="max-w-[44ch] text-small text-ink-2">
-        <Text>{label}</Text>
-      </p>
+    <Card as="figure" className="max-w-[900px] overflow-hidden p-0">
+      <Image
+        src={shot.src}
+        alt={shot.alt}
+        width={shot.width}
+        height={shot.height}
+        unoptimized
+        loading="lazy"
+        sizes="(min-width: 900px) 900px, 100vw"
+        className="block h-auto w-full"
+      />
     </Card>
   );
 }
@@ -44,7 +61,7 @@ export function SystemsCaseStudy({ study }: { study: CaseStudyContent }) {
 
       {firstShot ? (
         <div className="mt-8">
-          <ScreenshotFrame label={firstShot} />
+          <ScreenshotFrame shot={firstShot} />
         </div>
       ) : null}
 
@@ -73,7 +90,7 @@ export function SystemsCaseStudy({ study }: { study: CaseStudyContent }) {
 
       {secondShot ? (
         <div className="mt-10">
-          <ScreenshotFrame label={secondShot} />
+          <ScreenshotFrame shot={secondShot} />
         </div>
       ) : null}
 

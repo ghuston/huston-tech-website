@@ -42,6 +42,10 @@ export type CasePhases = Record<FrameworkStepKey, string>;
 /** The strip describes what happened in each phase. Neither project claims a formal paid Review took place. */
 export const casePhasesHeading = fw("{steps} at a glance");
 
+/** A blurred screenshot, or a [[placeholder]] string until Grant supplies one. Alt text describes the view, never numbers or names. */
+export type ScreenshotImage = { src: string; alt: string; width: number; height: number };
+export type ScreenshotSlot = string | ScreenshotImage;
+
 export type CaseStudyContent = {
   id: "hideout-fitness" | "irvine-family-counseling";
   heading: string;
@@ -49,7 +53,7 @@ export type CaseStudyContent = {
   meta: string[];
   testimonialId: string;
   quoteHeading: string;
-  screenshots: string[];
+  screenshots: ScreenshotSlot[];
   phases: CasePhases;
   challenge: string;
   builtHeading: string;
@@ -97,8 +101,8 @@ export const caseStudies: CaseStudyContent[] = [
     testimonialId: "T3-ifc",
     quoteHeading: "In her words",
     screenshots: [
-      "[[SCREENSHOT: clinician performance or referral dashboard. Grant to supply; blur clinician and client names]]",
-      "[[SCREENSHOT: staff app or inquiry pipeline. Grant to supply; blur names]]",
+      { src: "/work/systems-3.webp", alt: "A leads dashboard with summary tiles, a bar chart of leads by month and two pie charts", width: 1200, height: 751 },
+      { src: "/work/systems-4.webp", alt: "A monthly revenue dashboard with summary tiles and a stacked bar chart of revenue over time", width: 1200, height: 688 },
     ],
     phases: {
       scope: "The owner was handling most of the administration, supervision, policy work and her own clients herself, and most processes were manual.",

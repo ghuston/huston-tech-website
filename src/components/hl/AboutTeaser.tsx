@@ -1,16 +1,27 @@
+import Image from "next/image";
+import { aboutTeaser } from "@/content/home";
 import { Container } from "./Container";
 import { RingWithDot } from "./Marks";
 import { TextLink } from "./TextLink";
 
 /**
  * The headshot slot (docs/STYLE-GUIDE.md §7.22): the photo sits inside the logo's ring, a disc at 82% of the ring's inner
- * diameter; the ring and its rust dot are static. Until Grant supplies a real headshot the ring holds an empty
- * silver-2 disc: no stock photo, ever. The ring is decoration, so it is hidden from assistive technology.
+ * diameter; the ring and its rust dot are static. The ring is decoration, so it is hidden from assistive technology.
+ * Below the fold the photo lazy-loads; pass `eager` where it sits in the first screen.
  */
-export function RingHeadshot({ className = "" }: { className?: string }) {
+export function RingHeadshot({ className = "", eager = false }: { className?: string; eager?: boolean }) {
   return (
     <div className={`relative mx-auto aspect-square w-full ${className}`}>
-      <div aria-hidden="true" className="absolute inset-[16%] rounded-pill bg-silver-2" />
+      <Image
+        src="/brand/grant-huston.webp"
+        alt={aboutTeaser.photoAlt}
+        width={560}
+        height={560}
+        unoptimized
+        loading={eager ? "eager" : "lazy"}
+        sizes="360px"
+        className="absolute inset-[16%] size-[68%] rounded-pill bg-silver-2 object-cover"
+      />
       <RingWithDot className="absolute inset-0 size-full" ringColor="var(--hl-green)" dotColor="var(--hl-rust)" />
     </div>
   );

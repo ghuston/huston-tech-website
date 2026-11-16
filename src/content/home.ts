@@ -267,7 +267,7 @@ export const aboutTeaser = {
   heading: "Hi, I'm Grant.",
   body: "I've built business systems for small teams since 2024, starting with a group therapy practice that had outgrown doing everything by hand. Before Huston Logic, I led delivery for 21 client accounts at a Zoho consulting partner, in industries from healthcare to wholesale to local government. Now I build websites too. This one was first.",
   link: { label: "More about me →", href: "/about" },
-  /** For the headshot once Grant supplies one (docs/STYLE-GUIDE.md §7.22). Until then the ring shows an empty disc. */
+  /** Alt text for the ring headshot (docs/STYLE-GUIDE.md §7.22). */
   photoAlt: "Grant Huston",
 };
 
