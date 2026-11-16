@@ -5,9 +5,10 @@ bottom. Every account is created **in the client's name** (the Services copy pro
 hosted on Cloudflare, in an account in your name"), with the builder added as a member where the
 platform allows it, so the client owns the site, the domain and the mail from day one.
 
-Each step says where it comes from. Steps marked **UNVERIFIED** describe a dashboard the repo cannot
-read, or a gotcha the owner reported for this handbook that no repo file records; confirm them on
-screen the first time and update this file. Secrets appear by name only.
+Each step says where it comes from. Steps marked **UNVERIFIED (dashboard)** describe a dashboard the
+repo cannot read; confirm them on screen the first time and update this file. Steps marked
+**owner-confirmed 2026-11-15** were supplied by the owner from their own setup and are recorded in no
+repo file. Secrets appear by name only.
 
 Back to the [map](./README.md). The gotchas are collected at the end.
 
@@ -67,7 +68,10 @@ Back to the [map](./README.md). The gotchas are collected at the end.
 - [ ] Add the client's domain as a **zone** in the account (or register it there). The custom domain
       step below needs the zone in the same account.
 - [ ] **Do not enable Email Routing** on the zone if Google Workspace (or any other provider) will
-      handle the domain's mail; see gotcha G3. **UNVERIFIED** (owner-reported).
+      handle the domain's mail: both need the root MX records, so only one can receive mail (gotcha
+      G3). If it is already on: Email, Email Routing, Settings, **Disable**; delete its
+      `route*.mx.cloudflare.net` MX records and its SPF (`include:_spf.mx.cloudflare.net`) from the
+      root before adding Google's records in step 4. A leftover `cf2024-1._domainkey` TXT is harmless.
 - [ ] Workers & Pages, Create, connect the GitHub repo (Workers Builds). Settings
       (**UNVERIFIED (dashboard)**, from this repo's README): production branch `main`, build command
       `npm run build`, deploy command `npx wrangler deploy`, root directory `/`, build variable
@@ -82,11 +86,12 @@ Back to the [map](./README.md). The gotchas are collected at the end.
 - [ ] After the first merge: **Deployments** shows an Active production version. Practise the rollback
       runbook once ([gate3-deploy-ops.md](./gate3-deploy-ops.md#rollback-runbook-readme-practised-2026-11-13))
       while nothing is at stake.
-- [ ] At launch: change the build command to `npm run build:launch`; add the apex and `www.` as
-      **Custom domains** on the Worker; create the **www to apex Redirect Rule** on the zone (301,
-      `concat("https://<apex>", http.request.uri.path)`, preserve query string). All
-      **UNVERIFIED (dashboard)**; click paths in
-      [gate3-deploy-ops.md](./gate3-deploy-ops.md#custom-domains-and-the-www-redirect-unverified-dashboard-pr-53).
+- [ ] At launch: change the build command to `npm run build:launch` and add the apex as a **Custom
+      domain** on the Worker (**UNVERIFIED (dashboard)**; click paths in
+      [gate3-deploy-ops.md](./gate3-deploy-ops.md#custom-domains-and-the-www-redirect)).
+- [ ] **www redirect** (owner-confirmed 2026-11-15): zone, Rules, Redirect Rules, template **"Redirect
+      from WWW to root"**, deploy; **and** add a proxied `AAAA` record `www` to `100::`. Without a
+      `www` DNS record the name does not resolve and the rule never runs (gotcha G21).
 
 ## 3. Turnstile (client's Cloudflare account)
 
@@ -101,9 +106,12 @@ Back to the [map](./README.md). The gotchas are collected at the end.
 ## 4. Mail: Google Workspace (client's domain)
 
 - [ ] Workspace owns the mailbox the form writes to (`providers.email`). Its records on the **root**:
-      MX, the single SPF TXT `v=spf1 include:_spf.google.com ~all`, DKIM at `google._domainkey`.
-- [ ] Add a DMARC TXT at `_dmarc`. The exact policy used on this repo's domain is **UNVERIFIED** (not
-      in any file); it passes for both Workspace and Resend mail through DKIM alignment.
+      Google's 5 MX records, the single SPF TXT `v=spf1 include:_spf.google.com ~all`, DKIM at
+      `google._domainkey` (from the Workspace admin console).
+- [ ] Add a DMARC TXT at `_dmarc`. On this repo's domain it was created by Cloudflare's **DMARC
+      Management** as `v=DMARC1; p=none; rua=<Cloudflare reporting address>` (owner-confirmed
+      2026-11-15). It passes for both Workspace and Resend mail through DKIM alignment. Plan: move to
+      `p=quarantine` after 2 to 4 weeks of clean reports.
 - [ ] Rule: **never add Resend (or anyone else) to the root SPF.** Resend's mail authenticates on its
       own subdomain (step 5).
 
@@ -136,11 +144,13 @@ Back to the [map](./README.md). The gotchas are collected at the end.
       Sheets API**.
 - [ ] IAM & Admin, Service Accounts, Create (this repo: `contact-form-writer`). Grant **no project
       roles**.
-- [ ] **Create a JSON key** for it. If the account belongs to a Google Workspace organisation, key
-      creation is **blocked by default** by the organisation policy
-      `iam.disableServiceAccountKeyCreation`; an Organization Policy Administrator must override that
-      constraint for the project (or organisation), then "Create new key" works. **UNVERIFIED**
-      (owner-reported; no repo file records the click path). Record it here when next done.
+- [ ] **Create a JSON key** for it. A new Google Workspace creates a Google Cloud organisation with
+      Secure-by-Default policies, and `iam.managed.disableServiceAccountKeyCreation` **blocks key
+      creation** (gotcha G2). Fix (owner-confirmed 2026-11-15): the Workspace **super admin** grants
+      themselves **Organization Policy Administrator** at the **organisation** level; then in the
+      project, IAM & Admin, **Organization Policies**, that policy, **Manage policy**, **Override
+      parent's policy**, enforcement **Off**. This is project-only; the organisation default stays on.
+      Then "Create new key" works.
 - [ ] Share the Sheet with the service account's email as **Editor**, and with no one else who does
       not need it.
 - [ ] The whole JSON key file becomes the Worker secret `GOOGLE_SERVICE_ACCOUNT_KEY`
@@ -216,19 +226,24 @@ Full commands in [contact-form.md](./contact-form.md#secrets-by-name).
 
 ## Gotchas hit on this pipeline
 
-Each one is either in a repo file or PR (cited) or reported by the owner for this handbook
-(**UNVERIFIED**).
+Each one is either in a repo file or PR (cited) or supplied by the owner for this handbook
+(**owner-confirmed 2026-11-15**, no repo file records it).
 
 - **G1. Preview secrets are separate from production, and are copied at creation.** A preview made
   before the base config had the four secrets kept failing with the owner's "Something broke" error.
   Set the base config first; fix an existing preview with `wrangler preview secret put --name`.
   (README "Secrets", `wrangler.jsonc` comment, commit `1f1fa8d`.)
-- **G2. Service-account key creation blocked by Workspace organisation policy.** Override the
-  `iam.disableServiceAccountKeyCreation` constraint for the project before "Create new key" works.
-  **UNVERIFIED** (owner-reported).
-- **G3. Cloudflare Email Routing versus Google Workspace MX.** Enabling Email Routing writes
-  Cloudflare's own MX and SPF on the root, which collide with Workspace's. Leave Email Routing off on
-  a Workspace domain. **UNVERIFIED** (owner-reported).
+- **G2. Service-account key creation blocked by the Workspace organisation policy.** A new Workspace
+  creates a Google Cloud organisation whose Secure-by-Default policy
+  `iam.managed.disableServiceAccountKeyCreation` blocks "Create new key". The super admin grants
+  themselves Organization Policy Administrator at the organisation level, then overrides the policy
+  at the project (IAM & Admin, Organization Policies, Manage policy, Override parent's policy,
+  enforcement Off). Project-only; the organisation default stays on. (Owner-confirmed 2026-11-15.)
+- **G3. Cloudflare Email Routing versus Google Workspace MX.** Both need the root MX records, so only
+  one can receive mail. Workspace replaced Email Routing: disable Email Routing, remove its
+  `route*.mx.cloudflare.net` MX records and its `include:_spf.mx.cloudflare.net` SPF, add Google's 5
+  MX records, the single root SPF `v=spf1 include:_spf.google.com ~all` and Google's DKIM. The
+  leftover `cf2024-1._domainkey` TXT is harmless. (Owner-confirmed 2026-11-15.)
 - **G4. Resend's records are CNAME-based (Forge).** `send` and `rsend` are CNAMEs to
   `*.forge.rmta.net`; there is no MX or SPF TXT to add on `send`, and nothing is added to the root
   SPF. The classic Resend guide (MX plus SPF TXT on `send`) does not apply. (README, commit
@@ -274,3 +289,11 @@ Each one is either in a repo file or PR (cited) or reported by the owner for thi
   object (PR 23).
 - **G20. Cloudflare has no email alert for a failed Workers Builds deploy.** The red check on the
   merge commit is the only signal (README "Monitoring").
+- **G21. The www redirect needs a DNS record to run.** A Worker custom domain cannot redirect, so the
+  redirect is a zone Redirect Rule (template "Redirect from WWW to root"). If no `www` record exists,
+  `www` does not resolve and the rule never runs. Add a **proxied** `AAAA` record `www` to `100::`
+  (a dummy address that is never contacted). (Owner-confirmed 2026-11-15.)
+- **G22. Never run two Claude Code chats in the same checkout at once.** They switch branches under
+  each other: on 2026-11-15 a commit landed on the wrong branch and had to be cherry-picked. Use a
+  separate git worktree for parallel work (`git worktree add ../<folder> -b type/short-name`), and
+  run `git branch --show-current` right before every commit. (Owner-confirmed 2026-11-15.)

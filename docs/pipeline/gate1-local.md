@@ -676,7 +676,7 @@ Verdict rules:
 - Copy the reviewers' lines as they wrote them. Do not rewrite, merge or soften them.
 
 Add one last line only when the changed files include `src/**/*.tsx`,
-`src/app/globals.css` or `src/app/motion.css`:
+`src/app/globals.css` or `src/app/hl.css`:
 "OPTIONAL: run the human-touch-design audit (styling or markup changed)."
 ```
 
@@ -715,23 +715,26 @@ The a11y agent adds "; static review only, no axe/Lighthouse run" to its SCOPE l
 non-negotiable copy rule: every string shown or announced must come from `src/content/` or be a
 visible `[[placeholder]]`; a wording idea may appear only as `COPY IDEA (not for code)`.
 
-## Known stale text in Gate 1 (read-only observations, nothing changed)
+## Stale text that was found and corrected (history)
 
-These were found while reading the files for this handbook. They are owner-only paths, so fixing
-them follows the hand-edit procedure above.
+Found while writing this handbook on 2026-11-15 and corrected in the same PR. The agents and skill
+are owner-only paths, so those edits followed the hand-edit procedure above; the text quoted in this
+file is the corrected version.
 
-- `.claude/agents/review-code.md` rule 1 says "the repo is mid-migration to design v2" and names
-  `src/app/motion.css`. The repo is on design v3 and the motion rules live in `src/app/hl.css`
-  (`AGENTS.md`, "Motion rules"); there is no `motion.css` in `git ls-files`.
-- `.claude/skills/ship-check/SKILL.md` names `src/app/motion.css` in its last rule for the same
-  reason.
-- `.claude/agents/review-a11y.md` rule 9 and `.claude/agents/review-security.md` rule 6 still say
-  no `<form>` or submit handler may exist "until a provider is chosen". The contact Worker exists
-  since PR 51 (`worker/contact.ts`, `src/components/hl/ContactForm.tsx`), so the "when an endpoint
-  exists" half of each rule is the live one.
-- `.claude/hooks/README.md`'s table says Hook 3 runs "before Edit/Write"; `settings.json` matches
-  `Edit|Write|NotebookEdit` since PR 38.
-- `.env.example` says "The contact form does not exist yet" and lists older secret names
-  (`EMAIL_SERVICE_API_KEY`, `GOOGLE_SERVICE_ACCOUNT_CREDENTIALS`); the real names are in
-  `wrangler.jsonc` and [contact-form.md](./contact-form.md). It is not an owner-only path, but this
-  handbook changes no code.
+- `.claude/agents/review-code.md` rule 1 said "the repo is mid-migration to design v2" and named
+  `src/app/motion.css`. It now says the design is v3, with the palette and theme in
+  `src/app/hl.css` and the base layer and timing tokens in `src/app/globals.css` (there is no
+  `motion.css` in `git ls-files`).
+- `.claude/skills/ship-check/SKILL.md` named `src/app/motion.css` in its last rule; it now says
+  `src/app/hl.css`.
+- `.claude/agents/review-a11y.md` rule 9 and `.claude/agents/review-security.md` rule 6 said no
+  `<form>` or submit handler may exist "until a provider is chosen". Both now describe the contact
+  form and the same-origin contact Worker as the only form and endpoint, and FLAG anything else.
+  `review-security.md` rule 7 also now says the runtime dependencies are Next, React and React DOM
+  (it said "Tailwind").
+- `.env.example` said "The contact form does not exist yet" and listed `EMAIL_SERVICE_API_KEY` and
+  `GOOGLE_SERVICE_ACCOUNT_CREDENTIALS`; it now lists the four real secret names.
+
+Still open: `.claude/hooks/README.md`'s table says Hook 3 runs "before Edit/Write", while
+`settings.json` matches `Edit|Write|NotebookEdit` since PR 38. The file is an owner-only path and
+was not part of this round of fixes.

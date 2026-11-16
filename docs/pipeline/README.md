@@ -4,7 +4,8 @@ The technical handbook of the delivery pipeline used by this repo, written for t
 developers who will reuse it on client sites. Every statement below was read from a file in this
 repo, from a command run against GitHub or wrangler, or from the pull-request history, on
 2026-11-15. Where a fact could not be checked that way it is marked **UNVERIFIED** and the source
-(usually the owner's own notes) is named.
+(usually the owner's own notes) is named. Facts the owner supplied from their own dashboards and
+setup, which no repo file or command can show, are marked **owner-confirmed 2026-11-15**.
 
 Rules this handbook follows: no secret values anywhere (names only), no client names, no copy of
 anything that lives outside the repo without saying so.
@@ -39,16 +40,20 @@ the reasoning; if they disagree, they win and this handbook needs a fix.
 
 ## The three gates
 
-The repo names the gates in passing: the hooks README is titled "Claude Code hooks (Gate 1)",
-PR 15 was "Piece 2 of Gate 2", and `docs/website-plan.md` E1 says "every change goes through the
-3-gate, 12-step pipeline". No file in the repo enumerates the twelve steps, and the only numbered
-step is `/ship-check`, which calls itself "Step 4 of the pipeline" in
-`.claude/skills/ship-check/SKILL.md`. The list below is therefore a **reconstruction** that fits
-those three anchors and the workflow in `CLAUDE.md` ("plan, branch, build, check, PR, review,
-merge, auto-deploy on merge"). Treat the step numbers as **UNVERIFIED**; treat the gates and what
-each one enforces as verified.
+The gates and steps are the owner's own numbering (confirmed by the owner on 2026-11-15). Elsewhere
+in the repo the gates are named only in passing: the hooks README is titled "Claude Code hooks
+(Gate 1)", PR 15 was "Piece 2 of Gate 2", `docs/website-plan.md` E1 says "every change goes through
+the 3-gate, 12-step pipeline", and `.claude/skills/ship-check/SKILL.md` calls itself "Step 4 of the
+pipeline", which matches step 4 below. No repo file enumerates all twelve, so this list is the one
+place they are written down.
 
-### Gate 1: local, on the Mac (steps 1 to 6)
+| Gate | Where | Steps |
+|---|---|---|
+| 1 | The owner's Mac, in Claude Code | 1 Plan, 2 Branch, 3 Build with hooks, 4 Self-review (`/ship-check`) |
+| 2 | GitHub | 5 Pull request, 6 GitHub Actions, 7 Preview link and PR description ("Needs your eyes"), 8 Owner enables auto-merge |
+| 3 | Cloudflare and the outside world | 9 Auto-deploy (Workers Builds), 10 Monitoring (UptimeRobot), 11 Rollback, 12 Dependabot |
+
+### Gate 1: local, on the Mac (steps 1 to 4)
 
 Enforced by Claude Code hooks and permission rules in `.claude/`, so an honest mistake by the agent
 is stopped before it reaches Git. Details in [gate1-local.md](./gate1-local.md).
@@ -57,47 +62,52 @@ is stopped before it reaches Git. Details in [gate1-local.md](./gate1-local.md).
    asking; in the careful lane it waits for approval (see "Two lanes" below).
 2. **Branch.** `git checkout -b type/short-name` off a fresh `main`. The `guard-bash` hook blocks
    any commit or push while on `main` or `master`.
-3. **Build.** Edit under the rules. The `protect-config` hook blocks edits to owner-only paths and
-   asks before the five "ask" files; the `scan-src` hook warns about design-rule slips after every
-   edit under `src/`.
+3. **Build with hooks.** Edit under the rules. The `protect-config` hook blocks edits to owner-only
+   paths and asks before the five "ask" files; the `scan-src` hook warns about design-rule slips
+   after every edit under `src/`. `npm run check` must pass, and the `precommit-check` hook runs it
+   again before every `git commit` and blocks the commit with the last 60 lines of output if it
+   fails. `--no-verify` is blocked.
 4. **Self-review.** The owner types `/ship-check`: it runs `npm run check` and the three read-only
    reviewers (`review-code`, `review-a11y`, `review-security`) in parallel and prints READY or
    NOT READY. It never edits.
-5. **Check and commit.** `npm run check` must pass. The `precommit-check` hook runs it again before
-   every `git commit` and blocks the commit with the last 60 lines of output if it fails.
-   `--no-verify` is blocked.
-6. **Push and open the PR.** The PR description starts with a "Needs your eyes" line listing any
-   change to `AGENTS.md`, `CLAUDE.md`, `package.json` or `README.md`, or "none". `gh pr merge` and
-   merging through `gh api` are blocked; the owner merges.
 
-### Gate 2: CI, on GitHub (steps 7 to 9)
+### Gate 2: GitHub (steps 5 to 8)
 
 Enforced by the "Protect main" ruleset, which no one can bypass (`bypass_actors: []`). Details in
 [gate2-ci.md](./gate2-ci.md).
 
-7. **Four required status checks** must pass on the PR: `check`, `a11y` and `lighthouse` (jobs in
-   `.github/workflows/ci.yml`) and `dependency-review` (`.github/workflows/dependency-review.yml`).
-   The branch does not have to be up to date with `main`.
-8. **Code scanning.** The "Require code scanning results" rule (tool CodeQL, alerts threshold
-   `errors`, security alerts `high_or_higher`) blocks the merge while a new alert of that severity
-   is open, and also while the scan is still running.
-9. **Preview.** Cloudflare Workers Builds deploys every PR branch to a Worker Preview URL and
-   comments on the PR. Hand tests that need a real browser or real mail happen here (preview mode
-   mails only the site's own address and writes to the Sheet's `Preview` tab).
+5. **Pull request.** Push the branch and open a PR into `main`. `main` changes only through a PR.
+   `gh pr merge` and merging through `gh api` are blocked for the agent; the agent opens the PR and
+   stops.
+6. **GitHub Actions.** Four required status checks must pass on the PR: `check`, `a11y` and
+   `lighthouse` (jobs in `.github/workflows/ci.yml`) and `dependency-review`
+   (`.github/workflows/dependency-review.yml`). The branch does not have to be up to date with
+   `main`. The "Require code scanning results" rule (tool CodeQL, alerts threshold `errors`,
+   security alerts `high_or_higher`) also blocks the merge while a new alert of that severity is
+   open, and while the scan is still running.
+7. **Preview link and PR description.** Cloudflare Workers Builds deploys every PR branch to a
+   Worker Preview URL and comments it on the PR. Hand tests that need a real browser or real mail
+   happen here (preview mode mails only the site's own address and writes to the Sheet's `Preview`
+   tab). The PR description starts with a "Needs your eyes" line listing any change to `AGENTS.md`,
+   `CLAUDE.md`, `package.json` or `README.md`, or "none".
+8. **Owner enables auto-merge.** The owner turns on auto-merge (the repo has `allow_auto_merge:
+   true`) or merges by hand; merge, squash and rebase are all allowed. The agent never does either.
+   Auto-merge then merges the PR as soon as the required checks are green.
 
-### Gate 3: deploy and operations, on Cloudflare (steps 10 to 12)
+### Gate 3: deploy and operations (steps 9 to 12)
 
 Details in [gate3-deploy-ops.md](./gate3-deploy-ops.md).
 
-10. **The owner merges.** Merge, squash and rebase are all allowed. Nothing in the pipeline merges
-    automatically; the repo has `allow_auto_merge: true`, and CLAUDE.md says the owner may enable
-    auto-merge on a PR, but the agent never does.
-11. **Workers Builds deploys `main`.** Build command `npm run build` (to become
-    `npm run build:launch` at launch), deploy command `npx wrangler deploy`, run by Cloudflare, never
-    by hand (the hook blocks it). A failed build leaves the previous version live and sends no email.
-12. **Verify and watch.** Check the live site, UptimeRobot keeps checking it, and the rollback
-    runbook (Deployments, Rollback / Promote version) is the emergency brake. A rollback changes
-    nothing in Git; the next merge redeploys `main`'s HEAD.
+9. **Auto-deploy (Workers Builds).** Merging into `main` makes Workers Builds build and deploy the
+   site: build command `npm run build` (to become `npm run build:launch` at launch), deploy command
+   `npx wrangler deploy`, run by Cloudflare, never by hand (the hook blocks it). A failed build
+   leaves the previous version live and sends no email.
+10. **Monitoring (UptimeRobot).** A free-plan monitor checks the production URL every 5 minutes and
+    emails the owner on an error, timeout or no answer.
+11. **Rollback.** The runbook (Deployments, Rollback / Promote version) is the emergency brake. A
+    rollback changes nothing in Git; the next merge redeploys `main`'s HEAD.
+12. **Dependabot.** Weekly grouped dependency and Actions updates with a 7-day cooldown arrive as
+    ordinary PRs and go back through steps 5 to 9.
 
 ## Two lanes: the order of operations for one change
 

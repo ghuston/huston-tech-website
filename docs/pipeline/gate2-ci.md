@@ -97,10 +97,9 @@ jobs:
         run: npm run check:placeholders
         continue-on-error: true
 
-  # Accessibility scan (Playwright + axe) of the built site. Informational for now: it is NOT a required
-  # check in the "Protect main" ruleset, so a red result does not block merge. Make it required after
-  # 5 consecutive clean runs (see README). No `paths:` filter and no `if:`: a skipped required check
-  # would block merging, so this job must always run.
+  # Accessibility scan (Playwright + axe) of the built site. A required check in the "Protect main" ruleset
+  # (required since 2026-11-13, after 5 clean runs and a deliberate-failure proof PR), so a red result blocks merge.
+  # No `paths:` filter and no `if:`: a skipped required check would block merging, so this job must always run.
   a11y:
     runs-on: ubuntu-latest
     timeout-minutes: 15
@@ -135,10 +134,10 @@ jobs:
           retention-days: 7
           if-no-files-found: ignore
 
-  # Lighthouse CI audit of the built site (served by scripts/preview.mjs so public/_headers applies). Informational
-  # for now: it is NOT a required check in the "Protect main" ruleset. Make it required after 5 consecutive clean
-  # runs (see README). No `paths:` filter and no `if:` on the job: a skipped required check would block merging.
-  # The `if:` on the two report steps below keeps the reports on failure too.
+  # Lighthouse CI audit of the built site (served by scripts/preview.mjs so public/_headers applies). A required
+  # check in the "Protect main" ruleset (required since 2026-11-13, after 5 clean runs and a deliberate-failure proof
+  # PR), so a red result blocks merge. No `paths:` filter and no `if:` on the job: a skipped required check would
+  # block merging. The `if:` on the two report steps below keeps the reports on failure too.
   lighthouse:
     runs-on: ubuntu-latest
     timeout-minutes: 15
@@ -193,10 +192,11 @@ Notes on what the file does and why (from the PR bodies of 15, 22, 24 and 51):
   makes this explicit; CI relies on the fact that pushes to `main` are merges).
 - **Both `a11y` and `lighthouse` build the site themselves** rather than downloading `check`'s
   `out/` as an artifact, so each job stands alone.
-- **The comments saying "Informational for now ... NOT a required check" are stale.** All three
-  jobs became required on 2026-11-13 (see "Promotion" below). The ruleset, `CLAUDE.md`, `AGENTS.md`
-  and the README are current; only these YAML comments were never updated, because the workflow files
-  are owner-only paths and the promotion needed no change to the YAML itself.
+- **The comments above say "required since 2026-11-13".** All three jobs became required on that date
+  (see "Promotion" below). The YAML comments used to say "Informational for now ... NOT a required
+  check", because the promotion changed only the ruleset and the workflow files are owner-only paths;
+  they were corrected afterwards by the hand-edit procedure, and the text above is the corrected
+  version.
 
 ## `.github/workflows/codeql.yml` (verbatim)
 
@@ -205,8 +205,9 @@ name: CodeQL
 
 # Scans our own JavaScript/TypeScript for security bugs (GitHub "advanced setup": this file, not default setup).
 # JS/TS needs no build, so there is no setup-node, npm ci or autobuild step.
-# Informational for now: `codeql` is NOT a required check. To block merges on findings later, use the
-# "Require code scanning results" rule (tool: CodeQL) in the "Protect main" ruleset, not a status check.
+# Enforced through the "Require code scanning results" rule (tool: CodeQL) in the "Protect main" ruleset since
+# 2026-11-13, not through a status check on this job: the job goes red only if the scan itself breaks, while the rule
+# blocks the merge on new alerts of error severity (security severity high or higher) and while the scan is running.
 # No `paths:` filter and no `if:` on the job. `branches:` is the GitHub-documented shape and is not a paths filter.
 # Scheduled runs only happen on the default branch, and GitHub disables schedules in a public repo
 # after 60 days without repository activity.
@@ -257,8 +258,8 @@ Notes (PR 23): `codeql-action` v4.39.3 is an annotated tag; the pinned value is 
 tag points to, not the tag object. `packages: read` and `actions: read` from GitHub's starter
 template were left out (they matter only for private packs and private repos). The `actions`
 language (scanning the workflow YAML itself) was deliberately left for a later PR and has not been
-added. The "Informational for now" comment is stale: the code-scanning rule has been in the ruleset
-since 2026-11-13.
+added. The code-scanning rule has been in the ruleset since 2026-11-13, and the header comment now
+says so.
 
 ## `.github/workflows/dependency-review.yml` (verbatim)
 
@@ -266,8 +267,8 @@ since 2026-11-13.
 name: Dependency review
 
 # Fails a pull request that adds or changes a dependency to a version with a known vulnerability.
-# Informational for now: `dependency-review` is NOT a required check in the "Protect main" ruleset.
-# Make it required after 5 clean runs (see README). No `paths:` filter and no `if:`: a skipped
+# A required check in the "Protect main" ruleset (required since 2026-11-13, after 5 clean runs and a deliberate-failure
+# proof PR), so a red result blocks merge. No `paths:` filter and no `if:`: a skipped
 # required check would block merging, so this job must always run on pull requests.
 # Pull requests only: the action compares the base and head revisions, so a push or schedule run has nothing to compare.
 
@@ -302,8 +303,7 @@ jobs:
 
 It judges only what the PR changes, not what is already in `main`. It does not comment on the PR,
 so it needs no write permission. A deliberate, understood exception goes in the workflow as
-`allow-ghsas` with a written reason; never add one silently (README). The "Informational for now"
-comment is stale for the same reason as the others.
+`allow-ghsas` with a written reason; never add one silently (README).
 
 ## `lighthouserc.cjs` (verbatim)
 
@@ -356,9 +356,9 @@ Facts around it:
 - **Pages.** `indexableRoutes` from `src/lib/routes.ts`: `/`, `/how-i-work`, `/services`,
   `/past-work`, `/about`, `/insights`, `/contact`, `/privacy` (eight today). `noindex` pages and the
   404 are left out on purpose.
-- **Thresholds.** All four categories are `error` at the median of three runs. The README still
-  says "performance only warns"; the file says `error` for performance too, and
-  `scripts/lighthouse-summary.mjs` reads the level from this file, so the file wins. PR 24 shipped
+- **Thresholds.** All four categories are `error` at the median of three runs, and
+  `scripts/lighthouse-summary.mjs` reads the level from this file. The README used to say
+  "performance only warns" (now corrected). PR 24 shipped
   performance as `warn`; commit `0fd29d3` in PR 49 (2026-11-15, "remove v1 leftovers, make v3 the
   only design") raised it to `error`.
 - **Why the median.** PR 24: one local run of `/` scored 0.91 for performance while the other two
@@ -586,12 +586,14 @@ From PR 34 and `CLAUDE.md`: a lockfile written by a different npm major than CI'
 - Generate lockfile changes with the same npm major as CI, and check the first CI run's Install
   dependencies step.
 
-## Known stale text in Gate 2 (read-only observations)
+## Stale text that was found and corrected (history)
 
-- The "Informational for now ... NOT a required check" comments in all three workflow files (noted
-  above). The files are owner-only paths; the hand-edit procedure in
-  [gate1-local.md](./gate1-local.md#changing-an-owner-only-file-the-hand-edit-procedure) applies.
-- README "Lighthouse CI" says "performance only warns"; `lighthouserc.cjs` has performance at
-  `error`.
-- README "Lighthouse CI" says "the seven pages in `src/lib/routes.ts`"; the list has eight
+Found while writing this handbook on 2026-11-15 and fixed in the same PR (the three workflow files
+through the hand-edit procedure in
+[gate1-local.md](./gate1-local.md#changing-an-owner-only-file-the-hand-edit-procedure)):
+
+- The "Informational for now ... NOT a required check" comments in all three workflow files.
+- README "Lighthouse CI" said "performance only warns"; `lighthouserc.cjs` has had performance at
+  `error` since PR 49.
+- README "Lighthouse CI" said "the seven pages in `src/lib/routes.ts`"; the list has had eight
   indexable routes since `/how-i-work` was added in PR 43.

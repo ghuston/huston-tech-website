@@ -255,26 +255,34 @@ from the same address but through its own subdomain records, so the two never to
 
 | Owner | Type | Name | Content | Notes |
 |---|---|---|---|---|
-| Google Workspace | MX | root | Google's MX hosts | The only MX on the root |
+| Google Workspace | MX | root | Google's 5 MX records | The only MX records on the root (owner-confirmed 2026-11-15) |
 | Google Workspace | TXT | root | `v=spf1 include:_spf.google.com ~all` | The only SPF record on the root. **Never add Resend to it.** |
 | Google Workspace | TXT | `google._domainkey` | Google's DKIM key | |
 | Resend (Forge) | TXT | `resend._domainkey` | DKIM key (value from Resend) | Aligned DKIM on the root domain is what makes DMARC pass for Resend mail |
 | Resend (Forge) | CNAME | `send` | `send.forge.rmta.net` | Return-Path host. **No MX and no SPF TXT on `send`**: a CNAME cannot share its name with other records, and Resend serves the bounce records through the CNAME target |
 | Resend (Forge) | CNAME | `rsend` | `rsend.forge.rmta.net` | |
-| Owner | TXT | `_dmarc` | a DMARC policy | Exists and passes (README). Exact value **UNVERIFIED**: not in any repo file |
+| Cloudflare DMARC Management | TXT | `_dmarc` | `v=DMARC1; p=none; rua=<Cloudflare reporting address>` | Created by Cloudflare's DMARC Management feature (owner-confirmed 2026-11-15). Policy is `p=none` (monitor only) for now; the plan is `p=quarantine` after 2 to 4 weeks of clean reports. The reporting address is Cloudflare's and is not recorded here |
+| Leftover | TXT | `cf2024-1._domainkey` | Cloudflare Email Routing's old DKIM key | Harmless; left over from the Email Routing setup below (owner-confirmed 2026-11-15) |
 
 All Resend records are "DNS only" (grey cloud, not proxied). Open and click tracking stay off in
 Resend. SPF for Resend mail passes on `send.<domain>` and aligns under DMARC's relaxed alignment;
 DKIM aligns exactly. The Launch checklist requires SPF, DKIM and DMARC to all show PASS in Gmail's
 "Show original" for both the notification and the automatic reply.
 
-**Email Routing versus Workspace MX (UNVERIFIED).** The owner's brief for this handbook lists "Email
-Routing vs Workspace MX conflict" as a gotcha hit during setup. No repo file, commit or PR body
-describes it. The likely shape, from Cloudflare's product design rather than from this repo's
-records: enabling Cloudflare Email Routing on a zone writes Cloudflare's own MX and SPF records to the
-root, which collide with Google Workspace's MX and the single-SPF rule above. Treat it as: do not
-enable Email Routing on a zone whose mail Google Workspace handles. Confirm against the dashboard
-before relying on it.
+**Email Routing versus Workspace MX (owner-confirmed 2026-11-15).** Cloudflare Email Routing and
+Google Workspace both need the root MX records, so only one of them can receive mail for the domain.
+On this domain Workspace replaced Email Routing. The steps taken, in order:
+
+1. Cloudflare dashboard, Email, Email Routing, Settings, **Disable** Email Routing.
+2. Remove Email Routing's `route*.mx.cloudflare.net` MX records from the root.
+3. Remove Email Routing's SPF (`include:_spf.mx.cloudflare.net`) from the root, so the root has no
+   second SPF record.
+4. Add Google's 5 MX records on the root.
+5. Add the single root SPF `v=spf1 include:_spf.google.com ~all`.
+6. Add Google's DKIM at `google._domainkey` (from the Workspace admin console).
+
+The leftover `cf2024-1._domainkey` TXT from Email Routing is harmless and was left in place. For a
+client domain that will use Workspace from the start, simply never enable Email Routing.
 
 ## The Google side
 
@@ -296,17 +304,26 @@ From the README and `worker/sheets.ts`:
   a reply; a row with no email in the inbox means the notification failed
   (`notify_failed_sheet_saved`).
 
-**Workspace organisation policy on service-account keys (UNVERIFIED).** The owner's brief lists
-"service-account keys blocked by Workspace policy" and "the Workspace org-policy override" as a
-gotcha. No repo file describes it. What is known from Google's product design, not from this repo:
-a Google Cloud organisation created from a Google Workspace domain enforces the
-`iam.disableServiceAccountKeyCreation` organisation policy by default, so "Create new key" on a
-service account fails until an Organization Policy Administrator overrides that constraint for the
-project (or the organisation). Record the exact click path when it is next done; see the
+**Service-account keys blocked by the Workspace organisation policy (owner-confirmed 2026-11-15).**
+Creating a new Google Workspace also creates a Google Cloud organisation with Google's
+Secure-by-Default policies, including `iam.managed.disableServiceAccountKeyCreation`, which blocks
+creating service-account keys. The fix used, project-only:
+
+1. The Workspace **super admin** grants themselves the **Organization Policy Administrator** role at
+   the **organisation** level.
+2. In the Cloud project: IAM & Admin, **Organization Policies**, open that policy, **Manage policy**,
+   **Override parent's policy**, set enforcement to **Off**, save.
+3. "Create new key" on the service account now works.
+
+Only the one project is overridden; the organisation default stays on. See the
 [checklist](./client-onboarding-checklist.md).
 
 ## Resend
 
+- **Why Resend rather than Postmark** (owner-confirmed 2026-11-15; the plan, E6, allowed either):
+  Resend's free tier covers this volume, it has a simple REST API usable with plain `fetch` (so no
+  SDK dependency in the Worker), and Cloudflare's dashboard can configure its DNS records
+  automatically.
 - Domain verified through the Forge records above. The API key has "Sending access" for the one
   domain only (README).
 - Both emails are **plain text** (`text` only, never `html`), from `<Business> <site address>`,

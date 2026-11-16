@@ -173,10 +173,11 @@ Workers static assets honours `_headers` (100 rules max) and `_redirects` (none 
 assets directory root; neither applies to responses the Worker generates, which is why
 `worker/contact.ts` sets its own security headers on `/api/*` (PR 5, README).
 
-## Custom domains and the www redirect (UNVERIFIED (dashboard); PR 53)
+## Custom domains and the www redirect
 
 These are the owner's post-merge steps from PR 53, written for the launch. None is a file in the
-repo.
+repo. Step 4 below is as practised on this domain (owner-confirmed 2026-11-15); the rest is the PR 53
+plan and is **UNVERIFIED (dashboard)**.
 
 1. **Build command.** Workers & Pages, `huston-site`, Settings, Builds, Build configuration, Edit:
    change `npm run build` to `npm run build:launch`. Save, then Retry deployment (or push any
@@ -187,9 +188,16 @@ repo.
 3. **Turnstile hostnames.** Turnstile, the contact widget, Settings, Hostnames: add the apex and
    `www.` (keep the existing ones for previews). Without this the live form returns "That didn't go
    through".
-4. **www to apex redirect.** A Worker custom domain cannot redirect, so it is a zone rule: select the
-   zone, Rules, Redirect Rules, Create rule. When hostname equals `www.<domain>`, Dynamic redirect to
-   `concat("https://<domain>", http.request.uri.path)`, status 301, preserve query string. Deploy.
+4. **www to apex redirect.** A Worker custom domain cannot redirect, so it is a zone rule. As
+   practised (owner-confirmed 2026-11-15):
+   1. Select the zone, Rules, Redirect Rules, Create rule, and pick the template **"Redirect from
+      WWW to root"**. It is a 301 from `www.<domain>` to the apex, keeping the path (the template
+      fills in the equivalent of `concat("https://<domain>", http.request.uri.path)`, preserve query
+      string). Deploy.
+   2. **Add a proxied `AAAA` record: name `www`, content `100::`** (orange cloud on). `100::` is a
+      dummy address that is never contacted. It is needed because no `www` record existed; without
+      any `www` DNS record the name does not resolve, the request never reaches Cloudflare, and the
+      redirect rule never runs. The proxy (orange cloud) is what lets the rule answer.
 5. **UptimeRobot.** Edit the existing monitor's URL from the `workers.dev` address to the apex.
 6. **Smoke test.** Open the apex and the www address (should land on the apex), send a real test
    note through the form, confirm the Sheet row, the email to the owner and the automatic reply.

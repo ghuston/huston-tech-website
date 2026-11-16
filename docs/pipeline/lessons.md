@@ -99,7 +99,12 @@ Back to the [map](./README.md).
 |---|---|---|---|
 | **A Worker on `/api/*` with `run_worker_first`**, the site still a static export | A static export has no server routes; the Worker runs only where needed | Next.js API routes or server actions (impossible with `output: "export"`); a third-party form service | `docs/website-plan.md` E6, `wrangler.jsonc` |
 | **No libraries in the Worker**: Web Crypto for the Google JWT, `fetch` for everything | Nothing to audit or update; the JWT is 50 lines | `googleapis`, a JWT library, Resend's SDK | `worker/sheets.ts`, `AGENTS.md` |
-| **Resend** as the email service | **UNVERIFIED** why over Postmark (the plan allowed "Resend or Postmark") | Postmark | `docs/website-plan.md` E6 |
+| **Resend** as the email service | Its free tier covers this volume, it has a simple REST API usable with `fetch` (no SDK dependency), and Cloudflare's dashboard auto-configures its DNS records (owner-confirmed 2026-11-15) | Postmark (the plan allowed "Resend or Postmark") | `docs/website-plan.md` E6 |
+| **Workspace replaced Cloudflare Email Routing on the domain** | Both need the root MX records, so only one can receive mail; the business mailbox is a Workspace one (owner-confirmed 2026-11-15) | Keeping Email Routing alongside Workspace (impossible: one set of root MX records) | [contact-form.md](./contact-form.md#dns-for-google-workspace-plus-resend) |
+| **Org policy overridden for one project only, to allow a service-account key** | Google's Secure-by-Default policy blocks key creation; overriding at the project leaves the organisation default on (owner-confirmed 2026-11-15) | Turning the policy off for the whole organisation | [contact-form.md](./contact-form.md#the-google-side) |
+| **DMARC starts at `p=none`, moves to `p=quarantine` after 2 to 4 weeks of clean reports** | Monitor first so a misaligned sender is seen before mail is rejected (owner-confirmed 2026-11-15) | Starting at `quarantine` or `reject` | [contact-form.md](./contact-form.md#dns-for-google-workspace-plus-resend) |
+| **www redirect: Cloudflare "Redirect from WWW to root" rule template plus a proxied `AAAA` record `www` to `100::`** | A Worker custom domain cannot redirect, and with no `www` record in DNS the name does not resolve, so the rule never runs; the proxied dummy record makes the name resolve to Cloudflare, which then applies the redirect (owner-confirmed 2026-11-15) | A redirect rule alone (www does not resolve); adding `www` as a second custom domain on the Worker | [gate3-deploy-ops.md](./gate3-deploy-ops.md#custom-domains-and-the-www-redirect) |
+| **One Claude Code chat per checkout; parallel work in a separate git worktree** | Two chats in the same folder switch branches under each other: on 2026-11-15 a commit landed on the wrong branch and had to be cherry-picked (owner-confirmed 2026-11-15) | Several chats sharing one working folder | [client-onboarding-checklist.md](./client-onboarding-checklist.md#gotchas-hit-on-this-pipeline) |
 | **Plain-text email only, never HTML** | Nothing a visitor types can become markup in anyone's inbox | HTML templates | `worker/email.ts`, `AGENTS.md` |
 | **Success only when the note reached the owner** (Sheet row or email); no fake success | Honesty to the visitor; the email says when the Sheet failed, the thanks page says when the reply failed | A success page after the request was merely accepted | `worker/contact.ts`, README |
 | **Sheet first, then the email** | The email to the owner can say whether the row was saved | Parallel calls | `worker/contact.ts` |
@@ -138,9 +143,12 @@ Back to the [map](./README.md).
 
 - A deploy-failure alert (Queue plus Worker plus webhook) is not built.
 - The `actions` language in CodeQL was deferred and never added.
-- `.env.example` still describes the pre-Worker secret names.
-- The three workflow files still say "Informational for now".
-- The two reviewer agents and `/ship-check` still reference `src/app/motion.css` and "design v2".
+- `.claude/hooks/README.md` still says Hook 3 runs "before Edit/Write" (it also covers `NotebookEdit`).
+- README "Scheduler and analytics are still placeholders" is out of date: the scheduler URL is set
+  (a link, no iframe) and the privacy copy no longer mentions analytics.
+- The vendored skills' exact upstream commits are not recorded in any repo file (**UNVERIFIED**).
+- The reason for running `review-security` on opus while the other two run on sonnet is not recorded
+  (**UNVERIFIED**; the table row above says the same).
 - Whether `_headers`' `workers.dev` host pattern matches a real preview URL was never confirmed.
 - Whether Dependabot's npm passes `engine-strict` is untested in isolation (PR 19 merged after
   PR 34, which suggests yes).
