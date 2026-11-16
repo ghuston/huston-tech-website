@@ -15,30 +15,34 @@ const types = {
   ".svg": "image/svg+xml",
   ".png": "image/png",
   ".jpg": "image/jpeg",
+  ".webp": "image/webp",
+  ".vcf": "text/vcard; charset=utf-8",
   ".ico": "image/x-icon",
   ".woff2": "font/woff2",
 };
 
-// Apply the site-wide `/*` block of _headers so CSP problems show up locally, not only on Cloudflare.
-function loadGlobalHeaders() {
+// Apply the site-wide `/*` block of _headers so CSP problems show up locally, not only on Cloudflare, plus blocks for
+// one exact path (such as /grant.vcf). Wildcard paths other than `/*` and absolute-URL blocks are skipped.
+function loadHeaderBlocks() {
   const file = join(outDir, "_headers");
-  if (!existsSync(file)) return {};
-  const headers = {};
-  let inGlobalBlock = false;
+  const blocks = {};
+  if (!existsSync(file)) return blocks;
+  let current = null;
   for (const line of readFileSync(file, "utf8").split("\n")) {
     if (line.startsWith("#") || line.trim() === "") continue;
     if (!line.startsWith(" ")) {
-      inGlobalBlock = line.trim() === "/*";
+      const pattern = line.trim();
+      current = pattern === "/*" || (pattern.startsWith("/") && !pattern.includes("*")) ? (blocks[pattern] = {}) : null;
       continue;
     }
-    if (!inGlobalBlock) continue;
+    if (!current) continue;
     const idx = line.indexOf(":");
-    headers[line.slice(0, idx).trim()] = line.slice(idx + 1).trim();
+    current[line.slice(0, idx).trim().toLowerCase()] = line.slice(idx + 1).trim();
   }
-  return headers;
+  return blocks;
 }
 
-const globalHeaders = loadGlobalHeaders();
+const headerBlocks = loadHeaderBlocks();
 
 function resolveFile(pathname) {
   const safe = normalize(decodeURIComponent(pathname)).replace(/^(\.\.[/\\])+/, "");
@@ -59,6 +63,10 @@ createServer((req, res) => {
     res.writeHead(500).end("Run `npm run build` first.");
     return;
   }
-  res.writeHead(status, { ...globalHeaders, "content-type": types[extname(target)] ?? "application/octet-stream" });
+  res.writeHead(status, {
+    ...headerBlocks["/*"],
+    "content-type": types[extname(target)] ?? "application/octet-stream",
+    ...(file ? headerBlocks[pathname] : undefined),
+  });
   res.end(readFileSync(target));
 }).listen(port, () => console.log(`Previewing ./out at http://localhost:${port}`));

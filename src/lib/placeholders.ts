@@ -6,6 +6,14 @@ export type TextToken =
 const TOKEN_PATTERN = /(\*\*[^*]+\*\*|\[\[[^\]]+\]\])/g;
 
 /**
+ * A value used outside visible text (a `tel:` link, a vCard field), with the `[[ ]]` markers removed. The source string
+ * keeps them, so `npm run check:placeholders` still fails until the real value is set.
+ */
+export function unwrapPlaceholder(value: string): string {
+  return value.replace(/^\[\[|\]\]$/g, "");
+}
+
+/**
  * Splits content strings into plain text, **bold** runs and [[placeholder]] markers.
  * Output is rendered as React text nodes only; never as HTML.
  */
