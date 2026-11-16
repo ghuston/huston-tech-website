@@ -45,39 +45,39 @@ export const doors = [
 /** Approved interface string for the door band's accessible name (docs/STYLE-GUIDE.md §7.8). */
 export const doorBandLabel = "Two ways to start";
 
-// The hero's card stack (docs/STYLE-GUIDE.md §5.1): a band's website in front; behind it the owner's inbox, a
-// spreadsheet row and an automatic reply, all set off by one message through the contact form.
-// stand-in until W3 approved: the band, the person and the dates are invented, and no real person's data is used.
+// The hero's card stack (docs/STYLE-GUIDE.md §5.1): a small local bakery's website in front; behind it the owner's
+// inbox, a spreadsheet row and an automatic reply, all set off by one message through the contact form.
+// Stand-in: the bakery, the person and the dates are invented, and no real business or person's data is used.
 export const heroStack = {
   ariaLabel:
-    "A band’s website in front. Behind it: the owner’s inbox, a spreadsheet row and an automatic reply, all set off by one message through the contact form.",
-  inbox: { tag: "Your inbox", title: "New inquiry from the website", time: "9:41 pm", preview: "Dana Ortiz: Wedding, June 6. Are you free?" },
+    "A small bakery’s website in front. Behind it: the owner’s inbox, a spreadsheet row and an automatic reply, all set off by one message through the contact form.",
+  inbox: { tag: "Your inbox", title: "New inquiry from the website", time: "9:41 pm", preview: "Dana Ortiz: Cake for June 6. Are you free?" },
   reply: {
     tag: "An automatic reply, right away",
     title: "Got it, thanks",
     time: "9:41 pm",
-    body: "Hi Dana, your note reached the band. You’ll hear back within one business day.",
+    body: "Hi Dana, your note reached the bakery. You’ll hear back within one business day.",
   },
   sheet: {
     tag: "A spreadsheet you own",
     rows: [
-      ["Nov 28", "R. Alvarez", "Bar, Jan 17"],
-      ["Dec 1", "Kim Lee", "Private party"],
-      ["Dec 3", "Dana Ortiz", "Wedding, June 6"],
+      ["Nov 28", "R. Alvarez", "Catering, Jan 17"],
+      ["Dec 1", "Kim Lee", "Birthday cake"],
+      ["Dec 3", "Dana Ortiz", "Cake, June 6"],
     ],
   },
   site: {
-    address: "thenightherons.example",
-    name: "The Night Herons",
-    nav: ["Shows", "Music", "Book us"],
-    headline: "Blues that stays up late.",
+    address: "cornerloaf.example",
+    name: "Corner Loaf",
+    nav: ["Menu", "Hours", "Order"],
+    headline: "Fresh bread, before the sun is up.",
     shows: [
-      { date: "Fri 12 Dec", venue: "The Harbor Room" },
-      { date: "Sat 20 Dec", venue: "Linden Hall" },
+      { date: "Tue–Sat", venue: "7 am to 3 pm" },
+      { date: "Sunday", venue: "8 am to 1 pm" },
     ],
-    formLabel: "Book the band",
+    formLabel: "Order for an event",
     formName: "Dana Ortiz",
-    message: "Wedding, June 6. Are you free?",
+    message: "Cake for June 6. Are you free?",
     send: "Send",
   },
   chip: { figure: "5/5 on handoff & training", label: "Systems projects, 2024–2025" },
