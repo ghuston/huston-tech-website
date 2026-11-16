@@ -11,7 +11,7 @@
 2. This document: the rules behind it, plus every component the reference doesn't draw.
 3. The logo kit: Drive › Grant — Zoho Consulting & Business Systems › Logo › Huston_Logic_Logo_Kit › `01_Vector_SVG`. Copy `huston-logic-badge-black.svg`, `huston-logic-wordmark-black.svg` and `huston-logic-full-black.svg` into `public/brand/`. **Never redraw the mark.** The ring, the dot and the HL are three subpaths of the badge's single path (§6.1).
 
-**The reference is not the build.** Its top bar (Motion on / Reduced motion / Replay) and the dark notes block are review tools; don't ship them. Its band website, "Dana Ortiz" and the other names inside the cards are stand-ins (§5.3).
+**The reference is not the build.** Its top bar (Motion on / Reduced motion / Replay) and the dark notes block are review tools; don't ship them. Its bakery website, "Dana Ortiz" and the other names inside the cards are stand-ins (§5.3).
 
 ### What changed from v2, and what it resolves
 
@@ -241,20 +241,20 @@ y≈808  ├─ steps section (no edge: the white glow carries across) ───
 
 ### 5.1 The card stack (component `HeroStack`)
 
-The H1 drawn as a picture: in front, a client's website; behind it, the workflow it feeds. One `figure` with `role="img"` and this `aria-label`: "A band's website in front. Behind it: the owner's inbox, a spreadsheet row and an automatic reply, all set off by one message through the contact form." The cards inside are `aria-hidden` content (they are a picture, not page text).
+The H1 drawn as a picture: in front, a client's website; behind it, the workflow it feeds. One `figure` with `role="img"` and this `aria-label`: "A small bakery's website in front. Behind it: the owner's inbox, a spreadsheet row and an automatic reply, all set off by one message through the contact form." The cards inside are `aria-hidden` content (they are a picture, not page text).
 
 | Card | Position in stage (left, top, width) | Rotation | Depth | Content |
 |---|---|---|---|---|
-| Inbox | −34, −20, 276 | −4° | `translateZ(-30px)` | Tag "Your inbox" · **New inquiry from the website** · 9:41 pm · "Dana Ortiz: Wedding, June 6. Are you free?" |
+| Inbox | −34, −20, 276 | −4° | `translateZ(-30px)` | Tag "Your inbox" · **New inquiry from the website** · 9:41 pm · "Dana Ortiz: Cake for June 6. Are you free?" |
 | Spreadsheet | −36, 486, 300 | −2.5° | `translateZ(-20px)` | Tag "A spreadsheet you own" · a 3-row table; the newest row highlighted in `tint`, Inter 500 |
-| Reply | 196, 362, 282 | +3° | `translateZ(-10px)` | Tag "An automatic reply, right away" · **Got it, thanks** · 9:41 pm · "Hi Dana, your note reached the band. You'll hear back within one business day." |
-| **Site (front)** | 56, 104, 400 | 0° | `translateZ(30px)` | Browser bar + a band website: nav, a serif headline, show dates, a "Book the band" form with the same inquiry typed in |
+| Reply | 196, 362, 282 | +3° | `translateZ(-10px)` | Tag "An automatic reply, right away" · **Got it, thanks** · 9:41 pm · "Hi Dana, your note reached the bakery. You'll hear back within one business day." |
+| **Site (front)** | 56, 104, 400 | 0° | `translateZ(30px)` | Browser bar + a bakery website: nav, a serif headline, opening hours, an "Order for an event" form with the same inquiry typed in |
 | Proof chip | −44, 318 | 0° | `translateZ(60px)` | Green dot · **5/5 on handoff & training** · "Systems projects, 2024–2025" |
 
 - Cards: `white`, radius 14, 1px `rgba(41,51,45,.1)` border, `--hl-shadow-card`, Inter 12/1.4; tags per §7.15.
 - **The front card's palette belongs to the client, not to Huston Logic.** It's the only place on the site where other colors appear (the reference uses navy `#1C2233`, cream `#F3EADB` and amber `#E0A458`), scoped to the card as local custom properties. Never reuse them elsewhere.
-- **Stand-in content.** "The Night Herons", "thenightherons.example", "Dana Ortiz" and the show dates are invented. When the band site (W3) is live and the owner approves, swap in its real name, palette and headline, still built as HTML, not a screenshot (an image here would become the LCP element and cost the Lighthouse gate). Until then keep the stand-ins; they contain no real person's data.
-- The reply card is written in the client's voice (the band), so it avoids "we" and "I" deliberately.
+- **Stand-in content.** "Corner Loaf", "cornerloaf.example", "Dana Ortiz" and the opening hours are invented. When a real client site is live and the owner approves, swap in its real name, palette and headline, still built as HTML, not a screenshot (an image here would become the LCP element and cost the Lighthouse gate). Until then keep the stand-ins; they contain no real person's data.
+- The reply card is written in the client's voice (the bakery), so it avoids "we" and "I" deliberately.
 
 ### 5.2 The ring behind the stack
 

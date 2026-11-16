@@ -468,7 +468,7 @@
     background: var(--hl-green);
   }
 
-  /* The front card: a made-up band's website. Its palette is the client's, not Huston Logic's, so it lives in
+  /* The front card: a made-up bakery's website. Its palette is the client's, not Huston Logic's, so it lives in
      custom properties scoped to this card (§5.1). Never reuse these anywhere else. */
   .hl-client-site {
     --client-navy: #1c2233;

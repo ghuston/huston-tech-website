@@ -1,12 +1,12 @@
 import { bookCallLabel } from "./site";
 import { fw } from "@/lib/framework";
 
-// docs/website-plan.md, B2 (Revision 7.1). Word for word. [[$750]] stays a placeholder until the price is confirmed (E9 #1).
+// docs/website-plan.md, B2 (Revision 7.1). Word for word. $750 stays a placeholder until the price is confirmed (E9 #1).
 
 export const servicesMeta = {
   title: "Services | Custom Websites & Workflow Consulting | Huston Logic",
   description:
-    "Custom websites from [[$750]] with a contact form that writes back, plus workflow consulting: follow-up, payments, reporting, CRM cleanup and automations. Fixed prices, agreed before I start.",
+    "Custom websites from $750 with a contact form that writes back, plus workflow consulting: follow-up, payments, reporting, CRM cleanup and automations. Fixed prices, agreed before I start.",
 };
 
 export const servicesHero = {
@@ -29,12 +29,12 @@ export const subNav = [
 ];
 
 export const websites = {
-  heading: "Custom websites, from [[$750]]",
+  heading: "Custom websites, from $750",
   paragraphs: [
-    "Every site I build is designed from scratch for one business or band. No templates, and no page builder you're stuck with afterward.",
+    "Every site I build is designed from scratch for one business. No templates, and no page builder you're stuck with afterward.",
     "AI does the slow parts of the build, so the price doesn't have to cover them. I design every page and check it myself before you see it.",
   ],
-  includesHeading: "What [[$750]] includes",
+  includesHeading: "What $750 includes",
   includes: [
     "Up to 7 pages, designed around your brand and two or three sites you like",
     "A contact form that writes back: every inquiry goes to your inbox and to a spreadsheet you own, and the person gets an automatic reply right away",
@@ -46,7 +46,7 @@ export const websites = {
     "**Bigger or unusual sites** get a fixed quote after the call.",
     "**Payment:** 50% to start, 50% at launch.",
     "**Add-ons:** a personalized follow-up sequence (emails in your voice, sent on a schedule after each inquiry) · online booking · a blog you can update yourself · extra pages · help writing the words · Site Care after launch. Each one is priced in the plan before I start.",
-    "**Who it's for:** small businesses, solo practices and bands. If people need to find you and get in touch, this is the place to start.",
+    "**Who it's for:** small businesses and solo practices. If people need to find you and get in touch, this is the place to start.",
     "**What I need from you:** your words, photos and logo, two or three websites you like, and access to your domain. No words yet? I can write them with you.",
   ],
   cta: { label: "Start a website →", href: "/contact?topic=website" },
@@ -199,7 +199,7 @@ export const faq = {
     {
       question: "How much does a website cost?",
       answer:
-        "From [[$750]] for a custom site of up to 7 pages with a contact form that writes back. Bigger or unusual sites get a fixed quote after the call. Either way, the price is agreed in writing before I start, and you pay 50% to start and 50% at launch.",
+        "From $750 for a custom site of up to 7 pages with a contact form that writes back. Bigger or unusual sites get a fixed quote after the call. Either way, the price is agreed in writing before I start, and you pay 50% to start and 50% at launch.",
     },
     {
       question: "Do you use AI?",
@@ -212,7 +212,7 @@ export const faq = {
     },
     {
       question: "Where is it hosted?",
-      answer: "On Cloudflare, in an account set up in your name. [[Typical yearly hosting and domain cost, once confirmed.]]",
+      answer: "On Cloudflare, in an account set up in your name. Hosting is free for most small sites; the domain is about $15 a year.",
     },
     {
       question: "Can I edit it myself?",
@@ -221,7 +221,7 @@ export const faq = {
     },
     {
       question: "How long does a website take?",
-      answer: "[[Timeline, once the first three sites are done.]]",
+      answer: "2 to 4 weeks.",
     },
     {
       question: "How much does workflow work cost?",
@@ -245,7 +245,7 @@ export const faq = {
     {
       question: "What kinds of clients do you work with?",
       answer:
-        "Small businesses, solo professionals and creatives, from therapy practices and training studios to engineering firms and bands. If it involves a website or a messy process, I'm interested.",
+        "Small businesses and solo professionals, from therapy practices and training studios to engineering firms. If it involves a website or a messy process, I'm interested.",
     },
     {
       question: "Who actually does the work?",
@@ -254,7 +254,7 @@ export const faq = {
     {
       question: "Do you work remotely?",
       answer:
-        "Yes, all of it can be done over video and screen-share. [[If true: I'm based in Orange County and happy to meet in person locally.]]",
+        "Yes, all of it can be done over video and screen-share. I'm based in Southern California and happy to meet in person locally.",
     },
     {
       question: "What do you need from me?",

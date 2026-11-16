@@ -25,9 +25,6 @@ export default function PrivacyPage() {
               ) : null}
               . <Text>{privacy.lastUpdated}</Text>
             </p>
-            <p className="text-small">
-              <Text>{privacy.reviewNote}</Text>
-            </p>
           </div>
         </Container>
       </section>

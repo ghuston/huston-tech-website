@@ -26,7 +26,7 @@ export function notificationEmail(s: ContactSubmission, mode: Mode, receivedAt: 
     `Topic link: ${s.topic || "(none)"}`,
     `Name: ${s.name}`,
     `Email: ${s.email}`,
-    `Business or band: ${s.business || "(not given)"}`,
+    `Business:${s.business || "(not given)"}`,
     `Uses today: ${s.tools || "(not given)"}`,
     `Current website: ${s.website || "(not given)"}`,
     `Heard about Huston Logic: ${s.source || "(not given)"}`,
