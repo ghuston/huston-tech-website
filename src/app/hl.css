@@ -245,6 +245,14 @@
     background: var(--hl-rust);
   }
 
+  /* The leaf's button stretches its hit area over the whole leaf. The link itself is not positioned, so this
+     pseudo-element sizes against the leaf. */
+  .hl-leaf > a::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+  }
+
   .hl-door:is(:hover, :focus-within) .hl-leaf {
     transform: rotateY(14deg);
   }
@@ -440,7 +448,7 @@
   .hl-chip {
     position: absolute;
     left: -44px;
-    top: 318px;
+    top: 350px;
     z-index: 3;
     display: flex;
     align-items: center;
@@ -1121,7 +1129,7 @@
   }
 }
 
-/* §9.1 #9: "Say hello" jumps to the band with the browser's own smooth scroll. Reduced motion keeps it instant
+/* §9.1 #9: in-page anchor links (such as /services#websites) use the browser's own smooth scroll. Reduced motion keeps it instant
    (the reduced-motion block below forces scroll-behavior: auto). */
 @media (prefers-reduced-motion: no-preference) {
   html {

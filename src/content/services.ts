@@ -163,12 +163,15 @@ export const everyProject = {
   heading: "What every project includes",
   groups: [
     {
-      label: fw("{shape}"),
+      label: fw("{scope}"),
       items: [
         "A written plan or scope, so you know what \"done\" means before I start",
-        "Testing before anything touches your live site or system",
         "For workflows, the Review fee credited toward the project",
       ],
+    },
+    {
+      label: fw("{shape}"),
+      items: ["Testing before anything touches your live site or system"],
     },
     {
       label: fw("{ship}"),

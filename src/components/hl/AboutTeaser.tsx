@@ -7,7 +7,7 @@ import { TextLink } from "./TextLink";
 /**
  * The headshot slot (docs/STYLE-GUIDE.md §7.22): the photo sits inside the logo's ring, a disc at 82% of the ring's inner
  * diameter; the ring and its rust dot are static. The ring is decoration, so it is hidden from assistive technology.
- * Below the fold the photo lazy-loads; pass `eager` where it sits in the first screen.
+ * Below the fold the photo lazy-loads; pass `eager` where it sits in the first screen (it also loads at high priority).
  */
 export function RingHeadshot({ className = "", eager = false }: { className?: string; eager?: boolean }) {
   return (
@@ -19,6 +19,7 @@ export function RingHeadshot({ className = "", eager = false }: { className?: st
         height={560}
         unoptimized
         loading={eager ? "eager" : "lazy"}
+        fetchPriority={eager ? "high" : undefined}
         sizes="360px"
         className="absolute inset-[16%] size-[68%] rounded-pill bg-silver-2 object-cover"
       />

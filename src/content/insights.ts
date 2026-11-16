@@ -12,6 +12,11 @@ export const insightsHero = {
     "Plain-English advice for owners of small businesses and independents: websites that answer people, keeping new clients from slipping through, getting more from the software you already pay for, and seeing your numbers clearly. No made-up statistics.",
 };
 
+export type InsightArticle = { slug: string; title: string; category: string };
+
+/** While this is empty, the Insights page hides its category row. */
+export const insightArticles: readonly InsightArticle[] = [];
+
 /** The first entry is the active one until there are posts to filter. */
 export const insightCategories = ["All", "Websites", "Systems & Software", "Leads & Follow-Up", "Money & Reporting", "Growing a Team", "Tool Tips"];
 

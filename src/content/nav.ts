@@ -1,8 +1,8 @@
 export type NavItem = { label: string; href: string };
 
 /**
- * Revision 7.1 navigation (docs/website-plan.md, A7 and B10). A trailing "↘" jumps to a section of the page.
- * The Websites and Workflows links point at anchors on /services, and Say hello at the band on Home (`id="hello"`).
+ * Revision 7.1 navigation (docs/website-plan.md, A7 and B10). The Websites and Workflows links point at anchors on
+ * /services, and Say hello at the Contact page.
  */
 export const headerNav: NavItem[] = [
   { label: "How I work", href: "/how-i-work" },
@@ -10,7 +10,7 @@ export const headerNav: NavItem[] = [
   { label: "Workflows", href: "/services#workflows" },
   { label: "Past work", href: "/past-work" },
   { label: "About", href: "/about" },
-  { label: "Say hello ↘", href: "/#hello" },
+  { label: "Say hello →", href: "/contact" },
 ];
 
 export const footerLinks: NavItem[] = [
@@ -19,7 +19,6 @@ export const footerLinks: NavItem[] = [
   { label: "Workflows", href: "/services#workflows" },
   { label: "Past work", href: "/past-work" },
   { label: "About", href: "/about" },
-  { label: "Insights", href: "/insights" },
   { label: "Contact", href: "/contact" },
 ];
 

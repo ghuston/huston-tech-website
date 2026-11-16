@@ -271,12 +271,6 @@ export const aboutTeaser = {
   photoAlt: "Grant Huston",
 };
 
-export const insightsTeaser = {
-  heading: "Notes from the work",
-  body: "Plain-English articles on websites, follow-up, reporting and running a small team.",
-  link: { label: "Read Insights →", href: "/insights" },
-};
-
 export const closingCta = {
   line1: "Twenty minutes.",
   line2: "Worst case, you get one good idea.",

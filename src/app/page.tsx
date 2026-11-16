@@ -29,7 +29,6 @@ import {
   heroStack,
   homeMeta,
   howItWorks,
-  insightsTeaser,
   problems,
   proof,
   proofStrip,
@@ -98,18 +97,6 @@ export default function HomePage() {
       <ReasonList heading={why.heading} items={why.items} />
 
       <AboutTeaser heading={aboutTeaser.heading} body={aboutTeaser.body} link={aboutTeaser.link} />
-
-      <section aria-labelledby="insights-title" className="py-16 md:py-24">
-        <Container>
-          <h2 id="insights-title" className="font-ui text-h2 font-bold">
-            {insightsTeaser.heading}
-          </h2>
-          <p className="mt-5 max-w-[60ch] text-body">{insightsTeaser.body}</p>
-          <div className="mt-6">
-            <TextLink href={insightsTeaser.link.href}>{insightsTeaser.link.label}</TextLink>
-          </div>
-        </Container>
-      </section>
 
       <ClosingCta
         heading={<TwoVoice line1={closingCta.line1} line2={closingCta.line2} />}
