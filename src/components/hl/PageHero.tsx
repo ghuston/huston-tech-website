@@ -8,7 +8,7 @@ type PageHeroProps = {
   /** Only where Section B gives the page an eyebrow. */
   eyebrow?: string;
   /** The page's single H1, single voice. */
-  title: string;
+  title: ReactNode;
   intro?: ReactNode;
   /** The call to action this page's copy gives it. */
   children?: ReactNode;

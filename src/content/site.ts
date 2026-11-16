@@ -1,3 +1,5 @@
+import { providers } from "./providers";
+
 export const siteConfig = {
   name: "Huston Logic",
   founder: "Grant Huston",
@@ -9,10 +11,11 @@ export const siteConfig = {
   /** Footer and bios (docs/website-plan.md, A1 and B10). */
   tagline: "Custom websites and workflows, from hello to handled.",
   footerBrandLine: "Grant Huston · [[Based in Orange County, CA]] · Working with clients anywhere",
-  /** Provider-dependent values. `null` renders a visible placeholder and fails `npm run check:placeholders`. */
-  email: "info@hustonlogic.com" as string | null,
-  schedulerUrl: null as string | null,
-  linkedInUrl: "https://www.linkedin.com/in/granthuston/" as string | null,
+  /** Provider-dependent values, set in `providers.ts`. */
+  email: providers.email,
+  schedulerUrl: providers.schedulerUrl,
+  linkedInUrl: providers.linkedInUrl,
+  turnstileSiteKey: providers.turnstileSiteKey,
 } as const;
 
 export type FrameworkStepKey = "scope" | "shape" | "ship";

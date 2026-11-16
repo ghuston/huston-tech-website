@@ -28,13 +28,16 @@ function scan(file) {
 
 scanDirs.forEach(walk);
 
-const siteFile = join(srcDir, "content", "site.ts");
-const site = readFileSync(siteFile, "utf8");
-for (const key of ["email", "schedulerUrl", "linkedInUrl"]) {
-  if (new RegExp(`${key}:\\s*null`).test(site)) {
-    problems.push(`src/content/site.ts  ${key} is still null (provider/value not chosen)`);
+const providersFile = readFileSync(join(srcDir, "content", "providers.ts"), "utf8");
+for (const key of ["email", "schedulerUrl", "linkedInUrl", "turnstileSiteKey"]) {
+  if (!new RegExp(`^\\s*${key}:`, "m").test(providersFile)) {
+    problems.push(`src/content/providers.ts  ${key} is missing`);
+  } else if (new RegExp(`^\\s*${key}:\\s*null`, "m").test(providersFile)) {
+    problems.push(`src/content/providers.ts  ${key} is still null (provider/value not chosen)`);
   }
 }
+
+const site = readFileSync(join(srcDir, "content", "site.ts"), "utf8");
 
 const decisionLabels = {
   lineArtStyle: "line-art style (geometric framework icons by default)",
