@@ -69,8 +69,6 @@ export const noteForm = {
     rateLimited: "That's a few tries in a row. Give it a minute and try again.",
     failed: "Something broke on my end and your note didn't send. Your answers are still here, or email info@hustonlogic.com.",
   },
-  /** Dev-only marker until `providers.turnstileSiteKey` is set; fails the launch gate on purpose. */
-  turnstileMissing: "[[CONTACT FORM: Turnstile site key not set yet, so the form can't send.]]",
 };
 
 export const whatHappensNext = {

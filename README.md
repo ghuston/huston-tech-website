@@ -180,9 +180,17 @@ Previews do not share production secrets. Set the same four for all previews wit
 
 ### Accounts and DNS
 
-- **Turnstile:** Cloudflare dashboard, Turnstile, widget `huston-site contact`, Managed mode. Hostnames: `hustonlogic.com` (covers its subdomains) and the account's `<account>.workers.dev` (covers the production and preview workers.dev hosts, which are its subdomains). The site key goes in `src/content/providers.ts`; the secret key is the Worker secret.
-- **Resend:** domain `hustonlogic.com`. Its records sit on their own names, so they never touch Google Workspace's: `resend._domainkey` (TXT, DKIM, value from Resend), and `send` (MX `feedback-smtp.<region>.amazonses.com` priority 10, and TXT `v=spf1 include:amazonses.com ~all`), the bounce subdomain. All "DNS only". Open and click tracking stay off.
-- **Google Workspace** owns mail for the root domain: root MX, the root SPF `v=spf1 include:_spf.google.com ~all` (the only SPF record on the root; **never add Resend to it**) and DKIM at `google._domainkey`. DMARC (`_dmarc`) passes for Resend mail through the aligned DKIM signature on `hustonlogic.com` and the `send.` SPF (relaxed alignment).
+- **Turnstile:** Cloudflare dashboard, Turnstile, widget `huston-site contact`, Managed mode. Hostnames: `hustonlogic.com` (covers its subdomains) and the account's `<account>.workers.dev` (meant to cover the production and preview workers.dev hosts, which are its subdomains; Cloudflare's docs don't mention workers.dev, so the first preview test confirms it, and error 110200 there means it doesn't). The site key goes in `src/content/providers.ts`; the secret key is the Worker secret.
+- **Resend:** domain `hustonlogic.com`, set up by Resend with its Forge records (as added on 2026-11-15). They sit on their own names, so they never touch Google Workspace's. All "DNS only". Open and click tracking stay off.
+
+  | Type | Name | Content |
+  |---|---|---|
+  | TXT | `resend._domainkey` | DKIM key (value from Resend) |
+  | CNAME | `send` | `send.forge.rmta.net` |
+  | CNAME | `rsend` | `rsend.forge.rmta.net` |
+
+  There is **no MX and no SPF TXT on `send`**: a CNAME can't share its name with other records, and Resend serves the bounce (Return-Path) records through the CNAME target. Don't add any.
+- **Google Workspace** owns mail for the root domain (info@ is a Workspace mailbox): root MX, the root SPF `v=spf1 include:_spf.google.com ~all` (the only SPF record on the root; **never add Resend to it**) and DKIM at `google._domainkey`. DMARC (`_dmarc`) passes for Resend mail through the aligned DKIM signature on `hustonlogic.com`, and SPF passes on `send.hustonlogic.com` (aligned under relaxed alignment).
 - **Google Sheet** `Huston Logic contact form`, tabs `Submissions` and `Preview`, header row `Received (UTC) | Need | Topic | Name | Email | Business | Message | Tools | Website | Source | Mode`, shared as Editor with the service account only. Google Cloud project `huston-logic-site`, Google Sheets API enabled, service account `contact-form-writer` with no project roles. The Worker signs the service-account JWT with Web Crypto (no library).
 
 ### Local test of the Worker

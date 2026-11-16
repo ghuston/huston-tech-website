@@ -8,5 +8,5 @@ export const providers = {
   schedulerUrl: null as string | null,
   linkedInUrl: "https://www.linkedin.com/in/granthuston/" as string | null,
   /** Cloudflare Turnstile site key for the contact form. Public by design: it ships in the page. */
-  turnstileSiteKey: null as string | null,
+  turnstileSiteKey: "0x4AAAAAAGC2jlwc5dlTN92W" as string | null,
 };

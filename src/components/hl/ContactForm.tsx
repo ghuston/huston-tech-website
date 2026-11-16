@@ -12,7 +12,7 @@ import { firstName } from "@/lib/first-name";
 import { turnstileSiteKey, useTurnstile } from "./useTurnstile";
 
 type Errors = Partial<Record<ContactField, string>>;
-type SendError = keyof typeof noteForm.sendErrors | "turnstileMissing";
+type SendError = keyof typeof noteForm.sendErrors;
 
 const FIELD_ORDER: ContactField[] = ["need", "name", "email", "message"];
 
@@ -122,8 +122,9 @@ function Form({ urlTopic }: { urlTopic: string | null }) {
       return;
     }
     setErrors({});
+    // A missing site key can't verify anything, so it is an honest failure. The launch gate checks the key itself.
     if (!turnstileSiteKey(providers.turnstileSiteKey)) {
-      setSendError("turnstileMissing");
+      setSendError("failed");
       return;
     }
 
@@ -306,7 +307,7 @@ function Form({ urlTopic }: { urlTopic: string | null }) {
         <div role="status">
           {sendError ? (
             <p className="text-[15px] text-rust">
-              <Text>{sendError === "turnstileMissing" ? noteForm.turnstileMissing : noteForm.sendErrors[sendError]}</Text>
+              <Text>{noteForm.sendErrors[sendError]}</Text>
             </p>
           ) : null}
         </div>
