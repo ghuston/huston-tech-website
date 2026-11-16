@@ -66,22 +66,22 @@
   /* §3 type scale. text-hero, text-h2-two, text-h2 and text-page-title carry the guide's clamp() sizes. */
   --text-hero: clamp(40px, 4.15vw, 60px);
   --text-hero--line-height: 1;
-  --text-hero--letter-spacing: -0.035em;
+  --text-hero--letter-spacing: -0.025em;
   --text-h2-two: clamp(32px, 3.5vw, 50px);
   --text-h2-two--line-height: 1.04;
-  --text-h2-two--letter-spacing: -0.035em;
+  --text-h2-two--letter-spacing: -0.025em;
   --text-h2: clamp(30px, 3vw, 44px);
   --text-h2--line-height: 1.08;
-  --text-h2--letter-spacing: -0.03em;
+  --text-h2--letter-spacing: -0.02em;
   --text-page-title: clamp(36px, 3.6vw, 52px);
   --text-page-title--line-height: 1.04;
-  --text-page-title--letter-spacing: -0.035em;
+  --text-page-title--letter-spacing: -0.025em;
   --text-h3: var(--hl-fs-h3);
   --text-h3--line-height: 1.1;
   --text-h3--letter-spacing: -0.03em;
   --text-step: var(--hl-fs-step);
   --text-step--line-height: 1.05;
-  --text-step--letter-spacing: -0.035em;
+  --text-step--letter-spacing: -0.025em;
   --text-item: var(--hl-fs-item);
   --text-item--line-height: 1.25;
   --text-item--letter-spacing: -0.01em;
@@ -223,7 +223,7 @@
     flex-direction: column;
     align-items: flex-start;
     height: 100%;
-    min-height: 300px;
+    min-height: 260px;
     padding: 40px 48px 36px 44px;
     background: linear-gradient(100deg, #fff, #f7f9f8);
     border: 1px solid rgba(41, 51, 45, 0.12);
@@ -696,7 +696,7 @@
     font-size: var(--hl-fs-step);
     font-weight: 700;
     line-height: 1.05;
-    letter-spacing: -0.035em;
+    letter-spacing: -0.025em;
   }
 
   .hl-tx p {
@@ -778,7 +778,7 @@
   }
 
   .hl-leaf::after {
-    right: 16px;
+    display: none;
   }
 
   .hl-door:is(:hover, :focus-within) .hl-leaf {

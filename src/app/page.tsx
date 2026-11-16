@@ -57,7 +57,7 @@ export default function HomePage() {
 
       <ServiceGroups content={whatIDo} />
 
-      <section aria-labelledby="proof-title" className="py-16 md:py-24">
+      <section aria-labelledby="proof-title" className="border-y border-hairline bg-silver-2 py-16 md:py-24">
         <Container>
           <h2 id="proof-title" className="font-ui text-h2 font-bold">
             {proof.heading}
