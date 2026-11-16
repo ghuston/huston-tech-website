@@ -156,7 +156,9 @@ The form on `/contact` (`src/components/hl/ContactForm.tsx`) posts JSON to `POST
 - `preview`: branch previews (Cloudflare Worker Previews). Rows go to the Sheet's `Preview` tab, every subject starts with `[Preview]`, and the automatic reply goes to info@hustonlogic.com instead of the visitor (its subject names who it would have gone to). Any `*.workers.dev` host other than `huston-site.<account>.workers.dev` is treated as a preview even if `SITE_ENV` says production.
 - `development`: `wrangler dev` on localhost only. Turnstile is checked with Cloudflare's test keys, then nothing is emailed or written.
 
-**Logs:** Workers Logs is on, invocation logs are off. The Worker logs fixed event names and status codes only (for example `sheet_append_failed` with `status=403`), never names, emails, messages, IP addresses or keys.
+**Turnstile errors.** "That didn't go through" (403) means the visitor's check failed (logged as `turnstile_failed` with a `reason`: `not_success`, `hostname_mismatch` or `action_mismatch`, plus Cloudflare's error codes). A missing `TURNSTILE_SECRET_KEY`, a secret Cloudflare refuses, or an unreachable siteverify is our fault, so it is "Something broke on my end…" (502), logged as `turnstile_config_missing` or `turnstile_unavailable`.
+
+**Logs:** Workers Logs is on, invocation logs are off. The Worker logs fixed event names, status codes and Cloudflare's fixed error codes only (for example `sheet_append_failed` with `status=403`), never names, emails, messages, IP addresses or keys.
 
 ### Secrets
 
@@ -176,7 +178,7 @@ npx wrangler secret put GOOGLE_SERVICE_ACCOUNT_KEY < path/to/key.json
 npx wrangler secret put GOOGLE_SHEET_ID
 ```
 
-Previews do not share production secrets. Set the same four for all previews with `npx wrangler preview base-config secret put <NAME>` (same values). A preview copies the base secrets **when it is created**, so set them before pushing a branch; later changes don't reach existing previews. `npx wrangler secret list` shows names only. Each `secret put` creates a new production version (a row in Deployments). If it fails with "latest version of your Worker isn't currently deployed", use the dashboard instead: Workers & Pages, huston-site, Settings, Variables and Secrets.
+Previews do not share production secrets. Set the same four for all previews with `npx wrangler preview base-config secret put <NAME>` (same values). A preview copies the base secrets **when it is created**, so set them before pushing a branch; later changes don't reach existing previews. To fix an existing preview, also set the secret on it: `npx wrangler preview secret put <NAME> --name <branch-name>` (this creates a new deployment of that preview). Names only, never values: `npx wrangler secret list` (production), `npx wrangler preview base-config secret list` (new previews), `npx wrangler preview secret list --name <branch-name>` (one preview). Each `secret put` creates a new production version (a row in Deployments). If it fails with "latest version of your Worker isn't currently deployed", use the dashboard instead: Workers & Pages, huston-site, Settings, Variables and Secrets.
 
 ### Accounts and DNS
 

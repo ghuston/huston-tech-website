@@ -119,16 +119,32 @@ async function handleContact(request: Request, env: ContactEnv, url: URL): Promi
   }
   const submission = result.value;
 
+  // A missing or refused secret is our fault, not the visitor's: answer "failed" (502), never "couldn't verify".
+  if (!env.TURNSTILE_SECRET_KEY) {
+    log("turnstile_config_missing");
+    return json(502, { ok: false, error: "failed" });
+  }
   const token = fields[TOKEN_KEY];
-  if (typeof token !== "string" || token.length === 0 || token.length > MAX_TOKEN_LENGTH || !env.TURNSTILE_SECRET_KEY) {
-    log(env.TURNSTILE_SECRET_KEY ? "turnstile_token_missing" : "turnstile_config_missing");
+  if (typeof token !== "string" || token.length === 0 || token.length > MAX_TOKEN_LENGTH) {
+    log("turnstile_token_missing");
     return json(403, { ok: false, error: "rejected" });
   }
   const check = await verifyTurnstile(env.TURNSTILE_SECRET_KEY, token, ip);
+  if (check.unavailable) {
+    log("turnstile_unavailable", { codes: check.errorCodes.join(",") });
+    return json(502, { ok: false, error: "failed" });
+  }
   // Cloudflare's test keys (local development only) return no action and hostname "example.com".
-  const verified = check.success && (mode === "development" || (check.hostname === url.hostname && check.action === "contact"));
-  if (!verified) {
-    log("turnstile_failed");
+  const strict = mode !== "development";
+  const reason = !check.success
+    ? "not_success"
+    : strict && check.hostname !== url.hostname
+      ? "hostname_mismatch"
+      : strict && check.action !== "contact"
+        ? "action_mismatch"
+        : null;
+  if (reason) {
+    log("turnstile_failed", { reason, codes: check.errorCodes.join(",") });
     return json(403, { ok: false, error: "rejected" });
   }
 
