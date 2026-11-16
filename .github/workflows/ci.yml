@@ -35,6 +35,10 @@ jobs:
       - name: Type check
         run: npm run typecheck
 
+      # Contact form Worker tests (worker/*.test.ts): Node's built-in test runner, fetch mocked, no network.
+      - name: Worker tests
+        run: npm run test:worker
+
       - name: Build static export
         run: npm run build
 
