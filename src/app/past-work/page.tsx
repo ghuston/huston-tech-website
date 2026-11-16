@@ -8,6 +8,7 @@ import { ProofChips } from "@/components/hl/ProofChips";
 import { SectionNav } from "@/components/hl/SectionNav";
 import { SystemsCaseStudy } from "@/components/hl/SystemsCaseStudy";
 import { TestimonialRow } from "@/components/hl/TestimonialRow";
+import { ArtAside, SiteFramesArt } from "@/components/illustrations/BrandArt";
 import { bookCallHref } from "@/components/ui/BookCallButton";
 import { Text } from "@/components/ui/Text";
 import { proofStrip } from "@/content/home";
@@ -57,10 +58,12 @@ export default function PastWorkPage() {
 
       <section id="websites" aria-labelledby="websites-title" className={section}>
         <Container>
-          <h2 id="websites-title" className={h2}>
-            {pastWorkWebsites.heading}
-          </h2>
-          <p className="mt-5 max-w-[60ch] text-body">{pastWorkWebsites.line}</p>
+          <ArtAside align="center" phone="below" art={<SiteFramesArt draw />}>
+            <h2 id="websites-title" className={h2}>
+              {pastWorkWebsites.heading}
+            </h2>
+            <p className="mt-5 max-w-[60ch] text-body">{pastWorkWebsites.line}</p>
+          </ArtAside>
         </Container>
       </section>
 
