@@ -21,9 +21,12 @@ export const aboutSections = {
   howIGotHere: {
     heading: "How I got here",
     paragraphs: [
+      "I started in 2020 as an intern at a startup, connecting their website, booking calendar and CRM so nobody had to retype a sign-up. After that I joined a global consulting firm and ran the app that 50-plus consultants used on large bankruptcy cases. Reports from it went to court. Every change was tested before release, and releases went out every other Friday evening. (I got very good at Friday evenings.)",
       "In 2024 I started building systems for small businesses. My first big project was a group therapy practice that had outgrown doing everything by hand. I built the team a staff app, payroll submissions, an inquiry pipeline and dashboards, and the practice went on to grow from 5 to 10 people. Next came a personal training studio whose owner wanted real numbers on his coaches and clients, without giving up the scheduling app his team already used.",
       "In 2026 I joined a Zoho consulting partner as a developer and moved into a consulting role within a few months. There, I led delivery for 21 client accounts: a Medicaid disability services provider, an interior design firm, a newly formed distributor, a wholesaler, a municipal government and more, often directing a team of developers. I learned a lot about what makes projects succeed, and about what happens when a business gets a system that's bigger than its problem.",
       "So I started Huston Logic to do the work I like most: close to the owner, focused on the real problem, and sized to the business.",
+      "Since then I've worked with tech startups, therapy practices, fitness studios and structural engineering firms. Most were getting by on a template and a workaround, because custom software was priced for companies with an IT department.",
+      "That's what changed. AI does the slow parts of a build now, and I kept the habit from the big firm: nothing ships untested. So a custom site, tested properly, starts at $750.",
     ],
   },
   whyWebsites: {
