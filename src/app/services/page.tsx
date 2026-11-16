@@ -122,7 +122,7 @@ export default function ServicesPage() {
             <p className="mt-5 max-w-[60ch] text-body">{workflows.intro}</p>
 
             <h3 className={`${h3} mt-10`}>{review.heading}</h3>
-            <p className="mt-2 text-[17px] italic text-ink-2">({review.aside})</p>
+            <p className="mt-2 text-[17px] italic text-ink-2">{review.aside}</p>
             <p className="mt-4 max-w-[64ch] text-[17px] leading-[1.55]">{review.intro}</p>
             <DotList items={review.items} className="mt-4 max-w-[64ch]" />
             <div className="mt-6 max-w-[64ch] rounded-card bg-tint px-5 py-[18px] text-[17px] leading-[1.55]">

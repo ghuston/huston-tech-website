@@ -6,7 +6,7 @@ First prepared November 9, 2026. Revision 7 (Nov 14, 2026) sources: Grant's fina
 
 **Revision 7.1 (Nov 14, 2026, afternoon): Grant's answers to open placeholders**
 - **Name final:** Huston Logic. "(working name)" is removed.
-- **Email:** info@hustonlogic.com replaces every `[[email address]]` (Contact, Privacy, footer, auto-reply sender). **LinkedIn:** https://www.linkedin.com/in/granthuston/ (footer; `sameAs` in JSON-LD).
+- **Email:** grant@hustonlogic.com replaces every `[[email address]]` (Contact, Privacy, footer, auto-reply sender). **LinkedIn:** https://www.linkedin.com/in/granthuston/ (footer; `sameAs` in JSON-LD).
 - **Base price scope:** up to 7 pages (replaces `[[five]]`).
 - **Website payment terms:** 50% to start, 50% at launch. Added to Services, the FAQ, A8 and G.
 - **Titles:** Jacob Rodriguez, Owner. Emily Mayot, Owner.
@@ -169,7 +169,7 @@ The balance in one line: serious about the work, relaxed about himself. These re
 
 **Header nav (text links only, no button):** How I work (→ /how-i-work) · Websites (→ /services#websites) · Workflows (→ /services#workflows) · Past work · About · Say hello ↘ (→ /#hello). Mobile: the wordmark and "Menu". Insights, Contact and Privacy are linked from the footer and in-page CTAs.
 
-**Footer:** wordmark · tagline "Custom websites and workflows, from hello to handled." · brand line "Grant Huston · Based in Southern California · Working with clients anywhere" · nav links · Insights · Contact · info@hustonlogic.com · [LinkedIn](https://www.linkedin.com/in/granthuston/) · "Zoho partners: need overflow help?" (→ /contact?topic=partner) · Privacy · © 2026 Huston Logic
+**Footer:** wordmark · tagline "Custom websites and workflows, from hello to handled." · brand line "Grant Huston · Based in Southern California · Working with clients anywhere" · nav links · Insights · Contact · grant@hustonlogic.com · [LinkedIn](https://www.linkedin.com/in/granthuston/) · "Zoho partners: need overflow help?" (→ /contact?topic=partner) · Privacy · © 2026 Huston Logic
 
 ### A8. Engagement framework (the operating model)
 
@@ -992,7 +992,7 @@ Pick a time that works. Tell me what you need and what you use today, and I'll t
 *Under textarea:* Please don't include client or patient details, account numbers or passwords. Anything sensitive gets handled the right way, later.
 *Button:* **Send it over →**
 *Validation errors:* "Pick the closest one. 'Not sure' counts." · "Please add your name." · "That email doesn't look quite right." · "A sentence or two is plenty, but I do need something to go on."
-*Send errors (Grant, Nov 15):* couldn't verify (bot check or a blocked request): "That didn't go through. Please try again." · rate limited: "That's a few tries in a row. Give it a minute and try again." · failed to send: "Something broke on my end and your note didn't send. Your answers are still here, or email info@hustonlogic.com."
+*Send errors (Grant, Nov 15):* couldn't verify (bot check or a blocked request): "That didn't go through. Please try again." · rate limited: "That's a few tries in a row. Give it a minute and try again." · failed to send: "Something broke on my end and your note didn't send. Your answers are still here, or email grant@hustonlogic.com."
 *Hidden spam-trap field label (never shown):* "Leave this empty"
 *Partner variant (when topic=partner):* the "What do you need?" field is hidden, and the heading above the form reads "Zoho partner? Tell me about the work and your timeline."
 
@@ -1003,7 +1003,7 @@ Pick a time that works. Tell me what you need and what you use today, and I'll t
 2. **Step zero: a free 20-minute call** about what you need and the tools involved.
 3. **If there's a fit,** you get a written plan and price for a website, or a short written scope for a Workflow Review. If not, I'll point you somewhere useful.
 
-*Direct email line:* Prefer email? info@hustonlogic.com
+*Direct email line:* Prefer email? grant@hustonlogic.com
 
 ---
 
@@ -1019,7 +1019,7 @@ Curious what happens after the call? [Scope it · Shape it · Ship it →] (→ 
 While you wait: [What's included in a website →] (→ /services#websites) · [How a Workflow Review works →] (→ /services#workflows)
 Or read: [Before You Buy Another App, Ask These Six Questions →]
 
-*(Auto-reply email, sent by the form Worker; plain text, from info@hustonlogic.com:)*
+*(Auto-reply email, sent by the form Worker; plain text, from grant@hustonlogic.com:)*
 > Subject: Got it, thanks
 > Hi [First name], your note reached me. I read every message myself and will reply within one business day. If it's easier to talk, you can pick a time here: [scheduler link]. — Grant, Huston Logic
 
@@ -1036,7 +1036,7 @@ This page doesn't exist, or it moved without telling anyone. (Ironic, I know.)
 ### B9. PRIVACY (short V1, review before launch)
 
 **Title:** Privacy Policy | Huston Logic
-Huston Logic ("I") collects only what you send through the contact form or scheduling tool (your name, email, what you need, your business name if you give it, and your message) and uses it to reply to you and to discuss potential work. You can also tell me the tools you use, your website and how you found me (all optional), and Cloudflare checks the form for bots, which briefly uses your IP address. The form sends you one automatic reply. I don't sell or share your information, except with the services that run this site (hosting, email delivery, a spreadsheet I own, and scheduling), which process it on my behalf. To have your information deleted, email info@hustonlogic.com. Last updated November 15, 2026.
+Huston Logic ("I") collects only what you send through the contact form or scheduling tool (your name, email, what you need, your business name if you give it, and your message) and uses it to reply to you and to discuss potential work. You can also tell me the tools you use, your website and how you found me (all optional), and Cloudflare checks the form for bots, which briefly uses your IP address. The form sends you one automatic reply. I don't sell or share your information, except with the services that run this site (hosting, email delivery, a spreadsheet I own, and scheduling), which process it on my behalf. To have your information deleted, email grant@hustonlogic.com. Last updated November 15, 2026.
 
 ---
 
@@ -1047,7 +1047,7 @@ Huston Logic ("I") collects only what you send through the contact form or sched
 - Tagline: Custom websites and workflows, from hello to handled.
 - Brand line: Grant Huston · Based in Southern California · Working with clients anywhere
 - Links: How I work · Websites · Workflows · Past work · About · Insights · Contact
-- info@hustonlogic.com · [LinkedIn](https://www.linkedin.com/in/granthuston/)
+- grant@hustonlogic.com · [LinkedIn](https://www.linkedin.com/in/granthuston/)
 - Zoho partners: need overflow help? (→ /contact?topic=partner)
 - Legal line (mono): Privacy · © 2026 Huston Logic
 
@@ -1339,7 +1339,7 @@ The site can be built and previewed with every placeholder in place. Each `[[…
 
 **Resolved (kept for the record)**
 - Name: **Huston Logic, final** (Nov 14; D41, superseding D32). One setting in `site.ts`.
-- Email: **info@hustonlogic.com**. Before launch it must receive mail, and the form's sending service must pass SPF, DKIM and DMARC (F).
+- Email: **grant@hustonlogic.com**. Before launch it must receive mail, and the form's sending service must pass SPF, DKIM and DMARC (F).
 - LinkedIn: **https://www.linkedin.com/in/granthuston/**.
 - Base price scope: **up to 7 pages** (D42).
 - Website payment terms: **50% to start, 50% at launch** (D42).

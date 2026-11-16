@@ -50,12 +50,12 @@ export const aboutSections = {
       "Dashboards and reporting people actually use",
       "Requirements, process mapping, testing and training",
       "Experience with healthcare and other sensitive data, where the agreements and access controls come first",
-      "Years of consulting experience, and the relevantly boring certifications to go with it, across small businesses and large enterprises. I've seen how all kinds of small businesses, from therapists and interior design firms to wealth management and structural engineering, use technology to take the next step: automating the busywork and empowering their people.",
+      "Years of consulting experience across small businesses and large enterprises, and the boring certifications to go with it. I've seen how all kinds of small businesses, from therapists and interior design firms to wealth management and structural engineering, use technology to take the next step: automating the busywork so their people can get on with the real work.",
     ],
   },
   offTheClock: {
     heading: "Off the clock",
-    body: "I was born and raised in Southern California, and I'm recently married (September 2026!). My wife and I like going on adventures, and my cat likes to supervise from a distance. I also play blues guitar and write songs, which turns out to be decent training for this work: listen first, keep time, and make the parts fit together. The rest of the time it's horror movies, video games, concerts, comedy shows and hunting down the best restaurants in town. I like building for people I'd want to work with anyway. I enjoy making real connections and helping real people with their dreams, and I'm working on mine too.",
+    body: "I was born and raised in Southern California, and I'm recently married (September 2026). My wife and I like going on adventures, and my cat likes to supervise from a distance. I also play blues guitar and write songs, which turns out to be decent training for this work: listen first, keep time, and make the parts fit together. The rest of the time it's horror movies, video games, concerts, comedy shows and hunting down the best restaurants in town. I like building for people I'd want to work with anyway.",
   },
   cta: { label: "Book a free 20-minute call →" },
   partnerBox: {

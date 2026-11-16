@@ -231,8 +231,8 @@ describe("a good submission in production", () => {
     assert.equal(row[10], "production");
 
     const [notify] = called("notify");
-    assert.deepEqual(notify.json?.to, ["info@hustonlogic.com"]);
-    assert.equal(notify.json?.from, "Huston Logic <info@hustonlogic.com>");
+    assert.deepEqual(notify.json?.to, ["grant@hustonlogic.com"]);
+    assert.equal(notify.json?.from, "Huston Logic <grant@hustonlogic.com>");
     assert.equal(notify.json?.reply_to, VISITOR.email);
     assert.equal(notify.json?.subject, `New note: A website from ${VISITOR.name}`);
     assert.ok(String(notify.json?.text).includes("Sheet: saved"));
@@ -240,7 +240,7 @@ describe("a good submission in production", () => {
 
     const [reply] = called("reply");
     assert.deepEqual(reply.json?.to, [VISITOR.email]);
-    assert.equal(reply.json?.reply_to, "info@hustonlogic.com");
+    assert.equal(reply.json?.reply_to, "grant@hustonlogic.com");
     assert.equal(reply.json?.subject, "Got it, thanks");
     assert.equal(
       reply.json?.text,
@@ -295,7 +295,7 @@ describe("preview mode", () => {
     assert.match(called("sheets")[0].url, /values\/Preview!A%3AK:append/);
     assert.ok(String(called("notify")[0].json?.subject).startsWith("[Preview] New note:"));
     const [reply] = called("reply");
-    assert.deepEqual(reply.json?.to, ["info@hustonlogic.com"]);
+    assert.deepEqual(reply.json?.to, ["grant@hustonlogic.com"]);
     assert.equal(reply.json?.subject, `[Preview → would go to ${VISITOR.email}] Got it, thanks`);
   });
 

@@ -1,5 +1,5 @@
 /**
- * The automatic reply the contact Worker sends (docs/website-plan.md B7b): plain text, from info@hustonlogic.com.
+ * The automatic reply the contact Worker sends (docs/website-plan.md B7b): plain text, from grant@hustonlogic.com.
  * It imports nothing, because the Worker bundles it. worker/messages.ts fills `{firstName}` and `{schedulerLink}`;
  * when the name doesn't look like a name, the greeting has none.
  */
