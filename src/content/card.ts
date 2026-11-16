@@ -15,8 +15,8 @@ export const card = {
   jobTitle: "Founder",
   role: "Founder, Huston Logic",
   lines: ["Personal websites and software", "For the parts of the job you never signed up for"] as const,
-  /** Grant's mobile number. The placeholder fails `npm run check:placeholders` until it is set. */
-  phone: "[[+1-PHONE-PLACEHOLDER]]",
+  /** Grant's mobile number, in international format for `tel:`, `sms:` and the vCard. */
+  phone: "+1-949-702-2626",
   email: siteConfig.email,
   saveLabel: "Save my contact ↓",
   vcardPath: "/grant.vcf",

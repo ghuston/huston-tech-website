@@ -7,7 +7,6 @@ import { OutlineButton } from "@/components/hl/OutlineButton";
 import { TextLink } from "@/components/hl/TextLink";
 import { card } from "@/content/card";
 import { pageMetadata } from "@/lib/metadata";
-import { unwrapPlaceholder } from "@/lib/placeholders";
 
 export const metadata: Metadata = pageMetadata({
   title: card.meta.title,
@@ -22,7 +21,7 @@ export const metadata: Metadata = pageMetadata({
  * Who and what at the top; the actions sit at the bottom of the screen, where a thumb reaches them.
  */
 export default function CardPage() {
-  const phone = unwrapPlaceholder(card.phone);
+  const { phone } = card;
   return (
     <main id="main" tabIndex={-1} className="flex flex-1 flex-col overflow-x-clip outline-none">
       <MarkSprite />

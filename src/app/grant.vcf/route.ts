@@ -2,7 +2,6 @@ import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { card } from "@/content/card";
 import { siteConfig } from "@/content/site";
-import { unwrapPlaceholder } from "@/lib/placeholders";
 import { buildVCard } from "@/lib/vcard";
 
 export const dynamic = "force-static";
@@ -20,7 +19,7 @@ export async function GET() {
     formattedName: card.name,
     org: siteConfig.name,
     title: card.jobTitle,
-    phone: unwrapPlaceholder(card.phone),
+    phone: card.phone,
     email: card.email,
     url: siteConfig.url,
     photoJpeg,
