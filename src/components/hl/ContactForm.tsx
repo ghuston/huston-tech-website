@@ -70,7 +70,13 @@ function Form({ urlTopic }: { urlTopic: string | null }) {
   const [sending, setSending] = useState(false);
   const [sendError, setSendError] = useState<SendError | null>(null);
   const formRef = useRef<HTMLFormElement>(null);
-  const { containerRef: turnstileRef, start: startTurnstile, getToken, reset: resetTurnstile } = useTurnstile(providers.turnstileSiteKey);
+  const {
+    containerRef: turnstileRef,
+    start: startTurnstile,
+    getToken,
+    reset: resetTurnstile,
+    isConfigError: turnstileConfigError,
+  } = useTurnstile(providers.turnstileSiteKey);
 
   const key = need === "website" || need === "workflow" ? need : "other";
   const e = noteForm.errors;
@@ -130,7 +136,8 @@ function Form({ urlTopic }: { urlTopic: string | null }) {
 
     setSending(true);
     const token = await getToken();
-    if (!token) return fail("notVerified");
+    // A Turnstile setup error (for example a hostname missing from the widget) is our fault, so retrying can't help.
+    if (!token) return fail(turnstileConfigError() ? "failed" : "notVerified");
 
     let response: Response;
     try {
