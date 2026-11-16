@@ -71,8 +71,8 @@ export const caseStudies: CaseStudyContent[] = [
     testimonialId: "T1-hideout",
     quoteHeading: "In his words",
     screenshots: [
-      "[[SCREENSHOT: Hideout owner dashboard. Grant to supply; blur client and coach names]]",
-      "[[SCREENSHOT: session review queue or coach-pay view. Grant to supply; blur names]]",
+      { src: "/work/systems-1.webp", alt: "An owner dashboard with pie charts of profit against trainer pay by session type and bar charts of average profit", width: 1200, height: 656 },
+      { src: "/work/systems-2.webp", alt: "A leads board with cards grouped into columns by status", width: 1400, height: 666 },
     ],
     phases: {
       scope: "The owner had no reliable view of attrition, retention by coach, or revenue and profit per client. His session data was locked in a scheduling app that couldn't sync in real time, and coach pay depended on three variables.",
@@ -101,8 +101,8 @@ export const caseStudies: CaseStudyContent[] = [
     testimonialId: "T3-ifc",
     quoteHeading: "In her words",
     screenshots: [
-      { src: "/work/systems-3.webp", alt: "A leads dashboard with summary tiles, a bar chart of leads by month and two pie charts", width: 1200, height: 751 },
-      { src: "/work/systems-4.webp", alt: "A monthly revenue dashboard with summary tiles and a stacked bar chart of revenue over time", width: 1200, height: 688 },
+      { src: "/work/systems-3.webp", alt: "A staff app payroll screen with tables of pending and submitted payroll entries and an approve button on each row", width: 1200, height: 737 },
+      { src: "/work/systems-4.webp", alt: "A referral dashboard with colored summary tiles, a pie chart of referrals by stage and two rate tiles", width: 1200, height: 597 },
     ],
     phases: {
       scope: "The owner was handling most of the administration, supervision, policy work and her own clients herself, and most processes were manual.",
