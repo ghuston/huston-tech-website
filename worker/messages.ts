@@ -1,7 +1,7 @@
 import { autoReply } from "../src/content/auto-reply.ts";
 import { needOptions } from "../src/content/contact-fields.ts";
 import type { ContactSubmission } from "../src/lib/contact-validation.ts";
-import { firstName } from "../src/lib/first-name.ts";
+import { autoReplyFirstName } from "../src/lib/first-name.ts";
 import type { Mode } from "./env.ts";
 
 /** "A website", "Help with a workflow", ... or "Zoho partner" for the partner variant (it has no need field). */
@@ -42,12 +42,38 @@ export function notificationEmail(s: ContactSubmission, mode: Mode, receivedAt: 
 }
 
 /** The B7b automatic reply. In preview it goes to Grant instead, and the subject says who it would have gone to. */
-export function autoReplyEmail(s: ContactSubmission, mode: Mode, schedulerLink: string) {
-  const name = firstName(s.name);
+export function autoReplyEmail(s: ContactSubmission, mode: Mode, bookingUrl: string) {
+  const name = autoReplyFirstName(s.name);
+  const { booking } = autoReply;
   const greeting = name ? autoReply.greeting.replace("{firstName}", name) : autoReply.greetingNoName;
-  const text = [`${greeting} ${autoReply.body.replace("{schedulerLink}", schedulerLink)}`, "", autoReply.signOff].join("\n");
+  const text = [
+    greeting,
+    ...autoReply.paragraphs,
+    `${booking.before}${booking.linkText}${booking.after}\n${bookingUrl}`,
+    ...autoReply.paragraphsAfter,
+    autoReply.talkSoon,
+    autoReply.signatureText.join("\n").replace("{bookingUrl}", bookingUrl),
+  ].join("\n\n");
+
+  const p = (inner: string) => `<p style="margin:0 0 16px;">${inner}</p>`;
+  const link = `<a href="${escapeHtml(bookingUrl)}" style="color:#2B6455;">${escapeHtml(booking.linkText)}</a>`;
+  const html = [
+    '<div style="max-width:560px;margin:0;text-align:left;font-family:-apple-system,BlinkMacSystemFont,\'Segoe UI\',Roboto,Helvetica,Arial,sans-serif;font-size:16px;line-height:1.5;color:#29332D;">',
+    p(escapeHtml(greeting)),
+    ...autoReply.paragraphs.map((t) => p(escapeHtml(t))),
+    p(`${escapeHtml(booking.before)}${link}${escapeHtml(booking.after)}`),
+    ...autoReply.paragraphsAfter.map((t) => p(escapeHtml(t))),
+    p(escapeHtml(autoReply.talkSoon)),
+    autoReply.signatureHtml.replace("{bookingUrl}", escapeHtml(bookingUrl)),
+    "</div>",
+  ].join("\n");
+
   const subject = mode === "production" ? autoReply.subject : `[Preview → would go to ${s.email}] ${autoReply.subject}`;
-  return { subject, text };
+  return { subject, text, html };
+}
+
+function escapeHtml(value: string): string {
+  return value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
 }
 
 /** The Sheet row, in the header order: Received, Need, Topic, Name, Email, Business, Message, Tools, Website, Source, Mode. */
