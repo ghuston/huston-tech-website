@@ -1030,9 +1030,26 @@ Curious what happens after the call? [Scope it · Shape it · Ship it →] (→ 
 While you wait: [What's included in a website →] (→ /services#websites) · [How a Workflow Review works →] (→ /services#workflows)
 Or read: [Before You Buy Another App, Ask These Six Questions →]
 
-*(Auto-reply email, sent by the form Worker; plain text, from grant@hustonlogic.com:)*
-> Subject: Got it, thanks
-> Hi [First name], your note reached me. I read every message myself and will reply within one business day. If it's easier to talk, you can pick a time here: [scheduler link]. — Grant, Huston Logic
+*(Auto-reply email, sent by the form Worker; multipart HTML + plain text with the same words; From: Grant Huston <grant@hustonlogic.com>, Reply-To grant@hustonlogic.com. Source: `src/content/auto-reply.ts`. In HTML "pick a time for a free 20-minute call" is the booking link; in plain text the URL sits on its own line under the sentence. If the name is not a plain first name, the greeting is "Hi there,".)*
+> Subject: I got your note. Here's what happens next.
+>
+> Hi [First name],
+>
+> You reached out! That's the first step, and thanks for taking it. This reply is automatic, and it's the same one I build into client sites. (Consider this the demo!)
+>
+> The next reply is from me. I read every message myself and write back within one business day.
+>
+> If you'd rather talk, pick a time for a free 20-minute call.
+>
+> A bit about how I work. I learned to build software at big companies, and I've spent the last few years building it for small and medium businesses. So you get the testing and care a big company expects, sized to what your business actually needs. No fluff and no upselling. My goal is to get you the most value for your budget, and to make your tech the easy part of your week.
+>
+> If there's more you want me to know, reply to this email. It comes straight to me. Please leave out passwords and client details. Anything sensitive gets handled the right way, later.
+>
+> Talk soon,
+>
+> Grant Huston / Founder, Huston Logic / For the parts of the job you never signed up for / grant@hustonlogic.com | hustonlogic.com / Book a free 20-minute call: [scheduler link]
+>
+> Changed your mind? Reply "no thanks" and I won't write again.
 
 ---
 

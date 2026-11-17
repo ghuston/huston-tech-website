@@ -2,7 +2,7 @@
 
 The one piece of server code in the pipeline. `POST /api/contact` runs a small Cloudflare Worker
 that checks the request, verifies Turnstile, writes a row to a Google Sheet, emails the owner and
-sends the visitor a plain-text automatic reply. Everything here was read from `worker/`,
+sends the visitor an automatic reply (HTML + plain text). Everything here was read from `worker/`,
 `src/`, `wrangler.jsonc`, the README and the PR history on 2026-11-15. Secrets appear by **name
 only**.
 
@@ -34,7 +34,7 @@ Files:
 | `worker/env.ts` | `ContactEnv` (the bindings), `resolveMode()`, `log()`, `TIMEOUT_MS` (8000), `retryable()` |
 | `worker/turnstile.ts` | Server-side Turnstile check; tells a visitor failure from a configuration failure |
 | `worker/sheets.ts` | Service-account JWT signed with Web Crypto (RS256), token exchange with a cache, append with RAW input and a formula guard, one retry |
-| `worker/email.ts` | One Resend call, plain text only, idempotency key, one retry |
+| `worker/email.ts` | One Resend call (text, plus html and headers for the auto-reply), idempotency key, one retry |
 | `worker/messages.ts` | The notification email, the automatic reply and the Sheet row, built from the content modules |
 | `worker/contact.test.ts` | 36 tests on Node's built-in runner with `fetch` replaced by a recorder; a throwaway RSA key stands in for the service account |
 | `worker/tsconfig.json` | ES2024, `moduleResolution: Bundler`, `erasableSyntaxOnly`, `allowImportingTsExtensions`; includes only the five shared `src/` modules |
@@ -326,14 +326,18 @@ Only the one project is overridden; the organisation default stays on. See the
   automatically.
 - Domain verified through the Forge records above. The API key has "Sending access" for the one
   domain only (README).
-- Both emails are **plain text** (`text` only, never `html`), from `<Business> <site address>`,
-  through `POST https://api.resend.com/emails` with an `idempotency-key` header (`email.ts`).
+- The notification is **plain text** (`text` only, never `html`), from `<Business> <site address>`.
+  The automatic reply is multipart (`html` + `text`, same words), from `Grant Huston <site address>`
+  with `Auto-Submitted: auto-replied` and `X-Auto-Response-Suppress: All`. Both go through
+  `POST https://api.resend.com/emails` with an `idempotency-key` header (`email.ts`).
 - Notification: subject `New note: <need> from <name>` (capped at 120 characters, `[Preview] `
   prefix outside production), Reply-To the visitor, every field labelled, plus `Sheet: saved` or
   `Sheet: NOT saved - add this one by hand`, and `Mode: <mode>` outside production.
-- Automatic reply (B7b, `src/content/auto-reply.ts`): greeting with the first name, or the
-  no-name greeting when the name does not look like a name (so a spammer cannot put text in it);
-  the scheduler link from `providers.schedulerUrl`, falling back to `<origin>/contact#book`.
+- Automatic reply (B7b, `src/content/auto-reply.ts`): "Hi {firstName}," or "Hi there," when the
+  first word is not 1 to 30 letters, hyphens and apostrophes (so a spammer cannot put text in it);
+  the first name is the only visitor input in the email. The booking link comes only from
+  `providers.schedulerUrl` (same in preview and production, never from the request origin),
+  falling back to the fixed `https://hustonlogic.com/contact#book` if it is null.
 
 ## Failure behaviour
 
@@ -368,7 +372,7 @@ Google. A throwaway RSA key pair stands in for the service account. Groups and c
   missing secret is our failure (502) and calls nothing; a secret Cloudflare refuses, or an
   unreachable siteverify, is our failure (502); the secret, token and IP go to siteverify.
 - **a good submission in production**: saves the row, emails the owner and sends the B7b
-  auto-reply, all plain text; the partner variant needs no need field; a name that isn't a name gets
+  auto-reply (notification plain text, reply HTML + text); the partner variant needs no need field; a name that isn't a name gets
   no greeting name; the service-account JWT is RS256 and verifies with the public key.
 - **preview mode**: mail goes only to the site's address and the row goes to the `Preview` tab; a
   workers.dev branch host counts as a preview even if `SITE_ENV` says production.
@@ -387,7 +391,7 @@ The form against the static preview with the Worker and Turnstile stubbed; descr
 ### Hand tests on a preview (PR 51's test plan)
 
 Submit with your own address: you land on "Got it, thanks <name>."; the site inbox gets
-`[Preview] New note...` (Reply goes to your address) and `[Preview → would go to ...] Got it, thanks`;
+`[Preview] New note...` (Reply goes to your address) and `[Preview → would go to ...] I got your note. Here's what happens next.`;
 the `Preview` tab gets a row and `Submissions` does not. In Gmail, "Show original": SPF, DKIM and
 DMARC all PASS. Turnstile works on the `workers.dev` host (error 110200 means the hostname is not
 covered). Try `?topic=partner`, a missing field, and six quick submits (the sixth gets the

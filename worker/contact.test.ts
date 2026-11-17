@@ -3,6 +3,7 @@
 import assert from "node:assert/strict";
 import { afterEach, beforeEach, describe, test } from "node:test";
 import worker from "./contact.ts";
+import { providers } from "../src/content/providers.ts";
 import type { ContactEnv } from "./env.ts";
 import { resolveMode } from "./env.ts";
 import { resetTokenCache, safeCell, signAssertion } from "./sheets.ts";
@@ -241,17 +242,93 @@ describe("a good submission in production", () => {
     const [reply] = called("reply");
     assert.deepEqual(reply.json?.to, [VISITOR.email]);
     assert.equal(reply.json?.reply_to, "grant@hustonlogic.com");
-    assert.equal(reply.json?.subject, "Got it, thanks");
-    assert.equal(
-      reply.json?.text,
-      "Hi Ada, your note reached me. I read every message myself and will reply within one business day. If it's easier to talk, you can pick a time here: https://calendar.app.google/ZEcZAf9NdPn59i579.\n\n— Grant, Huston Logic",
-    );
-    assert.ok(!String(reply.json?.text).includes(VISITOR.message), "the auto-reply never echoes the message");
+    assert.equal(reply.json?.subject, "I got your note. Here's what happens next.");
+    assert.ok(String(reply.json?.text).startsWith("Hi Ada,\n\nYou reached out!"));
 
+    assert.ok(!("html" in (notify.json ?? {})), "the notification stays plain text");
     for (const email of [...called("notify"), ...called("reply")]) {
-      assert.ok(!("html" in (email.json ?? {})), "emails are plain text only");
       assert.equal((email.init.headers as Record<string, string>).authorization, "Bearer re_test");
     }
+  });
+
+  describe("the automatic reply", () => {
+    const BOOKING = providers.schedulerUrl as string;
+
+    async function reply(overrides: Record<string, unknown> = {}, previewHost = false) {
+      calls = [];
+      if (previewHost) {
+        const host = "feat-x-huston-site.acct.workers.dev";
+        responders.siteverify = () => jsonResponse({ success: true, hostname: host, action: "contact" });
+        await worker.fetch(post({ ...valid, ...overrides }, { origin: `https://${host}`, url: `https://${host}/api/contact` }), env({ SITE_ENV: "preview" }));
+      } else {
+        await worker.fetch(post({ ...valid, ...overrides }), env());
+      }
+      return called("reply")[0].json as Record<string, unknown>;
+    }
+
+    test("From, Reply-To and the two auto-responder headers", async () => {
+      const r = await reply();
+      assert.equal(r.from, "Grant Huston <grant@hustonlogic.com>");
+      assert.equal(r.reply_to, "grant@hustonlogic.com");
+      assert.deepEqual(r.headers, { "Auto-Submitted": "auto-replied", "X-Auto-Response-Suppress": "All" });
+      assert.equal(called("notify")[0].json?.from, "Huston Logic <grant@hustonlogic.com>");
+      assert.ok(!("headers" in (called("notify")[0].json ?? {})));
+    });
+
+    test("multipart: the HTML and the text carry the same words", async () => {
+      const r = await reply();
+      const text = String(r.text);
+      const html = String(r.html);
+      const stripped = html.replace(/<[^>]+>/g, " ").replace(/&nbsp;/g, " ").replace(/&rarr;/g, "→").replace(/&ldquo;|&rdquo;/g, '"').replace(/&rsquo;/g, "'").replace(/&#39;/g, "'").replace(/\s+/g, " ");
+      for (const phrase of ["Hi Ada,", "You reached out! That's the first step", "(Consider this the demo!)", "write back within one business day.", "Talk soon,", "Founder, Huston Logic", "Please leave out passwords and client details."]) {
+        assert.ok(text.includes(phrase), `text has: ${phrase}`);
+        assert.ok(stripped.includes(phrase), `html has: ${phrase}`);
+      }
+      assert.ok(text.includes('Changed your mind? Reply "no thanks" and I won\'t write again.'));
+      assert.ok(html.includes("Reply &ldquo;no thanks&rdquo; and I won&rsquo;t write again."));
+      assert.ok(html.startsWith("<div"));
+      assert.ok(!/<img|<script|<button|pixel|utm_/i.test(html), "no images, scripts, buttons or tracking");
+    });
+
+    test("the booking link is the config URL: own line in text, link text in HTML, and in the signature", async () => {
+      const r = await reply();
+      const lines = String(r.text).split("\n");
+      const at = lines.indexOf("If you'd rather talk, pick a time for a free 20-minute call.");
+      assert.ok(at >= 0);
+      assert.equal(lines[at + 1], BOOKING);
+      assert.ok(lines.includes(`Book a free 20-minute call: ${BOOKING}`));
+      const html = String(r.html);
+      assert.ok(html.includes(`<a href="${BOOKING}" style="color:#2B6455;">pick a time for a free 20-minute call</a>`));
+      assert.ok(html.includes(`<a href="${BOOKING}" style="color:#2B6455;text-decoration:none;font-weight:bold;">Book a free 20-minute call &rarr;</a>`));
+      assert.equal(html.split(BOOKING).length - 1, 2, "no bare URL in the HTML");
+      assert.ok(!html.includes("{bookingUrl}") && !String(r.text).includes("{bookingUrl}"));
+    });
+
+    test("the booking link is the same in preview and never built from the request origin", async () => {
+      const r = await reply({}, true);
+      assert.ok(String(r.text).includes(BOOKING));
+      assert.ok(String(r.html).includes(BOOKING));
+      assert.ok(!String(r.html).includes("workers.dev") && !String(r.text).includes("workers.dev"));
+    });
+
+    test("a name that isn't a plain first name gets 'Hi there,' in both versions", async () => {
+      for (const name of ["www.example.com/buy now", "J. Smith", "A".repeat(31), "<b>x</b>", "R2D2"]) {
+        const r = await reply({ name });
+        assert.ok(String(r.text).startsWith("Hi there,\n\n"), `text: ${name}`);
+        assert.ok(String(r.html).includes(">Hi there,</p>"), `html: ${name}`);
+      }
+      const ok = await reply({ name: "  Mary-Anne O'Neil " });
+      assert.ok(String(ok.text).startsWith("Hi Mary-Anne,\n\n"));
+    });
+
+    test("nothing else the visitor typed appears in the email", async () => {
+      const r = await reply({ business: "Acme Plumbing", tools: "QuickBooks", website: "https://acme.example", message: "Secret message body 123" });
+      for (const part of [String(r.text), String(r.html), String(r.subject)]) {
+        for (const typed of ["Lovelace", VISITOR.email, "Acme Plumbing", "QuickBooks", "acme.example", "Secret message body 123"]) {
+          assert.ok(!part.includes(typed), `leaked: ${typed}`);
+        }
+      }
+    });
   });
 
   test("the partner variant needs no need field", async () => {
@@ -262,7 +339,7 @@ describe("a good submission in production", () => {
 
   test("a name that isn't a name gets no greeting name", async () => {
     await worker.fetch(post({ ...valid, name: "www.example.com/buy now" }), env());
-    assert.ok(String(called("reply")[0].json?.text).startsWith("Hi, your note reached me."));
+    assert.ok(String(called("reply")[0].json?.text).startsWith("Hi there,"));
   });
 
   test("the service-account JWT is RS256 and verifies with the public key", async () => {
@@ -296,7 +373,7 @@ describe("preview mode", () => {
     assert.ok(String(called("notify")[0].json?.subject).startsWith("[Preview] New note:"));
     const [reply] = called("reply");
     assert.deepEqual(reply.json?.to, ["grant@hustonlogic.com"]);
-    assert.equal(reply.json?.subject, `[Preview → would go to ${VISITOR.email}] Got it, thanks`);
+    assert.equal(reply.json?.subject, `[Preview → would go to ${VISITOR.email}] I got your note. Here's what happens next.`);
   });
 
   test("a workers.dev branch host counts as a preview even if SITE_ENV says production", () => {
