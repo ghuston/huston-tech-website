@@ -1,8 +1,6 @@
 import type { Metadata, Viewport } from "next";
-import { JsonLd } from "@/components/ui/JsonLd";
 import { siteConfig } from "@/content/site";
 import { inter, newsreader, outfit } from "@/lib/fonts";
-import { organizationJsonLd } from "@/lib/jsonld";
 import { OG_IMAGE_ALT, OG_IMAGE_PATH } from "@/lib/metadata";
 import "./globals.css";
 
@@ -44,7 +42,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </a>
         {/* The header, main and footer come from app/(site)/layout.tsx (SiteChrome); /card renders its own main. */}
         {children}
-        <JsonLd data={organizationJsonLd()} />
       </body>
     </html>
   );

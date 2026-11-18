@@ -19,6 +19,7 @@ import { TextLink } from "@/components/hl/TextLink";
 import { TwoVoice } from "@/components/hl/TwoVoice";
 import { TwentyMinutesArt } from "@/components/illustrations/BrandArt";
 import { bookCallHref } from "@/components/ui/BookCallButton";
+import { JsonLd } from "@/components/ui/JsonLd";
 import {
   aboutTeaser,
   arcContent,
@@ -36,6 +37,7 @@ import {
   why,
 } from "@/content/home";
 import { getTestimonials } from "@/content/testimonials";
+import { organizationJsonLd } from "@/lib/organization-jsonld";
 import { pageMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = pageMetadata({ ...homeMeta, path: "/" });
@@ -49,6 +51,7 @@ export default function HomePage() {
 
   return (
     <div className="relative overflow-x-clip">
+      <JsonLd data={organizationJsonLd()} />
       <Hero content={heroContent} doors={doors} callHref={bookCallHref()} stack={<HeroStack content={heroStack} />} />
       <ArcSteps srHeading={arcContent.srHeading} />
       <DoorBand doors={doors} label={doorBandLabel} />
