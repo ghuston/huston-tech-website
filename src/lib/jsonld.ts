@@ -8,6 +8,6 @@ export function personJsonLd() {
     name: siteConfig.founder,
     jobTitle: "Business systems consultant",
     url: `${siteConfig.url}/about`,
-    worksFor: { "@id": `${siteConfig.url}/#business` },
+    worksFor: { "@type": "Organization", name: siteConfig.name, url: siteConfig.url },
   };
 }
