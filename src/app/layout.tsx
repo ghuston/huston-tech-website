@@ -1,10 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
-import { JsonLd } from "@/components/ui/JsonLd";
 import { siteConfig } from "@/content/site";
 import { inter, newsreader, outfit } from "@/lib/fonts";
-import { organizationJsonLd } from "@/lib/jsonld";
 import { OG_IMAGE_ALT, OG_IMAGE_PATH } from "@/lib/metadata";
 import "./globals.css";
 
@@ -49,7 +47,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           {children}
         </main>
         <Footer />
-        <JsonLd data={organizationJsonLd()} />
       </body>
     </html>
   );
