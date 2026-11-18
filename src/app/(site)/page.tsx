@@ -17,6 +17,7 @@ import { ServiceGroups } from "@/components/hl/ServiceGroups";
 import { TestimonialRow } from "@/components/hl/TestimonialRow";
 import { TextLink } from "@/components/hl/TextLink";
 import { TwoVoice } from "@/components/hl/TwoVoice";
+import { TwentyMinutesArt } from "@/components/illustrations/BrandArt";
 import { bookCallHref } from "@/components/ui/BookCallButton";
 import { JsonLd } from "@/components/ui/JsonLd";
 import {
@@ -29,7 +30,6 @@ import {
   heroStack,
   homeMeta,
   howItWorks,
-  insightsTeaser,
   problems,
   proof,
   proofStrip,
@@ -60,20 +60,20 @@ export default function HomePage() {
 
       <ServiceGroups content={whatIDo} />
 
-      <section aria-labelledby="proof-title" className="py-16 md:py-24">
+      <section aria-labelledby="proof-title" className="border-y border-hairline bg-silver-2 py-16 md:py-24">
         <Container>
           <h2 id="proof-title" className="font-ui text-h2 font-bold">
             {proof.heading}
           </h2>
+          <p className="mt-3 text-[17px] text-ink-2">{proof.note}</p>
           <div className="mt-12">
-            <TestimonialRow testimonials={testimonials} tag={proof.tag} />
+            <TestimonialRow testimonials={testimonials} />
           </div>
           <div className="mt-14 grid gap-8 md:grid-cols-2">
             {proof.teasers.map((teaser) => (
               <CaseStudyTeaser key={teaser.name} name={teaser.name} body={teaser.body} href={teaser.href} linkLabel={proof.teaserLinkLabel} />
             ))}
           </div>
-          <p className="mt-14 max-w-[60ch] text-lede">{proof.websitesFallback}</p>
           <div className="mt-10">
             <ProofChips content={proofStrip} />
           </div>
@@ -89,7 +89,7 @@ export default function HomePage() {
             <Button href={bookCallHref()}>{howItWorks.cta}</Button>
           </div>
           <div className="mt-14">
-            <DetailedSteps steps={howItWorks.steps} labels={howItWorks.labels} headingLevel={3} proof={howItWorks.proof} />
+            <DetailedSteps steps={howItWorks.steps} labels={howItWorks.labels} headingLevel={3} />
           </div>
           <div className="mt-8">
             <TextLink href={howItWorks.link.href}>{howItWorks.link.label}</TextLink>
@@ -99,24 +99,13 @@ export default function HomePage() {
 
       <ReasonList heading={why.heading} items={why.items} />
 
-      <AboutTeaser heading={aboutTeaser.heading} body={aboutTeaser.body} link={aboutTeaser.link} />
-
-      <section aria-labelledby="insights-title" className="py-16 md:py-24">
-        <Container>
-          <h2 id="insights-title" className="font-ui text-h2 font-bold">
-            {insightsTeaser.heading}
-          </h2>
-          <p className="mt-5 max-w-[60ch] text-body">{insightsTeaser.body}</p>
-          <div className="mt-6">
-            <TextLink href={insightsTeaser.link.href}>{insightsTeaser.link.label}</TextLink>
-          </div>
-        </Container>
-      </section>
+      <AboutTeaser heading={aboutTeaser.heading} paragraphs={aboutTeaser.paragraphs} link={aboutTeaser.link} />
 
       <ClosingCta
         heading={<TwoVoice line1={closingCta.line1} line2={closingCta.line2} />}
         body={closingCta.body}
         note={closingCta.note}
+        art={<TwentyMinutesArt className="max-w-[220px]" />}
       >
         <Button href={bookCallHref()}>{closingCta.cta}</Button>
         <TextLink href={closingCta.secondary.href}>{closingCta.secondary.label}</TextLink>

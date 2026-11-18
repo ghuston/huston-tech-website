@@ -67,7 +67,7 @@ export const noteForm = {
   sendErrors: {
     notVerified: "That didn't go through. Please try again.",
     rateLimited: "That's a few tries in a row. Give it a minute and try again.",
-    failed: "Something broke on my end and your note didn't send. Your answers are still here, or email info@hustonlogic.com.",
+    failed: "Something broke on my end and your note didn't send. Your answers are still here, or email grant@hustonlogic.com.",
   },
 };
 

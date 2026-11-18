@@ -17,26 +17,32 @@ export const homeMeta = {
 
 // B1 hero. Both H1 lines are Grant's final copy. The doors use typographic quotes (docs/STYLE-GUIDE.md §3).
 export const heroContent = {
-  eyebrow: "Websites and workflows for small businesses",
+  eyebrow: "Hi, I'm Grant. Websites and workflows for small businesses.",
   line1: "The site brings them in.",
   line2: "The system answers.",
-  subhead: "Custom websites for small businesses, and the follow-up that turns an inquiry into a booking.",
+  subhead:
+    "Someone fills in your contact form at 9:41 at night. They get a reply right away, and the inquiry lands in your inbox. Custom sites start at $750.",
   supportingLine: "AI-accelerated, checked by hand.",
   /** Phones only, under the compact doors (Rev 7.1 E8). */
   callLink: `${bookCallShortLabel} →`,
 };
 
-/** The two doors (B1): small cards in the hero, full doors in the band below the arc. */
+/**
+ * The two doors (B1): small cards in the hero (`title`, the quote), full doors in the band below the arc (`heading`
+ * as the H2, `line` as the blurb).
+ */
 export const doors = [
   {
     title: "“I need a website.”",
-    line: "Custom, from $750. The contact form writes back.",
+    heading: "A custom website, from $750.",
+    line: "Up to 7 pages, built in 2 to 4 weeks, with a contact form that writes back.",
     button: "Start a website →",
     href: "/contact?topic=website",
   },
   {
     title: "“Things keep slipping.”",
-    line: "A fixed-fee Workflow Review, credited toward the fix.",
+    heading: "A Workflow Review, for a fixed fee.",
+    line: "I look at one process and up to two tools, then write up what's worth fixing. The fee is credited in full if you hire me for the fix.",
     button: "Fix a workflow →",
     href: "/contact?topic=workflow",
   },
@@ -91,7 +97,7 @@ export const arcContent = {
 // ---- Below the doors: docs/website-plan.md, B1 (Revision 7.1), word for word. ----
 
 export const problems = {
-  eyebrow: "Sound familiar?",
+  eyebrow: "You might recognize a few of these.",
   line1: "You've been busy with the real work.",
   line2: "Your website and your inbox can tell.",
   items: [
@@ -137,6 +143,10 @@ export const whatIDo = {
           body: "Designed for your business from scratch, on your own domain, in accounts you own. Checked for speed, accessibility, security and search basics before it goes live.",
         },
         {
+          title: "You're looking at one.",
+          body: "This site was built the same way I'll build yours. The first three client sites are being built now.",
+        },
+        {
           title: "A contact form that writes back",
           body: "Every inquiry lands in your inbox and in a spreadsheet you own, and the person gets an automatic reply right away. A personalized follow-up sequence and online booking are add-ons.",
         },
@@ -179,8 +189,8 @@ export const whatIDo = {
 
 export const proof = {
   heading: "What clients said afterward",
-  /** Each testimonial carries this label: the three so far are systems projects, never website proof (C3). */
-  tag: "Systems project",
+  /** Said once under the heading instead of as a pill on each quote: the three so far are systems projects, never website proof. */
+  note: "All three are from systems projects.",
   teasers: [
     {
       name: "Hideout Fitness",
@@ -194,8 +204,6 @@ export const proof = {
     },
   ],
   teaserLinkLabel: "Read the project →",
-  /** Shown until the first website is live and the owner approves it (the three cards come later). */
-  websitesFallback: "This site was built the same way I'll build yours.",
 };
 
 export const proofStrip: ProofStripContent = {
@@ -216,34 +224,34 @@ export const howItWorks = {
   stepZero:
     "Nothing starts until you've seen the plan and the price. It begins with a free 20-minute call: tell me what you need and what you use today, and I'll tell you straight whether I can help.",
   cta: `${bookCallLabel} →`,
-  labels: { website: "Website:", workflow: "Workflow:" },
+  labels: { website: "Website", workflow: "Workflow" },
   steps: [
     {
       key: "scope",
-      website: { paragraph: "a short brief, then a written plan and a fixed price." },
-      workflow: { paragraph: "a fixed-fee Workflow Review, with written findings and a plan. **You can stop here.**" },
+      website: { paragraph: "A short brief, then a written plan and a fixed price." },
+      workflow: { paragraph: "A fixed-fee Workflow Review, with written findings and a plan. **You can stop here.**" },
     },
     {
       key: "shape",
-      website: { paragraph: "a private preview, one round of changes, then testing on your phone and mine." },
-      workflow: { paragraph: "built in your tools where possible, and tested with safe sample data against checks agreed in advance." },
+      website: { paragraph: "A private preview, one round of changes, then testing on your phone and mine." },
+      workflow: { paragraph: "Built in your tools where possible, and tested with safe sample data against checks agreed in advance." },
     },
     {
       key: "ship",
-      website: { paragraph: "live on your domain, with the accounts in your name and 14 days of fixes." },
-      workflow: { paragraph: "your team trained, the process written down, and 14 days of corrections." },
+      website: { paragraph: "Live on your domain, with the accounts in your name and 14 days of fixes." },
+      workflow: { paragraph: "Your team trained, the process written down, and 14 days of corrections." },
     },
   ] satisfies DetailedStep[],
-  proof: {
-    text: "All three client wrap-up surveys so far rated handoff and training 5/5.",
-    note: "(Systems projects.)",
-  },
   link: { label: "See how each step works →", href: "/how-i-work" },
 };
 
 export const why = {
   heading: "Why people hire me",
   items: [
+    {
+      title: "Nothing goes live untested.",
+      body: "Every change has to pass automatic checks for security, accessibility and speed before it goes live. That's how big software teams work. I set it up once and use it on every project, so it isn't a line on your invoice.",
+    },
     {
       title: "You work with me.",
       body: "Not an account manager or a junior team. The person on the call is the person doing the work.",
@@ -264,17 +272,14 @@ export const why = {
 };
 
 export const aboutTeaser = {
-  heading: "Hi, I'm Grant.",
-  body: "I've built business systems for small teams since 2024, starting with a group therapy practice that had outgrown doing everything by hand. Before Huston Logic, I led delivery for 21 client accounts at a Zoho consulting partner, in industries from healthcare to wholesale to local government. Now I build websites too. This one was first.",
+  heading: "A bit about me",
+  paragraphs: [
+    "I've built business systems for small teams since 2024, starting with a group therapy practice that had outgrown doing everything by hand. Before Huston Logic, I led delivery for 21 client accounts at a Zoho consulting partner, in industries from healthcare to wholesale to local government. Now I build websites too. This one was first.",
+    "I've worked in software since 2020, at startups and at big corporations. At a global consulting firm, I ran the app that 50-plus consultants used on large bankruptcy cases. Its reports went to court, so every release was tested first. AI does the slow parts of that kind of build now, which is why a custom site starts at $750.",
+  ],
   link: { label: "More about me →", href: "/about" },
   /** Alt text for the ring headshot (docs/STYLE-GUIDE.md §7.22). */
   photoAlt: "Grant Huston",
-};
-
-export const insightsTeaser = {
-  heading: "Notes from the work",
-  body: "Plain-English articles on websites, follow-up, reporting and running a small team.",
-  link: { label: "Read Insights →", href: "/insights" },
 };
 
 export const closingCta = {
@@ -282,6 +287,6 @@ export const closingCta = {
   line2: "Worst case, you get one good idea.",
   body: "Tell me what's going on with your website or your workflow. If I'm not the right person, I'll tell you who is.",
   cta: `${bookCallLabel} →`,
-  secondary: { label: "send a quick note →", href: "/contact" },
+  secondary: { label: "Send a quick note →", href: "/contact" },
   note: "Not a business, exactly? Solo pros are welcome too.",
 };

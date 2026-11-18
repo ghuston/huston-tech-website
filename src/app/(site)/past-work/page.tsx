@@ -7,13 +7,16 @@ import { PageHero } from "@/components/hl/PageHero";
 import { ProofChips } from "@/components/hl/ProofChips";
 import { SectionNav } from "@/components/hl/SectionNav";
 import { SystemsCaseStudy } from "@/components/hl/SystemsCaseStudy";
+import { Tag } from "@/components/hl/Tag";
 import { TestimonialRow } from "@/components/hl/TestimonialRow";
+import { ArtAside, SiteFramesArt } from "@/components/illustrations/BrandArt";
 import { bookCallHref } from "@/components/ui/BookCallButton";
 import { Text } from "@/components/ui/Text";
 import { proofStrip } from "@/content/home";
 import {
   agencyExperience,
   caseStudies,
+  ocTherapy,
   pastWorkClosing,
   pastWorkHero,
   pastWorkMeta,
@@ -57,10 +60,12 @@ export default function PastWorkPage() {
 
       <section id="websites" aria-labelledby="websites-title" className={section}>
         <Container>
-          <h2 id="websites-title" className={h2}>
-            {pastWorkWebsites.heading}
-          </h2>
-          <p className="mt-5 max-w-[60ch] text-body">{pastWorkWebsites.line}</p>
+          <ArtAside align="center" phone="below" art={<SiteFramesArt draw />}>
+            <h2 id="websites-title" className={h2}>
+              {pastWorkWebsites.heading}
+            </h2>
+            <p className="mt-5 max-w-[60ch] text-body">{pastWorkWebsites.line}</p>
+          </ArtAside>
         </Container>
       </section>
 
@@ -81,9 +86,21 @@ export default function PastWorkPage() {
 
           <div className="mt-[60px]">
             <FadingDivider />
-            <div className="mt-12">
-              <TestimonialRow testimonials={standalone.slice(0, 1)} />
-            </div>
+            <article id={ocTherapy.id} aria-labelledby={`${ocTherapy.id}-title`} className="mt-12 scroll-mt-12">
+              <h3
+                id={`${ocTherapy.id}-title`}
+                className="max-w-[24em] font-ui text-[28px] font-bold leading-[1.1] tracking-[-0.03em] md:text-[32px]"
+              >
+                {ocTherapy.heading}
+              </h3>
+              <p className="mt-3">
+                <Tag>{ocTherapy.tag}</Tag>
+              </p>
+              <p className="mt-4 max-w-[64ch] text-body">{ocTherapy.description}</p>
+              <div className="mt-8">
+                <TestimonialRow testimonials={standalone.slice(0, 1)} />
+              </div>
+            </article>
             <div className="mt-12">
               <ProofChips content={proofStrip} />
             </div>

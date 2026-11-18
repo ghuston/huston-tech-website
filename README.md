@@ -80,7 +80,7 @@ npm run build
 npm run test:lighthouse
 ```
 
-`npm run build && npm run test:lighthouse` audits the built site with Lighthouse CI (mobile preset, median of 3 runs per page) against the seven pages in `src/lib/routes.ts` (indexable routes only: a `noindex` page cannot pass the SEO check, and the 404 page returns an error status). It serves `out/` through `scripts/preview.mjs`, so the headers in `public/_headers` apply, and uses the Google Chrome installed on your machine (or `CHROME_PATH`). Reports are written to `.lighthouseci/` (git-ignored). Accessibility and SEO must score 0.95 or higher and best-practices 0.9 or higher; performance only warns. The preview server does not compress files or set cache headers the way Cloudflare does, so its performance score understates the deployed site.
+`npm run build && npm run test:lighthouse` audits the built site with Lighthouse CI (mobile preset, median of 5 runs per page) against the eight indexable pages in `src/lib/routes.ts` (a `noindex` page cannot pass the SEO check, and the 404 page returns an error status). It serves `out/` through `scripts/preview.mjs`, so the headers in `public/_headers` apply, and uses the Google Chrome installed on your machine (or `CHROME_PATH`). Reports are written to `.lighthouseci/` (git-ignored). Accessibility and SEO must score 0.95 or higher, and best-practices and performance 0.9 or higher; all four fail the job (`lighthouserc.cjs`). The preview server does not compress files or set cache headers the way Cloudflare does, so its performance score understates the deployed site.
 
 In CI this is the `lighthouse` job in `.github/workflows/ci.yml`. It is a required check in the "Protect main" ruleset, so a red result blocks merge. Scores for every page are in the run's Summary, and the full HTML and JSON reports are the `lighthouse-reports` artifact (kept 14 days; open the `.report.html` for the failing URL to see which audits failed). If it fails with `NO_NAVSTART` (a Lighthouse trace-recording hiccup, not a site problem), click "Re-run failed jobs" on the run.
 
@@ -109,7 +109,7 @@ Scheduled runs only happen on the default branch, and GitHub disables schedules 
 |---|---|---|
 | Site URL | `NEXT_PUBLIC_SITE_URL` (see `.env.example`), default `https://hustonlogic.com` in `src/content/site.ts` | Used for canonical URLs, Open Graph, sitemap, robots and JSON-LD. Public value, not a secret. |
 | Contact email, scheduler URL, LinkedIn URL, Turnstile site key | `src/content/providers.ts` (re-exported by `site.ts`) | `null` renders a visible placeholder. The Worker reads this file too. The Turnstile site key is public. |
-| Content-Security-Policy | `public/_headers` | `https://challenges.cloudflare.com` is allowed in `script-src` and `frame-src` for Turnstile on the contact form, and nothing else is loaded from outside. `_headers` covers static files only; the Worker sets its own headers on `/api/*`. |
+| Content-Security-Policy | `public/_headers` | `https://challenges.cloudflare.com` is allowed in `script-src` and `frame-src` for Turnstile on the contact form, and `https://static.cloudflareinsights.com` (`script-src`) and `https://cloudflareinsights.com` (`connect-src`) for Cloudflare Web Analytics. Nothing else is loaded from outside. `_headers` covers static files only; the Worker sets its own headers on `/api/*`. |
 | Worker settings | `wrangler.jsonc` | Secret **names** only, never values. After changing it, run `npx wrangler types worker/worker-configuration.d.ts`. |
 | Framework step names, numbers, one-liners | `framework.steps` in `src/content/site.ts` | The only place "Scope it / Shape it / Ship it" is defined. Content strings use `{scope}`, `{shape}`, `{ship}`, `{steps}` tokens via `fw()` (`src/lib/framework.ts`). Rename a step here and every page follows. |
 
@@ -132,13 +132,13 @@ Normal builds (and CI) allow placeholders so the site can be previewed. **Use `n
 
 ### Scheduler and analytics are still placeholders
 
-The contact page shows a disabled "Pick a time" button, clearly marked, and every "Book a free call" button points at `/contact#book` until `schedulerUrl` is set in `src/content/providers.ts`. If the scheduler is embedded in an iframe, add its origin to `frame-src` in `public/_headers`. No analytics is installed; the privacy copy mentions privacy-friendly analytics, so either add a cookieless tool (and its CSP origin) or edit the privacy text.
+The contact page shows a disabled "Pick a time" button, clearly marked, and every "Book a free call" button points at `/contact#book` until `schedulerUrl` is set in `src/content/providers.ts`. If the scheduler is embedded in an iframe, add its origin to `frame-src` in `public/_headers`. Analytics is Cloudflare Web Analytics, which is cookieless: its two origins are in the CSP and the privacy page says so. Turn it on in the Cloudflare dashboard (nothing is added to the site's code).
 
 ## Contact form
 
 The form on `/contact` (`src/components/hl/ContactForm.tsx`) posts JSON to `POST /api/contact`, handled by a small Worker script, `worker/contact.ts`. `wrangler.jsonc` runs the Worker **only for `/api/*`** (`run_worker_first`); every page and file is still the static export in `./out`.
 
-**What one submission does**, in order: same-origin check, JSON only, at most 16 KB; rate limit (5 per minute per IP, the `CONTACT_RATE_LIMIT` binding); spam-trap field (`company_fax`, refused with an honest error); the same validation as the form (`src/lib/contact-validation.ts`); Cloudflare Turnstile verified server-side (hostname and `action: "contact"` must match). Then it appends a row to Grant's Google Sheet, emails the submission to info@hustonlogic.com (Reply-To = the visitor) with a line saying whether the Sheet row was saved, and sends the visitor the B7b automatic reply. Both emails are **plain text only**, through Resend, from `Huston Logic <info@hustonlogic.com>`. The Sheet is written with `valueInputOption=RAW`, and cells starting with `= + - @` get a leading `'`.
+**What one submission does**, in order: same-origin check, JSON only, at most 16 KB; rate limit (5 per minute per IP, the `CONTACT_RATE_LIMIT` binding); spam-trap field (`company_fax`, refused with an honest error); the same validation as the form (`src/lib/contact-validation.ts`); Cloudflare Turnstile verified server-side (hostname and `action: "contact"` must match). Then it appends a row to Grant's Google Sheet, emails the submission to grant@hustonlogic.com (Reply-To = the visitor) with a line saying whether the Sheet row was saved, and sends the visitor the B7b automatic reply. The notification is **plain text only**, through Resend, from `Huston Logic <grant@hustonlogic.com>`. The automatic reply is multipart (HTML + plain text, same words) from `Grant Huston <grant@hustonlogic.com>`, with `Auto-Submitted: auto-replied` and `X-Auto-Response-Suppress: All` headers. The Sheet is written with `valueInputOption=RAW`, and cells starting with `= + - @` get a leading `'`.
 
 **What the visitor sees.** Success only when the note reached Grant (the Sheet row or the email). Then the form saves the first name and whether the automatic reply went out in `sessionStorage` (never the URL) and moves to `/contact/thanks`, which says "Got it, thanks {name}." If the automatic reply failed, the thanks page says so. Every failure keeps the visitor's answers and shows one of the three B7 send errors. Without JavaScript nothing is sent.
 
@@ -153,7 +153,7 @@ The form on `/contact` (`src/components/hl/ContactForm.tsx`) posts JSON to `POST
 
 **Modes** (`SITE_ENV`, from `wrangler.jsonc`):
 - `production`: the live site.
-- `preview`: branch previews (Cloudflare Worker Previews). Rows go to the Sheet's `Preview` tab, every subject starts with `[Preview]`, and the automatic reply goes to info@hustonlogic.com instead of the visitor (its subject names who it would have gone to). Any `*.workers.dev` host other than `huston-site.<account>.workers.dev` is treated as a preview even if `SITE_ENV` says production.
+- `preview`: branch previews (Cloudflare Worker Previews). Rows go to the Sheet's `Preview` tab, every subject starts with `[Preview]`, and the automatic reply goes to grant@hustonlogic.com instead of the visitor (its subject names who it would have gone to). Any `*.workers.dev` host other than `huston-site.<account>.workers.dev` is treated as a preview even if `SITE_ENV` says production.
 - `development`: `wrangler dev` on localhost only. Turnstile is checked with Cloudflare's test keys, then nothing is emailed or written.
 
 **Turnstile errors.** "That didn't go through" (403) means the visitor's check failed (logged as `turnstile_failed` with a `reason`: `not_success`, `hostname_mismatch` or `action_mismatch`, plus Cloudflare's error codes). A missing `TURNSTILE_SECRET_KEY`, a secret Cloudflare refuses, or an unreachable siteverify is our fault, so it is "Something broke on my end…" (502), logged as `turnstile_config_missing` or `turnstile_unavailable`.
@@ -192,7 +192,7 @@ Previews do not share production secrets. Set the same four for all previews wit
   | CNAME | `rsend` | `rsend.forge.rmta.net` |
 
   There is **no MX and no SPF TXT on `send`**: a CNAME can't share its name with other records, and Resend serves the bounce (Return-Path) records through the CNAME target. Don't add any.
-- **Google Workspace** owns mail for the root domain (info@ is a Workspace mailbox): root MX, the root SPF `v=spf1 include:_spf.google.com ~all` (the only SPF record on the root; **never add Resend to it**) and DKIM at `google._domainkey`. DMARC (`_dmarc`) passes for Resend mail through the aligned DKIM signature on `hustonlogic.com`, and SPF passes on `send.hustonlogic.com` (aligned under relaxed alignment).
+- **Google Workspace** owns mail for the root domain (grant@ must be a Workspace mailbox or alias): root MX, the root SPF `v=spf1 include:_spf.google.com ~all` (the only SPF record on the root; **never add Resend to it**) and DKIM at `google._domainkey`. DMARC (`_dmarc`) passes for Resend mail through the aligned DKIM signature on `hustonlogic.com`, and SPF passes on `send.hustonlogic.com` (aligned under relaxed alignment).
 - **Google Sheet** `Huston Logic contact form`, tabs `Submissions` and `Preview`, header row `Received (UTC) | Need | Topic | Name | Email | Business | Message | Tools | Website | Source | Mode`, shared as Editor with the service account only. Google Cloud project `huston-logic-site`, Google Sheets API enabled, service account `contact-form-writer` with no project roles. The Worker signs the service-account JWT with Web Crypto (no library).
 
 ### Local test of the Worker
@@ -261,7 +261,7 @@ If a production build itself fails, nothing is deployed and the old version stay
 - [ ] Domain, DNS and business email working; `NEXT_PUBLIC_SITE_URL` set to the final domain
 - [ ] `email`, `schedulerUrl`, `linkedInUrl`, `turnstileSiteKey` set in `src/content/providers.ts`
 - [ ] `npm run check:placeholders` passes (photos, screenshots, titles, location, background wording, musician line, certifications, privacy date)
-- [ ] Contact form tested end to end on desktop and phone on the live domain: the email to info@, the automatic reply (SPF, DKIM and DMARC all PASS in "Show original"), the Sheet row; then delete the test row
+- [ ] Contact form tested end to end on desktop and phone on the live domain: the email to grant@, the automatic reply (SPF, DKIM and DMARC all PASS in "Show original"), the Sheet row; then delete the test row
 - [ ] Scheduler wired and its CSP origin added
 - [ ] Privacy policy checked against the tools actually used
 - [ ] Screenshots supplied with names blurred (or placeholders removed)

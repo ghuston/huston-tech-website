@@ -5,11 +5,12 @@
 # Tighten (hashes or nonces) if the hosting setup ever allows it. Update frame-src/script-src/connect-src
 # when a scheduler or form provider is added.
 # https://challenges.cloudflare.com (script-src, frame-src): Cloudflare Turnstile on the contact form.
-# The form posts to the same-origin Worker (/api/contact), so connect-src and form-action stay 'self'.
+# https://static.cloudflareinsights.com (script-src) and https://cloudflareinsights.com (connect-src): Cloudflare Web Analytics.
+# The form posts to the same-origin Worker (/api/contact), so form-action stays 'self'.
 # These headers apply to static files only; the Worker sets its own headers on /api/* responses.
 
 /*
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-src https://challenges.cloudflare.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://cloudflareinsights.com; frame-src https://challenges.cloudflare.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests
   X-Content-Type-Options: nosniff
   X-Frame-Options: DENY
   Referrer-Policy: strict-origin-when-cross-origin
@@ -20,6 +21,12 @@
 
 /_next/static/*
   Cache-Control: public, max-age=31536000, immutable
+
+# Grant's contact card (built by src/app/grant.vcf/route.ts), linked from /card. Phones open it as a contact to save.
+/grant.vcf
+  Content-Type: text/vcard; charset=utf-8
+  Content-Disposition: attachment; filename="Grant-Huston.vcf"
+  X-Robots-Tag: noindex
 
 # Keep Cloudflare preview/production *.pages.dev URLs out of search results.
 https://:project.pages.dev/*

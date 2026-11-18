@@ -4,7 +4,7 @@
  * `null` renders a visible placeholder and fails `npm run check:placeholders`.
  */
 export const providers = {
-  email: "info@hustonlogic.com" as string | null,
+  email: "grant@hustonlogic.com" as string | null,
   schedulerUrl: "https://calendar.app.google/ZEcZAf9NdPn59i579" as string | null,
   linkedInUrl: "https://www.linkedin.com/in/granthuston/" as string | null,
   /** Cloudflare Turnstile site key for the contact form. Public by design: it ships in the page. */

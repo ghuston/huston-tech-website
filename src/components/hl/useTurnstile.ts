@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef } from "react";
+import { isTurnstileConfigError } from "@/lib/turnstile-errors";
 
 /**
  * Cloudflare Turnstile for the contact form, loaded only when the visitor first focuses the form (or submits), so
@@ -54,6 +55,7 @@ export function useTurnstile(configuredSiteKey: string | null) {
   const container = useRef<HTMLDivElement>(null);
   const widgetId = useRef<string | null>(null);
   const token = useRef<string | null>(null);
+  const configError = useRef(false);
   const waiting = useRef<((value: string | null) => void)[]>([]);
 
   const settle = useCallback((value: string | null) => {
@@ -76,13 +78,15 @@ export function useTurnstile(configuredSiteKey: string | null) {
           "response-field": false,
           callback: (value: string) => {
             token.current = value;
+            configError.current = false;
             settle(value);
           },
           "expired-callback": () => {
             token.current = null;
           },
-          "error-callback": () => {
+          "error-callback": (code?: unknown) => {
             token.current = null;
+            configError.current = isTurnstileConfigError(code);
             settle(null);
           },
         });
@@ -94,6 +98,8 @@ export function useTurnstile(configuredSiteKey: string | null) {
   const getToken = useCallback((): Promise<string | null> => {
     start();
     if (token.current) return Promise.resolve(token.current);
+    // A setup error repeats on every retry, so there is nothing to wait for.
+    if (configError.current) return Promise.resolve(null);
     return new Promise((resolve) => {
       const timer = window.setTimeout(() => {
         waiting.current = waiting.current.filter((r) => r !== done);
@@ -120,5 +126,8 @@ export function useTurnstile(configuredSiteKey: string | null) {
     [],
   );
 
-  return { containerRef: container, start, getToken, reset };
+  /** True when the last Turnstile error means the site is set up wrong (see turnstile-errors.ts), not the visitor. */
+  const isConfigError = useCallback(() => configError.current, []);
+
+  return { containerRef: container, start, getToken, reset, isConfigError };
 }

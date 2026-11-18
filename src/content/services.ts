@@ -69,7 +69,7 @@ export const workflows = {
     "Most of this work starts with one stubborn problem: a handoff that keeps failing, a report that eats a weekend, a system nobody trusts.",
   review: {
     heading: "Start with a Workflow Review",
-    aside: fw("this is {scope} for a workflow; fixed fee, credited toward the fix"),
+    aside: fw("This is the {scope} step for a workflow. The fee is fixed and credited toward the fix."),
     intro:
       "A focused look at one process and the tools involved (up to two), through an interview, a screen-share and a small sample of real data where it's safe and authorized. You get a concise written report:",
     items: [
@@ -163,12 +163,15 @@ export const everyProject = {
   heading: "What every project includes",
   groups: [
     {
-      label: fw("{shape}"),
+      label: fw("{scope}"),
       items: [
         "A written plan or scope, so you know what \"done\" means before I start",
-        "Testing before anything touches your live site or system",
         "For workflows, the Review fee credited toward the project",
       ],
+    },
+    {
+      label: fw("{shape}"),
+      items: ["Testing before anything touches your live site or system"],
     },
     {
       label: fw("{ship}"),
@@ -183,7 +186,7 @@ export const everyProject = {
 
 export const platforms = {
   heading: "Platforms I know well",
-  body: "I'm platform-agnostic. The right tool is the one that fits your business, and very often it's one you already have. **Zoho** is my deepest toolkit (CRM, Creator, Analytics, Books, Desk, Flow, Forms, Bookings and more). I've also worked with tools like QuickBooks Online, Trainerize, Mailchimp, Zapier, Shopify, Google Workspace and RingCentral. Websites are hosted on Cloudflare, in an account in your name.",
+  body: "I don't push a platform. The right tool is the one that fits your business, and very often it's one you already have. **Zoho** is my deepest toolkit (CRM, Creator, Analytics, Books, Desk, Flow, Forms, Bookings and more). I've also worked with tools like QuickBooks Online, Trainerize, Mailchimp, Zapier, Shopify, Google Workspace and RingCentral. Websites are hosted on Cloudflare, in an account in your name.",
 };
 
 export const whatIDontDo = {

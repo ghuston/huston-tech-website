@@ -13,7 +13,7 @@ module.exports = {
     collect: {
       // Indexable pages only: a noindex page cannot pass the SEO "is crawlable" audit and the 404 page returns an error status.
       url: indexableRoutes.map((route) => origin + route),
-      numberOfRuns: 3,
+      numberOfRuns: 5,
       startServerCommand: "npm run preview",
       // preview.mjs prints "Previewing ./out at ..."; the default pattern ("listen|ready") would never match.
       startServerReadyPattern: "Previewing",
@@ -25,7 +25,7 @@ module.exports = {
       },
     },
     assert: {
-      // median of the 3 runs; LHCI's default ("optimistic") would pass if any single run passed.
+      // median of the 5 runs; LHCI's default ("optimistic") would pass if any single run passed.
       assertions: {
         "categories:accessibility": ["error", { minScore: 0.95, aggregationMethod: "median" }],
         "categories:best-practices": ["error", { minScore: 0.9, aggregationMethod: "median" }],

@@ -32,10 +32,14 @@ export function ArcSteps({ srHeading }: { srHeading: string }) {
                   <LineIcon step={step.key} className="w-[52px] text-green" />
                 </span>
                 <div className="hl-tx" style={{ left: `${at.text.left}%`, top: `${at.text.top}%` }}>
-                  <span className="hl-n" aria-hidden="true">
-                    {step.number}
-                  </span>
-                  <h3>{step.label}</h3>
+                  <a href="#how-it-works" className="block">
+                    <span className="hl-n" aria-hidden="true">
+                      {step.number}
+                    </span>
+                    <h3>
+                      <span className="hl-u">{step.label}</span>
+                    </h3>
+                  </a>
                   <p>{step.oneLiner}</p>
                 </div>
               </li>

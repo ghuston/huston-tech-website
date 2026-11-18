@@ -9,14 +9,22 @@ type HlLinkProps = {
   onClick?: () => void;
 };
 
-function isExternal(href: string) {
-  return /^(https?:)?\/\//.test(href) || href.startsWith("mailto:");
+const WEB_LINK = /^(https?:)?\/\//;
+const APP_LINK = /^(mailto|tel|sms):/;
+/** A same-site file such as /grant.vcf: next/link would prefetch it and try to route to it as a page. */
+const FILE_LINK = /^\/[^?#]*\.[a-z0-9]+(?:[?#].*)?$/i;
+
+function isPlainAnchor(href: string) {
+  return WEB_LINK.test(href) || APP_LINK.test(href) || FILE_LINK.test(href);
 }
 
-/** Internal links use next/link. External http(s) links open in a new tab with noopener noreferrer (AGENTS.md). */
+/**
+ * Pages on this site use next/link. External http(s) links open in a new tab with noopener noreferrer (AGENTS.md);
+ * mailto:, tel:, sms: and same-site files are plain anchors in the same tab.
+ */
 export function HlLink({ href, className, children, "aria-current": ariaCurrent, onClick }: HlLinkProps) {
-  if (isExternal(href)) {
-    const opensNewTab = !href.startsWith("mailto:");
+  if (isPlainAnchor(href)) {
+    const opensNewTab = WEB_LINK.test(href);
     return (
       <a
         href={href}

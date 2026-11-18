@@ -6,7 +6,7 @@ type ReasonListProps = {
   items: readonly { title: string; body: string }[];
 };
 
-/** Why people hire me (docs/STYLE-GUIDE.md §7.21): four reasons in a 2 × 2 grid (one column on phones), fading dividers, no cards. */
+/** Why people hire me (docs/STYLE-GUIDE.md §7.21): the reasons in a 2-column grid (one column on phones), fading dividers, no cards. */
 export function ReasonList({ heading, items }: ReasonListProps) {
   return (
     <section aria-labelledby="why-title" className="py-16 md:py-24">

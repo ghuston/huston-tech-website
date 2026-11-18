@@ -6,7 +6,7 @@ First prepared November 9, 2026. Revision 7 (Nov 14, 2026) sources: Grant's fina
 
 **Revision 7.1 (Nov 14, 2026, afternoon): Grant's answers to open placeholders**
 - **Name final:** Huston Logic. "(working name)" is removed.
-- **Email:** info@hustonlogic.com replaces every `[[email address]]` (Contact, Privacy, footer, auto-reply sender). **LinkedIn:** https://www.linkedin.com/in/granthuston/ (footer; `sameAs` in JSON-LD).
+- **Email:** grant@hustonlogic.com replaces every `[[email address]]` (Contact, Privacy, footer, auto-reply sender). **LinkedIn:** https://www.linkedin.com/in/granthuston/ (footer; `sameAs` in JSON-LD).
 - **Base price scope:** up to 7 pages (replaces `[[five]]`).
 - **Website payment terms:** 50% to start, 50% at launch. Added to Services, the FAQ, A8 and G.
 - **Titles:** Jacob Rodriguez, Owner. Emily Mayot, Owner.
@@ -169,7 +169,7 @@ The balance in one line: serious about the work, relaxed about himself. These re
 
 **Header nav (text links only, no button):** How I work (→ /how-i-work) · Websites (→ /services#websites) · Workflows (→ /services#workflows) · Past work · About · Say hello ↘ (→ /#hello). Mobile: the wordmark and "Menu". Insights, Contact and Privacy are linked from the footer and in-page CTAs.
 
-**Footer:** wordmark · tagline "Custom websites and workflows, from hello to handled." · brand line "Grant Huston · Based in Southern California · Working with clients anywhere" · nav links · Insights · Contact · info@hustonlogic.com · [LinkedIn](https://www.linkedin.com/in/granthuston/) · "Zoho partners: need overflow help?" (→ /contact?topic=partner) · Privacy · © 2026 Huston Logic
+**Footer:** wordmark · tagline "Custom websites and workflows, from hello to handled." · brand line "Grant Huston · Based in Southern California · Working with clients anywhere" · nav links · Insights · Contact · grant@hustonlogic.com · [LinkedIn](https://www.linkedin.com/in/granthuston/) · "Zoho partners: need overflow help?" (→ /contact?topic=partner) · Privacy · © 2026 Huston Logic
 
 ### A8. Engagement framework (the operating model)
 
@@ -369,6 +369,9 @@ Nothing starts until you've seen the plan and the price. It begins with a free 2
 
 ## Why people hire me
 
+**Nothing goes live untested.**
+Every change has to pass automatic checks for security, accessibility and speed before it goes live. That's how big software teams work. I set it up once and use it on every project, so it isn't a line on your invoice.
+
 **You work with me.**
 Not an account manager or a junior team. The person on the call is the person doing the work.
 
@@ -390,6 +393,8 @@ New software isn't always the answer. Often the fix is a setting, a process or a
 ## Hi, I'm Grant.
 
 I've built business systems for small teams since 2024, starting with a group therapy practice that had outgrown doing everything by hand. Before Huston Logic, I led delivery for 21 client accounts at a Zoho consulting partner, in industries from healthcare to wholesale to local government. Now I build websites too. This one was first.
+
+I've worked in software since 2020, at startups and at big corporations. At a global consulting firm, I ran the app that 50-plus consultants used on large bankruptcy cases. Its reports went to court, so every release was tested first. AI does the slow parts of that kind of build now, which is why a custom site starts at $750.
 
 **[More about me →]**
 
@@ -876,11 +881,17 @@ Specifically, the kind that live between your website, your inbox and your sprea
 I'm the founder of Huston Logic and, for now, the whole team. I build custom websites, and I fix the workflows behind small businesses: follow-up that doesn't slip, numbers you can see, staff pay that adds up, and software that finally earns its subscription fee.
 
 **How I got here**
+I started in 2020 as an intern at a startup, connecting their website, booking calendar and CRM so nobody had to retype a sign-up. After that I joined a global consulting firm and ran the app that 50-plus consultants used on large bankruptcy cases. Reports from it went to court. Every change was tested before release, and releases went out every other Friday evening. (I got very good at Friday evenings.)
+
 In 2024 I started building systems for small businesses. My first big project was a group therapy practice that had outgrown doing everything by hand. I built the team a staff app, payroll submissions, an inquiry pipeline and dashboards, and the practice went on to grow from 5 to 10 people. Next came a personal training studio whose owner wanted real numbers on his coaches and clients, without giving up the scheduling app his team already used.
 
 In 2026 I joined a Zoho consulting partner as a developer and moved into a consulting role within a few months. There, I led delivery for 21 client accounts: a Medicaid disability services provider, an interior design firm, a newly formed distributor, a wholesaler, a municipal government and more, often directing a team of developers. I learned a lot about what makes projects succeed, and about what happens when a business gets a system that's bigger than its problem.
 
 So I started Huston Logic to do the work I like most: close to the owner, focused on the real problem, and sized to the business.
+
+Since then I've worked with tech startups, therapy practices, fitness studios and structural engineering firms. Most were getting by on a template and a workaround, because custom software was priced for companies with an IT department.
+
+That's what changed. AI does the slow parts of a build now, and I kept the habit from the big firm: nothing ships untested. So a custom site, tested properly, starts at $750.
 
 **Why websites too**
 A website is where most of my clients' inquiries start, and the contact form is the first workflow a business has. So I build those too, starting with this site. AI does the slow parts of the build, so the price doesn't have to cover them. I design every page and check it myself before you see it. I've spent my career where software meets business, as an application developer, business analyst and software consultant. Checking what AI builds is the same work, done faster.
@@ -992,7 +1003,7 @@ Pick a time that works. Tell me what you need and what you use today, and I'll t
 *Under textarea:* Please don't include client or patient details, account numbers or passwords. Anything sensitive gets handled the right way, later.
 *Button:* **Send it over →**
 *Validation errors:* "Pick the closest one. 'Not sure' counts." · "Please add your name." · "That email doesn't look quite right." · "A sentence or two is plenty, but I do need something to go on."
-*Send errors (Grant, Nov 15):* couldn't verify (bot check or a blocked request): "That didn't go through. Please try again." · rate limited: "That's a few tries in a row. Give it a minute and try again." · failed to send: "Something broke on my end and your note didn't send. Your answers are still here, or email info@hustonlogic.com."
+*Send errors (Grant, Nov 15):* couldn't verify (bot check or a blocked request): "That didn't go through. Please try again." · rate limited: "That's a few tries in a row. Give it a minute and try again." · failed to send: "Something broke on my end and your note didn't send. Your answers are still here, or email grant@hustonlogic.com."
 *Hidden spam-trap field label (never shown):* "Leave this empty"
 *Partner variant (when topic=partner):* the "What do you need?" field is hidden, and the heading above the form reads "Zoho partner? Tell me about the work and your timeline."
 
@@ -1003,7 +1014,7 @@ Pick a time that works. Tell me what you need and what you use today, and I'll t
 2. **Step zero: a free 20-minute call** about what you need and the tools involved.
 3. **If there's a fit,** you get a written plan and price for a website, or a short written scope for a Workflow Review. If not, I'll point you somewhere useful.
 
-*Direct email line:* Prefer email? info@hustonlogic.com
+*Direct email line:* Prefer email? grant@hustonlogic.com
 
 ---
 
@@ -1019,9 +1030,26 @@ Curious what happens after the call? [Scope it · Shape it · Ship it →] (→ 
 While you wait: [What's included in a website →] (→ /services#websites) · [How a Workflow Review works →] (→ /services#workflows)
 Or read: [Before You Buy Another App, Ask These Six Questions →]
 
-*(Auto-reply email, sent by the form Worker; plain text, from info@hustonlogic.com:)*
-> Subject: Got it, thanks
-> Hi [First name], your note reached me. I read every message myself and will reply within one business day. If it's easier to talk, you can pick a time here: [scheduler link]. — Grant, Huston Logic
+*(Auto-reply email, sent by the form Worker; multipart HTML + plain text with the same words; From: Grant Huston <grant@hustonlogic.com>, Reply-To grant@hustonlogic.com. Source: `src/content/auto-reply.ts`. In HTML "pick a time for a free 20-minute call" is the booking link; in plain text the URL sits on its own line under the sentence. If the name is not a plain first name, the greeting is "Hi there,".)*
+> Subject: I got your note. Here's what happens next.
+>
+> Hi [First name],
+>
+> You reached out! That's the first step, and thanks for taking it. This reply is automatic, and it's the same one I build into client sites. (Consider this the demo!)
+>
+> The next reply is from me. I read every message myself and write back within one business day.
+>
+> If you'd rather talk, pick a time for a free 20-minute call.
+>
+> A bit about how I work. I learned to build software at big companies, and I've spent the last few years building it for small and medium businesses. So you get the testing and care a big company expects, sized to what your business actually needs. No fluff and no upselling. My goal is to get you the most value for your budget, and to make your tech the easy part of your week.
+>
+> If there's more you want me to know, reply to this email. It comes straight to me. Please leave out passwords and client details. Anything sensitive gets handled the right way, later.
+>
+> Talk soon,
+>
+> Grant Huston / Founder, Huston Logic / For the parts of the job you never signed up for / grant@hustonlogic.com | hustonlogic.com / Book a free 20-minute call: [scheduler link]
+>
+> Changed your mind? Reply "no thanks" and I won't write again.
 
 ---
 
@@ -1036,7 +1064,7 @@ This page doesn't exist, or it moved without telling anyone. (Ironic, I know.)
 ### B9. PRIVACY (short V1, review before launch)
 
 **Title:** Privacy Policy | Huston Logic
-Huston Logic ("I") collects only what you send through the contact form or scheduling tool (your name, email, what you need, your business name if you give it, and your message) and uses it to reply to you and to discuss potential work. You can also tell me the tools you use, your website and how you found me (all optional), and Cloudflare checks the form for bots, which briefly uses your IP address. The form sends you one automatic reply. I don't sell or share your information, except with the services that run this site (hosting, email delivery, a spreadsheet I own, and scheduling), which process it on my behalf. To have your information deleted, email info@hustonlogic.com. Last updated November 15, 2026.
+Huston Logic ("I") collects only what you send through the contact form or scheduling tool (your name, email, what you need, your business name if you give it, and your message) and uses it to reply to you and to discuss potential work. You can also tell me the tools you use, your website and how you found me (all optional), and Cloudflare checks the form for bots, which briefly uses your IP address. The form sends you one automatic reply. I don't sell or share your information, except with the services that run this site (hosting, email delivery, a spreadsheet I own, and scheduling), which process it on my behalf. To have your information deleted, email grant@hustonlogic.com. Last updated November 15, 2026.
 
 ---
 
@@ -1047,7 +1075,7 @@ Huston Logic ("I") collects only what you send through the contact form or sched
 - Tagline: Custom websites and workflows, from hello to handled.
 - Brand line: Grant Huston · Based in Southern California · Working with clients anywhere
 - Links: How I work · Websites · Workflows · Past work · About · Insights · Contact
-- info@hustonlogic.com · [LinkedIn](https://www.linkedin.com/in/granthuston/)
+- grant@hustonlogic.com · [LinkedIn](https://www.linkedin.com/in/granthuston/)
 - Zoho partners: need overflow help? (→ /contact?topic=partner)
 - Legal line (mono): Privacy · © 2026 Huston Logic
 
@@ -1339,7 +1367,7 @@ The site can be built and previewed with every placeholder in place. Each `[[…
 
 **Resolved (kept for the record)**
 - Name: **Huston Logic, final** (Nov 14; D41, superseding D32). One setting in `site.ts`.
-- Email: **info@hustonlogic.com**. Before launch it must receive mail, and the form's sending service must pass SPF, DKIM and DMARC (F).
+- Email: **grant@hustonlogic.com**. Before launch it must receive mail, and the form's sending service must pass SPF, DKIM and DMARC (F).
 - LinkedIn: **https://www.linkedin.com/in/granthuston/**.
 - Base price scope: **up to 7 pages** (D42).
 - Website payment terms: **50% to start, 50% at launch** (D42).

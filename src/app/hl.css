@@ -66,22 +66,22 @@
   /* §3 type scale. text-hero, text-h2-two, text-h2 and text-page-title carry the guide's clamp() sizes. */
   --text-hero: clamp(40px, 4.15vw, 60px);
   --text-hero--line-height: 1;
-  --text-hero--letter-spacing: -0.035em;
+  --text-hero--letter-spacing: -0.025em;
   --text-h2-two: clamp(32px, 3.5vw, 50px);
   --text-h2-two--line-height: 1.04;
-  --text-h2-two--letter-spacing: -0.035em;
+  --text-h2-two--letter-spacing: -0.025em;
   --text-h2: clamp(30px, 3vw, 44px);
   --text-h2--line-height: 1.08;
-  --text-h2--letter-spacing: -0.03em;
+  --text-h2--letter-spacing: -0.02em;
   --text-page-title: clamp(36px, 3.6vw, 52px);
   --text-page-title--line-height: 1.04;
-  --text-page-title--letter-spacing: -0.035em;
+  --text-page-title--letter-spacing: -0.025em;
   --text-h3: var(--hl-fs-h3);
   --text-h3--line-height: 1.1;
   --text-h3--letter-spacing: -0.03em;
   --text-step: var(--hl-fs-step);
   --text-step--line-height: 1.05;
-  --text-step--letter-spacing: -0.035em;
+  --text-step--letter-spacing: -0.025em;
   --text-item: var(--hl-fs-item);
   --text-item--line-height: 1.25;
   --text-item--letter-spacing: -0.01em;
@@ -127,6 +127,9 @@
   --font-text: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-voice: var(--font-newsreader), Georgia, serif;
 }
+
+/* `short:` short viewports (a small phone with the browser bars showing). Used by /card, which must fit one screen. */
+@custom-variant short (@media (max-height: 640px));
 
 @layer components {
   /* The mobile menu (HeaderNav): grid rows animate from 0fr to 1fr. Opening takes --duration-panel and closing
@@ -223,7 +226,7 @@
     flex-direction: column;
     align-items: flex-start;
     height: 100%;
-    min-height: 300px;
+    min-height: 260px;
     padding: 40px 48px 36px 44px;
     background: linear-gradient(100deg, #fff, #f7f9f8);
     border: 1px solid rgba(41, 51, 45, 0.12);
@@ -243,6 +246,14 @@
     margin-top: -6px;
     border-radius: 50%;
     background: var(--hl-rust);
+  }
+
+  /* The leaf's button stretches its hit area over the whole leaf. The link itself is not positioned, so this
+     pseudo-element sizes against the leaf. */
+  .hl-leaf > a::before {
+    content: "";
+    position: absolute;
+    inset: 0;
   }
 
   .hl-door:is(:hover, :focus-within) .hl-leaf {
@@ -440,7 +451,7 @@
   .hl-chip {
     position: absolute;
     left: -44px;
-    top: 318px;
+    top: 350px;
     z-index: 3;
     display: flex;
     align-items: center;
@@ -688,7 +699,7 @@
     font-size: var(--hl-fs-step);
     font-weight: 700;
     line-height: 1.05;
-    letter-spacing: -0.035em;
+    letter-spacing: -0.025em;
   }
 
   .hl-tx p {
@@ -770,7 +781,7 @@
   }
 
   .hl-leaf::after {
-    right: 16px;
+    display: none;
   }
 
   .hl-door:is(:hover, :focus-within) .hl-leaf {
@@ -957,6 +968,43 @@
   }
 }
 
+/* ---- Brand art (src/components/illustrations/BrandArt.tsx) ---- */
+
+/* The 1.75 stroke stays 1.75px at every size, like the step icons (§8). */
+.hl-art :is(path, circle, rect) {
+  vector-effect: non-scaling-stroke;
+}
+
+/* A one-time draw-in where a drawing sets `draw` (InViewOnce marks it data-played). Every shape has pathLength 1, so
+   one dash length fits them all; fills fade in after the strokes. Gated by html.js and reduced motion like the arc, so
+   without JS, or with reduced motion, the finished drawing shows at once. */
+@keyframes hl-art-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+}
+
+@keyframes hl-art-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html.js .hl-art-draw:not([data-played]) [data-draw] {
+    opacity: 0;
+  }
+
+  .hl-art-draw[data-played] [data-draw="stroke"] {
+    stroke-dasharray: 1;
+    animation: hl-art-draw 1.1s var(--hl-ease) 0.1s both;
+  }
+
+  .hl-art-draw[data-played] [data-draw="fill"] {
+    animation: hl-art-fade 0.5s ease-out 0.7s both;
+  }
+}
+
 /* ---- Home responsive (§10) ---- */
 @media (max-width: 1100px) {
   .hl-hero-grid {
@@ -1084,7 +1132,7 @@
   }
 }
 
-/* §9.1 #9: "Say hello" jumps to the band with the browser's own smooth scroll. Reduced motion keeps it instant
+/* §9.1 #9: in-page anchor links (such as /services#websites) use the browser's own smooth scroll. Reduced motion keeps it instant
    (the reduced-motion block below forces scroll-behavior: auto). */
 @media (prefers-reduced-motion: no-preference) {
   html {

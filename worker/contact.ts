@@ -18,8 +18,12 @@ const MAX_BODY_BYTES = 16 * 1024;
 const MAX_TOKEN_LENGTH = 2048;
 const TOKEN_KEY = "turnstileToken";
 const ALLOWED_KEYS = new Set<string>([...contactKeys, honeypot.name, TOKEN_KEY]);
-const SITE_EMAIL = providers.email ?? "info@hustonlogic.com";
+const SITE_EMAIL = providers.email ?? "grant@hustonlogic.com";
 const FROM = `Huston Logic <${SITE_EMAIL}>`;
+const REPLY_FROM = `Grant Huston <${SITE_EMAIL}>`;
+const REPLY_HEADERS = { "Auto-Submitted": "auto-replied", "X-Auto-Response-Suppress": "All" };
+// Used only if providers.schedulerUrl is null. A fixed address, never built from the request, so preview and production match.
+const BOOKING_FALLBACK = "https://hustonlogic.com/contact#book";
 
 /** What the form reads. `error` picks the message; `fields` lists the Rev 7.1 field errors. */
 type ApiBody = { ok: true; autoReply: boolean } | { ok: false; error: "invalid" | "rejected" | "rate_limited" | "failed"; fields?: string[] };
@@ -166,10 +170,9 @@ async function handleContact(request: Request, env: ContactEnv, url: URL): Promi
   }
   if (!notified) log("notify_failed_sheet_saved");
 
-  const schedulerLink = providers.schedulerUrl ?? `${url.origin}/contact#book`;
-  const reply = autoReplyEmail(submission, mode, schedulerLink);
+  const reply = autoReplyEmail(submission, mode, providers.schedulerUrl ?? BOOKING_FALLBACK);
   const recipient = mode === "production" ? submission.email : SITE_EMAIL;
-  const autoReplied = await sendEmail(env.RESEND_API_KEY, { from: FROM, to: recipient, replyTo: SITE_EMAIL, ...reply }, `${id}-reply`, "auto_reply");
+  const autoReplied = await sendEmail(env.RESEND_API_KEY, { from: REPLY_FROM, to: recipient, replyTo: SITE_EMAIL, headers: REPLY_HEADERS, ...reply }, `${id}-reply`, "auto_reply");
   if (!autoReplied) log("auto_reply_failed");
 
   return json(200, { ok: true, autoReply: autoReplied });

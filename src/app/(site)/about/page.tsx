@@ -33,7 +33,7 @@ export default function AboutPage() {
 
       <section aria-labelledby="short-title" className={section}>
         <Container className="grid items-center gap-10 md:grid-cols-[320px_1fr] md:gap-16">
-          <RingHeadshot className="max-w-[210px] md:max-w-none" />
+          <RingHeadshot eager className="max-w-[210px] md:max-w-none" />
           <div>
             <h2 id="short-title" className={h2}>
               {s.shortVersion.heading}
