@@ -48,7 +48,7 @@ export default function SystemsPage() {
             <TalkPairs pairs={installing.pairs} />
           </div>
           <div className="mt-10">
-            <PhoneScreens screens={screens} label={installing.screensLabel} />
+            <PhoneScreens screens={screens} label={installing.screensLabel} note={installing.screensNote} />
           </div>
         </Container>
       </section>

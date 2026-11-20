@@ -10,6 +10,7 @@ Permanent architecture, security and content rules are in [`AGENTS.md`](./AGENTS
 |---|---|
 | `/` | Home |
 | `/services` | Services (Websites, Care, FAQ) |
+| `/how-i-work` | How I work (the three steps) |
 | `/systems` | Systems (personal software for a business) |
 | `/past-work` | Past Work and testimonials |
 | `/about` | About Grant |
@@ -267,9 +268,9 @@ If a production build itself fails, nothing is deployed and the old version stay
 - [ ] Privacy policy checked against the tools actually used
 - [ ] Screenshots supplied with names blurred (or placeholders removed)
 - [ ] Submit `sitemap.xml` to Google Search Console
-- [ ] Decisions confirmed in `decisionsConfirmed`: Review price (default: none), geometric framework icons
-- [ ] Framework wording matches everywhere: three steps (step zero is the call, not a fourth step), 20-minute call, reply within one business day, 14-day correction window, "5/5 handoff & training" and "3 of 3", 21 client accounts, Review fee credited toward the fix, the stop-point line on Home and Services
-- [ ] Final claims check: no prices (unless the Review price is published), no "Uncarved Dream", no real client data in images, no "we/our team"
+- [ ] Decisions confirmed in `decisionsConfirmed`: the line-art style (`lineArtStyle`)
+- [ ] Framework wording matches everywhere: three steps (step zero is the call, not a fourth step), 20-minute call, reply within one business day, small changes and fixes for six weeks after a website launch, 30 days of tuning for a system, "5/5 handoff & training" and "3 of 3", 21 client accounts
+- [ ] Final claims check: no price anywhere on the site or in structured data, no Workflow Review, no "Uncarved Dream", no real client data in images, no "we/our team"
 
 ## Project structure
 

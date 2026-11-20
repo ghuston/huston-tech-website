@@ -62,7 +62,7 @@ export default function HomePage() {
             <TalkPairs pairs={installing.pairs} />
           </div>
           <div className="mt-8 lg:mt-9 xl:mt-0">
-            <PhoneScreens screens={installing.screens} label={installing.screensLabel} fluid />
+            <PhoneScreens screens={installing.screens} label={installing.screensLabel} note={installing.screensNote} fluid />
           </div>
           <div className="mt-6 lg:mt-8 xl:mt-6">
             <p className="max-w-[60ch] text-body">{installing.line}</p>

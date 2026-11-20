@@ -69,6 +69,8 @@ export const installing = {
   screens: [appScreens.today, appScreens.pipeline, appScreens.brief],
   /** Approved interface string: the accessible name of the screenshots' swipe row. */
   screensLabel: "App screens, demo data",
+  /** The visible line under the screenshots (AGENTS.md: mocked screenshots are labelled "Demo data"). */
+  screensNote: "Demo data",
   line: "I set it up in your own accounts and tune it for 30 days. After that it's yours, whether or not you keep me around.",
   link: { label: "See how the install works →", href: "/systems" },
 };
@@ -145,8 +147,6 @@ export const aboutTeaser = {
   heading: "Hi, I'm Grant.",
   body: "I've spent my career where software meets business, as an application developer, business analyst and software consultant. I started Huston Logic to bring small businesses into the AI age, one useful system at a time.",
   link: { label: "More about me →", href: "/about" },
-  /** Alt text for the ring headshot (docs/STYLE-GUIDE.md §7.22). */
-  photoAlt: "Grant Huston",
 };
 
 /** B1 section 7. */

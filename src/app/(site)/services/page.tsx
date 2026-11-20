@@ -44,7 +44,7 @@ function ServiceBlock({ item }: { item: ServiceItem }) {
   );
 }
 
-/** Services, in the order of docs/website-plan.md B3 (Revision 8): H1, then one H2 per section; the bold labels in the copy are H3s and H4s. */
+/** Services, in the order of docs/website-rev8.md B3: H1, then one H2 per section; the bold labels in the copy are H3s and H4s. */
 export default function ServicesPage() {
   const [quote] = getTestimonials("services");
 

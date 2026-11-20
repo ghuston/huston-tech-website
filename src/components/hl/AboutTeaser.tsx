@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { InViewOnce } from "@/components/ui/InViewOnce";
-import { aboutTeaser } from "@/content/home";
+import { siteConfig } from "@/content/site";
 import { Container } from "./Container";
 import { RingWithDot } from "./Marks";
 import { TextLink } from "./TextLink";
@@ -25,7 +25,7 @@ export function RingHeadshot({
     <>
       <Image
         src="/brand/grant-huston.webp"
-        alt={aboutTeaser.photoAlt}
+        alt={siteConfig.headshotAlt}
         width={560}
         height={560}
         unoptimized

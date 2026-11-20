@@ -961,6 +961,52 @@
   }
 }
 
+/* Failsafe for the gated start frames above: if the script that sets `data-played` never runs (a failed chunk, say), the
+   end state still arrives after 4s. A delayed, zero-length animation with `forwards` holds the resting value; once
+   `data-played` is set the start-frame rules stop matching, so the real moment plays from its first frame. Every resting
+   transform here is `none`. */
+@keyframes hl-failsafe-fade {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes hl-failsafe-rest {
+  to {
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html.js .hl-pairs:not([data-played]) :is(.hl-bubble, [data-tick]),
+  html.js .hl-track:not([data-played]) [data-tick],
+  html.js .hl-chips:not([data-played]) [data-chip],
+  html.js .hl-art-draw:not([data-played]) [data-draw] {
+    animation: hl-failsafe-fade 0s 4s forwards;
+  }
+
+  html.js .hl-track:not([data-played]) .hl-track-run,
+  html.js .hl-about-ring:not([data-played]) .hl-about-dot {
+    animation: hl-failsafe-rest 0s 4s forwards;
+  }
+}
+
+/* Print shows every gated element finished. */
+@media print {
+  html.js .hl-pairs:not([data-played]) :is(.hl-bubble, [data-tick]),
+  html.js .hl-track:not([data-played]) [data-tick],
+  html.js .hl-chips:not([data-played]) [data-chip],
+  html.js .hl-art-draw:not([data-played]) [data-draw] {
+    opacity: 1 !important;
+    stroke-dashoffset: 0 !important;
+  }
+
+  html.js .hl-track:not([data-played]) .hl-track-run,
+  html.js .hl-about-ring:not([data-played]) .hl-about-dot {
+    transform: none !important;
+  }
+}
+
 /* Doors on phones, which do not swing on hover: each door observes itself (Door), and its leaf opens 8deg once and
    settles when half the door is in view. The second keeps a 150ms lag, so when both arrive together they stagger. The
    frame keeps its perspective, so it reads as a door. Desktop keeps the hover and focus swing (§9.1 #4). */

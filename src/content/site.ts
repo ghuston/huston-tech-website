@@ -9,6 +9,8 @@ export const siteConfig = {
     "I build websites and AI-run systems for small businesses, starting with sales follow-up you run by talking. Checked the way a big software team would. Yours when I'm done.",
   copyrightYear: 2026,
   /** Footer and bios (docs/website-rev8.md, Section A). */
+  /** The About headshot's alt text. */
+  headshotAlt: "Grant Huston",
   tagline: "Personal websites and software.",
   footerBrandLine: "Grant Huston · Based in Southern California · Working with clients anywhere",
   /** Provider-dependent values, set in `providers.ts`. */
@@ -84,5 +86,4 @@ export const decisionsConfirmed = {
 } as const;
 
 export const bookCallLabel = "Book a free 20-minute call";
-export const bookCallShortLabel = "Book a free call";
 export const SCHEDULER_FALLBACK_HREF = "/contact#book";
