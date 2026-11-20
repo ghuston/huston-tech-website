@@ -21,6 +21,8 @@ export function InViewOnce({ as: Tag = "div", className, threshold = 0.1, childr
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
+    // Tells hl.css the script is alive, which disarms its 4s failsafe (see "Failsafe" in hl.css).
+    document.documentElement.classList.add("hl-live");
     if (typeof IntersectionObserver === "undefined") {
       el.dataset.played = "true";
       return;

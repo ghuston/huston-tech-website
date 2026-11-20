@@ -8,9 +8,9 @@ export const siteConfig = {
   oneLiner:
     "I build websites and AI-run systems for small businesses, starting with sales follow-up you run by talking. Checked the way a big software team would. Yours when I'm done.",
   copyrightYear: 2026,
-  /** Footer and bios (docs/website-rev8.md, Section A). */
   /** The About headshot's alt text. */
   headshotAlt: "Grant Huston",
+  /** Footer and bios (docs/website-rev8.md, Section A). */
   tagline: "Personal websites and software.",
   footerBrandLine: "Grant Huston · Based in Southern California · Working with clients anywhere",
   /** Provider-dependent values, set in `providers.ts`. */

@@ -964,7 +964,8 @@
 /* Failsafe for the gated start frames above: if the script that sets `data-played` never runs (a failed chunk, say), the
    end state still arrives after 4s. A delayed, zero-length animation with `forwards` holds the resting value; once
    `data-played` is set the start-frame rules stop matching, so the real moment plays from its first frame. Every resting
-   transform here is `none`. */
+   transform here is `none`. It is armed only while no InViewOnce has mounted: InViewOnce adds `hl-live` to <html> on
+   hydration, so on a working page the failsafe never matches and cannot pre-empt a moment. */
 @keyframes hl-failsafe-fade {
   to {
     opacity: 1;
@@ -978,15 +979,15 @@
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  html.js .hl-pairs:not([data-played]) :is(.hl-bubble, [data-tick]),
-  html.js .hl-track:not([data-played]) [data-tick],
-  html.js .hl-chips:not([data-played]) [data-chip],
-  html.js .hl-art-draw:not([data-played]) [data-draw] {
+  html.js:not(.hl-live) .hl-pairs:not([data-played]) :is(.hl-bubble, [data-tick]),
+  html.js:not(.hl-live) .hl-track:not([data-played]) [data-tick],
+  html.js:not(.hl-live) .hl-chips:not([data-played]) [data-chip],
+  html.js:not(.hl-live) .hl-art-draw:not([data-played]) [data-draw] {
     animation: hl-failsafe-fade 0s 4s forwards;
   }
 
-  html.js .hl-track:not([data-played]) .hl-track-run,
-  html.js .hl-about-ring:not([data-played]) .hl-about-dot {
+  html.js:not(.hl-live) .hl-track:not([data-played]) .hl-track-run,
+  html.js:not(.hl-live) .hl-about-ring:not([data-played]) .hl-about-dot {
     animation: hl-failsafe-rest 0s 4s forwards;
   }
 }
