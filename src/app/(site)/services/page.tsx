@@ -9,21 +9,19 @@ import { PageHero } from "@/components/hl/PageHero";
 import { SectionNav } from "@/components/hl/SectionNav";
 import { TestimonialRow } from "@/components/hl/TestimonialRow";
 import { TextLink } from "@/components/hl/TextLink";
-import { ArtAside, ReviewRingArt, SiteFramesArt } from "@/components/illustrations/BrandArt";
+import { ArtAside, SiteFramesArt } from "@/components/illustrations/BrandArt";
 import { bookCallHref } from "@/components/ui/BookCallButton";
 import { Text } from "@/components/ui/Text";
 import {
   care,
   everyProject,
   faq,
-  platforms,
   servicesClosingCta,
   servicesHero,
   servicesMeta,
   subNav,
   websites,
   whatIDontDo,
-  workflows,
   type ServiceItem,
 } from "@/content/services";
 import { getTestimonials } from "@/content/testimonials";
@@ -33,37 +31,22 @@ export const metadata: Metadata = pageMetadata({ ...servicesMeta, path: "/servic
 
 const h2 = "font-ui text-h2 font-bold";
 const h3 = "font-ui text-[28px] font-bold leading-tight tracking-[-0.03em]";
-const h4 = "font-ui text-item font-semibold";
 const section = "scroll-mt-12 py-12 md:py-16";
 
-function ServiceBlock({ item, goodFitLabel, headingLevel }: { item: ServiceItem; goodFitLabel?: string; headingLevel: 3 | 4 }) {
-  const Heading = headingLevel === 3 ? "h3" : "h4";
+function ServiceBlock({ item }: { item: ServiceItem }) {
   return (
-    <div id={item.id} className="scroll-mt-12 max-w-[64ch]">
-      <Heading className={headingLevel === 3 ? h3 : h4}>{item.title}</Heading>
-      {item.tagline ? <p className="mt-2 text-[17px] italic text-ink-2">{item.tagline}</p> : null}
+    <div className="max-w-[64ch]">
+      <h3 className={h3}>{item.title}</h3>
       <p className="mt-3 text-[17px] leading-[1.55]">
         <Text>{item.paragraph}</Text>
       </p>
-      {item.goodFit ? (
-        <p className="mt-3 text-[17px] leading-[1.55]">
-          <span className="font-ui font-semibold text-green">{goodFitLabel}</span> {item.goodFit}
-        </p>
-      ) : null}
-      {item.afterFit ? (
-        <p className="mt-3 text-[17px] leading-[1.55]">
-          <em>{item.afterFit.em}</em>
-          {item.afterFit.text ? ` ${item.afterFit.text}` : null}
-        </p>
-      ) : null}
     </div>
   );
 }
 
-/** Services, in the order of docs/website-plan.md B2 (Revision 7.1): H1, then one H2 per section; the bold labels in the copy are H3s and H4s. */
+/** Services, in the order of docs/website-plan.md B3 (Revision 8): H1, then one H2 per section; the bold labels in the copy are H3s and H4s. */
 export default function ServicesPage() {
   const [quote] = getTestimonials("services");
-  const { review, commonFixes, systemsWork } = workflows;
 
   return (
     <div className="relative overflow-x-clip">
@@ -111,54 +94,6 @@ export default function ServicesPage() {
         </Container>
       </section>
 
-      <section id="workflows" aria-labelledby="workflows-title" className={section}>
-        <Container>
-          <FadingDivider className="mb-12 md:mb-16" />
-          {/* Static: the Websites drawing above is this page's one draw-in. */}
-          <ArtAside art={<ReviewRingArt />}>
-            <h2 id="workflows-title" className={h2}>
-              {workflows.heading}
-            </h2>
-            <p className="mt-5 max-w-[60ch] text-body">{workflows.intro}</p>
-
-            <h3 className={`${h3} mt-10`}>{review.heading}</h3>
-            <p className="mt-2 text-[17px] italic text-ink-2">{review.aside}</p>
-            <p className="mt-4 max-w-[64ch] text-[17px] leading-[1.55]">{review.intro}</p>
-            <DotList items={review.items} className="mt-4 max-w-[64ch]" />
-            <div className="mt-6 max-w-[64ch] rounded-card bg-tint px-5 py-[18px] text-[17px] leading-[1.55]">
-              <span className="font-ui font-semibold text-green">{review.stop.lead}</span> {review.stop.body}
-            </div>
-            <div className="mt-8">
-              <Button href={review.cta.href}>{review.cta.label}</Button>
-            </div>
-          </ArtAside>
-
-          <h3 id="fixes" className={`${h3} mt-20 scroll-mt-12`}>
-            {commonFixes.heading}
-          </h3>
-          <div className="mt-8">
-            {commonFixes.items.map((item, index) => (
-              <div key={item.title}>
-                {index > 0 ? <FadingDivider className="my-12" /> : null}
-                <ServiceBlock item={item} goodFitLabel={commonFixes.goodFitLabel} headingLevel={4} />
-              </div>
-            ))}
-          </div>
-
-          <h3 id="systems" className={`${h3} mt-20 scroll-mt-12`}>
-            {systemsWork.heading}
-          </h3>
-          <div className="mt-8">
-            {systemsWork.items.map((item, index) => (
-              <div key={item.title}>
-                {index > 0 ? <FadingDivider className="my-12" /> : null}
-                <ServiceBlock item={item} headingLevel={4} />
-              </div>
-            ))}
-          </div>
-        </Container>
-      </section>
-
       <section id="care" aria-labelledby="care-title" className={section}>
         <Container>
           <FadingDivider className="mb-12 md:mb-16" />
@@ -169,7 +104,7 @@ export default function ServicesPage() {
             {care.items.map((item, index) => (
               <div key={item.title}>
                 {index > 0 ? <FadingDivider className="my-12" /> : null}
-                <ServiceBlock item={item} headingLevel={3} />
+                <ServiceBlock item={item} />
               </div>
             ))}
           </div>
@@ -196,18 +131,6 @@ export default function ServicesPage() {
               <TestimonialRow testimonials={[quote]} />
             </div>
           ) : null}
-        </Container>
-      </section>
-
-      <section aria-labelledby="platforms-title" className={section}>
-        <Container>
-          <FadingDivider className="mb-12 md:mb-16" />
-          <h2 id="platforms-title" className={h2}>
-            {platforms.heading}
-          </h2>
-          <p className="mt-5 max-w-[64ch] text-body">
-            <Text>{platforms.body}</Text>
-          </p>
         </Container>
       </section>
 

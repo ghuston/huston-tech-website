@@ -167,21 +167,6 @@ export function SiteFramesArt(props: ArtProps) {
   );
 }
 
-/** The Workflow Review: a tangled line goes into the ring and comes out straight, with three stations on it. */
-export function ReviewRingArt(props: ArtProps) {
-  return (
-    <Art viewBox="0 0 320 200" {...props}>
-      <path d="M14 118 C20 48 70 36 66 90 C62 142 20 140 34 94 C48 50 96 54 110 100 H114" {...stroke} />
-      <path d="M191.37 66.36 A46 46 0 1 1 173.45 56.01" {...stroke} />
-      <circle cx="183" cy="60.16" r="5" fill={RUST} stroke="none" {...fill} />
-      <path d="M206 100 H306" {...stroke} />
-      <Disc cx={236} cy={100} r={7} />
-      <Disc cx={268} cy={100} r={7} />
-      <Disc cx={300} cy={100} r={7} />
-    </Art>
-  );
-}
-
 type ArtAsideProps = {
   /** The drawing. */
   art: ReactNode;
