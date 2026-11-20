@@ -2,7 +2,7 @@
 // all read it, so a new page added here is listed for search engines and scanned by CI.
 // No imports and no TypeScript-only syntax (enums, path aliases): Playwright and plain Node (type stripping) load it directly.
 
-export const indexableRoutes = ["/", "/how-i-work", "/services", "/past-work", "/about", "/insights", "/contact", "/privacy"];
+export const indexableRoutes = ["/", "/systems", "/how-i-work", "/services", "/past-work", "/about", "/insights", "/contact", "/privacy"];
 
 /** Real pages that stay out of the sitemap (noindex). */
 export const noindexRoutes = ["/contact/thanks", "/card"];
