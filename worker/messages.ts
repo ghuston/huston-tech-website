@@ -4,9 +4,8 @@ import type { ContactSubmission } from "../src/lib/contact-validation.ts";
 import { autoReplyFirstName } from "../src/lib/first-name.ts";
 import type { Mode } from "./env.ts";
 
-/** "A website", "Help with a workflow", ... or "Zoho partner" for the partner variant (it has no need field). */
+/** The need's label from `needOptions`: "A website", "An AI system for my business", ... */
 export function needLabel(submission: ContactSubmission): string {
-  if (submission.topic === "partner") return "Zoho partner";
   return needOptions.find((option) => option.value === submission.need)?.label ?? "";
 }
 

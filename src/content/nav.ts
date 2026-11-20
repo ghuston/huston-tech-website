@@ -1,31 +1,23 @@
 export type NavItem = { label: string; href: string };
 
-/**
- * Revision 7.1 navigation (docs/website-plan.md, A7 and B10). The Websites and Workflows links point at anchors on
- * /services, and Say hello at the Contact page.
- */
+/** Revision 8 navigation (docs/website-rev8.md, Section A). Say hello jumps to the doors on Home. */
 export const headerNav: NavItem[] = [
   { label: "How I work", href: "/how-i-work" },
   { label: "Websites", href: "/services#websites" },
-  { label: "Workflows", href: "/services#workflows" },
+  { label: "Systems", href: "/systems" },
   { label: "Past work", href: "/past-work" },
   { label: "About", href: "/about" },
-  { label: "Say hello →", href: "/contact" },
+  { label: "Say hello ↘", href: "/#hello" },
 ];
 
 export const footerLinks: NavItem[] = [
   { label: "How I work", href: "/how-i-work" },
   { label: "Websites", href: "/services#websites" },
-  { label: "Workflows", href: "/services#workflows" },
+  { label: "Systems", href: "/systems" },
   { label: "Past work", href: "/past-work" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
 ];
-
-export const partnerLink: NavItem = {
-  label: "Zoho partners: need overflow help?",
-  href: "/contact?topic=partner",
-};
 
 export const privacyLink: NavItem = { label: "Privacy", href: "/privacy" };
 

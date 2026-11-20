@@ -154,7 +154,7 @@ async function handleContact(request: Request, env: ContactEnv, url: URL): Promi
 
   const receivedAt = new Date().toISOString();
   if (mode === "development") {
-    log("dry_run", { messageLength: submission.message.length, partner: submission.topic === "partner" });
+    log("dry_run", { messageLength: submission.message.length });
     return json(200, { ok: true, autoReply: true });
   }
 

@@ -8,6 +8,7 @@ import type { ContactEnv } from "./env.ts";
 import { resolveMode } from "./env.ts";
 import { resetTokenCache, safeCell, signAssertion } from "./sheets.ts";
 import { firstName } from "../src/lib/first-name.ts";
+import { topicFromUrl } from "../src/content/contact-fields.ts";
 import { validateContact } from "../src/lib/contact-validation.ts";
 
 type Call = { url: string; init: RequestInit; json: Record<string, unknown> | null };
@@ -331,10 +332,29 @@ describe("a good submission in production", () => {
     });
   });
 
-  test("the partner variant needs no need field", async () => {
-    const response = await worker.fetch(post({ ...valid, need: "", topic: "partner" }), env());
+  test('topic "workflow" is accepted and stored as "system"', async () => {
+    const response = await worker.fetch(post({ ...valid, topic: "workflow" }), env());
     assert.equal(response.status, 200);
-    assert.equal(called("notify")[0].json?.subject, `New note: Zoho partner from ${VISITOR.name}`);
+    const row = (called("sheets")[0].json?.values as string[][])[0];
+    assert.equal(row[2], "system");
+  });
+
+  test('need "workflow" is accepted and labelled "An AI system for my business"', async () => {
+    const response = await worker.fetch(post({ ...valid, need: "workflow" }), env());
+    assert.equal(response.status, 200);
+    assert.equal(called("notify")[0].json?.subject, `New note: An AI system for my business from ${VISITOR.name}`);
+  });
+
+  test('topic "partner" is rejected as malformed (400)', async () => {
+    const response = await worker.fetch(post({ ...valid, need: "", topic: "partner" }), env());
+    assert.equal(response.status, 400);
+    assert.equal(called("notify").length, 0);
+  });
+
+  test("need is required even when topic is set", async () => {
+    const response = await worker.fetch(post({ ...valid, need: "", topic: "system" }), env());
+    assert.equal(response.status, 400);
+    assert.deepEqual((await bodyOf(response)).fields, ["need"]);
   });
 
   test("a name that isn't a name gets no greeting name", async () => {
@@ -457,6 +477,14 @@ describe("shared helpers", () => {
     assert.equal(firstName("http://x"), "");
     assert.equal(firstName("R2D2"), "");
     assert.equal(firstName(""), "");
+  });
+
+  test("topicFromUrl maps the old and invalid topics", () => {
+    assert.equal(topicFromUrl("workflow"), "system");
+    assert.equal(topicFromUrl("partner"), "");
+    assert.equal(topicFromUrl(null), "");
+    assert.equal(topicFromUrl("website"), "website");
+    assert.equal(topicFromUrl("system"), "system");
   });
 
   test("safeCell", () => {

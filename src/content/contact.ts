@@ -24,7 +24,6 @@ export const scheduler = {
 
 export const noteForm = {
   heading: "Or send a quick note",
-  partnerHeading: "Zoho partner? Tell me about the work and your timeline.",
   needLegend: "What do you need?",
   needOptions,
   name: { label: "Your name" },
@@ -34,7 +33,7 @@ export const noteForm = {
     label: "What's going on?",
     placeholders: {
       website: "e.g. A site for my business with a services page and a booking form.",
-      workflow: "e.g. New inquiries come in from three places and nobody's sure who follows up.",
+      system: "e.g. New inquiries come in from three places and nobody's sure who follows up.",
       other: "e.g. Our site is old, and inquiries from it get lost.",
     },
   },
@@ -42,7 +41,7 @@ export const noteForm = {
     label: "What do you use today?",
     placeholders: {
       website: "e.g. A Facebook page, an old site, or nothing yet.",
-      workflow: "e.g. SimplePractice, QuickBooks, Google Sheets, Zoho… or 'not sure'.",
+      system: "e.g. SimplePractice, QuickBooks, Google Sheets, Zoho… or 'not sure'.",
       other: "e.g. A Facebook page, an old site, or nothing yet.",
     },
   },

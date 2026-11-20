@@ -10,10 +10,10 @@ import { KNOWN_ISSUES } from "./known-issues";
 const TAGS = ["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa", "best-practice"];
 
 const NOT_FOUND_PATH = "/this-page-does-not-exist";
-// Rendered differently in the browser (PartnerAwareHeading), so it is scanned as its own page.
-const PARTNER_VARIANT = "/contact?topic=partner";
+// Rendered differently in the browser (ContactForm preselecting a need from ?topic=), so it is scanned as its own page.
+const TOPIC_VARIANT = "/contact?topic=system";
 
-const pages = [...indexableRoutes, ...noindexRoutes, PARTNER_VARIANT, NOT_FOUND_PATH];
+const pages = [...indexableRoutes, ...noindexRoutes, TOPIC_VARIANT, NOT_FOUND_PATH];
 
 type Violation = Awaited<ReturnType<AxeBuilder["analyze"]>>["violations"][number];
 
