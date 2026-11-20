@@ -10,7 +10,10 @@
 //   - --no-verify on git commands: it skips the safety checks
 //   - gh pr merge (even with gh's global flags like -R owner/repo) and merging
 //     through gh api (pulls/<n>/merge, mergePullRequest, enablePullRequestAutoMerge):
-//     the repo owner merges, never Claude
+//     the repo owner merges, never Claude. The one exception is
+//     `gh pr merge <number> --auto --squash` (or `--auto --merge`): --auto only queues the
+//     merge until the ruleset's required checks pass. --admin, a merge without --auto,
+//     --rebase, --delete-branch and any other option stay blocked.
 //   - wrangler deploy / publish (also via npx, or an npm script that runs them):
 //     deploys happen only by merging to main
 //   - rm -r / rm -rf unless every target is a scratch folder or a build folder
@@ -23,9 +26,10 @@
 //     FROM those paths (for example into the scratchpad) is fine.
 //   Anything it cannot parse is also blocked ("fail closed").
 //
-// WHAT IT ASKS ABOUT (pauses for the owner to approve):
-//   - Bash commands that write to .gitignore, CLAUDE.md, AGENTS.md, package.json or
-//     wrangler.jsonc, the same list Hook 3 asks about for the Edit and Write tools.
+// WHAT IT NO LONGER ASKS ABOUT:
+//   - Bash writes to .gitignore, CLAUDE.md, AGENTS.md, package.json and wrangler.jsonc used to pause for
+//     approval. They no longer do (owner decision, Nov 18); GitHub's required checks and review are the gate.
+//     Every block above, including the owner-only paths, is unchanged.
 //
 // It never says "allow", so it can only make things stricter than the
 // permission rules already are.
@@ -33,7 +37,6 @@
 import path from "node:path";
 import {
   PROTECTED_BRANCHES,
-  ask,
   baseName,
   block,
   blockOwnerOnly,
@@ -80,6 +83,23 @@ function ghPositionals(args) {
     else if (!a.startsWith("-")) out.push(a);
   }
   return out;
+}
+
+// True only for `gh pr merge <number> --auto --squash` or `--auto --merge` (gh's -R/--repo allowed, any order).
+// The PR must be a plain number, and --auto plus exactly one of --squash/--merge must be the only options:
+// --admin, --rebase, --delete-branch, --body, --subject, a missing --auto, a branch name or a value built from a
+// variable or substitution all return false, so the caller blocks them.
+function isAutoMerge(args) {
+  const targets = ghPositionals(args).slice(2);
+  if (targets.length !== 1 || !/^\d+$/.test(targets[0])) return false;
+  const flags = [];
+  for (let i = 0; i < args.length; i++) {
+    const a = args[i];
+    if (a === "-R" || a === "--repo") i++;
+    else if (a.startsWith("--repo=")) continue;
+    else if (a.startsWith("-")) flags.push(a);
+  }
+  return flags.length === 2 && flags.includes("--auto") && flags.includes("--squash") !== flags.includes("--merge");
 }
 
 // True if a gh api argument merges a PR: REST pulls/<n>/merge (any method), or the
@@ -229,11 +249,17 @@ guard("guard-bash", (input) => {
   for (let i = 0; i < cmds.length; i++) {
     const c = cmds[i];
 
-    // 5. The owner merges: gh pr merge, and merging through gh api.
+    // 5. The owner merges: gh pr merge, and merging through gh api. The one exception is
+    //    `gh pr merge <number> --auto --squash|--merge`, which only queues a merge behind the required checks.
     if (c.prog === "gh") {
       const sub = ghPositionals(c.args);
-      if (sub[0] === "pr" && sub[1] === "merge") {
-        block("Blocked: gh pr merge. The repo owner merges pull requests. Do this instead: tell the owner the PR is ready and link it.");
+      if (sub[0] === "pr" && sub[1] === "merge" && !isAutoMerge(c.args)) {
+        block(
+          "Blocked: gh pr merge. The repo owner merges pull requests; the only form allowed is " +
+            "`gh pr merge <number> --auto --squash` (or `--auto --merge`), which waits for the required checks. " +
+            "--admin, a merge without --auto and every other option are blocked. " +
+            "Do this instead: use exactly that form, or tell the owner the PR is ready and link it.",
+        );
       }
       if (sub[0] === "api" && c.args.some(mergesViaApi)) {
         block(
@@ -290,9 +316,8 @@ guard("guard-bash", (input) => {
     }
   }
 
-  // 10. Writes to protected files through Bash: owner-only paths are blocked, the rest ask.
+  // 10. Writes to owner-only paths through Bash are blocked. (The "ask" files no longer prompt.)
   const denied = new Set();
-  const touched = new Set();
   for (const c of cmds) {
     const redirects = c.words.some((w) => /^[0-9]*>/.test(w));
     const writes =
@@ -308,14 +333,8 @@ guard("guard-bash", (input) => {
       const target = stripRedirect(w).replace(/^of=/, "");
       if (!target || isDynamic(target) || target.startsWith("-")) continue;
       const hit = protectionOf(path.resolve(cwd, target), projectDir);
-      if (hit) (hit.level === "deny" ? denied : touched).add(hit.path);
+      if (hit?.level === "deny") denied.add(hit.path);
     }
   }
   if (denied.size) blockOwnerOnly([...denied].join(", "));
-  if (touched.size) {
-    ask(
-      `This Bash command writes to protected file(s): ${[...touched].join(", ")}. ` +
-        "These control safety rules, deploys or Claude's behavior. Approve only if you asked for this change.",
-    );
-  }
 });

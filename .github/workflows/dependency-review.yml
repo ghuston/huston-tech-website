@@ -1,8 +1,8 @@
 name: Dependency review
 
 # Fails a pull request that adds or changes a dependency to a version with a known vulnerability.
-# Informational for now: `dependency-review` is NOT a required check in the "Protect main" ruleset.
-# Make it required after 5 clean runs (see README). No `paths:` filter and no `if:`: a skipped
+# A required check in the "Protect main" ruleset, so a red result blocks merge.
+# No `paths:` filter and no `if:`: a skipped
 # required check would block merging, so this job must always run on pull requests.
 # Pull requests only: the action compares the base and head revisions, so a push or schedule run has nothing to compare.
 

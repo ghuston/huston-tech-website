@@ -52,9 +52,8 @@ jobs:
         run: npm run check:placeholders
         continue-on-error: true
 
-  # Accessibility scan (Playwright + axe) of the built site. Informational for now: it is NOT a required
-  # check in the "Protect main" ruleset, so a red result does not block merge. Make it required after
-  # 5 consecutive clean runs (see README). No `paths:` filter and no `if:`: a skipped required check
+  # Accessibility scan (Playwright + axe) of the built site. A required check in the "Protect main" ruleset,
+  # so a red result blocks merge. No `paths:` filter and no `if:`: a skipped required check
   # would block merging, so this job must always run.
   a11y:
     runs-on: ubuntu-latest
@@ -90,9 +89,9 @@ jobs:
           retention-days: 7
           if-no-files-found: ignore
 
-  # Lighthouse CI audit of the built site (served by scripts/preview.mjs so public/_headers applies). Informational
-  # for now: it is NOT a required check in the "Protect main" ruleset. Make it required after 5 consecutive clean
-  # runs (see README). No `paths:` filter and no `if:` on the job: a skipped required check would block merging.
+  # Lighthouse CI audit of the built site (served by scripts/preview.mjs so public/_headers applies). A required
+  # check in the "Protect main" ruleset, so a red result blocks merge.
+  # No `paths:` filter and no `if:` on the job: a skipped required check would block merging.
   # The `if:` on the two report steps below keeps the reports on failure too.
   lighthouse:
     runs-on: ubuntu-latest

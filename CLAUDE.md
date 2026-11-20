@@ -69,8 +69,13 @@ These can go stale if the ruleset is changed in Settings, so re-check before rel
   You copy it into place in your own terminal and run `node .claude/hooks/selftest.mjs`
   (last line must say `All N passed`); then I stage, commit and open the PR. Details are
   in `.claude/hooks/README.md`.
-- `CLAUDE.md`, `AGENTS.md`, `package.json`, `wrangler.jsonc` and `.gitignore` still ask
-  for approval on each change.
+- `CLAUDE.md`, `AGENTS.md`, `package.json`, `wrangler.jsonc` and `.gitignore` are no longer
+  blocked or asked about by the hooks; edit them normally. The "Decision authority" and PR
+  description rules below still apply (for example, ask before adding a dependency, and list
+  changes to these files on the "Needs your eyes" line).
+- `gh pr merge` is blocked by `guard-bash.mjs` except exactly `gh pr merge <number> --auto --squash`
+  (or `--auto --merge`), which only queues a merge behind the required checks. `--admin` and any
+  merge without `--auto` stay blocked. Outside an autonomous run I still do not merge.
 
 ## Decision authority (fast lane)
 - Default for every task: plan, decide and build without asking me. Make implementation, layout, naming, refactor and test-placement decisions yourself, following AGENTS.md, docs/website-plan.md and docs/STYLE-GUIDE.md.
@@ -79,6 +84,33 @@ These can go stale if the ruleset is changed in Settings, so re-check before rel
 - Ask me only before: adding or upgrading a dependency; changing required checks, lighthouserc thresholds or CI behavior; anything involving credentials, secrets, accounts, DNS, email sending or payments; deleting user data; a change to the meaning of copy.
 - Every PR description starts with a "Needs your eyes" line listing any change to AGENTS.md, CLAUDE.md, package.json or README, or "none".
 - Open the PR and stop. The owner enables auto-merge; never try to merge.
+
+## Autonomous runs
+Applies only when I start a task by saying it is an autonomous run. Then these rules replace, for that run only:
+"Plan first and wait for my approval", "Never merge it yourself; I merge", "The owner enables auto-merge; never try to
+merge" and the "Ask me only before: adding or upgrading a dependency" item. Everything else in this file still holds.
+The task list is `docs/PLAN.md` and the progress log is `docs/STATUS.md`. Update STATUS.md after every task; while PRs
+are still open and unmerged, update it only in the first PR and one closing PR so the PRs do not conflict.
+- Work through the whole list without asking questions. Make judgment calls yourself and list them in the final summary.
+  If a task is blocked, queue it in STATUS.md and move on.
+- One PR per task. Before each branch: `git switch main && git pull --ff-only`. No force pushes.
+- Run `superpowers:requesting-code-review` before each merge and `superpowers:verification-before-completion` before
+  calling anything done. If CI fails, use `superpowers:systematic-debugging`, fix the cause and push. Never weaken a
+  test, threshold or axe rule to make it pass.
+- When the review passes and the hook allows it, enable auto-merge with `gh pr merge <number> --auto --squash`. The
+  ruleset's required checks are the gate. Do not wait on CI: start the next task if it does not depend on the last one.
+  The owner-only hook `.claude/hooks/guard-bash.mjs` allows exactly `gh pr merge <number> --auto --squash` and
+  `--auto --merge`; `--admin` and any merge without `--auto` stay blocked. If the hook blocks even the allowed form, do
+  not work around it: leave the PR open, say "PR #N ready for auto-merge" the moment its review passes, and record it in
+  STATUS.md as "open, ready for auto-merge". Later tasks branch from `main` and must not depend on an unmerged PR.
+- Stop, queue the item and continue with other tasks on: secrets or credentials, DNS, accounts or money, sending real
+  email, deleting user data, lowering any threshold or required check, or any owner-only path (`.claude/hooks`,
+  `.claude/agents`, `.claude/skills`, `.claude/settings*.json`, `.github/workflows`). For an owner-only change, write
+  `<file>.proposed` to the scratchpad and list it for hand-copying.
+- New dependencies: exact-pinned, at least 7 days old (`npm view <pkg> time`), and `dependency-review` must pass. Flag
+  each one in the summary.
+- The run ends with one summary: every PR link and whether it merged, anything flagged, the stop queue, and the exact
+  hand-copy commands for all proposals in one batch.
 
 ## Commands
 - `npm run dev`: dev server at http://localhost:4821 (port is fixed in package.json).
