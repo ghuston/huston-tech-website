@@ -4,6 +4,8 @@
 
 **Amended Nov 14, 2026 (Grant):** the hero eyebrow is now "Websites and workflows for small businesses" and the H1 is now "The site brings them in. *The system answers.*", matching Rev 7.1 (§3, §5, §10 and `reference/home-top.html` updated). §9.3 adds the scroll-driven header badge and lifts the matching bans in §9, §11, §12 and §13.
 
+**Revision 8 (Nov 20, 2026):** `docs/website-rev8.md` is now the copy source (a set of changes on top of the copy in the repo), and its Section C amends the motion rules: see §9.4, which overrides §9's "two orchestrated moments" wherever they disagree. The Revision 8 Home layout reference is `design-v3/reference/rev8/` (phone and desktop mockups); the hero eyebrow, H1 and cards in §3, §5 and §5.1 are now the Revision 8 ones.
+
 **Chosen direction:** Direction A, "Ring and stack", with two parts taken from Direction B: **the doors that swing open** (two-door band) and **the arc layout for the three steps**. Grant's pick, Nov 14.
 
 **Source of truth, in order:**
@@ -554,6 +556,24 @@ Grant's decision. It is the one scroll-driven motion on the site, and it overrid
 - **Off entirely under `prefers-reduced-motion: reduce`:** the listener is not attached and the badge stays static. **No effect without JS:** the badge renders static.
 - **Version 2 (a separate experimental PR at the end of the build):** the real 3D model, `huston-logic-badge.glb` (supplied by Grant), lazy-loaded after the page is idle, desktop only, with the SVG badge as the fallback. It ships only if Lighthouse mobile stays ≥ 90 on every tested page; otherwise version 1 stays.
 
+
+### 9.4 Revision 8 amendment: one moment per section (Nov 20, 2026)
+
+Copied from `docs/website-rev8.md` Section C. Grant wants more movement between sections. v3 allowed two orchestrated moments. Revision 8 allows **one per section, each played once**, and each must show something happening in the product or the process, never decoration.
+
+| Section | What moves | Trigger |
+|---|---|---|
+| Hero | Unchanged from v3: cards fan out from behind the front card, the stack tilts under the cursor, the dot travels the ring. Order: the "You say" card, the highlighted row, the brief, the rule, the chip | Page load |
+| Installing now | Each message bubble slides in 8px from the right; its result tick draws 250ms later. Three pairs, staggered | Section 35% in view |
+| Doors | Unchanged swing on hover and focus. On phones, each leaf opens 8° once and settles | Hover, focus; in view on phones |
+| Why hire me | The rust dot travels the track; each stop's tick draws as the dot passes; it rests at "Then it goes live." This replaces the Scope, Shape, Ship arc on Home and reuses the arc's geometry on desktop | Section 35% in view |
+| Proof | The three chips pop in, 120ms apart. Numbers never count up | In view |
+| About | The dot travels the ring around the headshot | In view |
+| Screenshots, case cards | The existing tilt-and-glow card | Pointer, focus |
+
+**Phones:** the hero stack stays an overlapped stack with the fan-out (no tilt), in a fixed-height stage, in place of v3's plain column.
+
+**Unchanged rules:** only `transform`, `opacity` and `stroke-dashoffset` animate. No loops, no scroll-linked motion, no parallax, no animation library. Reduced motion and no-JavaScript show the end state. CLS stays 0. The H1 stays the LCP element. Lighthouse stays at 90 or more on mobile. The §9.2 guarantees apply to every moment above.
 ---
 
 ## 10. Responsive

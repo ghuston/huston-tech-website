@@ -6,9 +6,16 @@ Plan: `docs/PLAN.md`. Rules: CLAUDE.md, "Autonomous runs". Updated after every t
 
 | # | Task | PR | State |
 | --- | --- | --- | --- |
-| 0 | Autonomy hooks, settings, selftest, workflow comments, Autonomous runs rules, PLAN.md, STATUS.md | this PR | open, ready for auto-merge |
+| 0 | Autonomy hooks, settings, selftest, workflow comments, Autonomous runs rules, PLAN.md, STATUS.md | #65 | merged |
+| R8-1 | Revision 8: inputs in, docs repointed | feat/rev8-rework PR | in progress |
 
 ## Judgment calls
+
+### Revision 8 run (2026-11-20)
+
+- (filled in as the run goes)
+
+### Autonomy hooks run
 
 - Ported from `huston-logic/site-template` main (process v2, its PR #16), file by file, not copied blind. The hooks here
   matched the template except for the autonomy changes, so `guard-bash.mjs`, `protect-config.mjs`, `selftest.mjs`,

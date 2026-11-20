@@ -9,7 +9,27 @@ The task list for an autonomous run described in CLAUDE.md, "Autonomous runs". P
    allow exactly `gh pr merge <number> --auto --squash|--merge`, the five "ask" files stop asking, the selftest and
    workflow comments are updated, and CLAUDE.md gets the "Autonomous runs" section plus this plan and the status log.
 
-(Add the next tasks here, one per line, each small enough for one PR.)
+**Revision 8 rework (run of 2026-11-20).** Grant's run message, one branch `feat/rev8-rework`, one PR, one commit per
+task, not merged by Claude (the live site must not be half old and half new; Grant merges after the preview). The
+detailed implementation plan is `docs/superpowers/plans/2026-11-20-rev8-rework.md`; the copy source is
+`docs/website-rev8.md`.
+
+1. **Inputs in.** This task list here; AGENTS.md, CLAUDE.md and the copy comments point at Revision 8; STYLE-GUIDE §9
+   amended with Revision 8 Section C (motion), noting Revision 8 is now the copy source.
+2. **site.ts:** nav, the two offers, footer tagline, contact topics (Section A).
+3. **Home** rebuilt to B1: seven sections, about 750 words. Keep HeroStack and all of its motion; change only the cards.
+4. **New page /systems** (B2).
+5. **/services:** Websites, Care and the new FAQ (B3).
+6. **How I work, Past work, About, Contact** (B4 to B7), including the form's topic values in the Worker.
+7. **Motion,** exactly as Section C lists it: one moment per section, played once. No animation library.
+8. **Pipeline screenshots** (Section D), from a local demo-data instance of `~/huston-pipeline`, read-only. Fallback:
+   HTML-drawn screens, and a STOP-queue entry.
+9. **Sweep.** Sitemap, page titles and descriptions, Organization JSON-LD, OG image text; /systems in the accessibility
+   and Lighthouse lists; the Section A wording sweep returns nothing.
+
+Done means: the five required checks green on the PR; Lighthouse ≥ 90 mobile in all four categories on /, /systems,
+/services and /contact, CLS 0; reduced motion and no-JS show the end state on every page; Home ≤ 800 words; the
+wording sweep returns nothing.
 
 ## Stop list
 

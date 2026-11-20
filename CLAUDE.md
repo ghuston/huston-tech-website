@@ -78,8 +78,8 @@ These can go stale if the ruleset is changed in Settings, so re-check before rel
   merge without `--auto` stay blocked. Outside an autonomous run I still do not merge.
 
 ## Decision authority (fast lane)
-- Default for every task: plan, decide and build without asking me. Make implementation, layout, naming, refactor and test-placement decisions yourself, following AGENTS.md, docs/website-plan.md and docs/STYLE-GUIDE.md.
-- Copy is verbatim from docs/website-plan.md. If copy is missing or contradictory, use a [[placeholder]] and list it in the PR description; do not ask.
+- Default for every task: plan, decide and build without asking me. Make implementation, layout, naming, refactor and test-placement decisions yourself, following AGENTS.md, docs/website-rev8.md and docs/STYLE-GUIDE.md.
+- Copy is verbatim from docs/website-rev8.md (Revision 8, on top of the copy already in the repo). If copy is missing or contradictory, use a [[placeholder]] and list it in the PR description; do not ask.
 - Local checks: npm run check only. CI runs a11y, Lighthouse, dependency review and CodeQL. Run local Lighthouse only if the task changes fonts or images or adds scripts over 1 KB.
 - Ask me only before: adding or upgrading a dependency; changing required checks, lighthouserc thresholds or CI behavior; anything involving credentials, secrets, accounts, DNS, email sending or payments; deleting user data; a change to the meaning of copy.
 - Every PR description starts with a "Needs your eyes" line listing any change to AGENTS.md, CLAUDE.md, package.json or README, or "none".
@@ -136,8 +136,9 @@ are still open and unmerged, update it only in the first PR and one closing PR s
   as its own command.
 
 ## Sources of truth
-- Copy: `docs/website-plan.md` (Revision 7.1), Section B only.
-- Design: `docs/STYLE-GUIDE.md` (v3), then `design-v3/reference/home-top.html`.
+- Copy: `docs/website-rev8.md` (Revision 8), applied on top of the copy already in `src/content/`. `docs/website-plan.md` (Revision 7.1) is history.
+- Design: `docs/STYLE-GUIDE.md` (v3, with the Revision 8 motion amendment), then the Home mockups in
+  `design-v3/reference/rev8/` and `design-v3/reference/home-top.html`.
   Compare builds against the reference at 1440 × 900 and 390 × 844.
 - If a source and the code disagree, or a rule isn't clearly covered by either, tell me.
 
