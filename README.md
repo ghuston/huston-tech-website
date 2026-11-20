@@ -1,6 +1,6 @@
 # Huston Logic website
 
-Marketing site for **Huston Logic**, a one-person consultancy that builds custom websites and fixes the workflows behind them, run by Grant Huston. Built with Next.js (App Router), strict TypeScript and Tailwind CSS, exported as a fully static site for **Cloudflare Workers**.
+Marketing site for **Huston Logic**, a one-person consultancy that builds personal websites and software, run by Grant Huston. Built with Next.js (App Router), strict TypeScript and Tailwind CSS, exported as a fully static site for **Cloudflare Workers**.
 
 Permanent architecture, security and content rules are in [`AGENTS.md`](./AGENTS.md). Read it before making changes.
 
@@ -9,11 +9,13 @@ Permanent architecture, security and content rules are in [`AGENTS.md`](./AGENTS
 | Route | Page |
 |---|---|
 | `/` | Home |
-| `/services` | Services (Start here, Common fixes, Systems work, FAQ) |
+| `/services` | Services (Websites, Care, FAQ) |
+| `/how-i-work` | How I work (the three steps) |
+| `/systems` | Systems (personal software for a business) |
 | `/past-work` | Past Work and testimonials |
 | `/about` | About Grant |
 | `/insights` | Insights ("coming soon" until the first article) |
-| `/contact` | Scheduler placeholder and the contact form (`?topic=partner` shows the Zoho partner variant) |
+| `/contact` | Scheduler placeholder and the contact form (`?topic=website` or `?topic=system` preselects the need; an old `?topic=workflow` link is treated as `system`) |
 | `/contact/thanks` | Form confirmation, reached only after a real send (noindex) |
 | `POST /api/contact` | The contact form Worker (`worker/contact.ts`), not a page |
 | `/privacy` | Privacy policy (draft, needs review) |
@@ -126,7 +128,7 @@ npm run check:placeholders   # lists every unresolved item, exits 1 while any re
 npm run build:launch         # runs the gate, then builds
 ```
 
-The gate also fails while any flag in `decisionsConfirmed` (`src/content/site.ts`) is `false`: publish the Review price, line-art style. Set each to `true` once Grant has confirmed the choice.
+The gate also fails while any flag in `decisionsConfirmed` (`src/content/site.ts`) is `false`: line-art style. Set each to `true` once Grant has confirmed the choice.
 
 Normal builds (and CI) allow placeholders so the site can be previewed. **Use `npm run build:launch` as the Cloudflare build command for the real launch** (see below) so a build with unresolved placeholders cannot go live.
 
@@ -266,9 +268,9 @@ If a production build itself fails, nothing is deployed and the old version stay
 - [ ] Privacy policy checked against the tools actually used
 - [ ] Screenshots supplied with names blurred (or placeholders removed)
 - [ ] Submit `sitemap.xml` to Google Search Console
-- [ ] Decisions confirmed in `decisionsConfirmed`: Review price (default: none), geometric framework icons
-- [ ] Framework wording matches everywhere: three steps (step zero is the call, not a fourth step), 20-minute call, reply within one business day, 14-day correction window, "5/5 handoff & training" and "3 of 3", 21 client accounts, Review fee credited toward the fix, the stop-point line on Home and Services
-- [ ] Final claims check: no prices (unless the Review price is published), no "Uncarved Dream", no real client data in images, no "we/our team"
+- [ ] Decisions confirmed in `decisionsConfirmed`: the line-art style (`lineArtStyle`)
+- [ ] Framework wording matches everywhere: three steps (step zero is the call, not a fourth step), 20-minute call, reply within one business day, small changes and fixes for six weeks after a website launch, 30 days of tuning for a system, "5/5 handoff & training" and "3 of 3", 21 client accounts
+- [ ] Final claims check: no price anywhere on the site or in structured data, no Workflow Review, no "Uncarved Dream", no real client data in images, no "we/our team"
 
 ## Project structure
 

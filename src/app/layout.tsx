@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { homeMeta } from "@/content/home";
 import { siteConfig } from "@/content/site";
 import { inter, newsreader, outfit } from "@/lib/fonts";
 import { OG_IMAGE_ALT, OG_IMAGE_PATH } from "@/lib/metadata";
@@ -7,7 +8,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
-    default: "Huston Logic | Custom Websites & Workflow Consulting for Small Businesses",
+    default: homeMeta.title,
     template: `%s | ${siteConfig.name}`,
   },
   applicationName: siteConfig.name,

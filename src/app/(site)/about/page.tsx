@@ -6,7 +6,6 @@ import { FadingDivider } from "@/components/hl/FadingDivider";
 import { PageHero } from "@/components/hl/PageHero";
 import { RingHeadshot } from "@/components/hl/AboutTeaser";
 import { TestimonialRow } from "@/components/hl/TestimonialRow";
-import { TextLink } from "@/components/hl/TextLink";
 import { bookCallHref } from "@/components/ui/BookCallButton";
 import { JsonLd } from "@/components/ui/JsonLd";
 import { Text } from "@/components/ui/Text";
@@ -21,7 +20,7 @@ const h2 = "font-ui text-h2 font-bold";
 const section = "py-12 md:py-16";
 const prose = "mt-5 max-w-[64ch] space-y-4 text-body";
 
-/** About, in the order of docs/website-plan.md B4 (Revision 7.1): H1, then one H2 per bold label in the copy. */
+/** About, in the order of docs/website-rev8.md B6: H1, then one H2 per bold label in the copy. */
 export default function AboutPage() {
   const [quote] = getTestimonials("about");
   const s = aboutSections;
@@ -40,6 +39,15 @@ export default function AboutPage() {
             </h2>
             <p className="mt-5 max-w-[60ch] text-body">{s.shortVersion.body}</p>
           </div>
+        </Container>
+      </section>
+
+      <section aria-labelledby="mission-title" className={section}>
+        <Container>
+          <h2 id="mission-title" className={h2}>
+            {s.whyIDoThis.heading}
+          </h2>
+          <p className="mt-5 max-w-[60ch] text-body">{s.whyIDoThis.body}</p>
         </Container>
       </section>
 
@@ -104,12 +112,6 @@ export default function AboutPage() {
           </p>
           <div className="mt-8">
             <Button href={bookCallHref()}>{s.cta.label}</Button>
-          </div>
-          <div className="mt-10 max-w-[64ch] rounded-card bg-tint px-5 py-[18px] text-[17px] leading-[1.55]">
-            <span className="font-ui font-semibold text-green">{s.partnerBox.lead}</span> {s.partnerBox.body}{" "}
-            <TextLink inline href={s.partnerBox.link.href}>
-              {s.partnerBox.link.label}
-            </TextLink>
           </div>
         </Container>
       </section>

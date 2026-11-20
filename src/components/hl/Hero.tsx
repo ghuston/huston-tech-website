@@ -1,45 +1,34 @@
 import type { ReactNode } from "react";
-import { ArrowLabel } from "./Arrow";
-import { Card } from "./Card";
+import { Button } from "./Button";
 import { Container } from "./Container";
 import { Eyebrow } from "./Eyebrow";
 import { Glow } from "./Glow";
 import { Pill } from "./Pill";
 import { TextLink } from "./TextLink";
+import { CircleTick } from "./Tick";
 
 type HeroProps = {
-  content: { eyebrow: string; line1: string; line2: string; subhead: string; supportingLine: string; callLink: string };
-  doors: readonly { title: string; button: string; href: string }[];
-  /** Where the "Book a free call →" link goes. */
+  content: {
+    eyebrow: string;
+    line1: string;
+    line2: string;
+    subhead: string;
+    supportingLine: string;
+    cta: string;
+    installLink: { label: string; href: string };
+  };
+  /** Where the "Book a free 20-minute call →" button goes. */
   callHref: string;
   /** The card stack on the right (HeroStack). */
   stack: ReactNode;
 };
 
-function Tick() {
-  return (
-    <svg
-      viewBox="0 0 20 20"
-      aria-hidden="true"
-      focusable="false"
-      className="size-[18px] text-green"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.75"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <circle cx="10" cy="10" r="8.2" />
-      <path d="M6.4 10.3l2.4 2.4 4.8-5" />
-    </svg>
-  );
-}
-
 /**
- * The first screen (docs/STYLE-GUIDE.md §5): at most seven things, the eyebrow, H1, subhead, pill, two compact doors
- * and the stack. Only the H1 lines animate in the text column (CSS only, so a script error can never hide them).
+ * The first screen (docs/STYLE-GUIDE.md §5, Revision 8): the eyebrow, H1, subhead, pill, the call button with the
+ * "installing now" link beside it, and the stack. Only the H1 lines animate in the text column (CSS only, so a script
+ * error can never hide them). No images here: the H1 stays the largest paint.
  */
-export function Hero({ content, doors, callHref, stack }: HeroProps) {
+export function Hero({ content, callHref, stack }: HeroProps) {
   return (
     <section aria-labelledby="hero-title" className="relative">
       <Glow variant="green" className="-right-[200px] -top-[120px] md:-right-[260px]" />
@@ -52,23 +41,16 @@ export function Hero({ content, doors, callHref, stack }: HeroProps) {
               {content.line2}
             </span>
           </h1>
-          <p className="mt-[26px] max-w-[29em] text-lede">{content.subhead}</p>
+          <p className="mt-6 max-w-[31em] text-lede md:mt-[26px]">{content.subhead}</p>
           <div className="mt-5">
-            <Pill icon={<Tick />}>{content.supportingLine}</Pill>
+            <Pill icon={<CircleTick className="size-[18px]" />}>{content.supportingLine}</Pill>
           </div>
-          <div className="mt-[30px] grid gap-[14px] md:grid-cols-[repeat(2,minmax(0,250px))]">
-            {doors.map((door) => (
-              <Card key={door.href} href={door.href} className="min-h-11 px-[18px] py-4 text-[16px] leading-[normal]">
-                <b className="mb-2 block font-ui text-[17px] font-semibold leading-[1.25]">{door.title}</b>
-                <span className="font-ui text-[15px] font-medium text-green">
-                  <ArrowLabel>{door.button}</ArrowLabel>
-                </span>
-              </Card>
-            ))}
+          <div className="mt-7 flex flex-wrap items-center gap-x-7 gap-y-1.5 md:mt-[30px] md:gap-y-2">
+            <Button href={callHref} fullWidthOnMobile>
+              {content.cta}
+            </Button>
+            <TextLink href={content.installLink.href}>{content.installLink.label}</TextLink>
           </div>
-          <p className="mt-4">
-            <TextLink href={callHref}>{content.callLink}</TextLink>
-          </p>
         </div>
         {stack}
       </Container>

@@ -12,7 +12,6 @@ import { TestimonialRow } from "@/components/hl/TestimonialRow";
 import { ArtAside, SiteFramesArt } from "@/components/illustrations/BrandArt";
 import { bookCallHref } from "@/components/ui/BookCallButton";
 import { Text } from "@/components/ui/Text";
-import { proofStrip } from "@/content/home";
 import {
   agencyExperience,
   caseStudies,
@@ -23,6 +22,7 @@ import {
   pastWorkNav,
   pastWorkSystems,
   pastWorkWebsites,
+  proofStrip,
 } from "@/content/past-work";
 import { bookCallLabel } from "@/content/site";
 import { getTestimonials } from "@/content/testimonials";

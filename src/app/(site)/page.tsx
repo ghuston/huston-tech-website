@@ -1,41 +1,36 @@
 import type { Metadata } from "next";
 import { AboutTeaser } from "@/components/hl/AboutTeaser";
-import { ArcSteps } from "@/components/hl/ArcSteps";
 import { Button } from "@/components/hl/Button";
 import { CaseStudyTeaser } from "@/components/hl/CaseStudyTeaser";
+import { CheckTrack } from "@/components/hl/CheckTrack";
 import { ClosingCta } from "@/components/hl/ClosingCta";
 import { Container } from "@/components/hl/Container";
-import { DetailedSteps } from "@/components/hl/DetailedSteps";
 import { DoorBand } from "@/components/hl/DoorBand";
 import { Eyebrow } from "@/components/hl/Eyebrow";
 import { Hero } from "@/components/hl/Hero";
 import { HeroStack } from "@/components/hl/HeroStack";
-import { ProblemGrid } from "@/components/hl/ProblemGrid";
+import { PhoneScreens } from "@/components/hl/PhoneScreens";
 import { ProofChips } from "@/components/hl/ProofChips";
-import { ReasonList } from "@/components/hl/ReasonList";
-import { ServiceGroups } from "@/components/hl/ServiceGroups";
+import { Tag } from "@/components/hl/Tag";
+import { TalkPairs } from "@/components/hl/TalkPairs";
 import { TestimonialRow } from "@/components/hl/TestimonialRow";
 import { TextLink } from "@/components/hl/TextLink";
 import { TwoVoice } from "@/components/hl/TwoVoice";
-import { TwentyMinutesArt } from "@/components/illustrations/BrandArt";
 import { bookCallHref } from "@/components/ui/BookCallButton";
 import { JsonLd } from "@/components/ui/JsonLd";
 import {
   aboutTeaser,
-  arcContent,
   closingCta,
   doorBandLabel,
-  doors,
   heroContent,
   heroStack,
   homeMeta,
-  howItWorks,
-  problems,
+  installing,
   proof,
   proofStrip,
-  whatIDo,
-  why,
+  whyHireMe,
 } from "@/content/home";
+import { offers } from "@/content/site";
 import { getTestimonials } from "@/content/testimonials";
 import { organizationJsonLd } from "@/lib/organization-jsonld";
 import { pageMetadata } from "@/lib/metadata";
@@ -43,8 +38,8 @@ import { pageMetadata } from "@/lib/metadata";
 export const metadata: Metadata = pageMetadata({ ...homeMeta, path: "/" });
 
 /**
- * Home, in the order of docs/website-plan.md B1 (Revision 7.1). One H1 (the hero), the arc's hidden H2 and step H3s, the
- * door H2s, then one H2 per section; the step H3s of "Same three steps" sit under their own H2.
+ * Home, in the seven sections of docs/website-rev8.md B1: hero, what I'm installing now, the two doors, why hire me,
+ * proof, about, close. One H1 (the hero), then one H2 per section (the doors have one each).
  */
 export default function HomePage() {
   const testimonials = getTestimonials("home");
@@ -52,62 +47,95 @@ export default function HomePage() {
   return (
     <div className="relative overflow-x-clip">
       <JsonLd data={organizationJsonLd()} />
-      <Hero content={heroContent} doors={doors} callHref={bookCallHref()} stack={<HeroStack content={heroStack} />} />
-      <ArcSteps srHeading={arcContent.srHeading} />
-      <DoorBand doors={doors} label={doorBandLabel} />
+      <Hero content={heroContent} callHref={bookCallHref()} stack={<HeroStack content={heroStack} />} />
 
-      <ProblemGrid content={problems} ctaHref={bookCallHref()} />
+      <section id="installing" aria-labelledby="installing-title" className="relative py-12 md:pb-20 md:pt-[72px]">
+        {/* The four blocks are placed by .hl-installing (hl.css): stacked, then two columns, then three. */}
+        <Container className="hl-installing relative z-[1]">
+          <div>
+            <Eyebrow className="mb-[14px]">{installing.eyebrow}</Eyebrow>
+            <h2 id="installing-title" className="font-ui text-h2 font-bold">
+              {installing.heading}
+            </h2>
+          </div>
+          <div className="mt-7 lg:mt-9 xl:mt-0 xl:pt-2">
+            <TalkPairs pairs={installing.pairs} />
+          </div>
+          <div className="mt-8 lg:mt-9 xl:mt-0">
+            <PhoneScreens screens={installing.screens} label={installing.screensLabel} note={installing.screensNote} fluid />
+          </div>
+          <div className="mt-6 lg:mt-8 xl:mt-6">
+            <p className="max-w-[60ch] text-body">{installing.line}</p>
+            <div className="mt-1 md:mt-2">
+              <TextLink href={installing.link.href}>{installing.link.label}</TextLink>
+            </div>
+          </div>
+        </Container>
+      </section>
 
-      <ServiceGroups content={whatIDo} />
+      <DoorBand doors={[offers.website, offers.system]} label={doorBandLabel} />
 
-      <section aria-labelledby="proof-title" className="border-y border-hairline bg-silver-2 py-16 md:py-24">
+      <section id="why" aria-labelledby="why-title" className="relative pb-16 pt-8 md:pb-24">
         <Container>
-          <h2 id="proof-title" className="font-ui text-h2 font-bold">
-            {proof.heading}
-          </h2>
-          <p className="mt-3 text-[17px] text-ink-2">{proof.note}</p>
-          <div className="mt-12">
-            <TestimonialRow testimonials={testimonials} />
+          <div className="lg:grid lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] lg:items-end lg:gap-x-16">
+            <div>
+              <Eyebrow className="mb-[14px]">{whyHireMe.eyebrow}</Eyebrow>
+              <TwoVoice id="why-title" line1={whyHireMe.line1} line2={whyHireMe.line2} />
+            </div>
+            <p className="mt-[22px] max-w-[60ch] text-body lg:mt-0">{whyHireMe.body}</p>
           </div>
-          <div className="mt-14 grid gap-8 md:grid-cols-2">
-            {proof.teasers.map((teaser) => (
-              <CaseStudyTeaser key={teaser.name} name={teaser.name} body={teaser.body} href={teaser.href} linkLabel={proof.teaserLinkLabel} />
+          <div className="mt-8 md:mt-14">
+            <CheckTrack stops={whyHireMe.stops} />
+          </div>
+          <p className="mt-6 max-w-[620px] rounded-card bg-tint px-5 py-[18px] text-[16px] leading-[1.5] md:mt-10 md:text-[17px]">
+            {whyHireMe.callout}
+          </p>
+          <ul className="mt-8 grid md:mt-12 md:grid-cols-3 md:gap-x-12">
+            {whyHireMe.points.map((point) => (
+              <li key={point.title} className="border-t border-hairline py-4 md:py-5">
+                <b className="font-ui text-item font-semibold">{point.title}</b>
+                <p className="mt-1 text-[16px] leading-[1.5] md:mt-1.5 md:text-[17px]">{point.body}</p>
+              </li>
             ))}
+          </ul>
+        </Container>
+      </section>
+
+      <section id="proof" aria-labelledby="proof-title" className="relative pb-16 pt-8 md:pb-24 md:pt-0">
+        <Container>
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-3.5">
+            <h2 id="proof-title" className="font-ui text-h2 font-bold">
+              {proof.heading}
+            </h2>
+            <Tag>{proof.tag}</Tag>
           </div>
-          <div className="mt-10">
+          <div className="mt-6 md:mt-10">
+            <TestimonialRow testimonials={testimonials} swipe={proof.quotesLabel} />
+          </div>
+          <div className="mt-7 md:mt-10">
             <ProofChips content={proofStrip} />
           </div>
-        </Container>
-      </section>
-
-      <section id="how-it-works" aria-labelledby="how-title" className="py-16 md:py-24">
-        <Container>
-          <Eyebrow className="mb-[14px]">{howItWorks.eyebrow}</Eyebrow>
-          <TwoVoice id="how-title" line1={howItWorks.line1} line2={howItWorks.line2} />
-          <p className="mt-6 max-w-[60ch] text-body">{howItWorks.stepZero}</p>
-          <div className="mt-6">
-            <Button href={bookCallHref()}>{howItWorks.cta}</Button>
-          </div>
-          <div className="mt-14">
-            <DetailedSteps steps={howItWorks.steps} labels={howItWorks.labels} headingLevel={3} />
-          </div>
-          <div className="mt-8">
-            <TextLink href={howItWorks.link.href}>{howItWorks.link.label}</TextLink>
+          <div className="mt-7 grid gap-6 md:mt-12 md:grid-cols-2 md:gap-7">
+            {proof.teasers.map((teaser) => (
+              <CaseStudyTeaser
+                key={teaser.name}
+                name={teaser.name}
+                body={teaser.body}
+                href={teaser.href}
+                linkLabel={proof.teaserLinkLabel}
+                image={teaser.image}
+              />
+            ))}
           </div>
         </Container>
       </section>
 
-      <ReasonList heading={why.heading} items={why.items} />
+      <AboutTeaser heading={aboutTeaser.heading} body={aboutTeaser.body} link={aboutTeaser.link} />
 
-      <AboutTeaser heading={aboutTeaser.heading} paragraphs={aboutTeaser.paragraphs} link={aboutTeaser.link} />
-
-      <ClosingCta
-        heading={<TwoVoice line1={closingCta.line1} line2={closingCta.line2} />}
-        body={closingCta.body}
-        note={closingCta.note}
-        art={<TwentyMinutesArt className="max-w-[220px]" />}
-      >
-        <Button href={bookCallHref()}>{closingCta.cta}</Button>
+      <ClosingCta heading={<TwoVoice line1={closingCta.line1} line2={closingCta.line2} />} body={closingCta.body}>
+        <Button href={bookCallHref()} fullWidthOnMobile>
+          {closingCta.cta}
+        </Button>
         <TextLink href={closingCta.secondary.href}>{closingCta.secondary.label}</TextLink>
       </ClosingCta>
     </div>

@@ -1,0 +1,62 @@
+import { Picture } from "./Picture";
+import { TiltCard } from "./PointerTilt";
+
+export type AppScreenKey = "today" | "pipeline" | "brief" | "rule";
+
+type PhoneScreensProps = {
+  /** Each screen is public/work/pipeline-<key>.{avif,webp}, 390 × 844, seeded demo data (docs/website-rev8.md §D). */
+  screens: readonly { key: AppScreenKey; label: string; alt: string }[];
+  /** The row's accessible name. On phones it is a swipe row, so it is a focusable, named region. */
+  label: string;
+  /** The visible line under the row ("Demo data", AGENTS.md: mocked screenshots are labelled). */
+  note: string;
+  /** From 1280px the frames share the row's width instead of keeping 156px (Home, where the row is a narrow column). */
+  fluid?: boolean;
+};
+
+/**
+ * The follow-up app's screens in phone-shaped frames: a row on wider screens, a swipe row on phones. Each frame is a
+ * tilt-and-glow card (docs/STYLE-GUIDE.md §6.3), since it shows real work. Lazy-loaded; never in the first screen.
+ */
+export function PhoneScreens({
+  screens,
+  label,
+  note,
+  fluid = false,
+}: PhoneScreensProps) {
+  return (
+    <div>
+      <div
+        role="region"
+        aria-label={label}
+        tabIndex={0}
+        className="-mx-5 snap-x snap-mandatory scroll-px-5 overflow-x-auto px-5 pb-2 md:mx-0 md:px-0"
+      >
+        <ul
+          className={`flex w-max gap-3.5 md:gap-4 ${fluid ? "xl:grid xl:w-full xl:auto-cols-fr xl:grid-flow-col" : ""}`}
+        >
+          {screens.map((screen) => (
+            <li
+              key={screen.key}
+              className={`w-[150px] flex-none snap-start md:w-[156px] ${fluid ? "xl:w-auto" : ""}`}
+            >
+              <TiltCard className="rounded-panel p-1.5">
+                <Picture
+                  src={`/work/pipeline-${screen.key}`}
+                  width={390}
+                  height={844}
+                  alt={screen.alt}
+                  className="block h-auto w-full rounded-card"
+                />
+              </TiltCard>
+              <p className="mt-2 text-center font-ui text-[14px] font-medium text-ink-2">
+                {screen.label}
+              </p>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <p className="mt-1 font-ui text-[14px] text-ink-2">{note}</p>
+    </div>
+  );
+}

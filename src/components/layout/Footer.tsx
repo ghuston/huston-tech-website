@@ -4,7 +4,7 @@ import { Container } from "@/components/hl/Container";
 import { HlLink } from "@/components/hl/HlLink";
 import { RingMark } from "@/components/hl/Marks";
 import { Text } from "@/components/ui/Text";
-import { footerLinks, partnerLink, privacyLink } from "@/content/nav";
+import { footerLinks, privacyLink } from "@/content/nav";
 import { siteConfig } from "@/content/site";
 import { Logo } from "./Logo";
 
@@ -52,11 +52,6 @@ export function Footer() {
                 </HlLink>
               </li>
             ) : null}
-            <li>
-              <HlLink href={partnerLink.href} className={linkClass}>
-                <ArrowLabel>{partnerLink.label}</ArrowLabel>
-              </HlLink>
-            </li>
           </ul>
         </div>
 

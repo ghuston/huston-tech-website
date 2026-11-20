@@ -4,7 +4,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useRef, useState, type ReactNode, type SyntheticEvent } from "react";
 import { Text } from "@/components/ui/Text";
 import { noteForm } from "@/content/contact";
-import { fieldLimits, honeypot, urlTopics, type Need, type UrlTopic } from "@/content/contact-fields";
+import { fieldLimits, honeypot, topicFromUrl, type Need } from "@/content/contact-fields";
 import { providers } from "@/content/providers";
 import { saveHandoff } from "@/lib/contact-handoff";
 import { validateContact, type ContactField, type ContactInput } from "@/lib/contact-validation";
@@ -47,10 +47,6 @@ function Labeled({ id, text, children }: { id: string; text: string; children: R
   );
 }
 
-function asUrlTopic(value: string | null): UrlTopic | "" {
-  return value !== null && (urlTopics as readonly string[]).includes(value) ? (value as UrlTopic) : "";
-}
-
 /**
  * The contact form (docs/website-plan.md B7). It validates with the same rules as the Worker
  * (`src/lib/contact-validation.ts`), gets a Turnstile token, and posts JSON to `/api/contact` (worker/contact.ts).
@@ -59,10 +55,9 @@ function asUrlTopic(value: string | null): UrlTopic | "" {
  * and nothing lands in the URL.
  */
 function Form({ urlTopic }: { urlTopic: string | null }) {
-  const topic = asUrlTopic(urlTopic);
-  const partner = topic === "partner";
+  const topic = topicFromUrl(urlTopic);
   const router = useRouter();
-  const [need, setNeed] = useState<Need | null>(topic === "website" || topic === "workflow" ? topic : null);
+  const [need, setNeed] = useState<Need | null>(topic === "" ? null : topic);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
@@ -78,7 +73,7 @@ function Form({ urlTopic }: { urlTopic: string | null }) {
     isConfigError: turnstileConfigError,
   } = useTurnstile(providers.turnstileSiteKey);
 
-  const key = need === "website" || need === "workflow" ? need : "other";
+  const key = need === "website" || need === "system" ? need : "other";
   const e = noteForm.errors;
 
   function showFieldErrors(fields: ContactField[]) {
@@ -174,43 +169,41 @@ function Form({ urlTopic }: { urlTopic: string | null }) {
   return (
     <div className="rounded-panel bg-white p-6 shadow-card md:p-9">
       <h2 className="font-ui text-[28px] font-bold leading-tight tracking-[-0.03em]">
-        {partner ? noteForm.partnerHeading : noteForm.heading}
+        {noteForm.heading}
       </h2>
 
       <form ref={formRef} method="post" noValidate onSubmit={submit} onFocus={startTurnstile} className="mt-6 space-y-6">
         <input type="hidden" name="topic" value={topic} />
 
-        {partner ? null : (
-          <fieldset role="radiogroup" aria-required="true" aria-describedby={described("need")}>
-            <legend className={label}>{noteForm.needLegend}</legend>
-            <div className="mt-3 flex flex-wrap gap-[10px]">
-              {noteForm.needOptions.map((option) => (
-                <label key={option.value} className="relative">
-                  <input
-                    type="radio"
-                    name="need"
-                    value={option.value}
-                    checked={need === option.value}
-                    onChange={() => {
-                      setNeed(option.value);
-                      setErrors((previous) => ({ ...previous, need: undefined }));
-                    }}
-                    className="peer sr-only"
-                  />
-                  <span
-                    className={`inline-flex min-h-11 cursor-pointer items-center gap-2 rounded-pill border px-[18px] font-ui text-[16px] font-medium peer-focus-visible:outline-2 peer-focus-visible:outline-offset-[3px] peer-focus-visible:outline-rust ${
-                      need === option.value ? "border-ink bg-ink text-silver" : errors.need ? "border-rust text-ink" : "border-ink-2 text-ink"
-                    }`}
-                  >
-                    {need === option.value ? <span aria-hidden="true" className="size-2 rounded-pill bg-rust" /> : null}
-                    {option.label}
-                  </span>
-                </label>
-              ))}
-            </div>
-            <ErrorLine id="cf-need-error" message={errors.need} />
-          </fieldset>
-        )}
+        <fieldset role="radiogroup" aria-required="true" aria-describedby={described("need")}>
+          <legend className={label}>{noteForm.needLegend}</legend>
+          <div className="mt-3 flex flex-wrap gap-[10px]">
+            {noteForm.needOptions.map((option) => (
+              <label key={option.value} className="relative">
+                <input
+                  type="radio"
+                  name="need"
+                  value={option.value}
+                  checked={need === option.value}
+                  onChange={() => {
+                    setNeed(option.value);
+                    setErrors((previous) => ({ ...previous, need: undefined }));
+                  }}
+                  className="peer sr-only"
+                />
+                <span
+                  className={`inline-flex min-h-11 cursor-pointer items-center gap-2 rounded-pill border px-[18px] font-ui text-[16px] font-medium peer-focus-visible:outline-2 peer-focus-visible:outline-offset-[3px] peer-focus-visible:outline-rust ${
+                    need === option.value ? "border-ink bg-ink text-silver" : errors.need ? "border-rust text-ink" : "border-ink-2 text-ink"
+                  }`}
+                >
+                  {need === option.value ? <span aria-hidden="true" className="size-2 rounded-pill bg-rust" /> : null}
+                  {option.label}
+                </span>
+              </label>
+            ))}
+          </div>
+          <ErrorLine id="cf-need-error" message={errors.need} />
+        </fieldset>
 
         <Labeled id="cf-name" text={noteForm.name.label}>
           <input

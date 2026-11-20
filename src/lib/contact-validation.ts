@@ -1,4 +1,4 @@
-import { fieldLimits, needOptions, sourceOptions, urlTopics, type Need, type UrlTopic } from "../content/contact-fields.ts";
+import { fieldLimits, needOptions, normalizeNeed, sourceOptions, urlTopics, type Need, type UrlTopic } from "../content/contact-fields.ts";
 
 /** Fields that have a Rev 7.1 error message (docs/website-plan.md B7). */
 export type ContactField = "need" | "name" | "email" | "message";
@@ -70,15 +70,14 @@ export function validateContact(input: ContactInput): ContactValidation {
     return clean(value);
   };
 
-  const topicValue = cleanLine(raw("topic"));
+  const topicValue = normalizeNeed(cleanLine(raw("topic")));
   let topic: UrlTopic | "" = "";
   if (isUrlTopic(topicValue)) topic = topicValue;
   else if (topicValue !== "") malformed = true;
-  const partner = topic === "partner";
 
-  const needValue = cleanLine(raw("need"));
+  const needValue = normalizeNeed(cleanLine(raw("need")));
   let need: Need | "" = "";
-  if (isNeed(needValue)) need = partner ? "" : needValue;
+  if (isNeed(needValue)) need = needValue;
   else if (needValue !== "") malformed = true;
 
   const name = limited("name", cleanLine);
@@ -94,7 +93,7 @@ export function validateContact(input: ContactInput): ContactValidation {
   else if (sourceValue !== "") malformed = true;
 
   const fields: ContactField[] = [];
-  if (!partner && !need) fields.push("need");
+  if (!need) fields.push("need");
   if (!name) fields.push("name");
   if (!EMAIL_PATTERN.test(email)) fields.push("email");
   if (!message) fields.push("message");

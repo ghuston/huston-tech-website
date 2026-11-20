@@ -8,15 +8,13 @@ export type StepColumn = {
   paragraph: string;
   /** What the person gets, as written in the copy (middle dots included). Home's short version has none. */
   youGet?: string;
-  /** The "you can stop here" stop-point. Worded identically wherever it appears. */
-  callout?: { lead: string; body: string };
 };
 
-export type DetailedStep = { key: FrameworkStepKey; website: StepColumn; workflow: StepColumn };
+export type DetailedStep = { key: FrameworkStepKey; website: StepColumn; system: StepColumn };
 
 type DetailedStepsProps = {
   steps: DetailedStep[];
-  labels: { website: string; workflow: string; youGet?: string };
+  labels: { website: string; system: string; youGet?: string };
   /** H2 on /how-i-work, where the copy writes the steps as H2s; H3 when the block sits under another H2. */
   headingLevel?: 2 | 3;
   /** The line under the steps, with its italic note. */
@@ -35,18 +33,13 @@ function Column({ label, youGetLabel, column }: { label: string; youGetLabel?: s
           <span className="font-ui font-semibold text-green">{youGetLabel}</span> {column.youGet}
         </p>
       ) : null}
-      {column.callout ? (
-        <div className="mt-6 rounded-card bg-tint px-5 py-[18px] text-body">
-          <span className="font-ui text-[17px] font-semibold text-green">{column.callout.lead}</span> {column.callout.body}
-        </div>
-      ) : null}
     </div>
   );
 }
 
 /**
  * The three steps in full (docs/STYLE-GUIDE.md §7.20): the arc's vertical form, a white track on the left with a
- * station for each step and the rust dot resting at the bottom, and Website and Workflow columns beside it.
+ * station for each step and the rust dot resting at the bottom, and Website and System columns beside it.
  * Static; headings are built from `framework.steps`, so the names come only from site.ts.
  */
 export function DetailedSteps({ steps, labels, headingLevel = 3, proof }: DetailedStepsProps) {
@@ -70,7 +63,7 @@ export function DetailedSteps({ steps, labels, headingLevel = 3, proof }: Detail
                   </Heading>
                   <div className="mt-6 grid gap-12 lg:grid-cols-2">
                     <Column label={labels.website} youGetLabel={labels.youGet} column={step.website} />
-                    <Column label={labels.workflow} youGetLabel={labels.youGet} column={step.workflow} />
+                    <Column label={labels.system} youGetLabel={labels.youGet} column={step.system} />
                   </div>
                 </div>
               </li>

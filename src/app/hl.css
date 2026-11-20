@@ -343,11 +343,11 @@
   .hl-ringbg {
     position: absolute;
     z-index: -1;
-    width: 800px;
-    height: 800px;
-    left: 262px;
-    top: 326px;
-    margin: -400px 0 0 -400px;
+    width: 640px;
+    height: 640px;
+    left: 50%;
+    top: 50%;
+    margin: -320px 0 0 -320px;
     pointer-events: none;
   }
 
@@ -366,7 +366,7 @@
     border: 1px solid rgba(41, 51, 45, 0.1);
     border-radius: var(--radius-card);
     box-shadow: var(--shadow-card);
-    font: 400 12px/1.4 var(--font-text);
+    font: 400 13px/1.4 var(--font-text);
     color: var(--hl-ink);
     transition: translate 0.5s var(--hl-ease);
   }
@@ -382,7 +382,7 @@
     border-radius: 999px;
     background: var(--hl-tint);
     color: var(--hl-green);
-    font: 600 11.5px/1 var(--font-ui);
+    font: 600 12px/1 var(--font-ui);
   }
 
   .hl-row {
@@ -400,58 +400,104 @@
     color: var(--hl-ink-2);
   }
 
-  .hl-c-inbox {
-    left: -34px;
-    top: -20px;
-    width: 276px;
-    padding: 14px 16px 24px;
+  /* The Revision 8 cards (docs/website-rev8.md B1 §1): the spoken note, the brief and the rule behind; the owner's
+     board in front. Positions are in the 477 × 600 stage, from the desktop mockup. */
+  .hl-c-say {
+    left: -20px;
+    top: 6px;
+    width: 270px;
+    padding: 14px 14px 16px;
     transform: translateZ(-30px) rotate(-4deg);
   }
 
-  .hl-c-reply {
-    left: 196px;
-    top: 362px;
-    width: 282px;
-    padding: 22px 16px 14px;
+  .hl-say-bubble {
+    padding: 11px 13px;
+    border-radius: 14px 14px 4px 14px;
+    background: var(--hl-ink);
+    color: var(--hl-silver);
+    font-size: 14px;
+  }
+
+  .hl-c-brief {
+    left: 200px;
+    top: 400px;
+    width: 270px;
+    padding: 14px 14px 12px;
     transform: translateZ(-10px) rotate(3deg);
   }
 
-  .hl-c-sheet {
-    left: -36px;
-    top: 486px;
-    width: 300px;
+  .hl-c-rule {
+    left: -26px;
+    top: 478px;
+    width: 290px;
     padding: 14px 14px 12px;
     transform: translateZ(-20px) rotate(-2.5deg);
   }
 
-  .hl-c-sheet table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 11.5px;
+  .hl-c-board {
+    left: 88px;
+    top: 132px;
+    z-index: 2;
+    width: 300px;
+    padding: 14px;
+    border-radius: var(--radius-panel);
+    transform: translateZ(30px);
   }
 
-  .hl-c-sheet td {
-    max-width: 120px;
-    padding: 4px 6px;
-    border: 1px solid #dde3df;
+  .hl-board-h {
+    padding: 2px 4px 10px;
+    font: 600 15px/1 var(--font-ui);
+  }
+
+  .hl-board-rows {
     overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    border: 1px solid var(--hl-line);
+    border-radius: 12px;
   }
 
-  .hl-c-sheet tr.hl-old td {
+  .hl-board-rows li {
+    position: relative;
+    display: flex;
+    gap: 10px;
+    justify-content: space-between;
+    padding: 10px 12px;
     color: var(--hl-ink-2);
   }
 
-  .hl-c-sheet tr.hl-new td {
+  .hl-board-rows li + li {
+    border-top: 1px solid var(--hl-line);
+  }
+
+  .hl-board-rows b {
+    color: var(--hl-ink);
+  }
+
+  .hl-board-status {
+    white-space: nowrap;
+  }
+
+  /* The new follow-up: its tint sits on a pseudo-element so it can fade in on its own (§9.4). */
+  .hl-board-rows .hl-row-new {
+    color: var(--hl-ink);
+  }
+
+  .hl-row-new::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
     background: var(--hl-tint);
-    font-weight: 500;
+  }
+
+  .hl-row-new .hl-board-status {
+    color: var(--hl-green);
+    font-weight: 600;
   }
 
   .hl-chip {
     position: absolute;
-    left: -44px;
-    top: 350px;
+    left: -34px;
+    top: 340px;
     z-index: 3;
     display: flex;
     align-items: center;
@@ -461,6 +507,7 @@
     border-radius: 12px;
     background: #fff;
     box-shadow: var(--shadow-chip);
+    color: var(--hl-ink-2);
     font: 400 12px/1.3 var(--font-text);
     white-space: nowrap;
     transform: translateZ(60px);
@@ -468,6 +515,7 @@
 
   .hl-chip b {
     display: block;
+    color: var(--hl-ink);
     font: 600 14px/1.2 var(--font-ui);
   }
 
@@ -479,115 +527,15 @@
     background: var(--hl-green);
   }
 
-  /* The front card: a made-up bakery's website. Its palette is the client's, not Huston Logic's, so it lives in
-     custom properties scoped to this card (§5.1). Never reuse these anywhere else. */
-  .hl-client-site {
-    --client-navy: #1c2233;
-    --client-cream: #f3eadb;
-    --client-amber: #e0a458;
-    --client-bar: #c9c3b8;
-    --client-nav: #d9d1c3;
-    --client-shows: #e9dfcf;
-  }
-
-  .hl-c-site {
-    left: 56px;
-    top: 104px;
-    width: 400px;
-    overflow: hidden;
-    border-color: rgba(0, 0, 0, 0.3);
-    background: var(--client-navy);
-    color: var(--client-cream);
-    transform: translateZ(30px);
-  }
-
-  .hl-site-bar {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 9px 12px;
-    background: rgba(255, 255, 255, 0.07);
-    color: var(--client-bar);
-    font: 400 11px/1 var(--font-text);
-  }
-
-  .hl-site-bar i {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--client-amber);
-  }
-
-  .hl-site-body {
-    display: grid;
-    grid-template-columns: 1.15fr 1fr;
-    gap: 16px;
-    padding: 16px 16px 18px;
-  }
-
-  .hl-site-nav {
-    grid-column: 1 / -1;
-    display: flex;
-    gap: 14px;
-    align-items: baseline;
-    color: var(--client-nav);
-    font: 400 11.5px/1 var(--font-text);
-  }
-
-  .hl-site-nav b {
-    margin-right: auto;
-    color: var(--client-cream);
-    font-weight: 600;
-  }
-
-  .hl-site-h {
-    margin: 4px 0 10px;
-    color: var(--client-cream);
-    font-family: var(--font-voice);
-    font-size: 27px;
-    font-style: italic;
-    line-height: 1.05;
-  }
-
-  .hl-site-shows li {
-    display: flex;
-    gap: 10px;
-    padding: 6px 0;
-    border-top: 1px solid rgba(243, 234, 219, 0.18);
-    color: var(--client-shows);
-  }
-
-  .hl-site-shows time {
-    flex: none;
-    color: var(--client-amber);
-  }
-
-  .hl-site-form {
-    display: grid;
-    gap: 6px;
-    align-content: start;
-  }
-
-  .hl-site-form .hl-lab {
-    color: var(--client-cream);
-    font-weight: 600;
-  }
-
-  .hl-site-form .hl-in {
-    display: block;
-    padding: 6px 8px;
-    border: 1px solid rgba(243, 234, 219, 0.35);
-    border-radius: 6px;
-    color: var(--client-cream);
-  }
-
-  .hl-site-form .hl-sbtn {
-    justify-self: start;
-    padding: 6px 14px;
-    border-radius: 6px;
-    background: var(--client-amber);
-    color: var(--client-navy);
-    font-weight: 600;
+  /* The message bubble in "What I'm installing now": what the owner says, on the right. */
+  .hl-bubble {
+    max-width: 300px;
+    padding: 12px 14px;
+    border-radius: 16px 16px 4px 16px;
+    background: var(--hl-ink);
+    color: var(--hl-silver);
+    font-size: 15px;
+    line-height: 1.4;
   }
 
   /* ---- §6.3 the tilt-and-glow card: a white object card with a mint glow that follows the cursor. The tilt is
@@ -631,85 +579,89 @@
     --my: 50%;
   }
 
-  /* ---- §7.7 the arc: three steps on a piece of the logo's ring ---- */
-  .hl-steps {
-    position: relative;
-    padding: 72px 0 0;
-  }
-
-  .hl-arcbox {
-    position: relative;
-    aspect-ratio: 1240 / 470;
-    margin: 0;
-  }
-
-  .hl-arc {
-    position: absolute;
-    left: 40px;
-    right: 40px;
-    top: 0;
-    z-index: 0;
-    width: calc(100% - 80px);
-    height: auto;
-    aspect-ratio: 1240 / 470;
-    overflow: visible;
-  }
-
+  /* ---- The "Why hire me" track (CheckTrack, docs/website-rev8.md B1 §4): the arc's 16px white track, 60px
+     stations and 16px rust dot, laid flat. Horizontal from 1200px; below that it runs down the left. ---- */
   .hl-track {
-    fill: none;
-    stroke: #fff;
-    stroke-width: 16;
-    stroke-linecap: round;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
   }
 
-  .hl-arc-dot {
-    fill: var(--hl-rust);
-  }
-
-  .hl-st {
+  .hl-track::before {
+    content: "";
     position: absolute;
-    z-index: 1;
+    left: 14px;
+    top: 10px;
+    bottom: 38px;
+    width: 16px;
+    border-radius: 8px;
+    background: #fff;
+  }
+
+  .hl-stop {
+    position: relative;
+    display: grid;
+    grid-template-columns: 44px minmax(0, 1fr);
+    gap: 0 14px;
+    align-items: start;
+  }
+
+  /* The last stop holds no station, only the dot's run, which is placed against the whole track (the list), so this
+     stop is not positioned in the vertical form and its text keeps the second column. */
+  .hl-stop-end {
+    position: static;
+  }
+
+  .hl-stop-end .hl-stop-text {
+    grid-column: 2;
+  }
+
+  .hl-stop-bar {
+    display: none;
+  }
+
+  .hl-stop-st {
     display: grid;
     place-items: center;
-    width: 74px;
-    height: 74px;
-    margin: -37px 0 0 -37px;
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
     background: #fff;
     box-shadow: 0 0 0 1px rgba(41, 51, 45, 0.08);
   }
 
-  .hl-tx {
+  .hl-stop-tick {
+    width: 20px;
+    height: 20px;
+  }
+
+  /* The run spans from the first station to the dot's rest, with the dot at its far end, so the §9.4 moment can move
+     the dot the whole way as `translate(-100% + 16px)` of the run, with nothing measured. Vertical form: from the
+     first station's centre (22px down) to the dot centred on the last stop's one line (Outfit 19px × 1.25). */
+  .hl-track-run {
     position: absolute;
-    z-index: 1;
-    width: 300px;
-    font-size: 16px;
-    line-height: normal;
+    left: 14px;
+    top: 14px;
+    bottom: calc((19px * 1.25 - 16px) / 2);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    width: 16px;
+    pointer-events: none;
   }
 
-  .hl-n {
-    color: var(--hl-green);
-    font: 600 15px/1 var(--font-ui);
-    letter-spacing: 0.02em;
+  .hl-track-dot {
+    flex: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--hl-rust);
   }
 
-  .hl-tx h3 {
-    margin: 8px 0;
-    font-family: var(--font-ui);
-    font-size: var(--hl-fs-step);
-    font-weight: 700;
-    line-height: 1.05;
-    letter-spacing: -0.025em;
-  }
-
-  .hl-tx p {
-    font-size: var(--hl-fs-blurb);
-    line-height: 1.4;
-  }
-
-  /* The icons' parts turn about the icon's centre (200 × 150 viewBox). */
-  [data-hl] {
-    transform-origin: 100px 75px;
+  .hl-stop-text b {
+    font-size: 19px;
+    line-height: 1.25;
   }
 
   /* §7.1 header: silver at 97% with a hairline under it. No blur behind it, so the page never shows through. */
@@ -844,16 +796,27 @@
   animation-delay: 0.08s;
 }
 
-.hl-c-inbox {
+@keyframes hl-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+/* The order (§9.4): the "You say" card, the highlighted row, the brief, the rule, the chip. */
+.hl-c-say {
   animation: hl-fan1 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.25s both;
 }
 
-.hl-c-sheet {
-  animation: hl-fan2 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.37s both;
+.hl-row-new::before {
+  animation: hl-fade 0.5s ease-out 0.37s both;
 }
 
-.hl-c-reply {
+.hl-c-brief {
   animation: hl-fan3 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.49s both;
+}
+
+.hl-c-rule {
+  animation: hl-fan2 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.61s both;
 }
 
 .hl-chip {
@@ -866,105 +829,195 @@
 
 /* Hover drift: the back cards move apart a little. Mouse only; the tilt itself is StackTilt. */
 @media (hover: hover) and (pointer: fine) {
-  .hl-stage:hover .hl-c-inbox {
+  .hl-stage:hover .hl-c-say {
     translate: -8px -8px;
   }
 
-  .hl-stage:hover .hl-c-reply {
+  .hl-stage:hover .hl-c-brief {
     translate: 10px 8px;
   }
 
-  .hl-stage:hover .hl-c-sheet {
+  .hl-stage:hover .hl-c-rule {
     translate: -8px 10px;
   }
 }
 
-/* The arc plays once when 35% of it is in view (InViewOnce sets data-played). The first frames exist only while the
-   page has scripting (html.js) and motion is allowed, so without JS, or under reduced motion, the end state shows. */
-@keyframes hl-arc-orbit {
-  from {
-    transform: rotate(43.8deg);
-  }
-}
-
-@keyframes hl-i-left {
+/* ---- Revision 8 section motion (§9.4): one moment per section, played once ----
+   Each section root is an InViewOnce, which sets `data-played` once it is in view. Start frames exist only as
+   `html.js <root>:not([data-played])` with motion allowed, and every animation ends on the resting design, so without
+   JS, with reduced motion, or before the observer runs nothing is hidden for good. `--i` is each item's index (a style
+   on the item), which staggers it. Only transform, opacity and stroke-dashoffset animate. */
+@keyframes hl-slide-in {
   from {
     opacity: 0;
-    transform: translateX(-18px);
+    transform: translateX(8px);
   }
 }
 
-@keyframes hl-i-right {
+@keyframes hl-tick-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+}
+
+@keyframes hl-chip-in {
   from {
     opacity: 0;
-    transform: translateX(18px);
+    transform: scale(0.9);
   }
 }
 
-@keyframes hl-i-draw {
+/* The dot's run starts with the dot on the first station (see `.hl-track-run`). */
+@keyframes hl-run-y {
   from {
-    opacity: 1;
-    stroke-dasharray: 430;
-    stroke-dashoffset: 430;
-  }
-
-  to {
-    opacity: 1;
-    stroke-dasharray: 430;
-    stroke-dashoffset: 0;
+    transform: translateY(calc(-100% + 16px));
   }
 }
 
-@keyframes hl-i-pop {
+@keyframes hl-run-x {
   from {
-    opacity: 0;
-    transform: scale(0);
+    transform: translateX(calc(-100% + 16px));
   }
 }
 
-@keyframes hl-i-turn {
-  from {
-    opacity: 0;
-    transform: rotate(-45deg) scale(0.92);
+/* Opens 8deg on its hinge, then settles shut. Both ends are the resting leaf, so no fill is needed. */
+@keyframes hl-door-nudge {
+  0% {
+    animation-timing-function: cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+
+  40% {
+    transform: rotateY(8deg);
+    animation-timing-function: cubic-bezier(0.45, 0, 0.25, 1);
+  }
+
+  100% {
+    transform: rotateY(0deg);
   }
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  html.js .hl-steps:not([data-played]) .hl-arc-orbit,
-  html.js .hl-steps:not([data-played]) [data-hl] {
+  /* Installing now (Home #installing, /systems): each bubble slides in 8px from the right, its tick draws 250ms
+     later; pairs 300ms apart; released at 35% in view. */
+  html.js .hl-pairs:not([data-played]) :is(.hl-bubble, [data-tick]) {
     opacity: 0;
   }
 
-  .hl-steps[data-played] .hl-arc-orbit {
-    animation: hl-arc-orbit 1.9s cubic-bezier(0.3, 0.6, 0.2, 1) 0.15s both;
+  .hl-pairs[data-played] .hl-bubble {
+    animation: hl-slide-in 0.5s var(--hl-ease) calc(var(--i) * 0.3s) both;
   }
 
-  .hl-steps[data-played] [data-hl="scope-dashed"] {
-    animation: hl-i-left 0.4s ease-out 0.15s both;
+  .hl-pairs[data-played] [data-tick] {
+    stroke-dasharray: 1;
+    animation: hl-tick-draw 0.35s ease-out calc(var(--i) * 0.3s + 0.25s) both;
   }
 
-  .hl-steps[data-played] [data-hl="scope-solid"] {
-    animation: hl-i-right 0.4s ease-out 0.15s both;
+  /* Why hire me: the dot travels the track at an even pace (1.8s from +150ms), so it reaches station `--i` about
+     `--i` × 290ms in, and that station's tick draws then. It rests at "Then it goes live."; released at 35% in view. */
+  html.js .hl-track:not([data-played]) .hl-track-run {
+    transform: translateY(calc(-100% + 16px));
   }
 
-  .hl-steps[data-played] [data-hl="shape-outer"] {
-    animation: hl-i-draw 0.3s ease-out 0.45s both;
+  html.js .hl-track:not([data-played]) [data-tick] {
+    opacity: 0;
   }
 
-  .hl-steps[data-played] [data-hl="shape-inner"] {
-    animation: hl-i-draw 0.26s ease-out 0.51s both;
+  .hl-track[data-played] .hl-track-run {
+    animation: hl-run-y 1.8s linear 0.15s both;
   }
 
-  .hl-steps[data-played] [data-hl="shape-dot"] {
-    animation: hl-i-pop 0.14s ease-out 0.71s both;
+  .hl-track[data-played] [data-tick] {
+    stroke-dasharray: 1;
+    animation: hl-tick-draw 0.3s ease-out calc(var(--i) * 0.29s + 0.15s) both;
   }
 
-  .hl-steps[data-played] [data-hl="ship-outline"] {
-    animation: hl-i-turn 0.28s ease-out 0.85s both;
+  /* Proof (Home, /past-work): the chips pop in 120ms apart. The figures never count. */
+  html.js .hl-chips:not([data-played]) [data-chip] {
+    opacity: 0;
   }
 
-  .hl-steps[data-played] [data-hl="ship-center"] {
-    animation: hl-i-pop 0.2s ease-out 1.05s both;
+  .hl-chips[data-played] [data-chip] {
+    animation: hl-chip-in 0.4s ease-out calc(var(--i) * 0.12s) both;
+  }
+
+  /* About: the dot travels the ring around the headshot into its gap, like the hero's (the group rotates about the
+     drawing's origin, the ring's centre). */
+  html.js .hl-about-ring:not([data-played]) .hl-about-dot {
+    transform: rotate(-250deg);
+  }
+
+  .hl-about-ring[data-played] .hl-about-dot {
+    animation: hl-orbit 2.2s cubic-bezier(0.3, 0.7, 0.2, 1) 0.1s both;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) and (min-width: 1200px) {
+  html.js .hl-track:not([data-played]) .hl-track-run {
+    transform: translateX(calc(-100% + 16px));
+  }
+
+  .hl-track[data-played] .hl-track-run {
+    animation-name: hl-run-x;
+  }
+}
+
+/* Failsafe for the gated start frames above: if the script that sets `data-played` never runs (a failed chunk, say), the
+   end state still arrives after 4s. A delayed, zero-length animation with `forwards` holds the resting value; once
+   `data-played` is set the start-frame rules stop matching, so the real moment plays from its first frame. Every resting
+   transform here is `none`. It is armed only while no InViewOnce has mounted: InViewOnce adds `hl-live` to <html> on
+   hydration, so on a working page the failsafe never matches and cannot pre-empt a moment. */
+@keyframes hl-failsafe-fade {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes hl-failsafe-rest {
+  to {
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html.js:not(.hl-live) .hl-pairs:not([data-played]) :is(.hl-bubble, [data-tick]),
+  html.js:not(.hl-live) .hl-track:not([data-played]) [data-tick],
+  html.js:not(.hl-live) .hl-chips:not([data-played]) [data-chip],
+  html.js:not(.hl-live) .hl-art-draw:not([data-played]) [data-draw] {
+    animation: hl-failsafe-fade 0s 4s forwards;
+  }
+
+  html.js:not(.hl-live) .hl-track:not([data-played]) .hl-track-run,
+  html.js:not(.hl-live) .hl-about-ring:not([data-played]) .hl-about-dot {
+    animation: hl-failsafe-rest 0s 4s forwards;
+  }
+}
+
+/* Print shows every gated element finished. */
+@media print {
+  html.js .hl-pairs:not([data-played]) :is(.hl-bubble, [data-tick]),
+  html.js .hl-track:not([data-played]) [data-tick],
+  html.js .hl-chips:not([data-played]) [data-chip],
+  html.js .hl-art-draw:not([data-played]) [data-draw] {
+    opacity: 1 !important;
+    stroke-dashoffset: 0 !important;
+  }
+
+  html.js .hl-track:not([data-played]) .hl-track-run,
+  html.js .hl-about-ring:not([data-played]) .hl-about-dot {
+    transform: none !important;
+  }
+}
+
+/* Doors on phones, which do not swing on hover: each door observes itself (Door), and its leaf opens 8deg once and
+   settles when half the door is in view. The second keeps a 150ms lag, so when both arrive together they stagger. The
+   frame keeps its perspective, so it reads as a door. Desktop keeps the hover and focus swing (§9.1 #4). */
+@media (prefers-reduced-motion: no-preference) and (max-width: 767px) {
+  .hl-door[data-played] .hl-leaf {
+    animation: hl-door-nudge 0.9s;
+  }
+
+  .hl-door + .hl-door[data-played] .hl-leaf {
+    animation-delay: 0.15s;
   }
 }
 
@@ -1020,115 +1073,202 @@
   }
 }
 
-@media (min-width: 900px) and (max-width: 1100px) {
-  .hl-tx {
-    width: 240px;
-  }
-
-  .hl-tx h3 {
-    font-size: 32px;
-  }
-
-  .hl-tx p {
-    font-size: 17px;
-  }
-}
-
-/* Below 900px the arc becomes a vertical track with the dot resting at its foot. */
-@media (max-width: 899px) {
-  .hl-steps {
-    padding-top: 56px;
-  }
-
-  .hl-arcbox {
-    display: grid;
-    gap: 28px 0;
-    aspect-ratio: auto;
-    padding: 0 0 12px;
-  }
-
-  .hl-arc {
-    display: none;
-  }
-
-  .hl-arcbox::before {
-    content: "";
-    position: absolute;
-    left: 29px;
-    top: 20px;
-    bottom: 54px;
-    width: 16px;
-    border-radius: 8px;
-    background: #fff;
-  }
-
-  .hl-arcbox::after {
-    content: "";
-    position: absolute;
-    left: 29px;
-    bottom: 0;
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    background: var(--hl-rust);
-  }
-
-  .hl-arcbox li {
-    display: grid;
-    grid-template-columns: 74px 1fr;
-    gap: 0 20px;
-    align-items: start;
-  }
-
-  .hl-st,
-  .hl-tx {
-    position: relative;
-    left: auto !important;
-    top: auto !important;
-    margin: 0;
-    width: auto;
-  }
-}
-
-/* Phones: the stack is a plain column (no 3D, no rotation), the ring shrinks behind its top-right corner. */
+/* Phones (§9.4): the stack stays overlapped, in a fixed 350 × 580 stage (CLS 0), with the fan-out but no tilt and no
+   3D. Positions from the phone mockup. Below 390px the whole stack scales down in steps (--hl-stack-scale) and the
+   stage shrinks with it, so every card fits from 320px up and the stage's size is still fixed per width. StackTilt
+   never attaches on touch; `!important` also beats its inline style in a narrow desktop window. */
 @media (max-width: 767px) {
   .hl-stage {
-    width: auto;
-    height: auto;
-    padding-top: 44px;
+    --hl-stack-scale: 1;
+    width: calc(350px * var(--hl-stack-scale));
+    height: calc(580px * var(--hl-stack-scale));
     perspective: none;
   }
 
   .hl-stack {
-    position: static;
-    display: grid;
-    gap: 12px;
+    right: auto;
+    bottom: auto;
+    width: 350px;
+    height: 580px;
+    transform: scale(var(--hl-stack-scale)) !important;
+    transform-origin: 0 0;
+    transform-style: flat;
   }
 
-  .hl-card,
+  .hl-c-say {
+    left: 0;
+    top: 0;
+    width: 250px;
+  }
+
+  .hl-c-board {
+    left: 36px;
+    top: 112px;
+    width: 290px;
+  }
+
   .hl-chip {
-    position: relative;
-    left: auto;
-    top: auto;
-    width: auto;
-    transform: none;
+    left: 0;
+    top: 318px;
   }
 
-  .hl-c-site {
-    order: -1;
+  .hl-c-brief {
+    left: 106px;
+    top: 384px;
+    width: 244px;
   }
 
-  .hl-chip {
-    justify-self: start;
+  /* 20px lower than the phone mockup, so the brief's two-line note no longer covers this card's tag. */
+  .hl-c-rule {
+    left: 0;
+    top: 494px;
+    width: 256px;
   }
 
   .hl-ringbg {
     left: auto;
-    right: -60px;
-    top: -56px;
-    width: 460px;
-    height: 460px;
+    right: -110px;
+    top: -50px;
+    width: 440px;
+    height: 440px;
     margin: 0;
+  }
+}
+
+/* Each step fits the stage inside the 20px gutters: 350 × 0.94 = 329 (from 369px), × 0.88 = 308 (from 348px),
+   × 0.8 = 280 (from 320px). */
+@media (max-width: 389px) {
+  .hl-stage {
+    --hl-stack-scale: 0.94;
+  }
+}
+
+@media (max-width: 368px) {
+  .hl-stage {
+    --hl-stack-scale: 0.88;
+  }
+}
+
+@media (max-width: 347px) {
+  .hl-stage {
+    --hl-stack-scale: 0.8;
+  }
+}
+
+/* "What I'm installing now" (Home): one column on phones and tablets; from 1024px the pairs and the screens sit side
+   by side under the heading; from 1280px three columns, as in the desktop mockup (text, pairs, screens). */
+@media (min-width: 1024px) {
+  .hl-installing {
+    display: grid;
+    grid-template-areas: "head head" "pairs screens" "foot foot";
+    grid-template-columns: minmax(0, 1fr) auto;
+    column-gap: 48px;
+    align-items: start;
+  }
+
+  .hl-installing > :nth-child(1) {
+    grid-area: head;
+  }
+
+  .hl-installing > :nth-child(2) {
+    grid-area: pairs;
+  }
+
+  .hl-installing > :nth-child(3) {
+    grid-area: screens;
+  }
+
+  .hl-installing > :nth-child(4) {
+    grid-area: foot;
+  }
+}
+
+@media (min-width: 1280px) {
+  .hl-installing {
+    grid-template-areas: "head pairs screens" "foot pairs screens";
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 440px);
+    grid-template-rows: auto 1fr;
+  }
+}
+
+/* From 1200px the track lies flat: a station per check along one 16px bar, the dot resting just past its end. Below
+   that, seven columns are too narrow for the stop titles, so the track runs down the left. */
+@media (min-width: 1200px) {
+  .hl-track {
+    display: grid;
+    grid-auto-columns: minmax(0, 1fr);
+    grid-auto-flow: column;
+    gap: 0;
+  }
+
+  .hl-track::before {
+    display: none;
+  }
+
+  .hl-stop {
+    display: block;
+    padding-right: 18px;
+  }
+
+  .hl-stop-bar {
+    display: block;
+    height: 16px;
+    margin: 22px -18px 0 0;
+    background: #fff;
+  }
+
+  .hl-stop:first-child .hl-stop-bar {
+    border-radius: 8px 0 0 8px;
+  }
+
+  .hl-stop-end {
+    position: relative;
+    padding-right: 0;
+  }
+
+  .hl-stop-end .hl-stop-bar {
+    width: 40px;
+    margin-right: 0;
+    border-radius: 0 8px 8px 0;
+  }
+
+  .hl-stop-st {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 60px;
+    height: 60px;
+  }
+
+  .hl-stop-tick {
+    width: 24px;
+    height: 24px;
+  }
+
+  /* Flat form: the columns are equal, so the first station's centre sits `--i` stop widths to the left of this one.
+     The run starts 8px before it and ends with the dot resting at 52px in the last stop. */
+  .hl-track-run {
+    left: calc(var(--i) * -100% + 22px);
+    right: calc(100% - 68px);
+    top: 22px;
+    bottom: auto;
+    flex-direction: row;
+    width: auto;
+    height: 16px;
+  }
+
+  .hl-stop-text {
+    margin-top: 36px;
+  }
+
+  .hl-stop-text b {
+    font-size: 18px;
+  }
+}
+
+@media (min-width: 1360px) {
+  .hl-stop-text b {
+    font-size: 20px;
   }
 }
 

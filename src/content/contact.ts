@@ -1,11 +1,11 @@
 import { fw } from "@/lib/framework";
 import { honeypot, needOptions, sourceOptions } from "./contact-fields";
 
-/** Copy: docs/website-plan.md Revision 7.1, B7, B7b and B8. Field options and limits live in `contact-fields.ts`. */
+/** Copy: docs/website-rev8.md B7 (amends Revision 7.1 B7, B7b and B8). Field options and limits live in `contact-fields.ts`. */
 export const contactMeta = {
   title: "Contact | Book a Free 20-Minute Call | Huston Logic",
   description:
-    "Need a website, or help with a workflow? Book a free 20-minute call or send a quick note. You get an automatic reply right away and Grant's own reply within one business day.",
+    "Need a website, or an AI system for your business? Book a free 20-minute call or send a quick note. You get an automatic reply right away and Grant's own reply within one business day.",
 };
 
 export const contactHero = {
@@ -24,7 +24,6 @@ export const scheduler = {
 
 export const noteForm = {
   heading: "Or send a quick note",
-  partnerHeading: "Zoho partner? Tell me about the work and your timeline.",
   needLegend: "What do you need?",
   needOptions,
   name: { label: "Your name" },
@@ -34,7 +33,7 @@ export const noteForm = {
     label: "What's going on?",
     placeholders: {
       website: "e.g. A site for my business with a services page and a booking form.",
-      workflow: "e.g. New inquiries come in from three places and nobody's sure who follows up.",
+      system: "e.g. Follow-up lives in my head, and my call notes never get written down.",
       other: "e.g. Our site is old, and inquiries from it get lost.",
     },
   },
@@ -42,7 +41,7 @@ export const noteForm = {
     label: "What do you use today?",
     placeholders: {
       website: "e.g. A Facebook page, an old site, or nothing yet.",
-      workflow: "e.g. SimplePractice, QuickBooks, Google Sheets, Zoho… or 'not sure'.",
+      system: "e.g. A spreadsheet, a CRM I stopped opening, or nothing yet.",
       other: "e.g. A Facebook page, an old site, or nothing yet.",
     },
   },
@@ -81,7 +80,7 @@ export const whatHappensNext = {
     { lead: "Step zero: a free 20-minute call", body: "about what you need and the tools involved." },
     {
       lead: "If there's a fit,",
-      body: "you get a written plan and price for a website, or a short written scope for a Workflow Review. If not, I'll point you somewhere useful.",
+      body: "you get a written plan and a fixed price. If not, I'll point you somewhere useful.",
     },
   ],
   emailLabel: "Prefer email?",
@@ -102,7 +101,7 @@ export const thanks = {
     lead: "While you wait:",
     links: [
       { label: "What's included in a website →", href: "/services#websites" },
-      { label: "How a Workflow Review works →", href: "/services#workflows" },
+      { label: "See the system →", href: "/systems" },
     ],
   },
 };

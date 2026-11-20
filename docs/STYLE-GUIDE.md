@@ -4,6 +4,8 @@
 
 **Amended Nov 14, 2026 (Grant):** the hero eyebrow is now "Websites and workflows for small businesses" and the H1 is now "The site brings them in. *The system answers.*", matching Rev 7.1 (§3, §5, §10 and `reference/home-top.html` updated). §9.3 adds the scroll-driven header badge and lifts the matching bans in §9, §11, §12 and §13.
 
+**Revision 8 (Nov 20, 2026):** `docs/website-rev8.md` is now the copy source (a set of changes on top of the copy in the repo), and its Section C amends the motion rules: see §9.4, which overrides §9's "two orchestrated moments" wherever they disagree. The Revision 8 Home layout reference is `design-v3/reference/rev8/` (phone and desktop mockups); the hero eyebrow, H1 and cards in §3, §5 and §5.1 are now the Revision 8 ones.
+
 **Chosen direction:** Direction A, "Ring and stack", with two parts taken from Direction B: **the doors that swing open** (two-door band) and **the arc layout for the three steps**. Grant's pick, Nov 14.
 
 **Source of truth, in order:**
@@ -241,6 +243,8 @@ y≈808  ├─ steps section (no edge: the white glow carries across) ───
 
 ### 5.1 The card stack (component `HeroStack`)
 
+**Revision 8:** the stack's cards are now the Rev 8 board, "You say", brief, rule and chip (see `heroStack` in `home.ts`); the card descriptions below are the earlier design.
+
 The H1 drawn as a picture: in front, a client's website; behind it, the workflow it feeds. One `figure` with `role="img"` and this `aria-label`: "A small bakery's website in front. Behind it: the owner's inbox, a spreadsheet row and an automatic reply, all set off by one message through the contact form." The cards inside are `aria-hidden` content (they are a picture, not page text).
 
 | Card | Position in stage (left, top, width) | Rotation | Depth | Content |
@@ -318,6 +322,8 @@ Outfit 500 16, `green`, sentence case, 18px above the heading. Only where Rev 7 
 Inline-flex pill: white at 0.8 opacity, 1px `line` border, radius 999, padding 8 / 14 / 8 / 10, gap 9; an 18px tick-in-circle icon in `green` (1.75 stroke); text Outfit 500 15 `ink`: "AI-accelerated, checked by hand." It isn't a link and isn't interactive.
 
 ### 7.5 Compact hero doors (`HeroDoors`)
+
+**Revision 8:** the compact hero doors were removed.
 Two links side by side (`grid-template-columns: repeat(2, minmax(0,250px))`, gap 14), each a white card: radius 14, 1px `line` border, padding 16 / 18, `--hl-shadow-lift`.
 - Title: the door title with its quotes, Outfit 600 17, `ink`.
 - Below it, 8px gap: the button label as a text link in Outfit 500 15 `green`, with a slow rust underline and → ("Start a website" → `/contact?topic=website`; "Fix a workflow" → `/contact?topic=workflow`). The whole card is the link.
@@ -327,6 +333,8 @@ Two links side by side (`grid-template-columns: repeat(2, minmax(0,250px))`, gap
 ### 7.6 Card stack (`HeroStack`): §5.1, motion §9.
 
 ### 7.7 The arc: compact three steps (`ProcessSteps variant="arc"`, Home only)
+
+**Revision 8:** the arc was removed from Home; CheckTrack replaces it (see §9.4).
 
 The three steps sit on a white track that is a piece of a 1500px-radius circle, falling from top left to bottom right; the rust dot travels it once and comes to rest in a gap just past Ship it.
 
@@ -384,12 +392,18 @@ The section after the band starts on the same silver with no edge; the seam glow
 - **Focus ring:** 2px solid `rust`, offset 3px, radius 4 (follows the element's radius on cards and doors). Never removed.
 
 ### 7.11 Problems grid (`ProblemGrid`, "Sound familiar?")
+
+**Revision 8:** removed from Home.
 Eyebrow + two-voice H2. Six cells, 3 × 2 on desktop (gap 48 / 56), 1 column below 768. **No cards.** Each cell: the problem in Outfit 600 22/1.25 `ink`, then the supporting line in Inter 17/1.55. Fading vertical dividers between columns, fading horizontal divider between rows. Below the grid: the line plus a primary "Book a free call →" button.
 
 ### 7.12 What I do (`ServiceGroups`)
+
+**Revision 8:** removed from Home.
 Single-voice H2 and the intro paragraph (max 60ch). Two equal groups side by side (gap 64), stacked on mobile (Websites first), each with an Outfit 700 28 heading. Items: title Outfit 600 20, line Inter 17. A fading horizontal divider between items. Each group ends with its text link. No icons, no cards, no price badge (the price lives in the item title as copy).
 
 ### 7.13 "Already on Zoho?" callout (`ZohoCallout`)
+
+**Revision 8:** removed from Home.
 One line on a `tint` panel, radius 14, padding 20 / 24: the bold lead in Outfit 600 `green`, the sentence in Inter 17 `ink`, the text link at the end. No border, no left rule, no icon.
 
 ### 7.14 Testimonials (`TestimonialRow`)
@@ -405,6 +419,8 @@ Three columns (gap 48) with fading vertical dividers; one column on mobile. Each
 - **Proof chips** replace the v2 Proof strip: a row of three chips (wrap on mobile) carrying Rev 7's three figures ("3 of 3 clients said the project met the goals set at kickoff", "5/5 on communication", "5/5 on handoff & training"), followed by the small print in Inter 14 `ink-2`. On the page background, not on a band.
 
 ### 7.16 Case-study teasers (`CaseStudyTeaser`)
+
+**Revision 8:** case cards now carry a screenshot.
 Two tilt-and-glow cards (§6.3) side by side: the screenshot (when supplied, blurred names) at the top in a 16:10 frame, radius 10 inside the card's 14; then the business in Outfit 600 20, the one-line description in Inter 17, and the "Read the project →" text link. Until screenshots exist, the card shows text only (no placeholder image).
 
 ### 7.17 Recent websites cards (`WebsiteCards`, Home)
@@ -554,6 +570,24 @@ Grant's decision. It is the one scroll-driven motion on the site, and it overrid
 - **Off entirely under `prefers-reduced-motion: reduce`:** the listener is not attached and the badge stays static. **No effect without JS:** the badge renders static.
 - **Version 2 (a separate experimental PR at the end of the build):** the real 3D model, `huston-logic-badge.glb` (supplied by Grant), lazy-loaded after the page is idle, desktop only, with the SVG badge as the fallback. It ships only if Lighthouse mobile stays ≥ 90 on every tested page; otherwise version 1 stays.
 
+
+### 9.4 Revision 8 amendment: one moment per section (Nov 20, 2026)
+
+Copied from `docs/website-rev8.md` Section C. Grant wants more movement between sections. v3 allowed two orchestrated moments. Revision 8 allows **one per section, each played once**, and each must show something happening in the product or the process, never decoration.
+
+| Section | What moves | Trigger |
+|---|---|---|
+| Hero | Unchanged from v3: cards fan out from behind the front card, the stack tilts under the cursor, the dot travels the ring. Order: the "You say" card, the highlighted row, the brief, the rule, the chip | Page load |
+| Installing now | Each message bubble slides in 8px from the right; its result tick draws 250ms later. Three pairs, staggered | Section 35% in view |
+| Doors | Unchanged swing on hover and focus. On phones, each leaf opens 8° once and settles | Hover, focus; in view on phones |
+| Why hire me | The rust dot travels the track; each stop's tick draws as the dot passes; it rests at "Then it goes live." This replaces the Scope, Shape, Ship arc on Home and reuses the arc's geometry on desktop | Section 35% in view |
+| Proof | The three chips pop in, 120ms apart. Numbers never count up | In view |
+| About | The dot travels the ring around the headshot | In view |
+| Screenshots, case cards | The existing tilt-and-glow card | Pointer, focus |
+
+**Phones:** the hero stack stays an overlapped stack with the fan-out (no tilt), in a fixed-height stage, in place of v3's plain column.
+
+**Unchanged rules:** only `transform`, `opacity` and `stroke-dashoffset` animate. No loops, no scroll-linked motion, no parallax, no animation library. Reduced motion and no-JavaScript show the end state. CLS stays 0. The H1 stays the LCP element. Lighthouse stays at 90 or more on mobile. The §9.2 guarantees apply to every moment above.
 ---
 
 ## 10. Responsive

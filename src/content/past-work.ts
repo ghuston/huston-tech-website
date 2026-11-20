@@ -1,12 +1,13 @@
+import type { ProofStripContent } from "@/components/hl/ProofChips";
 import type { FrameworkStepKey } from "./site";
 import { fw } from "@/lib/framework";
 
-// docs/website-plan.md, B3 (Revision 7.1). Word for word.
+// docs/website-rev8.md, B5 (amends Revision 7.1 B3). Word for word.
 
 export const pastWorkMeta = {
-  title: "Past Work | Websites & Systems Projects | Huston Logic",
+  title: "Past Work | Websites & Custom Systems | Huston Logic",
   description:
-    "Systems projects for a group therapy practice and a personal training studio, in the clients' own words, plus agency experience across 21 client accounts. Website case studies follow as each site goes live.",
+    "Custom systems for a group therapy practice and a personal training studio, in the clients' own words, plus agency experience across 21 client accounts.",
 };
 
 export const pastWorkHero = {
@@ -26,16 +27,16 @@ export const pastWorkHero = {
 /** The section nav under the hero (docs/STYLE-GUIDE.md §7.30). */
 export const pastWorkNav = [
   { label: "Websites", href: "#websites" },
-  { label: "Systems projects", href: "#systems" },
+  { label: "Custom systems", href: "#systems" },
   { label: "Agency experience", href: "#agency" },
 ];
 
 export const pastWorkWebsites = {
   heading: "Websites",
-  line: "The first three sites are being built now. Each one shows up here once it's live and the owner has said yes.",
+  line: "Website case studies appear here as each site goes live and its owner says yes.",
 };
 
-export const pastWorkSystems = { heading: "Systems projects" };
+export const pastWorkSystems = { heading: "Custom systems" };
 
 export type CasePhases = Record<FrameworkStepKey, string>;
 
@@ -135,6 +136,17 @@ export const ocTherapy = {
   tag: "Therapy practice",
   description:
     "Automation, a sales pipeline set up and optimized, and data analytics. The same kind of project as Irvine Family Counseling.",
+};
+
+/** The survey row under the case studies (Revision 7.1, unchanged by Revision 8; Home has its own shorter version). */
+export const proofStrip: ProofStripContent = {
+  stats: [
+    { value: "3 of 3", label: "clients said the project met the goals set at kickoff" },
+    { value: "5/5", label: "on communication" },
+    { value: "5/5", label: "on handoff & training" },
+  ],
+  footnote:
+    "From client wrap-up surveys, 2024–2025. Three projects, three perfect scores. A small sample, I know. I'm working on making it bigger.",
 };
 
 export const agencyExperience = {
