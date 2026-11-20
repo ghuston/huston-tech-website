@@ -1,4 +1,5 @@
 import type { Offer } from "@/content/site";
+import { InViewOnce } from "@/components/ui/InViewOnce";
 import { Text } from "@/components/ui/Text";
 import { Button } from "./Button";
 import { Container } from "./Container";
@@ -14,26 +15,29 @@ type DoorBandProps = {
 
 /**
  * The two doors (docs/STYLE-GUIDE.md §7.8), where "Say hello" lands (`id="hello"`). Each door's leaf swings open on
- * hover or keyboard focus to show the green behind it; on phones they stack and do not swing. The seam glow straddles
- * the band's top edge, so it blends into the section above.
+ * hover or keyboard focus to show the green behind it; on phones they stack and, instead of swinging, each leaf opens
+ * a little once when the band comes into view (§9.4, `.hl-doors` in hl.css). The seam glow straddles the band's top
+ * edge, so it blends into the section above.
  */
 export function DoorBand({ doors, label }: DoorBandProps) {
   return (
     <section id="hello" aria-label={label} className="relative pb-16 pt-6 md:pb-24 md:pt-12">
       <Glow variant="seam" className="left-1/2 top-[-260px] -ml-[650px]" />
-      <Container className="relative grid gap-[18px] md:grid-cols-2 md:gap-7">
-        {doors.map((door) => (
-          <Door key={door.href}>
-            <h2 className="font-ui text-h3 font-bold">{door.name}</h2>
-            <p className="mb-7 mt-3 text-blurb leading-[1.45] md:pr-6">
-              <Text>{door.line}</Text>
-            </p>
-            <Button href={door.href} fullWidthOnMobile className="mt-auto">
-              {door.button}
-            </Button>
-          </Door>
-        ))}
-      </Container>
+      <InViewOnce className="hl-doors">
+        <Container className="relative grid gap-[18px] md:grid-cols-2 md:gap-7">
+          {doors.map((door) => (
+            <Door key={door.href}>
+              <h2 className="font-ui text-h3 font-bold">{door.name}</h2>
+              <p className="mb-7 mt-3 text-blurb leading-[1.45] md:pr-6">
+                <Text>{door.line}</Text>
+              </p>
+              <Button href={door.href} fullWidthOnMobile className="mt-auto">
+                {door.button}
+              </Button>
+            </Door>
+          ))}
+        </Container>
+      </InViewOnce>
     </section>
   );
 }

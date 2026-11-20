@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { InViewOnce } from "@/components/ui/InViewOnce";
 import { aboutTeaser } from "@/content/home";
 import { Container } from "./Container";
 import { RingWithDot } from "./Marks";
@@ -6,21 +7,22 @@ import { TextLink } from "./TextLink";
 
 /**
  * The headshot slot (docs/STYLE-GUIDE.md §7.22): the photo sits inside the logo's ring, a disc at 82% of the ring's inner
- * diameter; the ring and its rust dot are static. The ring is decoration, so it is hidden from assistive technology.
+ * diameter. The ring is decoration, so it is hidden from assistive technology. With `orbit` (the About teaser) the
+ * rust dot travels the ring once when the slot comes into view (§9.4, `.hl-about-ring` in hl.css); elsewhere it is static.
  * Below the fold the photo lazy-loads; pass `eager` where it sits in the first screen (it also loads at high priority).
  */
 export function RingHeadshot({
   className = "",
   eager = false,
-  dotClassName,
+  orbit = false,
 }: {
   className?: string;
   eager?: boolean;
-  /** A class on the ring's dot (the About teaser's in-view moment, §9.4). */
-  dotClassName?: string;
+  orbit?: boolean;
 }) {
-  return (
-    <div className={`relative mx-auto aspect-square w-full ${className}`}>
+  const classes = `relative mx-auto aspect-square w-full ${className}`;
+  const drawing = (
+    <>
       <Image
         src="/brand/grant-huston.webp"
         alt={aboutTeaser.photoAlt}
@@ -36,9 +38,15 @@ export function RingHeadshot({
         className="absolute inset-0 size-full"
         ringColor="var(--hl-green)"
         dotColor="var(--hl-rust)"
-        dotClassName={dotClassName}
+        dotClassName={orbit ? "hl-about-dot" : undefined}
       />
-    </div>
+    </>
+  );
+
+  return orbit ? (
+    <InViewOnce className={`hl-about-ring ${classes}`}>{drawing}</InViewOnce>
+  ) : (
+    <div className={classes}>{drawing}</div>
   );
 }
 
@@ -53,7 +61,7 @@ export function AboutTeaser({ heading, body, link }: AboutTeaserProps) {
   return (
     <section aria-labelledby="about-teaser-title" className="py-12 md:py-20">
       <Container className="relative z-[1] grid items-center gap-7 md:grid-cols-[260px_minmax(0,1fr)] md:gap-[72px]">
-        <RingHeadshot className="max-w-[220px] md:max-w-none" dotClassName="hl-about-dot" />
+        <RingHeadshot className="max-w-[220px] md:max-w-none" orbit />
         <div className="max-w-[660px]">
           <h2 id="about-teaser-title" className="font-ui text-h2 font-bold">
             {heading}

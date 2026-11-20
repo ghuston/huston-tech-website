@@ -1,6 +1,9 @@
 type TickProps = {
   className?: string;
-  /** Marks the check stroke with `data-tick`, so a section's in-view moment can draw it (docs/STYLE-GUIDE.md §9.4). */
+  /**
+   * Marks the check stroke with `data-tick` (and `pathLength` 1, so one dash length draws it), so a section's in-view
+   * moment can draw it (docs/STYLE-GUIDE.md §9.4).
+   */
   draw?: boolean;
 };
 
@@ -19,7 +22,7 @@ export function CircleTick({ className = "", draw = false }: TickProps) {
       strokeLinejoin="round"
     >
       <circle cx="10" cy="10" r="8.2" />
-      <path d="M6.4 10.3l2.4 2.4 4.8-5" data-tick={draw ? "" : undefined} />
+      <path d="M6.4 10.3l2.4 2.4 4.8-5" pathLength={draw ? 1 : undefined} data-tick={draw ? "" : undefined} />
     </svg>
   );
 }
@@ -38,7 +41,7 @@ export function CheckTick({ className = "", draw = false }: TickProps) {
       strokeLinecap="round"
       strokeLinejoin="round"
     >
-      <path d="M5.5 10.3l3 3 6-6.4" data-tick={draw ? "" : undefined} />
+      <path d="M5.5 10.3l3 3 6-6.4" pathLength={draw ? 1 : undefined} data-tick={draw ? "" : undefined} />
     </svg>
   );
 }

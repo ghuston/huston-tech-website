@@ -607,8 +607,14 @@
     align-items: start;
   }
 
+  /* The last stop holds no station, only the dot's run, which is placed against the whole track (the list), so this
+     stop is not positioned in the vertical form and its text keeps the second column. */
   .hl-stop-end {
-    align-items: center;
+    position: static;
+  }
+
+  .hl-stop-end .hl-stop-text {
+    grid-column: 2;
   }
 
   .hl-stop-bar {
@@ -630,10 +636,25 @@
     height: 20px;
   }
 
+  /* The run spans from the first station to the dot's rest, with the dot at its far end, so the §9.4 moment can move
+     the dot the whole way as `translate(-100% + 16px)` of the run, with nothing measured. Vertical form: from the
+     first station's centre (22px down) to the dot centred on the last stop's one line (Outfit 19px × 1.25). */
+  .hl-track-run {
+    position: absolute;
+    left: 14px;
+    top: 14px;
+    bottom: calc((19px * 1.25 - 16px) / 2);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    width: 16px;
+    pointer-events: none;
+  }
+
   .hl-track-dot {
+    flex: none;
     width: 16px;
     height: 16px;
-    margin-left: 14px;
     border-radius: 50%;
     background: var(--hl-rust);
   }
@@ -818,6 +839,137 @@
 
   .hl-stage:hover .hl-c-rule {
     translate: -8px 10px;
+  }
+}
+
+/* ---- Revision 8 section motion (§9.4): one moment per section, played once ----
+   Each section root is an InViewOnce, which sets `data-played` once it is in view. Start frames exist only as
+   `html.js <root>:not([data-played])` with motion allowed, and every animation ends on the resting design, so without
+   JS, with reduced motion, or before the observer runs nothing is hidden for good. `--i` is each item's index (a style
+   on the item), which staggers it. Only transform, opacity and stroke-dashoffset animate. */
+@keyframes hl-slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(8px);
+  }
+}
+
+@keyframes hl-tick-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+}
+
+@keyframes hl-chip-in {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+}
+
+/* The dot's run starts with the dot on the first station (see `.hl-track-run`). */
+@keyframes hl-run-y {
+  from {
+    transform: translateY(calc(-100% + 16px));
+  }
+}
+
+@keyframes hl-run-x {
+  from {
+    transform: translateX(calc(-100% + 16px));
+  }
+}
+
+/* Opens 8deg on its hinge, then settles shut. Both ends are the resting leaf, so no fill is needed. */
+@keyframes hl-door-nudge {
+  0% {
+    animation-timing-function: cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+
+  40% {
+    transform: rotateY(8deg);
+    animation-timing-function: cubic-bezier(0.45, 0, 0.25, 1);
+  }
+
+  100% {
+    transform: rotateY(0deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Installing now (Home #installing, /systems): each bubble slides in 8px from the right, its tick draws 250ms
+     later; pairs 300ms apart; released at 35% in view. */
+  html.js .hl-pairs:not([data-played]) :is(.hl-bubble, [data-tick]) {
+    opacity: 0;
+  }
+
+  .hl-pairs[data-played] .hl-bubble {
+    animation: hl-slide-in 0.5s var(--hl-ease) calc(var(--i) * 0.3s) both;
+  }
+
+  .hl-pairs[data-played] [data-tick] {
+    stroke-dasharray: 1;
+    animation: hl-tick-draw 0.35s ease-out calc(var(--i) * 0.3s + 0.25s) both;
+  }
+
+  /* Why hire me: the dot travels the track at an even pace (1.8s from +150ms), so it reaches station `--i` about
+     `--i` × 290ms in, and that station's tick draws then. It rests at "Then it goes live."; released at 35% in view. */
+  html.js .hl-track:not([data-played]) .hl-track-run {
+    transform: translateY(calc(-100% + 16px));
+  }
+
+  html.js .hl-track:not([data-played]) [data-tick] {
+    opacity: 0;
+  }
+
+  .hl-track[data-played] .hl-track-run {
+    animation: hl-run-y 1.8s linear 0.15s both;
+  }
+
+  .hl-track[data-played] [data-tick] {
+    stroke-dasharray: 1;
+    animation: hl-tick-draw 0.3s ease-out calc(var(--i) * 0.29s + 0.15s) both;
+  }
+
+  /* Proof (Home, /past-work): the chips pop in 120ms apart. The figures never count. */
+  html.js .hl-chips:not([data-played]) [data-chip] {
+    opacity: 0;
+  }
+
+  .hl-chips[data-played] [data-chip] {
+    animation: hl-chip-in 0.4s ease-out calc(var(--i) * 0.12s) both;
+  }
+
+  /* About: the dot travels the ring around the headshot into its gap, like the hero's (the group rotates about the
+     drawing's origin, the ring's centre). */
+  html.js .hl-about-ring:not([data-played]) .hl-about-dot {
+    transform: rotate(-250deg);
+  }
+
+  .hl-about-ring[data-played] .hl-about-dot {
+    animation: hl-orbit 2.2s cubic-bezier(0.3, 0.7, 0.2, 1) 0.1s both;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) and (min-width: 1200px) {
+  html.js .hl-track:not([data-played]) .hl-track-run {
+    transform: translateX(calc(-100% + 16px));
+  }
+
+  .hl-track[data-played] .hl-track-run {
+    animation-name: hl-run-x;
+  }
+}
+
+/* Doors on phones, which do not swing on hover: each leaf opens 8deg once and settles, the second 150ms later. The
+   frame keeps its perspective, so it reads as a door. Desktop keeps the hover and focus swing (§9.1 #4). */
+@media (prefers-reduced-motion: no-preference) and (max-width: 767px) {
+  .hl-doors[data-played] .hl-leaf {
+    animation: hl-door-nudge 0.9s;
+  }
+
+  .hl-doors[data-played] .hl-door + .hl-door .hl-leaf {
+    animation-delay: 0.15s;
   }
 }
 
@@ -1022,6 +1174,7 @@
   }
 
   .hl-stop-end {
+    position: relative;
     padding-right: 0;
   }
 
@@ -1044,11 +1197,16 @@
     height: 24px;
   }
 
-  .hl-track-dot {
-    position: absolute;
-    left: 52px;
+  /* Flat form: the columns are equal, so the first station's centre sits `--i` stop widths to the left of this one.
+     The run starts 8px before it and ends with the dot resting at 52px in the last stop. */
+  .hl-track-run {
+    left: calc(var(--i) * -100% + 22px);
+    right: calc(100% - 68px);
     top: 22px;
-    margin: 0;
+    bottom: auto;
+    flex-direction: row;
+    width: auto;
+    height: 16px;
   }
 
   .hl-stop-text {
