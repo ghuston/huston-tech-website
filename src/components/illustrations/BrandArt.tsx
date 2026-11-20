@@ -33,16 +33,6 @@ function Box({ x, y, w, h, rx }: Rect) {
   );
 }
 
-/** A station: a white disc under a drawn ring. */
-function Disc({ cx, cy, r }: { cx: number; cy: number; r: number }) {
-  return (
-    <>
-      <circle cx={cx} cy={cy} r={r} fill={WHITE} stroke="none" {...fill} />
-      <circle cx={cx} cy={cy} r={r} {...stroke} />
-    </>
-  );
-}
-
 /** A text block or a button, as a filled bar. */
 function Bar({ x, y, w, h, tint = false }: { x: number; y: number; w: number; h: number; tint?: boolean }) {
   return <rect x={x} y={y} width={w} height={h} rx={h / 2} fill={tint ? TINT : "currentColor"} stroke="none" {...fill} />;

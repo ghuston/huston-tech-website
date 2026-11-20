@@ -1,5 +1,5 @@
 /**
- * The contact form's option values and limits (docs/website-plan.md B7). The browser form and the Worker
+ * The contact form's option values and limits (docs/website-rev8.md B7). The browser form and the Worker
  * (worker/contact.ts) both validate against this module, so their rules always match. It imports nothing, because
  * the Worker bundles it too.
  */

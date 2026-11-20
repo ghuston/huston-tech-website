@@ -1,7 +1,7 @@
 import { fw } from "@/lib/framework";
 import { honeypot, needOptions, sourceOptions } from "./contact-fields";
 
-/** Copy: docs/website-plan.md Revision 8 B7 (amends Revision 7.1 B7, B7b and B8). Field options and limits live in `contact-fields.ts`. */
+/** Copy: docs/website-rev8.md B7 (amends Revision 7.1 B7, B7b and B8). Field options and limits live in `contact-fields.ts`. */
 export const contactMeta = {
   title: "Contact | Book a Free 20-Minute Call | Huston Logic",
   description:

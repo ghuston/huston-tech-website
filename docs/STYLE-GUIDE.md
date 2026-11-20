@@ -243,6 +243,8 @@ y≈808  ├─ steps section (no edge: the white glow carries across) ───
 
 ### 5.1 The card stack (component `HeroStack`)
 
+**Revision 8:** the stack's cards are now the Rev 8 board, "You say", brief, rule and chip (see `heroStack` in `home.ts`); the card descriptions below are the earlier design.
+
 The H1 drawn as a picture: in front, a client's website; behind it, the workflow it feeds. One `figure` with `role="img"` and this `aria-label`: "A small bakery's website in front. Behind it: the owner's inbox, a spreadsheet row and an automatic reply, all set off by one message through the contact form." The cards inside are `aria-hidden` content (they are a picture, not page text).
 
 | Card | Position in stage (left, top, width) | Rotation | Depth | Content |
@@ -320,6 +322,8 @@ Outfit 500 16, `green`, sentence case, 18px above the heading. Only where Rev 7 
 Inline-flex pill: white at 0.8 opacity, 1px `line` border, radius 999, padding 8 / 14 / 8 / 10, gap 9; an 18px tick-in-circle icon in `green` (1.75 stroke); text Outfit 500 15 `ink`: "AI-accelerated, checked by hand." It isn't a link and isn't interactive.
 
 ### 7.5 Compact hero doors (`HeroDoors`)
+
+**Revision 8:** the compact hero doors were removed.
 Two links side by side (`grid-template-columns: repeat(2, minmax(0,250px))`, gap 14), each a white card: radius 14, 1px `line` border, padding 16 / 18, `--hl-shadow-lift`.
 - Title: the door title with its quotes, Outfit 600 17, `ink`.
 - Below it, 8px gap: the button label as a text link in Outfit 500 15 `green`, with a slow rust underline and → ("Start a website" → `/contact?topic=website`; "Fix a workflow" → `/contact?topic=workflow`). The whole card is the link.
@@ -329,6 +333,8 @@ Two links side by side (`grid-template-columns: repeat(2, minmax(0,250px))`, gap
 ### 7.6 Card stack (`HeroStack`): §5.1, motion §9.
 
 ### 7.7 The arc: compact three steps (`ProcessSteps variant="arc"`, Home only)
+
+**Revision 8:** the arc was removed from Home; CheckTrack replaces it (see §9.4).
 
 The three steps sit on a white track that is a piece of a 1500px-radius circle, falling from top left to bottom right; the rust dot travels it once and comes to rest in a gap just past Ship it.
 
@@ -386,12 +392,18 @@ The section after the band starts on the same silver with no edge; the seam glow
 - **Focus ring:** 2px solid `rust`, offset 3px, radius 4 (follows the element's radius on cards and doors). Never removed.
 
 ### 7.11 Problems grid (`ProblemGrid`, "Sound familiar?")
+
+**Revision 8:** removed from Home.
 Eyebrow + two-voice H2. Six cells, 3 × 2 on desktop (gap 48 / 56), 1 column below 768. **No cards.** Each cell: the problem in Outfit 600 22/1.25 `ink`, then the supporting line in Inter 17/1.55. Fading vertical dividers between columns, fading horizontal divider between rows. Below the grid: the line plus a primary "Book a free call →" button.
 
 ### 7.12 What I do (`ServiceGroups`)
+
+**Revision 8:** removed from Home.
 Single-voice H2 and the intro paragraph (max 60ch). Two equal groups side by side (gap 64), stacked on mobile (Websites first), each with an Outfit 700 28 heading. Items: title Outfit 600 20, line Inter 17. A fading horizontal divider between items. Each group ends with its text link. No icons, no cards, no price badge (the price lives in the item title as copy).
 
 ### 7.13 "Already on Zoho?" callout (`ZohoCallout`)
+
+**Revision 8:** removed from Home.
 One line on a `tint` panel, radius 14, padding 20 / 24: the bold lead in Outfit 600 `green`, the sentence in Inter 17 `ink`, the text link at the end. No border, no left rule, no icon.
 
 ### 7.14 Testimonials (`TestimonialRow`)
@@ -407,6 +419,8 @@ Three columns (gap 48) with fading vertical dividers; one column on mobile. Each
 - **Proof chips** replace the v2 Proof strip: a row of three chips (wrap on mobile) carrying Rev 7's three figures ("3 of 3 clients said the project met the goals set at kickoff", "5/5 on communication", "5/5 on handoff & training"), followed by the small print in Inter 14 `ink-2`. On the page background, not on a band.
 
 ### 7.16 Case-study teasers (`CaseStudyTeaser`)
+
+**Revision 8:** case cards now carry a screenshot.
 Two tilt-and-glow cards (§6.3) side by side: the screenshot (when supplied, blurred names) at the top in a 16:10 frame, radius 10 inside the card's 14; then the business in Outfit 600 20, the one-line description in Inter 17, and the "Read the project →" text link. Until screenshots exist, the card shows text only (no placeholder image).
 
 ### 7.17 Recent websites cards (`WebsiteCards`, Home)

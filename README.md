@@ -1,6 +1,6 @@
 # Huston Logic website
 
-Marketing site for **Huston Logic**, a one-person consultancy that builds custom websites and fixes the workflows behind them, run by Grant Huston. Built with Next.js (App Router), strict TypeScript and Tailwind CSS, exported as a fully static site for **Cloudflare Workers**.
+Marketing site for **Huston Logic**, a one-person consultancy that builds personal websites and software, run by Grant Huston. Built with Next.js (App Router), strict TypeScript and Tailwind CSS, exported as a fully static site for **Cloudflare Workers**.
 
 Permanent architecture, security and content rules are in [`AGENTS.md`](./AGENTS.md). Read it before making changes.
 
@@ -9,11 +9,12 @@ Permanent architecture, security and content rules are in [`AGENTS.md`](./AGENTS
 | Route | Page |
 |---|---|
 | `/` | Home |
-| `/services` | Services (Start here, Common fixes, Systems work, FAQ) |
+| `/services` | Services (Websites, Care, FAQ) |
+| `/systems` | Systems (personal software for a business) |
 | `/past-work` | Past Work and testimonials |
 | `/about` | About Grant |
 | `/insights` | Insights ("coming soon" until the first article) |
-| `/contact` | Scheduler placeholder and the contact form (`?topic=partner` shows the Zoho partner variant) |
+| `/contact` | Scheduler placeholder and the contact form (`?topic=website` or `?topic=system` preselects the need; an old `?topic=workflow` link is treated as `system`) |
 | `/contact/thanks` | Form confirmation, reached only after a real send (noindex) |
 | `POST /api/contact` | The contact form Worker (`worker/contact.ts`), not a page |
 | `/privacy` | Privacy policy (draft, needs review) |
@@ -126,7 +127,7 @@ npm run check:placeholders   # lists every unresolved item, exits 1 while any re
 npm run build:launch         # runs the gate, then builds
 ```
 
-The gate also fails while any flag in `decisionsConfirmed` (`src/content/site.ts`) is `false`: publish the Review price, line-art style. Set each to `true` once Grant has confirmed the choice.
+The gate also fails while any flag in `decisionsConfirmed` (`src/content/site.ts`) is `false`: line-art style. Set each to `true` once Grant has confirmed the choice.
 
 Normal builds (and CI) allow placeholders so the site can be previewed. **Use `npm run build:launch` as the Cloudflare build command for the real launch** (see below) so a build with unresolved placeholders cannot go live.
 
