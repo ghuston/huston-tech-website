@@ -580,7 +580,7 @@
   }
 
   /* ---- The "Why hire me" track (CheckTrack, docs/website-rev8.md B1 §4): the arc's 16px white track, 60px
-     stations and 16px rust dot, laid flat. Horizontal from 900px; below that it runs down the left. ---- */
+     stations and 16px rust dot, laid flat. Horizontal from 1200px; below that it runs down the left. ---- */
   .hl-track {
     position: relative;
     display: flex;
@@ -874,17 +874,24 @@
 }
 
 /* Phones (§9.4): the stack stays overlapped, in a fixed 350 × 580 stage (CLS 0), with the fan-out but no tilt and no
-   3D. Positions from the phone mockup. StackTilt never attaches on touch; `!important` also beats its inline style
-   in a narrow desktop window. */
+   3D. Positions from the phone mockup. Below 390px the whole stack scales down in steps (--hl-stack-scale) and the
+   stage shrinks with it, so every card fits from 320px up and the stage's size is still fixed per width. StackTilt
+   never attaches on touch; `!important` also beats its inline style in a narrow desktop window. */
 @media (max-width: 767px) {
   .hl-stage {
-    width: 350px;
-    height: 580px;
+    --hl-stack-scale: 1;
+    width: calc(350px * var(--hl-stack-scale));
+    height: calc(580px * var(--hl-stack-scale));
     perspective: none;
   }
 
   .hl-stack {
-    transform: none !important;
+    right: auto;
+    bottom: auto;
+    width: 350px;
+    height: 580px;
+    transform: scale(var(--hl-stack-scale)) !important;
+    transform-origin: 0 0;
     transform-style: flat;
   }
 
@@ -928,8 +935,65 @@
   }
 }
 
-/* From 900px the track lies flat: a station per check along one 16px bar, the dot resting just past its end. */
-@media (min-width: 900px) {
+/* Each step fits the stage inside the 20px gutters: 350 × 0.94 = 329 (from 369px), × 0.88 = 308 (from 348px),
+   × 0.8 = 280 (from 320px). */
+@media (max-width: 389px) {
+  .hl-stage {
+    --hl-stack-scale: 0.94;
+  }
+}
+
+@media (max-width: 368px) {
+  .hl-stage {
+    --hl-stack-scale: 0.88;
+  }
+}
+
+@media (max-width: 347px) {
+  .hl-stage {
+    --hl-stack-scale: 0.8;
+  }
+}
+
+/* "What I'm installing now" (Home): one column on phones and tablets; from 1024px the pairs and the screens sit side
+   by side under the heading; from 1280px three columns, as in the desktop mockup (text, pairs, screens). */
+@media (min-width: 1024px) {
+  .hl-installing {
+    display: grid;
+    grid-template-areas: "head head" "pairs screens" "foot foot";
+    grid-template-columns: minmax(0, 1fr) auto;
+    column-gap: 48px;
+    align-items: start;
+  }
+
+  .hl-installing > :nth-child(1) {
+    grid-area: head;
+  }
+
+  .hl-installing > :nth-child(2) {
+    grid-area: pairs;
+  }
+
+  .hl-installing > :nth-child(3) {
+    grid-area: screens;
+  }
+
+  .hl-installing > :nth-child(4) {
+    grid-area: foot;
+  }
+}
+
+@media (min-width: 1280px) {
+  .hl-installing {
+    grid-template-areas: "head pairs screens" "foot pairs screens";
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 440px);
+    grid-template-rows: auto 1fr;
+  }
+}
+
+/* From 1200px the track lies flat: a station per check along one 16px bar, the dot resting just past its end. Below
+   that, seven columns are too narrow for the stop titles, so the track runs down the left. */
+@media (min-width: 1200px) {
   .hl-track {
     display: grid;
     grid-auto-columns: minmax(0, 1fr);
@@ -996,7 +1060,7 @@
   }
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1360px) {
   .hl-stop-text b {
     font-size: 20px;
   }

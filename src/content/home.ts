@@ -103,7 +103,9 @@ export const whyHireMe = {
 function caseImage(id: string) {
   const shot = caseStudies.find((study) => study.id === id)?.screenshots[0];
   if (!shot || typeof shot === "string") throw new Error(`No screenshot for case study ${id}`);
-  return { src: shot.src.replace(/\.webp$/, ""), alt: shot.alt, width: shot.width, height: shot.height };
+  // Picture serves <src>.avif and <src>.webp, so the source must be the WebP file.
+  if (!shot.src.endsWith(".webp")) throw new Error(`Case study ${id}'s screenshot is not a .webp file: ${shot.src}`);
+  return { src: shot.src.slice(0, -".webp".length), alt: shot.alt, width: shot.width, height: shot.height };
 }
 
 /** B1 section 5. The quotes come from testimonials.ts (placement "home"). */

@@ -50,20 +50,21 @@ export default function HomePage() {
       <Hero content={heroContent} callHref={bookCallHref()} stack={<HeroStack content={heroStack} />} />
 
       <section id="installing" aria-labelledby="installing-title" className="relative py-12 md:pb-20 md:pt-[72px]">
-        <Container className="relative z-[1] lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_auto] lg:grid-rows-[auto_1fr] lg:gap-x-12">
-          <div className="lg:col-start-1 lg:row-start-1">
+        {/* The four blocks are placed by .hl-installing (hl.css): stacked, then two columns, then three. */}
+        <Container className="hl-installing relative z-[1]">
+          <div>
             <Eyebrow className="mb-[14px]">{installing.eyebrow}</Eyebrow>
             <h2 id="installing-title" className="font-ui text-h2 font-bold">
               {installing.heading}
             </h2>
           </div>
-          <div className="mt-7 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:mt-0 lg:pt-2">
+          <div className="mt-7 lg:mt-9 xl:mt-0 xl:pt-2">
             <TalkPairs pairs={installing.pairs} />
           </div>
-          <div className="mt-8 lg:col-start-3 lg:row-span-2 lg:row-start-1 lg:mt-0">
-            <PhoneScreens screens={installing.screens} label={installing.screensLabel} />
+          <div className="mt-8 lg:mt-9 xl:mt-0">
+            <PhoneScreens screens={installing.screens} label={installing.screensLabel} fluid />
           </div>
-          <div className="mt-6 lg:col-start-1 lg:row-start-2">
+          <div className="mt-6 lg:mt-8 xl:mt-6">
             <p className="max-w-[60ch] text-body">{installing.line}</p>
             <div className="mt-1 md:mt-2">
               <TextLink href={installing.link.href}>{installing.link.label}</TextLink>
