@@ -2,8 +2,8 @@ name: CodeQL
 
 # Scans our own JavaScript/TypeScript for security bugs (GitHub "advanced setup": this file, not default setup).
 # JS/TS needs no build, so there is no setup-node, npm ci or autobuild step.
-# Informational for now: `codeql` is NOT a required check. To block merges on findings later, use the
-# "Require code scanning results" rule (tool: CodeQL) in the "Protect main" ruleset, not a status check.
+# Enforced through the "Require code scanning results" rule (tool: CodeQL) in the "Protect main" ruleset,
+# not a status check: `codeql` is not one of the four required status checks.
 # No `paths:` filter and no `if:` on the job. `branches:` is the GitHub-documented shape and is not a paths filter.
 # Scheduled runs only happen on the default branch, and GitHub disables schedules in a public repo
 # after 60 days without repository activity.

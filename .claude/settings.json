@@ -16,13 +16,6 @@
       "Edit(/.claude/skills/**)",
       "Edit(/.github/workflows/**)",
       "Edit(/.claude/settings*.json)"
-    ],
-    "ask": [
-      "Edit(/CLAUDE.md)",
-      "Edit(/AGENTS.md)",
-      "Edit(/package.json)",
-      "Edit(/wrangler.jsonc)",
-      "Edit(/.gitignore)"
     ]
   },
   "hooks": {
