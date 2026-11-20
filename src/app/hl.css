@@ -961,14 +961,15 @@
   }
 }
 
-/* Doors on phones, which do not swing on hover: each leaf opens 8deg once and settles, the second 150ms later. The
+/* Doors on phones, which do not swing on hover: each door observes itself (Door), and its leaf opens 8deg once and
+   settles when half the door is in view. The second keeps a 150ms lag, so when both arrive together they stagger. The
    frame keeps its perspective, so it reads as a door. Desktop keeps the hover and focus swing (§9.1 #4). */
 @media (prefers-reduced-motion: no-preference) and (max-width: 767px) {
-  .hl-doors[data-played] .hl-leaf {
+  .hl-door[data-played] .hl-leaf {
     animation: hl-door-nudge 0.9s;
   }
 
-  .hl-doors[data-played] .hl-door + .hl-door .hl-leaf {
+  .hl-door + .hl-door[data-played] .hl-leaf {
     animation-delay: 0.15s;
   }
 }
