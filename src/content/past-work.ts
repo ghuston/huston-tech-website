@@ -1,3 +1,4 @@
+import type { ProofStripContent } from "@/components/hl/ProofChips";
 import type { FrameworkStepKey } from "./site";
 import { fw } from "@/lib/framework";
 
@@ -135,6 +136,17 @@ export const ocTherapy = {
   tag: "Therapy practice",
   description:
     "Automation, a sales pipeline set up and optimized, and data analytics. The same kind of project as Irvine Family Counseling.",
+};
+
+/** The survey row under the case studies (Revision 7.1, unchanged by Revision 8; Home has its own shorter version). */
+export const proofStrip: ProofStripContent = {
+  stats: [
+    { value: "3 of 3", label: "clients said the project met the goals set at kickoff" },
+    { value: "5/5", label: "on communication" },
+    { value: "5/5", label: "on handoff & training" },
+  ],
+  footnote:
+    "From client wrap-up surveys, 2024–2025. Three projects, three perfect scores. A small sample, I know. I'm working on making it bigger.",
 };
 
 export const agencyExperience = {

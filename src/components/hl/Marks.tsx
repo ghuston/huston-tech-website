@@ -76,11 +76,14 @@ export function RingWithDot({
   ringColor,
   dotColor,
   dotRotate = 0,
+  dotClassName,
 }: {
   className?: string;
   ringColor: string;
   dotColor: string;
   dotRotate?: number;
+  /** A class on the dot's group, for a moment that moves it around the ring (the About teaser, §9.4). */
+  dotClassName?: string;
 }) {
   return (
     <svg viewBox="-380.18 -380.18 760.36 760.36" aria-hidden="true" focusable="false" className={className}>
@@ -88,8 +91,10 @@ export function RingWithDot({
         <path d={RING_PATH} fill={ringColor} />
       </g>
       <g transform={`rotate(${dotRotate})`}>
-        <g transform="translate(-766.97 -435.17)">
-          <path d={DOT_PATH} fill={dotColor} />
+        <g className={dotClassName}>
+          <g transform="translate(-766.97 -435.17)">
+            <path d={DOT_PATH} fill={dotColor} />
+          </g>
         </g>
       </g>
     </svg>
