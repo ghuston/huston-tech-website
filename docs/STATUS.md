@@ -1,8 +1,52 @@
-# Autonomous run status
+# Status
 
-Plan: `docs/PLAN.md`. Rules: CLAUDE.md, "Autonomous runs". Updated after every task.
+This is the repo's status page. Business priorities live in the Google Doc "00 Huston Logic: Source of Truth", which links
+here. Update it in place at the end of every run; do not create dated handoff files. Task list for autonomous runs:
+`docs/PLAN.md`. Rules: CLAUDE.md.
 
-## Tasks
+## Current state
+
+Updated 2026-11-21.
+
+- **Merged:** PR #66 (Revision 8: two offers, new Home, /systems) on 2026-11-20 and PR #65 (autonomy hooks and auto-merge)
+  on 2026-11-20. Merging into `main` deploys through Cloudflare Workers Builds; I have not checked the live site, so
+  "live" is not confirmed here.
+- **Open:** PR #67 (adds the "Status and source of truth" rules to CLAUDE.md) and this PR (restructures this file).
+- **Stop queue:** empty. **Flagged dependencies:** none.
+
+## Changelog
+
+- 2026-11-21: this file restructured into Current state, Changelog, Needs Grant and For the master; the earlier task
+  table, judgment calls and run notes moved to the Archive below (this PR). CLAUDE.md gets the "Status and source of
+  truth" rules (#67, open).
+- 2026-11-20: Revision 8 merged: two offers, Home rebuilt, new /systems page, /services, How I work, Past work, About
+  and Contact updated, section motion with a JS failsafe, pipeline screenshots from demo data (#66).
+- 2026-11-20: autonomy hooks, settings, selftest, Autonomous runs rules, PLAN.md and STATUS.md (#65).
+
+## Needs Grant
+
+In order:
+
+1. Review and merge PR #67, then this PR. Both only change docs.
+2. Check that the deploy of PR #66 finished in Cloudflare Workers Builds and that the live Home and /systems match the
+   Revision 8 mockups at 1440 and 390 wide.
+3. Read the copy listed under "Copy written without verbatim Rev 8 text" in the Archive below on the live site, and
+   tell me which lines to change.
+
+## For the master
+
+- The site has two offers: Accelerated Websites and AI-Centric System Redesign. The Workflow Review and the Zoho
+  specialty are no longer offers.
+- No price, rate or dollar amount appears anywhere on the site; prices are discussed in person.
+- New /systems page; Home rebuilt to the Revision 8 layout.
+- The contact form still accepts the old "workflow" topic and need and maps them to the system topic and label, so old
+  links keep working.
+
+## Archive
+
+Notes from earlier runs, kept as written.
+
+### Tasks
 
 | # | Task | PR | State |
 | --- | --- | --- | --- |
@@ -17,9 +61,9 @@ Plan: `docs/PLAN.md`. Rules: CLAUDE.md, "Autonomous runs". Updated after every t
 | R8-8 | Pipeline screenshots from local demo data (wired in R8-3) | #66 | open |
 | R8-9 | Sweep: titles, OG alt, README, style-guide notes | #66 | open |
 
-## Judgment calls
+### Judgment calls
 
-### Revision 8 run (2026-11-20)
+#### Revision 8 run (2026-11-20)
 
 One branch (`feat/rev8-rework`), one PR (#66), one commit per task plus review fixes. Not merged: Grant merges after the preview.
 
@@ -47,7 +91,7 @@ One branch (`feat/rev8-rework`), one PR (#66), one commit per task plus review f
 
 **Left as is (minor):** swipe rows are a tab stop on desktop where nothing scrolls; crossing 1200px or 767px can replay the track or door moment; below ~280px the track's last label must stay on one line; "Two ways to start" names both the door band and the Contact intro; no current-page underline on /services (hash links never mark current; predates this run).
 
-### Autonomy hooks run
+#### Autonomy hooks run
 
 - Ported from `huston-logic/site-template` main (process v2, its PR #16), file by file, not copied blind. The hooks here
   matched the template except for the autonomy changes, so `guard-bash.mjs`, `protect-config.mjs`, `selftest.mjs`,
@@ -59,10 +103,10 @@ One branch (`feat/rev8-rework`), one PR (#66), one commit per task plus review f
 - Workflow edits are comment-only: the "informational, not required" comments were stale, since `a11y`, `lighthouse` and
   `dependency-review` are required in the ruleset.
 
-## Stop queue
+### Stop queue
 
 - none (Revision 8 run: nothing needed secrets, DNS, money, accounts or real email; the pipeline screenshots worked, so the fallback was not needed)
 
-## Flagged dependencies
+### Flagged dependencies
 
 none
