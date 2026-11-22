@@ -89,8 +89,9 @@ These can go stale if the ruleset is changed in Settings, so re-check before rel
 Applies only when I start a task by saying it is an autonomous run. Then these rules replace, for that run only:
 "Plan first and wait for my approval", "Never merge it yourself; I merge", "The owner enables auto-merge; never try to
 merge" and the "Ask me only before: adding or upgrading a dependency" item. Everything else in this file still holds.
-The task list is `docs/PLAN.md` and the progress log is `docs/STATUS.md`. Update STATUS.md after every task; while PRs
-are still open and unmerged, update it only in the first PR and one closing PR so the PRs do not conflict.
+The task list is `docs/PLAN.md` and the progress log is `docs/STATUS.md`. Update STATUS.md at the end of the run (see
+"Status and source of truth"); while PRs are still open and unmerged, update it only in the first PR and one closing PR
+so the PRs do not conflict.
 - Work through the whole list without asking questions. Make judgment calls yourself and list them in the final summary.
   If a task is blocked, queue it in STATUS.md and move on.
 - One PR per task. Before each branch: `git switch main && git pull --ff-only`. No force pushes.
@@ -141,6 +142,16 @@ are still open and unmerged, update it only in the first PR and one closing PR s
   `design-v3/reference/rev8/` and `design-v3/reference/home-top.html`.
   Compare builds against the reference at 1440 × 900 and 390 × 844.
 - If a source and the code disagree, or a rule isn't clearly covered by either, tell me.
+
+## Status and source of truth
+- Business priorities live in the Google Doc "00 Huston Logic: Source of Truth". This repo's status lives in docs/STATUS.md, and the master links to it.
+- Read docs/STATUS.md before starting a run.
+- At the end of every run, update docs/STATUS.md in place:
+  - Current state: what's live, what's merged, what's open
+  - Changelog: one dated line per batch, with PR numbers
+  - Needs Grant: steps only Grant can do (secrets, deploys, approvals), in order
+  - For the master: any change to scope, product or a decision, one line each
+- Don't create dated handoff files. Update STATUS.md instead.
 
 ## Secrets
 - No secrets in code, ever. `NEXT_PUBLIC_*` variables are public, so nothing
