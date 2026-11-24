@@ -39,7 +39,10 @@ npm run lint          # ESLint
 npm run typecheck     # tsc --noEmit for the site, then for the Worker (worker/tsconfig.json)
 npm run test:worker   # contact Worker tests (Node's built-in test runner; no network)
 npm run build         # static export to ./out
-npm run check         # lint + typecheck + test:worker + build
+npm run check:process # process rules (docs length, agent models, PROCESS.md)
+npm run test:scripts  # tests for the Node scripts in scripts/
+npm run check:fast    # check:process + lint + typecheck + test:worker + test:scripts (no build)
+npm run check         # check:fast + build
 ```
 
 CI runs the same checks on every pull request (`.github/workflows/ci.yml`).

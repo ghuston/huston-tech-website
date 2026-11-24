@@ -88,7 +88,10 @@ npm run lint        # ESLint
 npm run typecheck   # tsc --noEmit (site), then tsc --noEmit -p worker
 npm run test:worker # contact Worker tests (node --test, no network)
 npm run build       # static export to ./out
-npm run check       # lint, typecheck, test:worker, build, in order
+npm run check:process   # process rules (STATUS.md and plan length, agent models, PROCESS.md, "For the master")
+npm run test:scripts    # tests for the Node scripts in scripts/
+npm run check:fast  # check:process, lint, typecheck, test:worker, test:scripts, in order (no build); runs per commit
+npm run check       # check:fast, then build; runs once before the PR
 npm run check:placeholders   # launch gate; expected to fail until placeholders are resolved
 npm run test:a11y   # Playwright + axe; needs `npm run build` first and an installed Chromium; not part of `npm run check`
 npm run test:lighthouse   # Lighthouse CI; needs `npm run build` first and Google Chrome; not part of `npm run check`
