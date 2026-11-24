@@ -15,8 +15,8 @@ clearly one or the other, ask me.
 - One branch per change, named `type/short-name` (for example `feat/faq-section`,
   `fix/nav-focus`, `chore/claude-md`).
 - Plan first and wait for my approval before editing anything.
-- Run `npm run check` before every commit. If it fails, stop and show me the
-  exact error; do not commit.
+- Run `npm run check:fast` before every commit and the full `npm run check` before every
+  pull request. If either fails, stop and show me the exact error; do not commit.
 - When the work is done, open a pull request. Never merge it yourself; I merge.
 - Merging a pull request into `main` deploys the site through Cloudflare Workers Builds.
   Never run `wrangler deploy` by hand (a hook blocks it).
@@ -80,7 +80,7 @@ These can go stale if the ruleset is changed in Settings, so re-check before rel
 ## Decision authority (fast lane)
 - Default for every task: plan, decide and build without asking me. Make implementation, layout, naming, refactor and test-placement decisions yourself, following AGENTS.md, docs/website-rev8.md and docs/STYLE-GUIDE.md.
 - Copy is verbatim from docs/website-rev8.md (Revision 8, on top of the copy already in the repo). If copy is missing or contradictory, use a [[placeholder]] and list it in the PR description; do not ask.
-- Local checks: npm run check only. CI runs a11y, Lighthouse, dependency review and CodeQL. Run local Lighthouse only if the task changes fonts or images or adds scripts over 1 KB.
+- Local checks: npm run check:fast per commit and npm run check before the PR, nothing more. CI runs a11y, Lighthouse, dependency review and CodeQL. Run local Lighthouse only if the task changes fonts or images or adds scripts over 1 KB.
 - Ask me only before: adding or upgrading a dependency; changing required checks, lighthouserc thresholds or CI behavior; anything involving credentials, secrets, accounts, DNS, email sending or payments; deleting user data; a change to the meaning of copy.
 - Every PR description starts with a "Needs your eyes" line listing any change to AGENTS.md, CLAUDE.md, package.json or README, or "none".
 - Open the PR and stop. The owner enables auto-merge; never try to merge.
@@ -89,12 +89,25 @@ These can go stale if the ruleset is changed in Settings, so re-check before rel
 Applies only when I start a task by saying it is an autonomous run. Then these rules replace, for that run only:
 "Plan first and wait for my approval", "Never merge it yourself; I merge", "The owner enables auto-merge; never try to
 merge" and the "Ask me only before: adding or upgrading a dependency" item. Everything else in this file still holds.
-The task list is `docs/PLAN.md` and the progress log is `docs/STATUS.md`. Update STATUS.md at the end of the run (see
-"Status and source of truth"); while PRs are still open and unmerged, update it only in the first PR and one closing PR
-so the PRs do not conflict.
+The task list is `docs/PLAN.md` and the progress log is `docs/STATUS.md`.
+
+Read `docs/PROCESS.md` first; it is the one home for how sites are built. There are three kinds of run:
+- **Site build:** one branch and one PR. One Sonnet session builds the whole site inline with
+  `superpowers:executing-plans`; no implementer or reviewer per task.
+- **Live-site change:** one PR per change, with all required checks. This site is live, so every merge deploys.
+- **Process run:** one PR per feature area.
+
+In every kind of run:
+- Commit per task after `npm run check:fast`. Run the full `npm run check` once before each PR.
+- One review at the end, not one per task: review-code, review-a11y and review-security once each on the whole branch,
+  then the design critique from screenshots (`docs/PROCESS.md`, rule 5). Fix what they find before the PR opens.
+- Update STATUS.md once, at the end of the run, ending with the timing table (wall-clock time, commits, time in checks,
+  time waiting on CI).
+- Model routing (`docs/PROCESS.md`, rule 8): Opus plans and does the final review; Sonnet implements; Haiku reads,
+  searches, summarizes and writes docs. Give each subagent only the files it needs.
 - Work through the whole list without asking questions. Make judgment calls yourself and list them in the final summary.
   If a task is blocked, queue it in STATUS.md and move on.
-- One PR per task. Before each branch: `git switch main && git pull --ff-only`. No force pushes.
+- Before each branch: `git switch main && git pull --ff-only`. No force pushes.
 - Run `superpowers:requesting-code-review` before each merge and `superpowers:verification-before-completion` before
   calling anything done. If CI fails, use `superpowers:systematic-debugging`, fix the cause and push. Never weaken a
   test, threshold or axe rule to make it pass.
@@ -116,7 +129,10 @@ so the PRs do not conflict.
 ## Commands
 - `npm run dev`: dev server at http://localhost:4821 (port is fixed in package.json).
   If the port is busy, tell me what is using it instead of killing it.
-- `npm run check`: lint, then typecheck, then production build (static export to `out/`).
+- `npm run check:fast`: everything in `check` except the build (lint, typecheck, worker tests, process rules, script tests).
+- `npm run check`: `check:fast`, then the production build (static export to `out/`).
+- `npm run check:process`: the process rules (STATUS.md and plan length, agent models, PROCESS.md, "For the master").
+- `npm run test:scripts`: tests for the Node scripts in `scripts/`.
 - `npm run preview`: serves the built `out/` folder the way Cloudflare Workers will,
   including `public/_headers`. Run `npm run build` first.
 - `npm run check:placeholders`: launch gate; failing is expected until content is final.
@@ -148,9 +164,11 @@ so the PRs do not conflict.
 - Read docs/STATUS.md before starting a run.
 - At the end of every run, update docs/STATUS.md in place:
   - Current state: what's live, what's merged, what's open
-  - Changelog: one dated line per batch, with PR numbers
   - Needs Grant: steps only Grant can do (secrets, deploys, approvals), in order
-  - For the master: any change to scope, product or a decision, one line each
+  - For the master: any change to scope, product or a decision, one plain line each, no PR numbers, at most 12 lines
+  - Last run: what it did, with PR numbers, ending with the timing table
+- STATUS.md holds those four parts only and stays under 150 lines (`npm run check:process`). Move older history,
+  unchanged, to `docs/history/STATUS-history.md`.
 - Don't create dated handoff files. Update STATUS.md instead.
 
 ## Secrets
