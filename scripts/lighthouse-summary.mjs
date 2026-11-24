@@ -38,7 +38,7 @@ const thresholds = categories
   .filter(Boolean)
   .join(", ");
 
-console.log("## Lighthouse (mobile, median of 5 runs)\n");
+console.log("## Lighthouse (mobile, median of 3 runs)\n");
 console.log(`Thresholds: ${thresholds}. ❌ fails the job, ⚠️ only warns.${chrome ? ` Browser: ${chrome}.` : ""}\n`);
 console.log(`| Page | ${categories.map(([, label]) => label).join(" | ")} |`);
 console.log(`|---|${categories.map(() => "---:").join("|")}|`);

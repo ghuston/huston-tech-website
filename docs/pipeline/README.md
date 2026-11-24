@@ -1,3 +1,5 @@
+This is a copy of the template's handbook (`huston-logic/site-template`, `docs/pipeline/`); the template's copy is the truth.
+
 # Delivery pipeline handbook
 
 The technical handbook of the delivery pipeline used by this repo, written for the AI agents and

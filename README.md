@@ -39,7 +39,10 @@ npm run lint          # ESLint
 npm run typecheck     # tsc --noEmit for the site, then for the Worker (worker/tsconfig.json)
 npm run test:worker   # contact Worker tests (Node's built-in test runner; no network)
 npm run build         # static export to ./out
-npm run check         # lint + typecheck + test:worker + build
+npm run check:process # process rules (docs length, agent models, PROCESS.md)
+npm run test:scripts  # tests for the Node scripts in scripts/
+npm run check:fast    # check:process + lint + typecheck + test:worker + test:scripts (no build)
+npm run check         # check:fast + build
 ```
 
 CI runs the same checks on every pull request (`.github/workflows/ci.yml`).
@@ -82,7 +85,7 @@ npm run build
 npm run test:lighthouse
 ```
 
-`npm run build && npm run test:lighthouse` audits the built site with Lighthouse CI (mobile preset, median of 5 runs per page) against the eight indexable pages in `src/lib/routes.ts` (a `noindex` page cannot pass the SEO check, and the 404 page returns an error status). It serves `out/` through `scripts/preview.mjs`, so the headers in `public/_headers` apply, and uses the Google Chrome installed on your machine (or `CHROME_PATH`). Reports are written to `.lighthouseci/` (git-ignored). Accessibility and SEO must score 0.95 or higher, and best-practices and performance 0.9 or higher; all four fail the job (`lighthouserc.cjs`). The preview server does not compress files or set cache headers the way Cloudflare does, so its performance score understates the deployed site.
+`npm run build && npm run test:lighthouse` audits the built site with Lighthouse CI (mobile preset, median of 3 runs per page) against the eight indexable pages in `src/lib/routes.ts` (a `noindex` page cannot pass the SEO check, and the 404 page returns an error status). It serves `out/` through `scripts/preview.mjs`, so the headers in `public/_headers` apply, and uses the Google Chrome installed on your machine (or `CHROME_PATH`). Reports are written to `.lighthouseci/` (git-ignored). Accessibility and SEO must score 0.95 or higher, and best-practices and performance 0.9 or higher; all four fail the job (`lighthouserc.cjs`). The preview server does not compress files or set cache headers the way Cloudflare does, so its performance score understates the deployed site.
 
 In CI this is the `lighthouse` job in `.github/workflows/ci.yml`. It is a required check in the "Protect main" ruleset, so a red result blocks merge. Scores for every page are in the run's Summary, and the full HTML and JSON reports are the `lighthouse-reports` artifact (kept 14 days; open the `.report.html` for the failing URL to see which audits failed). If it fails with `NO_NAVSTART` (a Lighthouse trace-recording hiccup, not a site problem), click "Re-run failed jobs" on the run.
 
