@@ -143,18 +143,19 @@ The contact page shows a disabled "Pick a time" button, clearly marked, and ever
 
 The form on `/contact` (`src/components/hl/ContactForm.tsx`) posts JSON to `POST /api/contact`, handled by a small Worker script, `worker/contact.ts`. `wrangler.jsonc` runs the Worker **only for `/api/*`** (`run_worker_first`); every page and file is still the static export in `./out`.
 
-**What one submission does**, in order: same-origin check, JSON only, at most 16 KB; rate limit (5 per minute per IP, the `CONTACT_RATE_LIMIT` binding); spam-trap field (`company_fax`, refused with an honest error); the same validation as the form (`src/lib/contact-validation.ts`); Cloudflare Turnstile verified server-side (hostname and `action: "contact"` must match). Then it appends a row to Grant's Google Sheet, emails the submission to grant@hustonlogic.com (Reply-To = the visitor) with a line saying whether the Sheet row was saved, and sends the visitor the B7b automatic reply. The notification is **plain text only**, through Resend, from `Huston Logic <grant@hustonlogic.com>`. The automatic reply is multipart (HTML + plain text, same words) from `Grant Huston <grant@hustonlogic.com>`, with `Auto-Submitted: auto-replied` and `X-Auto-Response-Suppress: All` headers. The Sheet is written with `valueInputOption=RAW`, and cells starting with `= + - @` get a leading `'`.
+**What one submission does**, in order: same-origin check, JSON only, at most 16 KB; rate limit (5 per minute per IP, the `CONTACT_RATE_LIMIT` binding); spam-trap field (`company_fax`, refused with an honest error); the same validation as the form (`src/lib/contact-validation.ts`); Cloudflare Turnstile verified server-side (hostname and `action: "contact"` must match). Then it sends the lead to Grant's Pipeline app (`POST https://pipeline.hustonlogic.com/intake`, server to server, secret in the `X-Intake-Secret` header; the form's other answers go into the message text, labelled). If `INTAKE_SECRET` is not set yet, or the app does not answer with a 2xx, it appends a row to Grant's Google Sheet instead. Then it emails the submission to grant@hustonlogic.com (Reply-To = the visitor) with a "Saved to:" line saying where it landed, and sends the visitor the B7b automatic reply. Previews never call the app. The notification is **plain text only**, through Resend, from `Huston Logic <grant@hustonlogic.com>`. The automatic reply is multipart (HTML + plain text, same words) from `Grant Huston <grant@hustonlogic.com>`, with `Auto-Submitted: auto-replied` and `X-Auto-Response-Suppress: All` headers. The Sheet is written with `valueInputOption=RAW`, and cells starting with `= + - @` get a leading `'`.
 
-**What the visitor sees.** Success only when the note reached Grant (the Sheet row or the email). Then the form saves the first name and whether the automatic reply went out in `sessionStorage` (never the URL) and moves to `/contact/thanks`, which says "Got it, thanks {name}." If the automatic reply failed, the thanks page says so. Every failure keeps the visitor's answers and shows one of the three B7 send errors. Without JavaScript nothing is sent.
+**What the visitor sees.** Success only when the note reached Grant (the app, the Sheet row or the email). Then the form saves the first name and whether the automatic reply went out in `sessionStorage` (never the URL) and moves to `/contact/thanks`, which says "Got it, thanks {name}." If the automatic reply failed, the thanks page says so. Every failure keeps the visitor's answers and shows one of the three B7 send errors. Without JavaScript nothing is sent.
 
-| Sheet | Email to Grant | Result |
+| Saved in (app, else Sheet) | Email to Grant | Result |
 |---|---|---|
-| saved | sent | Success. |
-| failed | sent | Success. The email says "Sheet: NOT saved - add this one by hand". |
-| saved | failed | Success (the row is real), logged as `notify_failed_sheet_saved`. Covered by the weekly Sheet check below. |
-| failed | failed | Error "Something broke on my end…", and no automatic reply. |
+| the app, or the Sheet | sent | Success. The email's "Saved to:" line says which. |
+| neither | sent | Success. The email says "Saved to: NOWHERE - add this one by hand". |
+| the app | failed | Success (the lead is real), logged as `notify_failed_app_saved`. |
+| the Sheet | failed | Success (the row is real), logged as `notify_failed_sheet_saved`. Covered by the weekly Sheet check below. |
+| neither | failed | Error "Something broke on my end…", and no automatic reply. |
 
-**Weekly check:** once a week, open the Sheet's `Submissions` tab and make sure every row has had a reply. A row with no email in the inbox means the notification failed.
+**Weekly check:** once a week, open the Pipeline app's lead list and the Sheet's `Submissions` tab and make sure every lead has had a reply. A lead with no email in the inbox means the notification failed. Once the app is connected, the Sheet only holds leads the app missed.
 
 **Modes** (`SITE_ENV`, from `wrangler.jsonc`):
 - `production`: the live site.
@@ -167,7 +168,7 @@ The form on `/contact` (`src/components/hl/ContactForm.tsx`) posts JSON to `POST
 
 ### Secrets
 
-Four Worker secrets, set by Grant in his own Terminal from the repo folder, never in the repo, chat or logs. `wrangler.jsonc` lists their names (`secrets.required`), and a deploy fails while one is missing. Each command asks for the value with hidden input.
+Four required Worker secrets (plus the optional `INTAKE_SECRET`), set by Grant in his own Terminal from the repo folder, never in the repo, chat or logs. `wrangler.jsonc` lists the four required names (`secrets.required`), and a deploy fails while one is missing. Each command asks for the value with hidden input.
 
 | Name | Value |
 |---|---|
@@ -175,6 +176,7 @@ Four Worker secrets, set by Grant in his own Terminal from the repo folder, neve
 | `TURNSTILE_SECRET_KEY` | The Turnstile widget's secret key |
 | `GOOGLE_SERVICE_ACCOUNT_KEY` | The whole service-account JSON key file |
 | `GOOGLE_SHEET_ID` | The Sheet ID (between `/d/` and `/edit` in its URL) |
+| `INTAKE_SECRET` | Optional until Grant adds it to `secrets.required`. The shared secret for the Pipeline app's `/intake`; the same value is set in the Pipeline copy. While unset, every lead goes to the Sheet. Production only: previews do not use it. |
 
 ```bash
 npx wrangler secret put RESEND_API_KEY

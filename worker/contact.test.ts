@@ -10,10 +10,12 @@ import { resetTokenCache, safeCell, signAssertion } from "./sheets.ts";
 import { firstName } from "../src/lib/first-name.ts";
 import { topicFromUrl } from "../src/content/contact-fields.ts";
 import { validateContact } from "../src/lib/contact-validation.ts";
+import { intakeMessage } from "./intake.ts";
 
 type Call = { url: string; init: RequestInit; json: Record<string, unknown> | null };
 
 const ORIGIN = "https://hustonlogic.com";
+const INTAKE_SECRET = "intake-test-secret";
 const VISITOR = { name: "Ada Lovelace", email: "ada@example.org", message: "Inquiries get lost between three inboxes." };
 
 let calls: Call[] = [];
@@ -35,10 +37,12 @@ function defaultResponders(): Record<string, () => Response> {
     sheets: () => jsonResponse({ updates: { updatedRows: 1 } }),
     notify: () => jsonResponse({ id: "email-1" }),
     reply: () => jsonResponse({ id: "email-2" }),
+    pipeline: () => jsonResponse({ ok: true }, 201),
   };
 }
 
 function route(url: string, init: RequestInit): string {
+  if (url === "https://pipeline.hustonlogic.com/intake") return "pipeline";
   if (url.includes("turnstile/v0/siteverify")) return "siteverify";
   if (url.startsWith("https://oauth2.googleapis.com/token")) return "token";
   if (url.startsWith("https://sheets.googleapis.com/")) return "sheets";
@@ -115,7 +119,7 @@ afterEach(() => {
   console.log = realLog;
   // No log line may ever hold what the visitor typed.
   for (const line of logs) {
-    for (const secret of [VISITOR.name, VISITOR.email, VISITOR.message, "203.0.113.9", "re_test", "turnstile-test-secret"]) {
+    for (const secret of [VISITOR.name, VISITOR.email, VISITOR.message, "203.0.113.9", "re_test", "turnstile-test-secret", INTAKE_SECRET]) {
       assert.ok(!line.includes(secret), `log line leaked "${secret}": ${line}`);
     }
   }
@@ -465,6 +469,167 @@ describe("failures", () => {
     assert.equal(keys.length, 2);
     assert.equal(keys[0], keys[1]);
   });
+});
+
+describe("the Pipeline app", () => {
+  const withApp = () => env({ INTAKE_SECRET });
+  const PIPELINE_URL = "https://pipeline.hustonlogic.com/intake";
+  const notifyText = () => String(called("notify")[0].json?.text);
+
+  test("without INTAKE_SECRET the app is never called and the Sheet is used", async () => {
+    const response = await worker.fetch(post(valid), env());
+    assert.equal(response.status, 200);
+    assert.equal(called("pipeline").length, 0);
+    assert.equal(called("sheets").length, 1);
+    assert.ok(notifyText().includes("Saved to: the Google Sheet"));
+    assert.ok(notifyText().includes("Pipeline app: not connected yet"));
+  });
+
+  test("with the secret, the app gets the lead server to server and the Sheet is skipped", async () => {
+    const response = await worker.fetch(post({ ...valid, business: "Acme", tools: "QuickBooks", website: "https://acme.example", topic: "system" }), withApp());
+    assert.deepEqual(await bodyOf(response), { ok: true, autoReply: true });
+    const [intake] = called("pipeline");
+    assert.equal(intake.url, PIPELINE_URL);
+    assert.equal(intake.init.method, "POST");
+    const headers = intake.init.headers as Record<string, string>;
+    assert.equal(headers["x-intake-secret"], INTAKE_SECRET);
+    assert.equal(headers["content-type"], "application/json");
+    assert.deepEqual(Object.keys(intake.json ?? {}).sort(), ["business", "email", "message", "name", "source"]);
+    assert.equal(intake.json?.name, VISITOR.name);
+    assert.equal(intake.json?.email, VISITOR.email);
+    assert.equal(intake.json?.business, "Acme");
+    assert.equal(intake.json?.source, "hustonlogic.com contact form");
+    const message = String(intake.json?.message);
+    for (const line of ["Need: A website", "Topic link: system", "Uses today: QuickBooks", "Current website: https://acme.example", "Heard about Huston Logic: Google"]) {
+      assert.ok(message.includes(line), line);
+    }
+    assert.ok(message.endsWith(VISITOR.message));
+    assert.equal(called("sheets").length, 0);
+    assert.ok(notifyText().includes("Saved to: the Pipeline app"));
+    assert.ok(!notifyText().includes("NOT saved"));
+    assert.ok(!JSON.stringify(called("notify")[0].json).includes(INTAKE_SECRET));
+  });
+
+  test("a repeat (200) counts as saved", async () => {
+    responders.pipeline = () => jsonResponse({ ok: true }, 200);
+    await worker.fetch(post(valid), withApp());
+    assert.equal(called("sheets").length, 0);
+    assert.ok(notifyText().includes("Saved to: the Pipeline app"));
+  });
+
+  test("a 500 from the app is retried once, then the Sheet takes it and the email says so", async () => {
+    responders.pipeline = () => jsonResponse({ ok: false }, 500);
+    const response = await worker.fetch(post(valid), withApp());
+    assert.equal(response.status, 200);
+    assert.equal(called("pipeline").length, 2);
+    assert.equal(called("sheets").length, 1);
+    assert.ok(notifyText().includes("Saved to: the Google Sheet (the Pipeline app did not take it)"));
+    assert.ok(notifyText().includes("Sheet: saved"));
+    assert.ok(logs.some((l) => l.includes("intake_failed")));
+  });
+
+  test("a 401 (wrong secret) is not retried and falls back to the Sheet", async () => {
+    responders.pipeline = () => jsonResponse({ ok: false, error: "unauthorized" }, 401);
+    const response = await worker.fetch(post(valid), withApp());
+    assert.equal(response.status, 200);
+    assert.equal(called("pipeline").length, 1);
+    assert.equal(called("sheets").length, 1);
+  });
+
+  test("a redirect from the app is never followed (the secret and lead stay put) and counts as a failure", async () => {
+    responders.pipeline = () => new Response(null, { status: 307, headers: { location: "https://elsewhere.example/intake" } });
+    const response = await worker.fetch(post(valid), withApp());
+    assert.equal(response.status, 200);
+    assert.equal(called("pipeline").length, 1, "a 3xx is not retried");
+    assert.equal(called("pipeline")[0].init.redirect, "manual");
+    assert.equal(called("sheets").length, 1);
+    assert.ok(notifyText().includes("Saved to: the Google Sheet (the Pipeline app did not take it)"));
+  });
+
+  test("an unreachable app falls back to the Sheet", async () => {
+    responders.pipeline = () => {
+      throw new TypeError("network down");
+    };
+    const response = await worker.fetch(post(valid), withApp());
+    assert.equal(response.status, 200);
+    assert.equal(called("pipeline").length, 2, "a network failure is retried once");
+    assert.equal(called("sheets").length, 1);
+    assert.ok(logs.some((l) => l.includes("intake_unreachable")));
+  });
+
+  test("app and Sheet both fail but the email works: success, and the email says to add it by hand", async () => {
+    responders.pipeline = () => jsonResponse({}, 401);
+    responders.sheets = () => jsonResponse({}, 403);
+    const response = await worker.fetch(post(valid), withApp());
+    assert.equal(response.status, 200);
+    assert.ok(notifyText().includes("Saved to: NOWHERE - add this one by hand"));
+    assert.ok(notifyText().includes("Sheet: NOT saved - add this one by hand"));
+  });
+
+  test("app, Sheet and email all fail: 502 and no automatic reply", async () => {
+    responders.pipeline = () => jsonResponse({}, 503);
+    responders.sheets = () => jsonResponse({}, 503);
+    responders.notify = () => jsonResponse({}, 503);
+    const response = await worker.fetch(post(valid), withApp());
+    assert.equal(response.status, 502);
+    assert.equal(called("reply").length, 0);
+  });
+
+  test("app saved, email failed: still success (the lead is real)", async () => {
+    responders.notify = () => jsonResponse({}, 503);
+    const response = await worker.fetch(post(valid), withApp());
+    assert.equal(response.status, 200);
+    assert.equal(called("sheets").length, 0);
+    assert.ok(logs.some((l) => l.includes("notify_failed_app_saved")));
+  });
+
+  test("preview never calls the production app and keeps using the Preview tab", async () => {
+    const host = "feat-x-huston-site.acct.workers.dev";
+    responders.siteverify = () => jsonResponse({ success: true, hostname: host, action: "contact" });
+    const response = await worker.fetch(post(valid, { origin: `https://${host}`, url: `https://${host}/api/contact` }), env({ SITE_ENV: "preview", INTAKE_SECRET }));
+    assert.equal(response.status, 200);
+    assert.equal(called("pipeline").length, 0);
+    assert.match(called("sheets")[0].url, /values\/Preview!A%3AK:append/);
+  });
+
+  test("the app message is labelled, skips empty fields and stays within 5,000 characters", () => {
+    const base = { need: "website" as const, topic: "" as const, name: "Ada", email: "ada@example.org", business: "", tools: "", website: "", source: "" };
+    const short = intakeMessage({ ...base, message: "Hello" });
+    assert.equal(short, "Need: A website\n\nHello");
+    const long = intakeMessage({ ...base, tools: "t".repeat(500), website: "w".repeat(300), source: "Google", message: "m".repeat(5000) });
+    assert.ok(long.length <= 5000);
+    assert.ok(long.startsWith("Need: A website\nUses today: "));
+    assert.ok(long.endsWith("… [cut here; the full text is in the email to Grant]"));
+  });
+
+  test("the cut is exact at the limit and never splits an emoji", () => {
+    const base = { need: "website" as const, topic: "" as const, name: "Ada", email: "ada@example.org", business: "", tools: "", website: "", source: "" };
+    const head = "Need: A website\n\n".length;
+    assert.equal(intakeMessage({ ...base, message: "x".repeat(5000 - head) }).length, 5000, "fits exactly: not cut");
+    assert.ok(intakeMessage({ ...base, message: "x".repeat(5001 - head) }).includes("full text is in the email"));
+    const lone = /[\ud800-\udbff](?![\udc00-\udfff])|(?<![\ud800-\udbff])[\udc00-\udfff]/;
+    for (let pad = 0; pad < 4; pad++) {
+      const out = intakeMessage({ ...base, message: "x".repeat(pad) + "😀".repeat(2490) });
+      assert.ok(out.length <= 5000, `pad ${pad}`);
+      assert.ok(!lone.test(out), `pad ${pad}: lone surrogate`);
+    }
+  });
+
+  for (const status of [429, 500]) {
+    test(`a ${status} then a 201 is saved on the second attempt: the Sheet is skipped`, async () => {
+      let first = true;
+      responders.pipeline = () => {
+        const response = first ? jsonResponse({ ok: false }, status) : jsonResponse({ ok: true }, 201);
+        first = false;
+        return response;
+      };
+      const response = await worker.fetch(post(valid), withApp());
+      assert.equal(response.status, 200);
+      assert.equal(called("pipeline").length, 2);
+      assert.equal(called("sheets").length, 0);
+      assert.ok(notifyText().includes("Saved to: the Pipeline app"));
+    });
+  }
 });
 
 describe("shared helpers", () => {
