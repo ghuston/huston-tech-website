@@ -5,6 +5,8 @@ export interface ContactEnv {
   TURNSTILE_SECRET_KEY?: string;
   GOOGLE_SERVICE_ACCOUNT_KEY?: string;
   GOOGLE_SHEET_ID?: string;
+  /** Shared secret for the Pipeline app's /intake. Optional: while unset, every lead goes to the Sheet. */
+  INTAKE_SECRET?: string;
   CONTACT_RATE_LIMIT?: RateLimit;
 }
 

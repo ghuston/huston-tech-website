@@ -3,15 +3,17 @@ import { providers } from "../src/content/providers.ts";
 import { contactKeys, validateContact, type ContactInput } from "../src/lib/contact-validation.ts";
 import { sendEmail } from "./email.ts";
 import { log, resolveMode, type ContactEnv } from "./env.ts";
-import { autoReplyEmail, notificationEmail, sheetRow } from "./messages.ts";
+import { sendToPipeline } from "./intake.ts";
+import { autoReplyEmail, notificationEmail, sheetRow, type Saved } from "./messages.ts";
 import { appendRow } from "./sheets.ts";
 import { verifyTurnstile } from "./turnstile.ts";
 
 /**
  * The contact form Worker (docs/website-plan.md E6). wrangler.jsonc runs it only for /api/*; everything else is the
  * static export in ./out. POST /api/contact: same-origin JSON, rate limit, honeypot, the same validation as the form,
- * Turnstile, then the Sheet row, the email to Grant and the automatic reply. It never reports success unless the note
- * reached Grant (the Sheet or the email) and never sends HTML.
+ * Turnstile, then the Pipeline app (or, if the app is not set up or fails, the Sheet row), the email to Grant and the
+ * automatic reply. It never reports success unless the note reached Grant (the app, the Sheet or the email) and never
+ * sends HTML to anyone but the visitor's fixed-template reply.
  */
 
 const MAX_BODY_BYTES = 16 * 1024;
@@ -158,17 +160,23 @@ async function handleContact(request: Request, env: ContactEnv, url: URL): Promi
     return json(200, { ok: true, autoReply: true });
   }
 
-  // The Sheet goes first so the email to Grant can say whether the row was saved.
+  // The Pipeline app comes first (production only: a preview never puts test leads in the real pipeline), then the
+  // Sheet if the app did not take it, so nothing is lost while INTAKE_SECRET is unset or the app is down. Both come
+  // before the email so it can say where the submission was saved.
   const id = crypto.randomUUID();
-  const sheetSaved = await appendRow(env.GOOGLE_SERVICE_ACCOUNT_KEY, env.GOOGLE_SHEET_ID, mode === "preview" ? "Preview" : "Submissions", sheetRow(submission, mode, receivedAt));
-  const notification = notificationEmail(submission, mode, receivedAt, sheetSaved);
+  const app: Saved["app"] = mode !== "production" ? "preview" : !env.INTAKE_SECRET ? "off" : (await sendToPipeline(env.INTAKE_SECRET, submission)) ? "saved" : "failed";
+  if (app === "off") log("intake_not_configured");
+  const sheet: Saved["sheet"] =
+    app === "saved" ? "skipped" : (await appendRow(env.GOOGLE_SERVICE_ACCOUNT_KEY, env.GOOGLE_SHEET_ID, mode === "preview" ? "Preview" : "Submissions", sheetRow(submission, mode, receivedAt))) ? "saved" : "failed";
+  const saved = app === "saved" || sheet === "saved";
+  const notification = notificationEmail(submission, mode, receivedAt, { app, sheet });
   const notified = await sendEmail(env.RESEND_API_KEY, { from: FROM, to: SITE_EMAIL, replyTo: submission.email, ...notification }, `${id}-notify`, "notify");
 
-  if (!sheetSaved && !notified) {
+  if (!saved && !notified) {
     log("capture_failed");
     return json(502, { ok: false, error: "failed" });
   }
-  if (!notified) log("notify_failed_sheet_saved");
+  if (!notified) log(app === "saved" ? "notify_failed_app_saved" : "notify_failed_sheet_saved");
 
   const reply = autoReplyEmail(submission, mode, providers.schedulerUrl ?? BOOKING_FALLBACK);
   const recipient = mode === "production" ? submission.email : SITE_EMAIL;

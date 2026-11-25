@@ -17,8 +17,28 @@ function previewPrefix(mode: Mode): string {
   return mode === "production" ? "" : "[Preview] ";
 }
 
-/** The internal email to Grant: plain text, every field labelled, plus whether the Sheet row was saved. */
-export function notificationEmail(s: ContactSubmission, mode: Mode, receivedAt: string, sheetSaved: boolean) {
+/**
+ * Where a submission landed. `app`: the Pipeline app took it, did not (`failed`), is not connected yet (`off`), or is
+ * not used in previews. `sheet`: written, failed, or not tried because the app had it.
+ */
+export type Saved = { app: "saved" | "failed" | "off" | "preview"; sheet: "saved" | "failed" | "skipped" };
+
+const APP_LINE: Record<Saved["app"], string> = {
+  saved: "Pipeline app: saved",
+  failed: "Pipeline app: NOT saved - check the app and INTAKE_SECRET",
+  off: "Pipeline app: not connected yet",
+  preview: "Pipeline app: not used in previews",
+};
+
+function savedLines({ app, sheet }: Saved): string[] {
+  const where =
+    app === "saved" ? "the Pipeline app" : sheet !== "saved" ? "NOWHERE - add this one by hand" : app === "failed" ? "the Google Sheet (the Pipeline app did not take it)" : "the Google Sheet";
+  const sheetLine = sheet === "saved" ? "Sheet: saved" : sheet === "failed" ? "Sheet: NOT saved - add this one by hand" : "Sheet: not used (the app has it)";
+  return [`Saved to: ${where}`, APP_LINE[app], sheetLine];
+}
+
+/** The internal email to Grant: plain text, every field labelled, plus where the submission was saved. */
+export function notificationEmail(s: ContactSubmission, mode: Mode, receivedAt: string, saved: Saved) {
   const subject = cap(`${previewPrefix(mode)}New note: ${needLabel(s)} from ${s.name}`, 120);
   const lines = [
     `Need: ${needLabel(s)}`,
@@ -34,7 +54,7 @@ export function notificationEmail(s: ContactSubmission, mode: Mode, receivedAt: 
     s.message,
     "",
     `Received: ${receivedAt}`,
-    sheetSaved ? "Sheet: saved" : "Sheet: NOT saved - add this one by hand",
+    ...savedLines(saved),
   ];
   if (mode !== "production") lines.push(`Mode: ${mode}`);
   return { subject, text: lines.join("\n") };
