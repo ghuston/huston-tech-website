@@ -81,3 +81,35 @@ One branch (`feat/rev8-rework`), one PR (#66), one commit per task plus review f
 ### Flagged dependencies
 
 none
+
+## Run: Port the website process (2026-11-24, moved from STATUS.md unchanged)
+
+One branch (`chore/port-website-process`), one PR (#69). No page, copy, image or style changed.
+
+- Added `scripts/check-process.mjs`, its 12 tests and `scripts/process-rules.json` (rule 7 off); `package.json` gets
+  `check:process`, `test:scripts` and `check:fast`, and `check` is now `check:fast` then the build.
+- `lighthouserc.cjs`: `numberOfRuns` 5 to 3 (approved). No threshold or assertion touched; the README sentence says 3.
+- Added `docs/PROCESS.md` (follows the template, with this repo's own timings), `docs/LAUNCH-CHECKLIST.md`, the one
+  line at the top of `docs/pipeline/README.md`, and this plan: `docs/superpowers/plans/2026-11-24-port-website-process.md`.
+- Stale "5 runs" and command-list text fixed after the review: the Lighthouse summary heading in
+  `scripts/lighthouse-summary.mjs`, the Checks block in AGENTS.md and the command list in README.md.
+- CLAUDE.md: "Autonomous runs" is the template's; the full-check-on-every-commit lines now say `check:fast` per commit
+  and `check` before the PR; the Status rules match the new four-part, 150-line file.
+- This file cut to its four parts; the Changelog and the Archive moved unchanged to `docs/history/STATUS-history.md`.
+  The old Needs Grant item "review and merge the two docs PRs" is done (both merged) and was dropped; items 2 and 3 of
+  the old list are kept as items 2 and 3 above.
+- PROCESS.md is the template's text, so its "Where facts live" and rule 7 still describe the template repo and name
+  `check:scope` and `docs/CHANGE-SCOPE.md`, which this repo lacks (Needs Grant, item 5). Left as copied on purpose.
+- Owner-only files written as proposals in the scratchpad, plus one batch script (Needs Grant, item 1).
+
+Timing (this Mac, cold build):
+
+| Measure | Value |
+|---|---|
+| Wall-clock time | about 8 minutes (14:40 to 14:48 by this Mac's clock) |
+| Commits | 6 |
+| Time in checks (all runs this session) | about 2 minutes |
+| Time waiting on CI | not measured: auto-merge was queued and the run ended |
+| Old `npm run check` | 10.5 s |
+| New `npm run check:fast` | 5.8 s |
+| New `npm run check` | 11.8 s |
