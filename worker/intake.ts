@@ -1,4 +1,3 @@
-import { fieldLimits } from "../src/content/contact-fields.ts";
 import type { ContactSubmission } from "../src/lib/contact-validation.ts";
 import { log, retryable, TIMEOUT_MS } from "./env.ts";
 import { needLabel } from "./messages.ts";
@@ -12,8 +11,9 @@ import { needLabel } from "./messages.ts";
 
 const INTAKE_URL = "https://pipeline.hustonlogic.com/intake";
 const SOURCE = "hustonlogic.com contact form";
-/** The app's limit for `message` (the form's own limit is the same, but the labels add to it). */
-const MAX_MESSAGE = fieldLimits.message;
+/** The app's limit for `message`, in characters (Pipeline README). Kept apart from the form's limit: the labels add to it. */
+const MAX_MESSAGE = 5000;
+const CUT_NOTE = "… [cut here; the full text is in the email to Grant]";
 
 /** The app's `message`: the form's labelled extras (empty ones left out), a blank line, then what the visitor wrote. */
 export function intakeMessage(s: ContactSubmission): string {
@@ -26,8 +26,11 @@ export function intakeMessage(s: ContactSubmission): string {
   ].filter(Boolean);
   const head = `${extras.join("\n")}\n\n`;
   const room = MAX_MESSAGE - head.length;
-  const body = s.message.length > room ? `${s.message.slice(0, Math.max(room - 1, 0))}…` : s.message;
-  return `${head}${body}`;
+  if (s.message.length <= room) return `${head}${s.message}`;
+  let cut = s.message.slice(0, Math.max(room - CUT_NOTE.length, 0));
+  // Never end on half of an emoji: a lone surrogate is not valid text for the app's JSON reader.
+  if (/[\ud800-\udbff]$/.test(cut)) cut = cut.slice(0, -1);
+  return `${head}${cut}${CUT_NOTE}`;
 }
 
 /** Posts the submission. Retries once on a rate limit, server error or network failure; the app ignores an exact repeat. */

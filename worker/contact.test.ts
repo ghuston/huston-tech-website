@@ -552,6 +552,7 @@ describe("the Pipeline app", () => {
     };
     const response = await worker.fetch(post(valid), withApp());
     assert.equal(response.status, 200);
+    assert.equal(called("pipeline").length, 2, "a network failure is retried once");
     assert.equal(called("sheets").length, 1);
     assert.ok(logs.some((l) => l.includes("intake_unreachable")));
   });
@@ -598,8 +599,37 @@ describe("the Pipeline app", () => {
     const long = intakeMessage({ ...base, tools: "t".repeat(500), website: "w".repeat(300), source: "Google", message: "m".repeat(5000) });
     assert.ok(long.length <= 5000);
     assert.ok(long.startsWith("Need: A website\nUses today: "));
-    assert.ok(long.endsWith("…"));
+    assert.ok(long.endsWith("… [cut here; the full text is in the email to Grant]"));
   });
+
+  test("the cut is exact at the limit and never splits an emoji", () => {
+    const base = { need: "website" as const, topic: "" as const, name: "Ada", email: "ada@example.org", business: "", tools: "", website: "", source: "" };
+    const head = "Need: A website\n\n".length;
+    assert.equal(intakeMessage({ ...base, message: "x".repeat(5000 - head) }).length, 5000, "fits exactly: not cut");
+    assert.ok(intakeMessage({ ...base, message: "x".repeat(5001 - head) }).includes("full text is in the email"));
+    const lone = /[\ud800-\udbff](?![\udc00-\udfff])|(?<![\ud800-\udbff])[\udc00-\udfff]/;
+    for (let pad = 0; pad < 4; pad++) {
+      const out = intakeMessage({ ...base, message: "x".repeat(pad) + "😀".repeat(2490) });
+      assert.ok(out.length <= 5000, `pad ${pad}`);
+      assert.ok(!lone.test(out), `pad ${pad}: lone surrogate`);
+    }
+  });
+
+  for (const status of [429, 500]) {
+    test(`a ${status} then a 201 is saved on the second attempt: the Sheet is skipped`, async () => {
+      let first = true;
+      responders.pipeline = () => {
+        const response = first ? jsonResponse({ ok: false }, status) : jsonResponse({ ok: true }, 201);
+        first = false;
+        return response;
+      };
+      const response = await worker.fetch(post(valid), withApp());
+      assert.equal(response.status, 200);
+      assert.equal(called("pipeline").length, 2);
+      assert.equal(called("sheets").length, 0);
+      assert.ok(notifyText().includes("Saved to: the Pipeline app"));
+    });
+  }
 });
 
 describe("shared helpers", () => {

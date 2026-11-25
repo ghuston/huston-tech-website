@@ -11,6 +11,7 @@
   },
   "vars": { "SITE_ENV": "production" },
   // Names only. Values are set with `wrangler secret put` (README, "Contact form").
+  // INTAKE_SECRET (the Pipeline app) is optional and deliberately not listed yet: a deploy would fail until it is set.
   "secrets": {
     "required": ["RESEND_API_KEY", "TURNSTILE_SECRET_KEY", "GOOGLE_SERVICE_ACCOUNT_KEY", "GOOGLE_SHEET_ID"]
   },
