@@ -37,6 +37,8 @@ export async function sendToPipeline(secret: string, s: ContactSubmission): Prom
     try {
       const response = await fetch(INTAKE_URL, {
         method: "POST",
+        // Never follow a redirect: it would resend the secret and the visitor's details to wherever it points. A 3xx is a failure.
+        redirect: "manual",
         headers: { "content-type": "application/json", "x-intake-secret": secret },
         body,
         signal: AbortSignal.timeout(TIMEOUT_MS),

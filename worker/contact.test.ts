@@ -536,6 +536,16 @@ describe("the Pipeline app", () => {
     assert.equal(called("sheets").length, 1);
   });
 
+  test("a redirect from the app is never followed (the secret and lead stay put) and counts as a failure", async () => {
+    responders.pipeline = () => new Response(null, { status: 307, headers: { location: "https://elsewhere.example/intake" } });
+    const response = await worker.fetch(post(valid), withApp());
+    assert.equal(response.status, 200);
+    assert.equal(called("pipeline").length, 1, "a 3xx is not retried");
+    assert.equal(called("pipeline")[0].init.redirect, "manual");
+    assert.equal(called("sheets").length, 1);
+    assert.ok(notifyText().includes("Saved to: the Google Sheet (the Pipeline app did not take it)"));
+  });
+
   test("an unreachable app falls back to the Sheet", async () => {
     responders.pipeline = () => {
       throw new TypeError("network down");
