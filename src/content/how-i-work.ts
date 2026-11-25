@@ -7,7 +7,7 @@ import { bookCallLabel } from "./site";
 export const howIWorkMeta = {
   title: "How I Work | Scope It, Shape It, Ship It | Huston Logic",
   description: fw(
-    "One process for websites and systems: a free 20-minute call, then {stepsList}. You see the plan and price before I build, and the logins are yours at the end.",
+    "One process for websites and systems: a free 20-minute call, then {stepsList}. You see the plan and price before I build, and I hand everything over whenever you ask.",
   ),
 };
 
@@ -47,15 +47,15 @@ export const howIWorkSteps: DetailedStep[] = [
     },
     system: {
       paragraph:
-        "Your own copy set up in your accounts, your form connected, your contacts imported. I test it end to end before you use it.",
+        "Your own copy set up and hosted in my accounts, your form connected, your contacts imported. I test it end to end before you use it.",
     },
   },
   {
     key: "ship",
     website: {
       paragraph:
-        "The site goes live on your domain, with the domain, hosting and form accounts in your name. You get a short guide to what's where. For six weeks after launch, small changes are included, and I fix anything that doesn't work as agreed.",
-      youGet: "the live site · every login · a handoff guide · six weeks of small changes and fixes.",
+        "The site goes live on your domain. The domain and your email stay in your name, and I host the site and its form in my own accounts for a flat fee. You get a short guide to what's where. For six weeks after launch, small changes are included, and I fix anything that doesn't work as agreed.",
+      youGet: "the live site · a handoff guide · everything handed over whenever you ask · six weeks of small changes and fixes.",
     },
     system: {
       paragraph: "30 days of tuning, a one-page handoff, and a full export whenever you want one.",

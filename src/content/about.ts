@@ -45,14 +45,14 @@ export const aboutSections = {
       "**I start with what you have.** New software isn't always the answer. Often the fix is a setting, a process or a connection between tools you already pay for.",
       "**You see the price before I build.** The plan says what's included, what isn't, and what it costs.",
       "**I try to break it before you see it.** Then I fix what broke.",
-      "**The logins are yours.** Your team is trained, the handoff is written down, and the accounts are in your name.",
+      "**It's yours to take.** Your team is trained, the handoff is written down, and I hand everything over whenever you ask.",
       "**I tell you the truth.** If you don't need a build, I'll say so.",
     ],
   },
   whatIBring: {
     heading: "What I bring",
     items: [
-      "Website design and build, on fast hosting in accounts you own",
+      "Website design and build, on fast hosting that I run for you",
       "Zoho, deeply: CRM, Creator, Analytics, Books, Desk, Flow, Forms and the rest of the suite",
       "Integrations and automations across many other tools",
       "Dashboards and reporting people actually use",

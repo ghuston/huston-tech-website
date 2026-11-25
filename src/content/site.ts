@@ -6,7 +6,7 @@ export const siteConfig = {
   url: (process.env.NEXT_PUBLIC_SITE_URL ?? "https://hustonlogic.com").replace(/\/+$/, ""),
   /** The Rev 8 Home meta description (docs/website-rev8.md, B1). Feeds the JSON-LD description. */
   oneLiner:
-    "I build websites and AI-run systems for small businesses, starting with sales follow-up you run by talking. Checked the way a big software team would. Yours when I'm done.",
+    "I build websites and AI-run systems for small businesses, starting with sales follow-up you run by talking. Checked the way a big software team would. Handed over whenever you ask.",
   copyrightYear: 2026,
   /** The About headshot's alt text. */
   headshotAlt: "Grant Huston",
@@ -72,7 +72,7 @@ export const framework: { steps: FrameworkStep[] } = {
       number: "03",
       label: "Ship it",
       past: "Shipped",
-      oneLiner: "Live, and the logins are yours.",
+      oneLiner: "Live, and handed over whenever you ask.",
     },
   ],
 };
