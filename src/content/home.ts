@@ -15,7 +15,7 @@ export const heroContent = {
   line1: "For the parts of the job",
   line2: "you never signed up for.",
   subhead:
-    "I build the systems that handle them, starting with sales follow-up you run by talking to your phone. It lives in your accounts, and it changes when you tell it to.",
+    "I build the systems that handle them, starting with sales follow-up you run by talking to your phone. I host it for you, and it changes when you tell it to.",
   supportingLine: "AI-accelerated, checked by hand.",
   cta: `${bookCallLabel} →`,
   installLink: { label: "See what I'm installing now ↘", href: "#installing" },
@@ -71,7 +71,7 @@ export const installing = {
   screensLabel: "App screens, demo data",
   /** The visible line under the screenshots (AGENTS.md: mocked screenshots are labelled "Demo data"). */
   screensNote: "Demo data",
-  line: "I set it up in your own accounts and tune it for 30 days. After that it's yours, whether or not you keep me around.",
+  line: "I set it up, host it for you, and tune it for 30 days. Your data stays yours, and if you ever want to run it yourself, I hand it all over.",
   link: { label: "See how the install works →", href: "/systems" },
 };
 
@@ -97,7 +97,7 @@ export const whyHireMe = {
   points: [
     { title: "You work with me.", body: "The person on the call is the person doing the work." },
     { title: "You see the price first.", body: "Fixed, and agreed in writing before I start." },
-    { title: "It's yours.", body: "Your accounts and your data, with or without me." },
+    { title: "It's yours.", body: "Your domain, email and data stay in your name. Ask, and I hand everything over." },
   ],
 };
 

@@ -12,6 +12,7 @@
 - **Footer:** tagline becomes "Personal websites and software." Remove the "Zoho partners: need overflow help?" line. Add Systems to the links.
 - **Offers:** two. Accelerated Websites, and AI-Centric System Redesign. The Workflow Review, the Zoho specialty as an offer, and the "from $750" price are gone.
 - **Price:** no number anywhere on the site. Prices are discussed in person.
+- **Hosting (amendment, Nov 24, 2026):** I host clients' websites and Pipeline app copies in my own accounts for a flat monthly or yearly fee (no number on the site). The client's domain and email stay in their name, and their data stays theirs. On request I hand over everything, current code included, and move it to the client's own accounts; my responsibility ends at handover. Copy never says the client's accounts, hosting or logins are in the client's name. This amendment overrides the B1 to B4 lines about accounts, logins and "yours" that said otherwise; the live wording is in `src/content/`.
 - **AI apps:** never name one. Say "your AI app" or "by talking".
 - **Industries:** name none as a target market. Client names and industries stay on testimonials and case studies, because those are facts.
 - **Protected records:** nothing may suggest the talking system is for health or other protected records.

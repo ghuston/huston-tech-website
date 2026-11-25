@@ -37,12 +37,12 @@ export const websites = {
     "A custom design",
     "A contact form that writes back, and feeds your system if you have one",
     "Fast on phones, and checked for accessibility, security and search basics before launch",
-    "Hosting in an account in your name, on your own domain",
+    "Hosting in my own accounts, on a domain that stays in your name",
     "One round of revisions before launch",
   ],
   details: [
     "**After launch:** for six weeks, small changes are included, and I fix anything that doesn't work as agreed. Want something changed? Say it in a sentence. I make the change, it passes the same checks, and it goes live. Bigger changes get a quote first.",
-    "**Price:** fixed, and agreed in writing before I start. I'll quote it after the call. Payment is 50% to start and 50% at launch.",
+    "**Price:** fixed, and agreed in writing before I start. I'll quote it after the call. Payment is 50% to start and 50% at launch. Hosting is a flat fee, paid monthly or yearly, and it's in the quote.",
   ],
   cta: { label: "Start a website →", href: "/contact?topic=website" },
 };
@@ -58,7 +58,7 @@ export const care = {
     {
       title: "Site Care (websites)",
       paragraph:
-        "Updates, monitoring and small changes to your site, with a clear monthly scope. You keep every login either way.",
+        "Updates, monitoring and small changes to your site, with a clear monthly scope. Hosting is separate, and either way I hand everything over whenever you ask.",
     },
     {
       title: "Care plan (systems)",
@@ -86,7 +86,7 @@ export const everyProject = {
       label: fw("{ship}"),
       items: [
         "A handoff guide, and training for the people who'll use it",
-        "Ownership of your accounts, data and logins",
+        "Your domain, email and data in your name, and a full handover whenever you ask",
       ],
     },
   ],
@@ -105,7 +105,7 @@ export const faq = {
     {
       question: "What does it cost?",
       answer:
-        "A fixed price, in writing, before I start. A system is a one-time install with an optional care plan, never a subscription.",
+        "A fixed price, in writing, before I start. A system is a one-time install with an optional care plan. Hosting, for a website or a system, is a flat fee, paid monthly or yearly.",
     },
     {
       question: "Do you use AI?",
@@ -114,7 +114,7 @@ export const faq = {
     {
       question: "Who owns it?",
       answer:
-        "You do. The accounts, the data and the logins are in your name. If you stop working with me, it keeps running.",
+        "You do. Your domain and email stay in your name, and your data stays yours. I host the site, or your copy of the system, in my own accounts. Ask any time and I hand over everything, current code included, and move it to your own accounts. From then on you run it, and my responsibility ends.",
     },
     {
       question: "Can I change it myself?",

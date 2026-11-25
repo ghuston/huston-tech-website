@@ -5,7 +5,7 @@ import { bookCallLabel } from "./site";
 export const systemsMeta = {
   title: "AI Systems for Small Businesses | Huston Logic",
   description:
-    "A sales follow-up system you run by talking, installed in your own accounts. A one-time install, an optional care plan, no subscription.",
+    "A sales follow-up system you run by talking, hosted by me. A one-time install, an optional care plan, and flat-fee hosting.",
 };
 
 export const systemsHero = {
@@ -25,7 +25,7 @@ export const whatISetUp = {
   heading: "What I set up",
   steps: [
     { lead: "A design call.", rest: "We set your stages and your follow-up rules." },
-    { lead: "Your own copy, in your accounts.", rest: "Your website form connected, your contacts imported from a spreadsheet." },
+    { lead: "Your own copy, hosted by me.", rest: "Your website form connected, your contacts imported from a spreadsheet." },
     { lead: "A rulebook in your voice,", rest: "and five starter rules." },
     { lead: "30 days of tuning,", rest: "then a one-page handoff." },
   ],
@@ -33,7 +33,7 @@ export const whatISetUp = {
 
 export const itsYours = {
   heading: "It's yours",
-  body: "Every account is in your name. Your data exports in full, any time. After the 30 days, a care plan is optional: updates, keeping the AI connection working, and a tune-up each quarter. Cancel it and the system keeps running.",
+  body: "I host your copy in my own accounts. Your domain and email stay in your name, and your data stays yours: it exports in full, any time. Ask, and I hand over everything, current code included, and move it to your own accounts. After the 30 days, a care plan is optional: updates, keeping the AI connection working, and a tune-up each quarter. Cancel it and the system keeps running.",
 };
 
 export const changeIt = {
@@ -46,7 +46,7 @@ export const changeIt = {
 
 export const whatItCosts = {
   heading: "What it costs",
-  body: "A one-time install price, agreed in writing before I start. No subscription. I'll share the price on the call.",
+  body: "A one-time install price, agreed in writing before I start, plus a flat hosting fee, paid monthly or yearly. I'll share the numbers on the call.",
 };
 
 export const comingSoon = {
@@ -61,7 +61,7 @@ export const protectedRecords = {
 
 export const elseIBuild = {
   heading: "What else I build this way",
-  body: "The same approach works past sales: owner dashboards, staff tools, and connections between the software you already use. Built with AI, checked the same way, yours when I'm done.",
+  body: "The same approach works past sales: owner dashboards, staff tools, and connections between the software you already use. Built with AI, checked the same way, and handed over whenever you ask.",
   link: { label: "See past work →", href: "/past-work" },
 };
 
