@@ -29,6 +29,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Check generated config
+        run: npm run check:config
+
       - name: Lint
         run: npm run lint
 
@@ -52,9 +55,9 @@ jobs:
         run: npm run check:placeholders
         continue-on-error: true
 
-  # Accessibility scan (Playwright + axe) of the built site. A required check in the "Protect main" ruleset,
-  # so a red result blocks merge. No `paths:` filter and no `if:`: a skipped required check
-  # would block merging, so this job must always run.
+  # Accessibility scan (Playwright + axe) of the built site. A required check in the "Protect main" ruleset
+  # (see docs/ruleset-protect-main.json), so a red result blocks merge. No `paths:` filter and no `if:`:
+  # a skipped required check would block merging, so this job must always run.
   a11y:
     runs-on: ubuntu-latest
     timeout-minutes: 15
@@ -90,7 +93,7 @@ jobs:
           if-no-files-found: ignore
 
   # Lighthouse CI audit of the built site (served by scripts/preview.mjs so public/_headers applies). A required
-  # check in the "Protect main" ruleset, so a red result blocks merge.
+  # check in the "Protect main" ruleset (see docs/ruleset-protect-main.json), so a red result blocks merge.
   # No `paths:` filter and no `if:` on the job: a skipped required check would block merging.
   # The `if:` on the two report steps below keeps the reports on failure too.
   lighthouse:
@@ -131,3 +134,74 @@ jobs:
           retention-days: 14
           # warn, not ignore: a missing report folder (the run stopped early) should show as a warning, not a silent success.
           if-no-files-found: warn
+
+  # Change scope check (scripts/check-change-scope.mjs; rules in scripts/change-scope-rules.mjs; docs/CHANGE-SCOPE.md).
+  # NOT a required check: it becomes required only after 5 clean runs and a deliberate-failure proof PR, and only after
+  # the ruleset is changed first (CLAUDE.md). Strict mode keys on the branch name (see docs/CHANGE-SCOPE.md, Known limits).
+  # On a pull request from a branch named change/..., it fails on a file outside
+  # tier 1, a bad image or a new [[placeholder]]; on every other branch it only reports. It needs the full history
+  # (fetch-depth: 0) to compare with the base branch. The `if:` is allowed here because this job is not required.
+  # The script reads GitHub's own variables (GITHUB_BASE_REF, GITHUB_HEAD_REF), so no branch name is pasted into a shell command.
+  change-scope:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 22
+          cache: npm
+
+      # The code check uses the typescript dev dependency, so the packages are installed.
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Script tests
+        run: node --test "scripts/*.test.mjs"
+
+      - name: Change scope check
+        run: node scripts/check-change-scope.mjs --ci
+
+  # Change report: before and after screenshots of the pages a change touches, at phone and desktop width. Informational:
+  # it never blocks a merge. The markdown goes to the job summary; the screenshots are in the uploaded artifact.
+  change-report:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build static export
+        run: npm run build
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      # Builds the base commit in a temporary git worktree for the "before" screenshots.
+      - name: Change report
+        run: node scripts/change-report.mjs --ci
+
+      - name: Upload change report
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: change-report
+          path: change-report/
+          retention-days: 14
+          if-no-files-found: ignore
