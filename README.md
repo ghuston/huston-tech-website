@@ -139,6 +139,10 @@ Normal builds (and CI) allow placeholders so the site can be previewed. **Use `n
 
 The contact page shows a disabled "Pick a time" button, clearly marked, and every "Book a free call" button points at `/contact#book` until `schedulerUrl` is set in `src/content/providers.ts`. If the scheduler is embedded in an iframe, add its origin to `frame-src` in `public/_headers`. Analytics is Cloudflare Web Analytics, which is cookieless: its two origins are in the CSP and the privacy page says so. Turn it on in the Cloudflare dashboard (nothing is added to the site's code).
 
+## Site editor
+
+The same Worker entry (`worker/index.ts`) can serve the site editor: the owner's sign-in and owner page (`/owner`), and the MCP endpoint (`/mcp`) that their AI app connects to. **It is off.** `editor.enabled` and `editor.uploads.enabled` are `false` in `site.config.ts`, no account value is set, and `wrangler.jsonc` has no editor binding, so `/owner`, `/mcp` and the OAuth paths answer 404 and the site behaves as before. The contact form is not part of it: `/api/*` always goes straight to `worker/contact.ts`. The editor runs only on the live domain, never on previews or locally. What it does, what it can change, and Grant's setup steps (a to g for the editor, h to l for uploads) are in [docs/EDITING.md](docs/EDITING.md). The site's voice for the owner's AI app is in [docs/VOICE-GUIDE.md](docs/VOICE-GUIDE.md) (still a template with `[[placeholders]]`). Its tests (`worker/editor/*.test.ts`, `worker/uploads/*.test.ts`) run in `npm run test:worker` on a fake GitHub and fake storage.
+
 ## Contact form
 
 The form on `/contact` (`src/components/hl/ContactForm.tsx`) posts JSON to `POST /api/contact`, handled by a small Worker script, `worker/contact.ts`. `wrangler.jsonc` runs the Worker **only for `/api/*`** (`run_worker_first`); every page and file is still the static export in `./out`.
@@ -290,6 +294,6 @@ src/
   content/        typed copy and site settings (single source of truth)
   lib/            fonts, metadata, JSON-LD, routes and text-token helpers
 scripts/          placeholder gate, static preview server
-worker/           contact form Worker (POST /api/contact) and its tests
+worker/           contact form Worker (POST /api/contact), the site editor when it is on (worker/editor, worker/uploads; docs/EDITING.md), and their tests
 public/_headers   Cloudflare Workers security and cache headers (static files)
 ```
