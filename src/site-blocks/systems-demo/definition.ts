@@ -48,7 +48,7 @@ export const systemsDemoDefinition = defineBlock({
     body: "One sentence about what the system does for the owner.",
     pairs: [{ said: "“Something the owner says.”", result: "What the system does." }],
     screens: [{ key: "today", label: "Today", alt: "The Today screen of the follow-up app, with demo data" }],
-    screensLabel: "App screens, demo data",
+    screensLabel: "A name for the system's app screens",
     screensNote: "Demo data",
   },
 });

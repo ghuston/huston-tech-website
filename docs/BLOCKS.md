@@ -1236,7 +1236,7 @@ A heading with the things an owner says and what the system does, the app's phon
       "alt": "The Today screen of the follow-up app, with demo data"
     }
   ],
-  "screensLabel": "App screens, demo data",
+  "screensLabel": "A name for this row of app screens",
   "screensNote": "Demo data",
   "line": "One sentence about how it is set up and handed over.",
   "link": {
@@ -1897,7 +1897,7 @@ A heading and a paragraph, the things an owner says with what the system does, a
       "alt": "The Today screen of the follow-up app, with demo data"
     }
   ],
-  "screensLabel": "App screens, demo data",
+  "screensLabel": "A name for the system's app screens",
   "screensNote": "Demo data"
 }
 ```

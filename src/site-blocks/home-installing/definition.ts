@@ -57,9 +57,9 @@ export const homeInstallingDefinition = defineBlock({
     heading: "A heading that names the system",
     pairs: [{ said: "“Something the owner says.”", result: "What the system does." }],
     screens: [{ key: "today", label: "Today", alt: "The Today screen of the follow-up app, with demo data" }],
-    screensLabel: "App screens, demo data",
+    screensLabel: "A name for this row of app screens",
     screensNote: "Demo data",
-    line: "One sentence about how it is set up and handed over.",
+    line:"One sentence about how it is set up and handed over.",
     link: { label: "See how it works →", href: "/contact" },
   },
 });
