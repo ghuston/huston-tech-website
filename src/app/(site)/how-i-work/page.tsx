@@ -30,11 +30,11 @@ export default function HowIWorkPage() {
 
       <section aria-labelledby="step-zero-title" className="py-12 md:py-16">
         <Container>
-          <ArtAside align="center" phone="below" art={<TwentyMinutesArt draw className="md:max-w-[220px]" />}>
+          <ArtAside align="center" phone="below" art={<TwentyMinutesArt draw className="md:max-w-portrait" />}>
             <h2 id="step-zero-title" className="font-ui text-h2 font-bold">
               {stepZero.heading}
             </h2>
-            <p className="mt-5 max-w-[60ch] text-body">{stepZero.body}</p>
+            <p className="mt-5 max-w-intro text-body">{stepZero.body}</p>
           </ArtAside>
         </Container>
       </section>
@@ -50,7 +50,7 @@ export default function HowIWorkPage() {
           <h2 id="after-launch-title" className="font-ui text-h2 font-bold">
             {afterLaunch.heading}
           </h2>
-          <div className="mt-5 max-w-[60ch] space-y-4 text-body">
+          <div className="mt-5 max-w-intro space-y-4 text-body">
             <p>
               {afterLaunch.care.before}
               <TextLink inline href={afterLaunch.care.link.href}>

@@ -29,7 +29,7 @@ export default function InsightsPage() {
                   <li
                     key={category}
                     aria-current={active ? "true" : undefined}
-                    className={`inline-flex min-h-11 items-center font-ui text-[16px] font-medium ${active ? "underline decoration-rust decoration-[1.5px] underline-offset-[.35em]" : "text-ink-2"}`}
+                    className={`inline-flex min-h-11 items-center font-ui text-chip font-medium ${active ? "underline decoration-rust decoration-link underline-offset-third-em" : "text-ink-2"}`}
                   >
                     {category}
                   </li>
@@ -37,7 +37,7 @@ export default function InsightsPage() {
               })}
             </ul>
           ) : null}
-          <p className="max-w-[60ch] text-body">
+          <p className="max-w-intro text-body">
             {insightsEmpty.body}{" "}
             <TextLink inline href={insightsEmpty.askLink.href}>
               {insightsEmpty.askLink.label}

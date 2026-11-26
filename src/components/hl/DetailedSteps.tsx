@@ -24,7 +24,7 @@ type DetailedStepsProps = {
 function Column({ label, youGetLabel, column }: { label: string; youGetLabel?: string; column: StepColumn }) {
   return (
     <div>
-      <p className="font-ui text-[15px] font-semibold text-green">{label}</p>
+      <p className="font-ui text-label font-semibold text-green">{label}</p>
       <p className="mt-2 text-body">
         <Text>{column.paragraph}</Text>
       </p>
@@ -47,18 +47,18 @@ export function DetailedSteps({ steps, labels, headingLevel = 3, proof }: Detail
   return (
     <div>
       <div className="relative">
-        <div aria-hidden="true" className="absolute bottom-5 left-5 top-7 w-4 rounded-pill bg-white md:left-[31px] md:top-10" />
-        <div aria-hidden="true" className="absolute bottom-0 left-5 size-4 rounded-pill bg-rust md:left-[31px]" />
+        <div aria-hidden="true" className="absolute bottom-5 left-5 top-7 w-4 rounded-pill bg-white md:left-7.75 md:top-10" />
+        <div aria-hidden="true" className="absolute bottom-0 left-5 size-4 rounded-pill bg-rust md:left-7.75" />
         <ol className="relative">
           {steps.map((step) => {
             const info = getStep(step.key);
             return (
               <li key={step.key} className="relative grid grid-cols-[56px_1fr] gap-x-4 pb-16 last:pb-12 md:grid-cols-[78px_1fr] md:gap-x-8">
-                <span className="relative z-10 grid size-14 place-items-center rounded-pill bg-white ring-1 ring-ink/10 md:size-[78px]">
+                <span className="relative z-10 grid size-14 place-items-center rounded-pill bg-white ring-1 ring-ink/10 md:size-19.5">
                   <LineIcon step={step.key} className="w-10 text-green md:w-14" />
                 </span>
                 <div>
-                  <Heading className="font-ui text-[28px] font-bold leading-[1.1] tracking-[-0.03em] md:text-[32px]">
+                  <Heading className="font-ui text-head font-bold leading-head tracking-head md:text-head-lg">
                     <span className="text-green">{info.number}</span> · {info.label}. {info.oneLiner}
                   </Heading>
                   <div className="mt-6 grid gap-12 lg:grid-cols-2">
@@ -72,7 +72,7 @@ export function DetailedSteps({ steps, labels, headingLevel = 3, proof }: Detail
         </ol>
       </div>
       {proof ? (
-        <p className="mt-4 text-[15px] text-ink-2">
+        <p className="mt-4 text-label text-ink-2">
           {proof.text} <em>{proof.note}</em>
         </p>
       ) : null}

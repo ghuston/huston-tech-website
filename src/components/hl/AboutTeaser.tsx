@@ -32,7 +32,7 @@ export function RingHeadshot({
         loading={eager ? "eager" : "lazy"}
         fetchPriority={eager ? "high" : undefined}
         sizes="360px"
-        className="absolute inset-[16%] size-[68%] rounded-pill bg-silver-2 object-cover"
+        className="absolute inset-headshot-gap size-headshot rounded-pill bg-silver-2 object-cover"
       />
       <RingWithDot
         className="absolute inset-0 size-full"
@@ -60,13 +60,13 @@ type AboutTeaserProps = {
 export function AboutTeaser({ heading, body, link }: AboutTeaserProps) {
   return (
     <section aria-labelledby="about-teaser-title" className="py-12 md:py-20">
-      <Container className="relative z-[1] grid items-center gap-7 md:grid-cols-[260px_minmax(0,1fr)] md:gap-[72px]">
-        <RingHeadshot className="max-w-[220px] md:max-w-none" orbit />
-        <div className="max-w-[660px]">
+      <Container className="relative z-1 grid items-center gap-7 md:grid-cols-[260px_minmax(0,1fr)] md:gap-18">
+        <RingHeadshot className="max-w-portrait md:max-w-none" orbit />
+        <div className="max-w-about">
           <h2 id="about-teaser-title" className="font-ui text-h2 font-bold">
             {heading}
           </h2>
-          <p className="mt-4 text-body md:mt-[18px]">{body}</p>
+          <p className="mt-4 text-body md:mt-4.5">{body}</p>
           <div className="mt-1 md:mt-2">
             <TextLink href={link.href}>{link.label}</TextLink>
           </div>

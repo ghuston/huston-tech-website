@@ -15,7 +15,7 @@ export default function PrivacyPage() {
       <PageHero title={privacy.heading} />
       <section className="pb-16 md:pb-24">
         <Container>
-          <div className="max-w-[64ch] space-y-5 text-body">
+          <div className="max-w-measure space-y-5 text-body">
             <p>
               {privacy.body}{" "}
               {siteConfig.email ? (

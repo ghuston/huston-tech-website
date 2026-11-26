@@ -1,4 +1,3 @@
-import type { CSSProperties } from "react";
 import { InViewOnce } from "@/components/ui/InViewOnce";
 import { CheckTick } from "./Tick";
 
@@ -22,7 +21,6 @@ export function CheckTrack({ stops }: { stops: readonly Stop[] }) {
           <li
             key={stop.title}
             className={last ? "hl-stop hl-stop-end" : "hl-stop"}
-            style={{ "--i": index } as CSSProperties}
           >
             <span aria-hidden="true" className="hl-stop-bar" />
             {last ? (
@@ -36,7 +34,7 @@ export function CheckTrack({ stops }: { stops: readonly Stop[] }) {
             )}
             <p className="hl-stop-text">
               <b className="block font-ui font-semibold text-ink">{stop.title}</b>
-              {stop.line ? <span className="mt-0.5 block text-[15px] leading-[1.45] text-ink-2 min-[1200px]:mt-1">{stop.line}</span> : null}
+              {stop.line ? <span className="mt-0.5 block text-label leading-compact text-ink-2 track:mt-1">{stop.line}</span> : null}
             </p>
           </li>
         );

@@ -31,21 +31,21 @@ type HeroProps = {
 export function Hero({ content, callHref, stack }: HeroProps) {
   return (
     <section aria-labelledby="hero-title" className="relative">
-      <Glow variant="green" className="-right-[200px] -top-[120px] md:-right-[260px]" />
+      <Glow variant="green" className="-right-50 -top-30 md:-right-65" />
       <Container className="hl-hero-grid">
         <div className="hl-hero-text">
-          <Eyebrow className="mb-[18px]">{content.eyebrow}</Eyebrow>
+          <Eyebrow className="mb-4.5">{content.eyebrow}</Eyebrow>
           <h1 id="hero-title" className="font-ui text-hero font-bold text-balance">
             <span className="hl-rise block">{content.line1}</span>{" "}
-            <span className="hl-rise hl-rise-2 mt-[0.02em] block font-voice text-[1.07em] font-normal italic leading-[1.08] tracking-[-0.02em] text-rust min-[1101px]:whitespace-nowrap">
+            <span className="hl-rise hl-rise-2 mt-hero-nudge block font-voice text-hero-em font-normal italic leading-hero tracking-title text-rust hero-wide:whitespace-nowrap">
               {content.line2}
             </span>
           </h1>
-          <p className="mt-6 max-w-[31em] text-lede md:mt-[26px]">{content.subhead}</p>
+          <p className="mt-6 max-w-hero-copy text-lede md:mt-6.5">{content.subhead}</p>
           <div className="mt-5">
-            <Pill icon={<CircleTick className="size-[18px]" />}>{content.supportingLine}</Pill>
+            <Pill icon={<CircleTick className="size-4.5" />}>{content.supportingLine}</Pill>
           </div>
-          <div className="mt-7 flex flex-wrap items-center gap-x-7 gap-y-1.5 md:mt-[30px] md:gap-y-2">
+          <div className="mt-7 flex flex-wrap items-center gap-x-7 gap-y-1.5 md:mt-7.5 md:gap-y-2">
             <Button href={callHref} fullWidthOnMobile>
               {content.cta}
             </Button>

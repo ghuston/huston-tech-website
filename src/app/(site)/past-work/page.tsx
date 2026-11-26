@@ -42,9 +42,9 @@ export default function PastWorkPage() {
       <PageHero eyebrow={pastWorkHero.eyebrow} title={pastWorkHero.title} intro={pastWorkHero.intro} />
 
       <Container>
-        <div className="max-w-[720px] rounded-panel border border-ink/10 bg-white px-8 py-7">
-          <p className="font-ui text-[18px] font-semibold">{pastWorkHero.howToRead.title}</p>
-          <ul className="mt-4 space-y-3 text-[17px] leading-[1.55]">
+        <div className="max-w-story rounded-panel border border-ink/10 bg-white px-8 py-7">
+          <p className="font-ui text-copy font-semibold">{pastWorkHero.howToRead.title}</p>
+          <ul className="mt-4 space-y-3 text-control leading-list">
             {pastWorkHero.howToRead.items.map((item) => (
               <li key={item}>
                 <Text>{item}</Text>
@@ -64,7 +64,7 @@ export default function PastWorkPage() {
             <h2 id="websites-title" className={h2}>
               {pastWorkWebsites.heading}
             </h2>
-            <p className="mt-5 max-w-[60ch] text-body">{pastWorkWebsites.line}</p>
+            <p className="mt-5 max-w-intro text-body">{pastWorkWebsites.line}</p>
           </ArtAside>
         </Container>
       </section>
@@ -78,25 +78,25 @@ export default function PastWorkPage() {
           <div className="mt-10">
             {caseStudies.map((study, index) => (
               <div key={study.id}>
-                {index > 0 ? <FadingDivider className="my-[60px]" /> : null}
+                {index > 0 ? <FadingDivider className="my-15" /> : null}
                 <SystemsCaseStudy study={study} />
               </div>
             ))}
           </div>
 
-          <div className="mt-[60px]">
+          <div className="mt-15">
             <FadingDivider />
             <article id={ocTherapy.id} aria-labelledby={`${ocTherapy.id}-title`} className="mt-12 scroll-mt-12">
               <h3
                 id={`${ocTherapy.id}-title`}
-                className="max-w-[24em] font-ui text-[28px] font-bold leading-[1.1] tracking-[-0.03em] md:text-[32px]"
+                className="max-w-statement font-ui text-head font-bold leading-head tracking-head md:text-head-lg"
               >
                 {ocTherapy.heading}
               </h3>
               <p className="mt-3">
                 <Tag>{ocTherapy.tag}</Tag>
               </p>
-              <p className="mt-4 max-w-[64ch] text-body">{ocTherapy.description}</p>
+              <p className="mt-4 max-w-measure text-body">{ocTherapy.description}</p>
               <div className="mt-8">
                 <TestimonialRow testimonials={standalone.slice(0, 1)} />
               </div>
@@ -114,20 +114,20 @@ export default function PastWorkPage() {
           <h2 id="agency-title" className={h2}>
             {agencyExperience.heading}
           </h2>
-          <p className="mt-5 max-w-[64ch] text-body">
+          <p className="mt-5 max-w-measure text-body">
             <Text>{agencyExperience.intro}</Text>
           </p>
-          <ul className="hl-leads mt-8 max-w-[860px]">
+          <ul className="hl-leads mt-8 max-w-wide">
             {agencyExperience.snapshots.map((snapshot, index) => (
               <li key={snapshot}>
                 {index > 0 ? <FadingDivider className="my-6" /> : null}
-                <p className="text-[17px] leading-[1.55]">
+                <p className="text-control leading-list">
                   <Text>{snapshot}</Text>
                 </p>
               </li>
             ))}
           </ul>
-          <p className="mt-8 max-w-[64ch] text-small text-ink-2">{agencyExperience.footnote}</p>
+          <p className="mt-8 max-w-measure text-small text-ink-2">{agencyExperience.footnote}</p>
         </Container>
       </section>
 

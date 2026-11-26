@@ -49,11 +49,11 @@ export default function HomePage() {
       <JsonLd data={organizationJsonLd()} />
       <Hero content={heroContent} callHref={bookCallHref()} stack={<HeroStack content={heroStack} />} />
 
-      <section id="installing" aria-labelledby="installing-title" className="relative py-12 md:pb-20 md:pt-[72px]">
+      <section id="installing" aria-labelledby="installing-title" className="relative py-12 md:pb-20 md:pt-18">
         {/* The four blocks are placed by .hl-installing (hl.css): stacked, then two columns, then three. */}
-        <Container className="hl-installing relative z-[1]">
+        <Container className="hl-installing relative z-1">
           <div>
-            <Eyebrow className="mb-[14px]">{installing.eyebrow}</Eyebrow>
+            <Eyebrow className="mb-3.5">{installing.eyebrow}</Eyebrow>
             <h2 id="installing-title" className="font-ui text-h2 font-bold">
               {installing.heading}
             </h2>
@@ -65,7 +65,7 @@ export default function HomePage() {
             <PhoneScreens screens={installing.screens} label={installing.screensLabel} note={installing.screensNote} fluid />
           </div>
           <div className="mt-6 lg:mt-8 xl:mt-6">
-            <p className="max-w-[60ch] text-body">{installing.line}</p>
+            <p className="max-w-intro text-body">{installing.line}</p>
             <div className="mt-1 md:mt-2">
               <TextLink href={installing.link.href}>{installing.link.label}</TextLink>
             </div>
@@ -79,22 +79,22 @@ export default function HomePage() {
         <Container>
           <div className="lg:grid lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] lg:items-end lg:gap-x-16">
             <div>
-              <Eyebrow className="mb-[14px]">{whyHireMe.eyebrow}</Eyebrow>
+              <Eyebrow className="mb-3.5">{whyHireMe.eyebrow}</Eyebrow>
               <TwoVoice id="why-title" line1={whyHireMe.line1} line2={whyHireMe.line2} />
             </div>
-            <p className="mt-[22px] max-w-[60ch] text-body lg:mt-0">{whyHireMe.body}</p>
+            <p className="mt-5.5 max-w-intro text-body lg:mt-0">{whyHireMe.body}</p>
           </div>
           <div className="mt-8 md:mt-14">
             <CheckTrack stops={whyHireMe.stops} />
           </div>
-          <p className="mt-6 max-w-[620px] rounded-card bg-tint px-5 py-[18px] text-[16px] leading-[1.5] md:mt-10 md:text-[17px]">
+          <p className="mt-6 max-w-pitch rounded-card bg-tint px-5 py-4.5 text-chip leading-copy md:mt-10 md:text-control">
             {whyHireMe.callout}
           </p>
           <ul className="mt-8 grid md:mt-12 md:grid-cols-3 md:gap-x-12">
             {whyHireMe.points.map((point) => (
               <li key={point.title} className="border-t border-hairline py-4 md:py-5">
                 <b className="font-ui text-item font-semibold">{point.title}</b>
-                <p className="mt-1 text-[16px] leading-[1.5] md:mt-1.5 md:text-[17px]">{point.body}</p>
+                <p className="mt-1 text-chip leading-copy md:mt-1.5 md:text-control">{point.body}</p>
               </li>
             ))}
           </ul>

@@ -30,14 +30,14 @@ import { pageMetadata } from "@/lib/metadata";
 export const metadata: Metadata = pageMetadata({ ...servicesMeta, path: "/services" });
 
 const h2 = "font-ui text-h2 font-bold";
-const h3 = "font-ui text-[28px] font-bold leading-tight tracking-[-0.03em]";
+const h3 = "font-ui text-head font-bold leading-tight tracking-head";
 const section = "scroll-mt-12 py-12 md:py-16";
 
 function ServiceBlock({ item }: { item: ServiceItem }) {
   return (
-    <div className="max-w-[64ch]">
+    <div className="max-w-measure">
       <h3 className={h3}>{item.title}</h3>
-      <p className="mt-3 text-[17px] leading-[1.55]">
+      <p className="mt-3 text-control leading-list">
         <Text>{item.paragraph}</Text>
       </p>
     </div>
@@ -71,7 +71,7 @@ export default function ServicesPage() {
             <h2 id="websites-title" className={h2}>
               <Text>{websites.heading}</Text>
             </h2>
-            <div className="mt-5 max-w-[60ch] space-y-4 text-body">
+            <div className="mt-5 max-w-intro space-y-4 text-body">
               {websites.paragraphs.map((paragraph) => (
                 <p key={paragraph}>{paragraph}</p>
               ))}
@@ -80,8 +80,8 @@ export default function ServicesPage() {
           <h3 className={`${h3} mt-10`}>
             <Text>{websites.includesHeading}</Text>
           </h3>
-          <DotList items={websites.includes} className="mt-5 max-w-[64ch]" />
-          <div className="mt-8 max-w-[64ch] space-y-4 text-[17px] leading-[1.55]">
+          <DotList items={websites.includes} className="mt-5 max-w-measure" />
+          <div className="mt-8 max-w-measure space-y-4 text-control leading-list">
             {websites.details.map((detail) => (
               <p key={detail}>
                 <Text>{detail}</Text>
@@ -108,7 +108,7 @@ export default function ServicesPage() {
               </div>
             ))}
           </div>
-          <p className="mt-8 max-w-[64ch] text-[17px] leading-[1.55]">{care.closing}</p>
+          <p className="mt-8 max-w-measure text-control leading-list">{care.closing}</p>
         </Container>
       </section>
 
@@ -139,7 +139,7 @@ export default function ServicesPage() {
           <h2 id="dont-title" className={h2}>
             {whatIDontDo.heading}
           </h2>
-          <p className="mt-5 max-w-[64ch] text-body">{whatIDontDo.body}</p>
+          <p className="mt-5 max-w-measure text-body">{whatIDontDo.body}</p>
         </Container>
       </section>
 
@@ -149,7 +149,7 @@ export default function ServicesPage() {
           <h2 id="faq-title" className={h2}>
             {faq.heading}
           </h2>
-          <div className="mt-8 max-w-[860px]">
+          <div className="mt-8 max-w-wide">
             <Faq items={faq.items} />
           </div>
         </Container>

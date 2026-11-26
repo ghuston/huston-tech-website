@@ -18,7 +18,7 @@ export const metadata: Metadata = pageMetadata({ ...aboutMeta, path: "/about" })
 
 const h2 = "font-ui text-h2 font-bold";
 const section = "py-12 md:py-16";
-const prose = "mt-5 max-w-[64ch] space-y-4 text-body";
+const prose = "mt-5 max-w-measure space-y-4 text-body";
 
 /** About, in the order of docs/website-rev8.md B6: H1, then one H2 per bold label in the copy. */
 export default function AboutPage() {
@@ -32,12 +32,12 @@ export default function AboutPage() {
 
       <section aria-labelledby="short-title" className={section}>
         <Container className="grid items-center gap-10 md:grid-cols-[320px_1fr] md:gap-16">
-          <RingHeadshot eager className="max-w-[210px] md:max-w-none" />
+          <RingHeadshot eager className="max-w-photo md:max-w-none" />
           <div>
             <h2 id="short-title" className={h2}>
               {s.shortVersion.heading}
             </h2>
-            <p className="mt-5 max-w-[60ch] text-body">{s.shortVersion.body}</p>
+            <p className="mt-5 max-w-intro text-body">{s.shortVersion.body}</p>
           </div>
         </Container>
       </section>
@@ -47,7 +47,7 @@ export default function AboutPage() {
           <h2 id="mission-title" className={h2}>
             {s.whyIDoThis.heading}
           </h2>
-          <p className="mt-5 max-w-[60ch] text-body">{s.whyIDoThis.body}</p>
+          <p className="mt-5 max-w-intro text-body">{s.whyIDoThis.body}</p>
         </Container>
       </section>
 
@@ -80,10 +80,10 @@ export default function AboutPage() {
           <h2 id="working-title" className={h2}>
             {s.workingWithMe.heading}
           </h2>
-          <p className="mt-5 max-w-[64ch] text-body">
+          <p className="mt-5 max-w-measure text-body">
             <Text>{s.workingWithMe.intro}</Text>
           </p>
-          <DotList items={s.workingWithMe.items} className="mt-5 max-w-[64ch]" />
+          <DotList items={s.workingWithMe.items} className="mt-5 max-w-measure" />
           {quote ? (
             <div className="mt-12">
               <TestimonialRow testimonials={[quote]} />
@@ -98,7 +98,7 @@ export default function AboutPage() {
           <h2 id="bring-title" className={h2}>
             {s.whatIBring.heading}
           </h2>
-          <DotList items={s.whatIBring.items} className="mt-5 max-w-[64ch]" />
+          <DotList items={s.whatIBring.items} className="mt-5 max-w-measure" />
         </Container>
       </section>
 
@@ -107,7 +107,7 @@ export default function AboutPage() {
           <h2 id="off-title" className={h2}>
             {s.offTheClock.heading}
           </h2>
-          <p className="mt-5 max-w-[64ch] text-body">
+          <p className="mt-5 max-w-measure text-body">
             <Text>{s.offTheClock.body}</Text>
           </p>
           <div className="mt-8">

@@ -27,7 +27,7 @@ export const metadata: Metadata = pageMetadata({ ...systemsMeta, path: "/systems
 
 const h2 = "font-ui text-h2 font-bold";
 const section = "py-12 md:py-16";
-const prose = "mt-5 max-w-[60ch] text-body";
+const prose = "mt-5 max-w-intro text-body";
 
 const screens = [appScreens.today, appScreens.pipeline, appScreens.brief, appScreens.rule];
 
@@ -44,7 +44,7 @@ export default function SystemsPage() {
             {whatItDoes.heading}
           </h2>
           <p className={prose}>{whatItDoes.body}</p>
-          <div className="mt-10 max-w-[560px]">
+          <div className="mt-10 max-w-note">
             <TalkPairs pairs={installing.pairs} />
           </div>
           <div className="mt-10">
@@ -58,7 +58,7 @@ export default function SystemsPage() {
           <h2 id="setup-title" className={h2}>
             {whatISetUp.heading}
           </h2>
-          <ol className="mt-6 max-w-[60ch] list-decimal space-y-3 pl-6 text-body marker:font-ui marker:font-bold">
+          <ol className="mt-6 max-w-intro list-decimal space-y-3 pl-6 text-body marker:font-ui marker:font-bold">
             {whatISetUp.steps.map((step) => (
               <li key={step.lead} className="pl-2">
                 <strong className="font-bold">{step.lead}</strong> {step.rest}

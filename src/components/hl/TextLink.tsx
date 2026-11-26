@@ -12,7 +12,7 @@ type TextLinkProps = {
 /** Text link (§7.10). Standalone links are green Outfit 500 with a 44px target; the slow rust underline draws on hover and focus. */
 export function TextLink({ href, children, inline = false, className = "" }: TextLinkProps) {
   const style = inline
-    ? "text-inherit underline decoration-ink/35 underline-offset-[.25em]"
+    ? "text-inherit underline decoration-ink/35 underline-offset-quarter-em"
     : "inline-flex min-h-11 items-center font-ui font-medium text-green";
   return (
     <HlLink href={href} className={`${style} ${className}`}>

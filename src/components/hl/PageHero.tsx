@@ -21,10 +21,10 @@ type PageHeroProps = {
  * the ring and a soft green glow in the top-right corner. Static: no dot, no motion.
  */
 export function PageHero({ eyebrow, title, intro, children, dotOut = false }: PageHeroProps) {
-  const ringClass = "pointer-events-none absolute -right-[260px] -top-[260px] size-[520px]";
+  const ringClass = "pointer-events-none absolute -right-65 -top-65 size-130";
   return (
-    <section className="relative pb-16 pt-[72px]">
-      <Glow variant="green" className="-right-[260px] -top-[260px] size-[520px]" />
+    <section className="relative pb-16 pt-18">
+      <Glow variant="green" className="-right-65 -top-65 size-130" />
       {dotOut ? (
         <RingWithDot className={ringClass} ringColor="var(--hl-white)" dotColor="var(--hl-rust)" dotRotate={148} />
       ) : (
@@ -32,8 +32,8 @@ export function PageHero({ eyebrow, title, intro, children, dotOut = false }: Pa
       )}
       <Container className="relative z-10">
         {eyebrow ? <Eyebrow>{eyebrow}</Eyebrow> : null}
-        <h1 className={`${eyebrow ? "mt-[18px] " : ""}max-w-[18em] font-ui text-page-title font-bold`}>{title}</h1>
-        {intro ? <p className="mt-6 max-w-[60ch] text-body">{intro}</p> : null}
+        <h1 className={`${eyebrow ? "mt-4.5 " : ""}max-w-title font-ui text-page-title font-bold`}>{title}</h1>
+        {intro ? <p className="mt-6 max-w-intro text-body">{intro}</p> : null}
         {children ? <div className="mt-8">{children}</div> : null}
       </Container>
     </section>

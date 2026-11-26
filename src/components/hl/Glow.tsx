@@ -1,6 +1,6 @@
 type GlowProps = {
   variant: "green" | "white" | "seam";
-  /** Absolute offsets for this seam, for example "right-[-260px] top-[-120px]". One glow per seam (§2). */
+  /** Absolute offsets for this seam, for example "-right-65 -top-30". One glow per seam (§2). */
   className?: string;
 };
 

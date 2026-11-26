@@ -38,18 +38,18 @@ export function SectionNav({ label, items, sticky = false }: SectionNavProps) {
     return () => observer.disconnect();
   }, [items]);
 
-  const position = sticky ? "sticky top-[60px] z-30 bg-silver/[.97] md:top-[72px]" : "";
+  const position = sticky ? "sticky top-15 z-30 bg-silver/[.97] md:top-18" : "";
 
   return (
     <nav aria-label={label} className={`hl-secnav ${position}`}>
-      <div className="mx-auto w-full max-w-[1320px] px-5 md:px-10">
+      <div className="mx-auto w-full max-w-page px-5 md:px-10">
         <ul className="-mx-5 flex gap-7 overflow-x-auto px-5 md:mx-0 md:px-0">
           {items.map((item) => (
             <li key={item.href} className="shrink-0">
               <a
                 href={item.href}
                 aria-current={current === item.href.slice(1) ? "location" : undefined}
-                className="inline-flex min-h-11 items-center whitespace-nowrap font-ui text-[16px] font-medium"
+                className="inline-flex min-h-11 items-center whitespace-nowrap font-ui text-chip font-medium"
               >
                 <span className="hl-u">{item.label}</span>
               </a>

@@ -16,17 +16,17 @@ type SendError = keyof typeof noteForm.sendErrors;
 
 const FIELD_ORDER: ContactField[] = ["need", "name", "email", "message"];
 
-const label = "block font-ui text-[15px] font-medium text-ink";
+const label = "block font-ui text-label font-medium text-ink";
 const control =
-  "mt-2 block w-full rounded-field border border-ink-2 bg-white px-[14px] font-text text-[17px] text-ink placeholder:text-ink-2 focus:border-ink aria-[invalid=true]:border-rust";
-const input = `${control} h-[52px]`;
+  "mt-2 block w-full rounded-field border border-ink-2 bg-white px-3.5 font-text text-control text-ink placeholder:text-ink-2 focus:border-ink aria-[invalid=true]:border-rust";
+const input = `${control} h-13`;
 
 function ErrorLine({ id, message }: { id: string; message?: string }) {
   return (
     <div id={id} aria-live="polite">
       {message ? (
-        <p className="mt-2 flex items-start gap-2 text-[15px] text-rust">
-          <svg aria-hidden="true" viewBox="0 0 16 16" className="mt-[3px] size-4 shrink-0" fill="none" stroke="currentColor" strokeWidth="1.75">
+        <p className="mt-2 flex items-start gap-2 text-label text-rust">
+          <svg aria-hidden="true" viewBox="0 0 16 16" className="mt-0.75 size-4 shrink-0" fill="none" stroke="currentColor" strokeWidth="1.75">
             <circle cx="8" cy="8" r="6.25" />
           </svg>
           {message}
@@ -168,7 +168,7 @@ function Form({ urlTopic }: { urlTopic: string | null }) {
 
   return (
     <div className="rounded-panel bg-white p-6 shadow-card md:p-9">
-      <h2 className="font-ui text-[28px] font-bold leading-tight tracking-[-0.03em]">
+      <h2 className="font-ui text-head font-bold leading-tight tracking-head">
         {noteForm.heading}
       </h2>
 
@@ -177,7 +177,7 @@ function Form({ urlTopic }: { urlTopic: string | null }) {
 
         <fieldset role="radiogroup" aria-required="true" aria-describedby={described("need")}>
           <legend className={label}>{noteForm.needLegend}</legend>
-          <div className="mt-3 flex flex-wrap gap-[10px]">
+          <div className="mt-3 flex flex-wrap gap-2.5">
             {noteForm.needOptions.map((option) => (
               <label key={option.value} className="relative">
                 <input
@@ -192,7 +192,7 @@ function Form({ urlTopic }: { urlTopic: string | null }) {
                   className="peer sr-only"
                 />
                 <span
-                  className={`inline-flex min-h-11 cursor-pointer items-center gap-2 rounded-pill border px-[18px] font-ui text-[16px] font-medium peer-focus-visible:outline-2 peer-focus-visible:outline-offset-[3px] peer-focus-visible:outline-rust ${
+                  className={`inline-flex min-h-11 cursor-pointer items-center gap-2 rounded-pill border px-4.5 font-ui text-chip font-medium peer-focus-visible:outline-2 peer-focus-visible:outline-offset-3 peer-focus-visible:outline-rust ${
                     need === option.value ? "border-ink bg-ink text-silver" : errors.need ? "border-rust text-ink" : "border-ink-2 text-ink"
                   }`}
                 >
@@ -258,7 +258,7 @@ function Form({ urlTopic }: { urlTopic: string | null }) {
             placeholder={noteForm.message.placeholders[key]}
             value={message}
             onChange={(ev) => setMessage(ev.target.value)}
-            className={`${control} min-h-[140px] py-3`}
+            className={`${control} min-h-35 py-3`}
           />
           <p id="cf-privacy" className="mt-2 text-small text-ink-2">
             {noteForm.privacyNote}
@@ -298,7 +298,7 @@ function Form({ urlTopic }: { urlTopic: string | null }) {
             type="submit"
             aria-disabled={sending ? "true" : undefined}
             aria-busy={sending ? "true" : undefined}
-            className="inline-flex min-h-[54px] w-full items-center justify-center rounded-btn bg-ink px-6 font-ui text-btn font-semibold text-silver aria-disabled:cursor-wait aria-disabled:opacity-70 md:w-auto md:justify-start md:pl-[22px]"
+            className="inline-flex min-h-13.5 w-full items-center justify-center rounded-btn bg-ink px-6 font-ui text-btn font-semibold text-silver aria-disabled:cursor-wait aria-disabled:opacity-70 md:w-auto md:justify-start md:pl-5.5"
           >
             {noteForm.submitLabel}
           </button>
@@ -306,7 +306,7 @@ function Form({ urlTopic }: { urlTopic: string | null }) {
 
         <div role="status">
           {sendError ? (
-            <p className="text-[15px] text-rust">
+            <p className="text-label text-rust">
               <Text>{noteForm.sendErrors[sendError]}</Text>
             </p>
           ) : null}
