@@ -121,6 +121,6 @@ mobile menu (same), plus `check:fast`. The contact Worker path is unchanged from
 | Measure | Value |
 |---|---|
 | Wall-clock time | about 2 hours 40 minutes (23:45 to about 02:25, this Mac's clock) |
-| Commits | 26 on the branch |
+| Commits | 24 on the branch, including this file's fix |
 | Time in checks | about 75 minutes, estimated: about 13 full gate runs (build, 24 screenshots, behaviour, `check:fast`) |
 | Time waiting on CI | none in the run: CI starts with the PR, which I did not wait on |
