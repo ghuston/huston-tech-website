@@ -1,0 +1,20 @@
+{
+  "status": "live",
+  "title": "[[Post title]]",
+  "description": "[[A sentence that says what the post is about]]",
+  "date": "2026-03-27",
+  "body": [
+    { "type": "heading", "level": 2, "text": "[[A heading that opens the first section]]" },
+    {
+      "type": "paragraph",
+      "text": ["[[A paragraph that explains the first idea. Questions? ]]", { "text": "Get in touch", "href": "/contact" }, "."]
+    },
+    { "type": "list", "style": "bullet", "items": ["[[First point]]", "[[Second point]]"] },
+    { "type": "quote", "text": "[[A short quote worth pulling out]]", "source": "[[Who said it]]" },
+    {
+      "type": "photo",
+      "image": { "src": "/images/examples/window-light.jpg", "alt": "Soft light falling through a window onto a wooden table" },
+      "caption": "[[A caption for the photo]]"
+    }
+  ]
+}

@@ -20,7 +20,7 @@ export function CaseStudyTeaser({ name, body, href, linkLabel, image }: CaseStud
   const text = (
     <div>
       <h3 className="font-ui text-item font-semibold">{name}</h3>
-      <p className="mt-2 text-[17px] leading-[1.55]">{body}</p>
+      <p className="mt-2 text-control leading-list">{body}</p>
       <div className="mt-2">
         <TextLink href={href}>{linkLabel}</TextLink>
       </div>
@@ -28,7 +28,7 @@ export function CaseStudyTeaser({ name, body, href, linkLabel, image }: CaseStud
   );
   if (!image) return <TiltCard>{text}</TiltCard>;
   return (
-    <TiltCard className="grid h-full content-start gap-5 p-[18px] xl:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] xl:content-center xl:items-center">
+    <TiltCard className="grid h-full content-start gap-5 p-4.5 xl:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] xl:content-center xl:items-center">
       <Picture
         src={image.src}
         width={image.width}

@@ -1,0 +1,257 @@
+{
+  "path": "/",
+  "title": "Huston Logic | Personal Software and Websites for Small Businesses",
+  "description": "I build websites and AI-run systems for small businesses, starting with sales follow-up you run by talking. Checked the way a big software team would. Handed over whenever you ask.",
+  "status": "live",
+  "menu": {
+    "label": "Say hello ↘",
+    "order": 6,
+    "places": [
+      "header"
+    ],
+    "anchor": "hello"
+  },
+  "blocks": [
+    {
+      "type": "home-hero",
+      "anchor": "hero",
+      "content": {
+        "eyebrow": "Hi, I'm Grant. Personal software and AI acceleration for small businesses.",
+        "line1": "For the parts of the job",
+        "line2": "you never signed up for.",
+        "subhead": "I build the systems that handle them, starting with sales follow-up you run by talking to your phone. I host it for you, and it changes when you tell it to.",
+        "supportingLine": "AI-accelerated, checked by hand.",
+        "cta": "Book a free 20-minute call →",
+        "installLink": {
+          "label": "See what I'm installing now ↘",
+          "href": "#installing"
+        },
+        "stack": {
+          "ariaLabel": "The owner's board in front, with a new follow-up for Dana. Around it: the spoken note that created it, a brief before the next call, and a rule added by asking.",
+          "board": {
+            "heading": "Today",
+            "rows": [
+              {
+                "name": "Dana Ortiz",
+                "detail": "Quote, three units",
+                "status": "Due Fri",
+                "highlighted": true
+              },
+              {
+                "name": "R. Alvarez",
+                "detail": "Proposal, no reply yet",
+                "status": "Nudge",
+                "highlighted": false
+              },
+              {
+                "name": "Kim Lee",
+                "detail": "Call back",
+                "status": "Today",
+                "highlighted": false
+              }
+            ]
+          },
+          "say": {
+            "tag": "You say, after the call",
+            "said": "Just talked to Dana. She wants a quote for three units by Friday."
+          },
+          "brief": {
+            "tag": "Before your next call",
+            "name": "Dana Ortiz",
+            "time": "2:00 pm",
+            "line": "Wants three units. Quote due Friday."
+          },
+          "rule": {
+            "tag": "A rule you added by asking",
+            "rule": "Nudge me three days after any proposal with no reply.",
+            "undo": "Don't like it? “Undo that.”"
+          },
+          "chip": {
+            "figure": "Notes saved",
+            "label": "Follow-up set for Friday"
+          }
+        }
+      }
+    },
+    {
+      "type": "home-installing",
+      "anchor": "installing",
+      "content": {
+        "eyebrow": "What I'm installing now",
+        "heading": "A sales follow-up system you run by talking.",
+        "pairs": [
+          {
+            "said": "“Just talked to Dana. She wants a quote for three units by Friday.”",
+            "result": "Notes saved. Follow-up set for Friday."
+          },
+          {
+            "said": "“Who do I need to talk to today?”",
+            "result": "A short list, with what was said last time."
+          },
+          {
+            "said": "“From now on, nudge me three days after any proposal with no reply.”",
+            "result": "The rule is added, in plain English. Changed your mind? “Undo that.”"
+          }
+        ],
+        "screens": [
+          {
+            "key": "today",
+            "label": "Today",
+            "alt": "The Today screen of the follow-up app, with demo data"
+          },
+          {
+            "key": "pipeline",
+            "label": "Pipeline",
+            "alt": "The Pipeline screen of the follow-up app, with demo data"
+          },
+          {
+            "key": "brief",
+            "label": "Brief",
+            "alt": "The Brief screen of the follow-up app, with demo data"
+          }
+        ],
+        "screensLabel": "App screens, demo data",
+        "screensNote": "Demo data",
+        "line": "I set it up, host it for you, and tune it for 30 days. Your data stays yours, and if you ever want to run it yourself, I hand it all over.",
+        "link": {
+          "label": "See how the install works →",
+          "href": "/systems"
+        }
+      }
+    },
+    {
+      "type": "home-doors",
+      "content": {
+        "label": "Two ways to start"
+      }
+    },
+    {
+      "type": "home-why",
+      "anchor": "why",
+      "content": {
+        "eyebrow": "Why hire me",
+        "line1": "Anyone can vibe-code an app these days.",
+        "line2": "Here's why you'd still hire me.",
+        "body": "You could build this yourself with AI, and the first version would probably work. The hard part is knowing it still works next month, on a slow phone, after an update nobody noticed. So nothing I build goes live until it passes the checks a big software team would run. I can't skip them either.",
+        "stops": [
+          {
+            "title": "It builds clean.",
+            "line": "On a fresh machine, not only my laptop."
+          },
+          {
+            "title": "Everyone can use it.",
+            "line": "Every page scanned for accessibility, at phone and desktop size."
+          },
+          {
+            "title": "It's fast, and Google can read it.",
+            "line": "Audited as a mid-range phone on a slow connection."
+          },
+          {
+            "title": "The building blocks are safe.",
+            "line": "Every outside package checked against known vulnerabilities."
+          },
+          {
+            "title": "The code is safe.",
+            "line": "Scanned for the patterns attackers look for."
+          },
+          {
+            "title": "I've tried to break it.",
+            "line": "By hand, on a phone and with a keyboard."
+          },
+          {
+            "title": "Then it goes live."
+          }
+        ],
+        "callout": "I broke each automatic check on purpose to prove it blocks a bad change. Five tries, five blocked.",
+        "points": [
+          {
+            "title": "You work with me.",
+            "body": "The person on the call is the person doing the work."
+          },
+          {
+            "title": "You see the price first.",
+            "body": "Fixed, and agreed in writing before I start."
+          },
+          {
+            "title": "It's yours.",
+            "body": "Your domain, email and data stay in your name. Ask, and I hand everything over."
+          }
+        ]
+      }
+    },
+    {
+      "type": "home-proof",
+      "anchor": "proof",
+      "content": {
+        "heading": "What clients said afterward",
+        "tag": "Custom systems, 2024 to 2025",
+        "quotesLabel": "Client quotes",
+        "stats": [
+          {
+            "value": "3 of 3",
+            "label": "met the goals set at kickoff"
+          },
+          {
+            "value": "5/5",
+            "label": "on communication"
+          },
+          {
+            "value": "5/5",
+            "label": "on handoff & training"
+          }
+        ],
+        "footnote": "From client wrap-up surveys. A small sample, I know.",
+        "teasers": [
+          {
+            "name": "Hideout Fitness",
+            "body": "An owner dashboard for retention, revenue and profit by coach and client.",
+            "href": "/past-work#hideout-fitness",
+            "image": {
+              "src": "/work/systems-1",
+              "alt": "An owner dashboard with pie charts of profit against trainer pay by session type and bar charts of average profit",
+              "width": 1200,
+              "height": 656
+            }
+          },
+          {
+            "name": "Irvine Family Counseling",
+            "body": "A staff app, payroll submissions and dashboards for a 10-practitioner practice.",
+            "href": "/past-work#irvine-family-counseling",
+            "image": {
+              "src": "/work/systems-3",
+              "alt": "A staff app payroll screen with tables of pending and submitted payroll entries and an approve button on each row",
+              "width": 1200,
+              "height": 737
+            }
+          }
+        ],
+        "teaserLinkLabel": "Read the project →"
+      }
+    },
+    {
+      "type": "home-about",
+      "anchor": "about-teaser",
+      "content": {
+        "heading": "Hi, I'm Grant.",
+        "body": "I've spent my career where software meets business, as an application developer, business analyst and software consultant. I started Huston Logic to bring small businesses into the AI age, one useful system at a time.",
+        "link": {
+          "label": "More about me →",
+          "href": "/about"
+        }
+      }
+    },
+    {
+      "type": "closing-call",
+      "content": {
+        "line1": "Twenty minutes.",
+        "line2": "Worst case, you get one good idea.",
+        "body": "Tell me what keeps landing on your plate. If I'm not the right person, I'll tell you who is.",
+        "cta": "Book a free 20-minute call →",
+        "secondary": {
+          "label": "Or send a quick note →",
+          "href": "/contact"
+        }
+      }
+    }
+  ]
+}

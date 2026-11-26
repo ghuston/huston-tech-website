@@ -17,16 +17,16 @@ type CaseStudyPhasesProps = {
 export function CaseStudyPhases({ label, phases }: CaseStudyPhasesProps) {
   return (
     <div>
-      <p className="font-ui text-[15px] font-semibold text-green">{label}</p>
+      <p className="font-ui text-label font-semibold text-green">{label}</p>
       <dl className="mt-5 grid gap-10 md:grid-cols-3 md:gap-12">
         {framework.steps.map((step, index) => (
           <div key={step.key} className="relative">
             {index > 0 ? <FadingDivider direction="vertical" className="absolute -left-6 bottom-0 top-0 hidden md:block" /> : null}
             <dt>
               <LineIcon step={step.key} className="w-8 text-green" />
-              <span className="mt-3 block font-ui text-[18px] font-semibold">{step.past}</span>
+              <span className="mt-3 block font-ui text-copy font-semibold">{step.past}</span>
             </dt>
-            <dd className="mt-2 text-[17px] leading-[1.55]">
+            <dd className="mt-2 text-control leading-list">
               <Text>{phases[step.key]}</Text>
             </dd>
           </div>

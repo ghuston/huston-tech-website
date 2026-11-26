@@ -51,7 +51,8 @@ export function turnstileSiteKey(configured: string | null): string | null {
   return configured;
 }
 
-export function useTurnstile(configuredSiteKey: string | null) {
+/** `action` is judged by the Worker: `contact` for the contact form, `form` for every other form. */
+export function useTurnstile(configuredSiteKey: string | null, action: "contact" | "form" = "contact") {
   const container = useRef<HTMLDivElement>(null);
   const widgetId = useRef<string | null>(null);
   const token = useRef<string | null>(null);
@@ -72,7 +73,7 @@ export function useTurnstile(configuredSiteKey: string | null) {
         if (!container.current || widgetId.current !== null) return;
         widgetId.current = api.render(container.current, {
           sitekey,
-          action: "contact",
+          action,
           appearance: "interaction-only",
           "refresh-expired": "auto",
           "response-field": false,
@@ -92,7 +93,7 @@ export function useTurnstile(configuredSiteKey: string | null) {
         });
       })
       .catch(() => settle(null));
-  }, [configuredSiteKey, settle]);
+  }, [configuredSiteKey, action, settle]);
 
   /** Resolves with a fresh token, or null if Turnstile failed, couldn't load, or took too long. */
   const getToken = useCallback((): Promise<string | null> => {

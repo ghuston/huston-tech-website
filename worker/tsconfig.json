@@ -11,7 +11,8 @@
     "isolatedModules": true,
     "verbatimModuleSyntax": true,
     "erasableSyntaxOnly": true,
-    "allowImportingTsExtensions": true
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true
   },
-  "include": ["./**/*.ts", "../src/content/contact-fields.ts", "../src/content/auto-reply.ts", "../src/content/providers.ts", "../src/lib/contact-validation.ts", "../src/lib/first-name.ts"]
+  "include": ["./**/*.ts", "../site.config.ts", "../src/content/contact-fields.ts", "../src/content/auto-reply.ts", "../src/content/providers.ts", "../src/lib/contact-validation.ts", "../src/lib/first-name.ts", "../src/forms/*.ts", "../src/content/forms.ts", "../src/content/forms/*.json"]
 }

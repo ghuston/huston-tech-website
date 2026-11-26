@@ -10,7 +10,7 @@ export function OutlineButton({ href, children, className = "" }: { href: string
   return (
     <HlLink
       href={href}
-      className={`inline-flex min-h-[54px] items-center justify-center rounded-btn border border-ink-2 bg-white px-3 font-ui text-btn font-semibold text-ink ${className}`}
+      className={`inline-flex min-h-13.5 items-center justify-center rounded-btn border border-ink-2 bg-white px-3 font-ui text-btn font-semibold text-ink ${className}`}
     >
       <ArrowLabel>{children}</ArrowLabel>
     </HlLink>

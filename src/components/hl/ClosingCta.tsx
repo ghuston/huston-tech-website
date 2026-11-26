@@ -15,19 +15,19 @@ type ClosingCtaProps = {
   art?: ReactNode;
 };
 
-/** Closing call to action (docs/STYLE-GUIDE.md §7.24): not a band; a seam glow blends it into the page. Left-aligned. */
-export function ClosingCta({ heading, body, children, note, art }: ClosingCtaProps) {
+/** The inside of the closing call to action: the seam glow and the text. No section and no padding (the closing block owns those). */
+export function ClosingCtaInner({ heading, body, children, note, art }: ClosingCtaProps) {
   const text = (
     <>
       {heading}
-      {body ? <p className="mt-4 max-w-[60ch] text-blurb">{body}</p> : null}
+      {body ? <p className="mt-4 max-w-intro text-blurb">{body}</p> : null}
       <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-2">{children}</div>
-      {note ? <p className="mt-6 text-[15px] text-ink-2">{note}</p> : null}
+      {note ? <p className="mt-6 text-label text-ink-2">{note}</p> : null}
     </>
   );
   return (
-    <section className="relative py-16 md:py-24">
-      <Glow variant="seam" className="left-1/2 top-[-260px] -ml-[650px]" />
+    <>
+      <Glow variant="seam" className="left-1/2 -top-65 -ml-162.5" />
       <Container className="relative z-10">
         {art ? (
           <ArtAside align="center" art={art}>
@@ -37,6 +37,15 @@ export function ClosingCta({ heading, body, children, note, art }: ClosingCtaPro
           text
         )}
       </Container>
+    </>
+  );
+}
+
+/** Closing call to action (docs/STYLE-GUIDE.md §7.24): not a band; a seam glow blends it into the page. Left-aligned. */
+export function ClosingCta(props: ClosingCtaProps) {
+  return (
+    <section className="relative py-16 md:py-24">
+      <ClosingCtaInner {...props} />
     </section>
   );
 }

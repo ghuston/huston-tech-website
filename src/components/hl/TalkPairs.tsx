@@ -1,4 +1,3 @@
-import type { CSSProperties } from "react";
 import { InViewOnce } from "@/components/ui/InViewOnce";
 import { CircleTick } from "./Tick";
 
@@ -12,12 +11,12 @@ type TalkPair = { said: string; result: string };
  */
 export function TalkPairs({ pairs }: { pairs: readonly TalkPair[] }) {
   return (
-    <InViewOnce as="ul" className="hl-pairs flex flex-col gap-[22px] md:gap-[26px]" threshold={0.35}>
-      {pairs.map((pair, index) => (
-        <li key={pair.said} data-pair="" className="flex flex-col gap-2" style={{ "--i": index } as CSSProperties}>
+    <InViewOnce as="ul" className="hl-pairs flex flex-col gap-5.5 md:gap-6.5" threshold={0.35}>
+      {pairs.map((pair) => (
+        <li key={pair.said} data-pair="" className="flex flex-col gap-2">
           <p className="hl-bubble self-end">{pair.said}</p>
-          <p className="flex gap-2 text-[16px] leading-[1.4]">
-            <CircleTick draw className="mt-0.5 size-[18px] flex-none" />
+          <p className="flex gap-2 text-chip leading-blurb">
+            <CircleTick draw className="mt-0.5 size-4.5 flex-none" />
             <span>{pair.result}</span>
           </p>
         </li>

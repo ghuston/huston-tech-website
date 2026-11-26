@@ -1,0 +1,16 @@
+/* Generated from src/content/brand.json by `npm run sync:config`. Do not edit by hand. */
+:root {
+  --hl-silver: #f3f5f4;
+  --hl-silver-2: #e8eeea;
+  --hl-white: #ffffff;
+  --hl-ink: #29332d;
+  --hl-ink-2: #4a5750;
+  --hl-green: #2b6455;
+  --hl-green-deep: #1e4a3d;
+  --hl-green-edge: #4e9a7c;
+  --hl-tint: #e6f1eb;
+  --hl-glow: #b4dec8;
+  --hl-mint: #cde6d8;
+  --hl-rust: #994d34;
+  --hl-line: #d3dad6;
+}

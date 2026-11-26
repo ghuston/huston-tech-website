@@ -1,5 +1,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { FILE_LINK_RE } from "@/blocks/schema";
+import { fileLink } from "@/content/files";
 
 type HlLinkProps = {
   href: string;
@@ -20,11 +22,13 @@ function isPlainAnchor(href: string) {
 
 /**
  * Pages on this site use next/link. External http(s) links open in a new tab with noopener noreferrer (AGENTS.md);
- * mailto:, tel:, sms: and same-site files are plain anchors in the same tab.
+ * mailto:, tel:, sms: and same-site files are plain anchors in the same tab. A link to a PDF in public/files/ also downloads
+ * and shows a small PDF note after its label.
  */
 export function HlLink({ href, className, children, "aria-current": ariaCurrent, onClick }: HlLinkProps) {
   if (isPlainAnchor(href)) {
     const opensNewTab = WEB_LINK.test(href);
+    const isPdf = FILE_LINK_RE.test(href);
     return (
       <a
         href={href}
@@ -32,8 +36,10 @@ export function HlLink({ href, className, children, "aria-current": ariaCurrent,
         aria-current={ariaCurrent}
         onClick={onClick}
         {...(opensNewTab ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+        {...(isPdf ? { download: "" } : {})}
       >
         {children}
+        {isPdf ? <span className="ml-2.5 rounded-pill border border-current px-2 py-1 text-tag font-medium">{fileLink.note}</span> : null}
       </a>
     );
   }

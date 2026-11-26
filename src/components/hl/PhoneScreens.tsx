@@ -38,7 +38,7 @@ export function PhoneScreens({
           {screens.map((screen) => (
             <li
               key={screen.key}
-              className={`w-[150px] flex-none snap-start md:w-[156px] ${fluid ? "xl:w-auto" : ""}`}
+              className={`w-37.5 flex-none snap-start md:w-39 ${fluid ? "xl:w-auto" : ""}`}
             >
               <TiltCard className="rounded-panel p-1.5">
                 <Picture
@@ -49,14 +49,14 @@ export function PhoneScreens({
                   className="block h-auto w-full rounded-card"
                 />
               </TiltCard>
-              <p className="mt-2 text-center font-ui text-[14px] font-medium text-ink-2">
+              <p className="mt-2 text-center font-ui text-note font-medium text-ink-2">
                 {screen.label}
               </p>
             </li>
           ))}
         </ul>
       </div>
-      <p className="mt-1 font-ui text-[14px] text-ink-2">{note}</p>
+      <p className="mt-1 font-ui text-note text-ink-2">{note}</p>
     </div>
   );
 }

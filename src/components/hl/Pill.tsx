@@ -11,7 +11,7 @@ type PillProps = {
 export function Pill({ children, icon, className = "" }: PillProps) {
   return (
     <span
-      className={`inline-flex items-center gap-[9px] rounded-pill border border-hairline bg-white/80 py-2 pl-2.5 pr-3.5 font-ui text-[15px] font-medium leading-[1.2] text-ink ${className}`}
+      className={`inline-flex items-center gap-2.25 rounded-pill border border-hairline bg-white/80 py-2 pl-2.5 pr-3.5 font-ui text-label font-medium leading-pill text-ink ${className}`}
     >
       {icon}
       {children}

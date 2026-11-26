@@ -3,6 +3,7 @@ import { homeMeta } from "@/content/home";
 import { siteConfig } from "@/content/site";
 import { inter, newsreader, outfit } from "@/lib/fonts";
 import { OG_IMAGE_ALT, OG_IMAGE_PATH } from "@/lib/metadata";
+import "./palette.css";
 import "./globals.css";
 
 export const metadata: Metadata = {

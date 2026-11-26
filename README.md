@@ -19,11 +19,12 @@ Permanent architecture, security and content rules are in [`AGENTS.md`](./AGENTS
 | `/contact/thanks` | Form confirmation, reached only after a real send (noindex) |
 | `POST /api/contact` | The contact form Worker (`worker/contact.ts`), not a page |
 | `/privacy` | Privacy policy (draft, needs review) |
+| `/blocks` | The block showcase: every block with its example content (noindex; built for previews, CI and local builds, removed from the production build) |
 | `404` | Not found |
 
 ## Develop
 
-Requires Node 22.19+ and npm 10 (`>=10.9.2 <11`; matches `engines` in package.json and `engine-strict` in `.npmrc`; CI uses Node 22 with npm 10.9.9). `npm install` and `npm ci` refuse to run under npm 11, so if your default npm is 11, put `npx --yes npm@10.9.9` in front of them.
+Requires Node 22.19+ and npm 10 (`>=10.9.2 <11`; matches `engines` in package.json; CI uses Node 22 with npm 10.9.9). There is no `engine-strict`, so `npm install` and `npm ci` only warn under npm 11, but a lockfile written by npm 11 can fail CI. If your default npm is 11, put `npx --yes npm@10.9.9` in front of them.
 
 ```bash
 npx --yes npm@10.9.9 install   # or plain `npm install` when your npm is 10
@@ -85,7 +86,7 @@ npm run build
 npm run test:lighthouse
 ```
 
-`npm run build && npm run test:lighthouse` audits the built site with Lighthouse CI (mobile preset, median of 3 runs per page) against the eight indexable pages in `src/lib/routes.ts` (a `noindex` page cannot pass the SEO check, and the 404 page returns an error status). It serves `out/` through `scripts/preview.mjs`, so the headers in `public/_headers` apply, and uses the Google Chrome installed on your machine (or `CHROME_PATH`). Reports are written to `.lighthouseci/` (git-ignored). Accessibility and SEO must score 0.95 or higher, and best-practices and performance 0.9 or higher; all four fail the job (`lighthouserc.cjs`). The preview server does not compress files or set cache headers the way Cloudflare does, so its performance score understates the deployed site.
+`npm run build && npm run test:lighthouse` audits the built site with Lighthouse CI (mobile preset, median of 3 runs per page) against the pages in `src/lib/routes.ts` (`auditRoutes`: the pages, and the newest post and blog page 2 once there is a blog). The `/blocks` showcase is not audited: it is `noindex` (cannot pass the SEO check) and scores 0.85 for performance, below the 0.9 threshold, which is not lowered. The 404 page is left out because it returns an error status. It serves `out/` through `scripts/preview.mjs`, so the headers in `public/_headers` apply, and uses the Google Chrome installed on your machine (or `CHROME_PATH`). Reports are written to `.lighthouseci/` (git-ignored). Accessibility and SEO must score 0.95 or higher, and best-practices and performance 0.9 or higher; all four fail the job (`lighthouserc.cjs`). The preview server does not compress files or set cache headers the way Cloudflare does, so its performance score understates the deployed site.
 
 In CI this is the `lighthouse` job in `.github/workflows/ci.yml`. It is a required check in the "Protect main" ruleset, so a red result blocks merge. Scores for every page are in the run's Summary, and the full HTML and JSON reports are the `lighthouse-reports` artifact (kept 14 days; open the `.report.html` for the failing URL to see which audits failed). If it fails with `NO_NAVSTART` (a Lighthouse trace-recording hiccup, not a site problem), click "Re-run failed jobs" on the run.
 
@@ -114,8 +115,12 @@ Scheduled runs only happen on the default branch, and GitHub disables schedules 
 |---|---|---|
 | Site URL | `NEXT_PUBLIC_SITE_URL` (see `.env.example`), default `https://hustonlogic.com` in `src/content/site.ts` | Used for canonical URLs, Open Graph, sitemap, robots and JSON-LD. Public value, not a secret. |
 | Contact email, scheduler URL, LinkedIn URL, Turnstile site key | `src/content/providers.ts` (re-exported by `site.ts`) | `null` renders a visible placeholder. The Worker reads this file too. The Turnstile site key is public. |
-| Content-Security-Policy | `public/_headers` | `https://challenges.cloudflare.com` is allowed in `script-src` and `frame-src` for Turnstile on the contact form, and `https://static.cloudflareinsights.com` (`script-src`) and `https://cloudflareinsights.com` (`connect-src`) for Cloudflare Web Analytics. Nothing else is loaded from outside. `_headers` covers static files only; the Worker sets its own headers on `/api/*`. |
+| Content-Security-Policy | `public/_headers` | `https://challenges.cloudflare.com` is allowed in `script-src` and `frame-src` for Turnstile on the contact form, and `https://static.cloudflareinsights.com` (`script-src`) and `https://cloudflareinsights.com` (`connect-src`) for Cloudflare Web Analytics. The video and audio blocks add four player origins, `https://www.youtube-nocookie.com`, `https://player.vimeo.com`, `https://open.spotify.com` and `https://embed.podcasts.apple.com`, to `frame-src` and to the `autoplay` list in `Permissions-Policy`; a player loads only when a visitor presses play on a video or audio block. `/files/*` (downloads) is served with `Content-Disposition: attachment`, `Content-Security-Policy: sandbox` and `X-Content-Type-Options: nosniff`, so a file there downloads and never runs on the site. Nothing else is loaded from outside. `_headers` covers static files only; the Worker sets its own headers on `/api/*`. |
 | Worker settings | `wrangler.jsonc` | Secret **names** only, never values. After changing it, run `npx wrangler types worker/worker-configuration.d.ts`. |
+| Business details (public email, phone, address, hours, social links) | `src/content/business.json` | Read through `getBusiness()`. The notification address is `contact.siteEmail` in `site.config.ts`, not here. |
+| Colors, fonts, logo | `src/content/brand.json` | `npm run sync:config` writes `src/app/palette.css` (the only place the palette is set), `src/lib/fonts.ts` and `public/_headers` from it. Fonts come from the curated list in `src/brand/fonts.ts`. |
+| Site notice (a line above the header) | `src/content/notice.json` | Empty text means no notice. |
+| Collection items (testimonials; posts, videos, episodes and team are defined but empty) | `src/content/collections/<kind>/<slug>.json` | One file per item; `status` `archived` hides it. See docs/EDITING-LANES.md and docs/CHANGE-SCOPE.md. |
 | Framework step names, numbers, one-liners | `framework.steps` in `src/content/site.ts` | The only place "Scope it / Shape it / Ship it" is defined. Content strings use `{scope}`, `{shape}`, `{ship}`, `{steps}` tokens via `fw()` (`src/lib/framework.ts`). Rename a step here and every page follows. |
 
 ## Motion
@@ -138,6 +143,10 @@ Normal builds (and CI) allow placeholders so the site can be previewed. **Use `n
 ### Scheduler and analytics are still placeholders
 
 The contact page shows a disabled "Pick a time" button, clearly marked, and every "Book a free call" button points at `/contact#book` until `schedulerUrl` is set in `src/content/providers.ts`. If the scheduler is embedded in an iframe, add its origin to `frame-src` in `public/_headers`. Analytics is Cloudflare Web Analytics, which is cookieless: its two origins are in the CSP and the privacy page says so. Turn it on in the Cloudflare dashboard (nothing is added to the site's code).
+
+## Site editor
+
+The same Worker entry (`worker/index.ts`) can serve the site editor: the owner's sign-in and owner page (`/owner`), and the MCP endpoint (`/mcp`) that their AI app connects to. **It is off.** `editor.enabled` and `editor.uploads.enabled` are `false` in `site.config.ts`, no account value is set, and `wrangler.jsonc` has no editor binding, so `/owner`, `/mcp` and the OAuth paths answer 404 and the site behaves as before. The forms are not part of it: `/api/*` always goes through `worker/api.ts` (the contact form to `worker/contact.ts`, other forms to `worker/forms.ts`) and never depends on the editor. The editor runs only on the live domain, never on previews or locally. What it does, what it can change, and Grant's setup steps (a to g for the editor, h to l for uploads) are in [docs/EDITING.md](docs/EDITING.md). The site's voice for the owner's AI app is in [docs/VOICE-GUIDE.md](docs/VOICE-GUIDE.md) (still a template with `[[placeholders]]`). Its tests (`worker/editor/*.test.ts`, `worker/uploads/*.test.ts`) run in `npm run test:worker` on a fake GitHub and fake storage.
 
 ## Contact form
 
@@ -165,6 +174,12 @@ The form on `/contact` (`src/components/hl/ContactForm.tsx`) posts JSON to `POST
 **Turnstile errors.** "That didn't go through" (403) means the visitor's check failed (logged as `turnstile_failed` with a `reason`: `not_success`, `hostname_mismatch` or `action_mismatch`, plus Cloudflare's error codes). A missing `TURNSTILE_SECRET_KEY`, a secret Cloudflare refuses, or an unreachable siteverify is our fault, so it is "Something broke on my end…" (502), logged as `turnstile_config_missing` or `turnstile_unavailable`.
 
 **Logs:** Workers Logs is on, invocation logs are off. The Worker logs fixed event names, status codes and Cloudflare's fixed error codes only (for example `sheet_append_failed` with `status=403`), never names, emails, messages, IP addresses or keys.
+
+### Other forms (`/api/forms/<id>`)
+
+An owner can add forms (docs/EDITING.md, "Forms"): one JSON file each in `src/content/forms/`, shown with the `form` block. **None exists yet** (the only form file is the contact form's `contact.json`), so every `/api/forms/<id>` answers 404 and nothing on the site changed. They post to `POST /api/forms/<id>`, handled by `worker/forms.ts` (`worker/api.ts` sends that prefix there and every other `/api` path to the contact Worker). The layers are the contact form's, in the same order: same-origin, JSON, body limit (`forms.maxBodyBytes`, 32 KB), the contact rate limiter pair with a key per form (no new id), honeypot, the shared validator (`src/forms/validate.ts`), Turnstile with `action: "form"`. They save the same way the contact form does: the Pipeline app first (production only, while `INTAKE_SECRET` is set; the message starts with `Form: <name>`), the Google Sheet when the app did not take it (tabs **`Forms`** and **`Forms preview`**, one header row for every form: `Received (UTC) | Form | Name | Email | Answers | Mode`), and the plain-text notification to grant@hustonlogic.com always, with a "Saved to:" line. A download form also sends the visitor one plain-text email with the file's link, built from the site's own address. Same success rule: success only when the answers reached Grant (the app, the Sheet or the email). **Before the first form is turned on**, add the two tabs to the Sheet with that header row (docs/SECRETS.md, "The Sheet's tabs"). Tests: `worker/forms.test.ts`.
+
+`docs/apps-script/contact-sheet.gs` is the template's Apps Script Sheet writer. It is **reference only** here: this site writes the Sheet as a Google service account, so the script is not deployed. Secrets and settings: `docs/SECRETS.md`; Cloudflare rate-limit ids: `docs/HOSTING.md`.
 
 ### Secrets
 
@@ -290,6 +305,6 @@ src/
   content/        typed copy and site settings (single source of truth)
   lib/            fonts, metadata, JSON-LD, routes and text-token helpers
 scripts/          placeholder gate, static preview server
-worker/           contact form Worker (POST /api/contact) and its tests
+worker/           contact form Worker (POST /api/contact), the other forms (POST /api/forms/<id>, worker/forms.ts), the site editor when it is on (worker/editor, worker/uploads; docs/EDITING.md), and their tests
 public/_headers   Cloudflare Workers security and cache headers (static files)
 ```

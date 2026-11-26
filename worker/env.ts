@@ -10,6 +10,21 @@ export interface ContactEnv {
   CONTACT_RATE_LIMIT?: RateLimit;
 }
 
+/** Bindings the owner's chat tools add. All optional: they exist only when `editor.enabled` is true (wrangler.jsonc). */
+export interface EditorEnv extends ContactEnv {
+  OAUTH_KV?: KVNamespace;
+  EDITOR_KV?: KVNamespace;
+  EDITOR_RATE_LIMIT?: RateLimit;
+  ASSETS?: Fetcher;
+  GITHUB_APP_PRIVATE_KEY?: string;
+  /** Present only when `editor.uploads.enabled` is true: the private inbox bucket and the Images binding. */
+  UPLOADS?: R2Bucket;
+  IMAGES?: ImagesBinding;
+}
+
+/** Whether the submission reached its destination. "skipped" means it was deliberately not sent (a preview never posts to the real app). */
+export type SaveStatus = "saved" | "failed" | "skipped";
+
 /**
  * - development: `wrangler dev` on localhost. No email, no Sheet: the Worker logs a summary instead.
  * - preview: branch previews. Mail goes only to the site's own address, rows go to the Preview tab.
@@ -22,13 +37,19 @@ const LOCAL_HOSTS = new Set(["localhost", "127.0.0.1", "[::1]"]);
 /**
  * Reads the mode from SITE_ENV, with two guards: development only counts on a local host (so a stray setting can never
  * turn the live form into one that sends nothing), and any workers.dev host other than the production one
- * (`huston-site.<account>.workers.dev`) is treated as a preview. Returns null for anything unexpected.
+ * (`<workerName>.<account>.workers.dev`) is treated as a preview. Returns null for anything unexpected. The contact Worker
+ * calls it with two arguments and gets this site's names (`huston-site`, `.workers.dev`); the editor passes the config's.
  */
-export function resolveMode(siteEnv: string | undefined, hostname: string): Mode | null {
+export function resolveMode(
+  siteEnv: string | undefined,
+  hostname: string,
+  workerName = "huston-site",
+  previewHostSuffix = ".workers.dev",
+): Mode | null {
   if (siteEnv === "development") return LOCAL_HOSTS.has(hostname) ? "development" : null;
   if (siteEnv === "preview") return "preview";
   if (siteEnv === "production") {
-    if (hostname.endsWith(".workers.dev") && !hostname.startsWith("huston-site.")) return "preview";
+    if (hostname.endsWith(previewHostSuffix) && !hostname.startsWith(`${workerName}.`)) return "preview";
     return "production";
   }
   return null;

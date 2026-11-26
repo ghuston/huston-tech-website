@@ -1,4 +1,3 @@
-import type { CSSProperties } from "react";
 import { InViewOnce } from "@/components/ui/InViewOnce";
 
 export type ProofStripContent = {
@@ -16,21 +15,20 @@ export function ProofChips({ content }: { content: ProofStripContent }) {
   return (
     <div className="flex flex-wrap items-center gap-x-3 gap-y-3.5">
       <InViewOnce as="ul" className="hl-chips flex flex-wrap gap-2.5 md:gap-3">
-        {content.stats.map((stat, index) => (
+        {content.stats.map((stat) => (
           <li
             key={`${stat.value}-${stat.label}`}
             data-chip=""
-            style={{ "--i": index } as CSSProperties}
-            className="inline-flex items-center gap-2.5 rounded-btn border border-ink/10 bg-white px-3.5 py-2.5 text-[13px] leading-[1.3] text-ink-2 shadow-chip"
+            className="inline-flex items-center gap-2.5 rounded-btn border border-ink/10 bg-white px-3.5 py-2.5 text-fine leading-fine text-ink-2 shadow-chip"
           >
-            <span aria-hidden="true" className="size-[9px] flex-none rounded-pill bg-green" />
+            <span aria-hidden="true" className="size-2.25 flex-none rounded-pill bg-green" />
             <span>
-              <b className="font-ui text-[14px] font-semibold text-ink">{stat.value}</b> {stat.label}
+              <b className="font-ui text-note font-semibold text-ink">{stat.value}</b> {stat.label}
             </span>
           </li>
         ))}
       </InViewOnce>
-      <p className="max-w-[60ch] text-small text-ink-2">{content.footnote}</p>
+      <p className="max-w-intro text-small text-ink-2">{content.footnote}</p>
     </div>
   );
 }

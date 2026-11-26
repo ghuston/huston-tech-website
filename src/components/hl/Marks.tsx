@@ -21,7 +21,7 @@ if (!ring || !dot) throw new Error("Could not find the ring and dot subpaths in 
 export const RING_PATH = ring;
 export const DOT_PATH = dot;
 
-const WORDMARK_ASPECT = "aspect-[823.975/133.837]";
+const WORDMARK_ASPECT = "aspect-lockup";
 
 /** The three logo shapes as one hidden SVG sprite, drawn once per page by the header. Uses reference them by id. */
 export function MarkSprite() {

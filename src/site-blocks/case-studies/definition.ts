@@ -1,0 +1,113 @@
+import { defineBlock } from "../../blocks/schema.ts";
+
+export const caseStudiesDefinition = defineBlock({
+  type: "case-studies",
+  title: "Custom systems case studies",
+  description: "A heading and the systems case studies in full (screenshots, what happened in each phase, what I built, the client's quote, the results), then a short project, with the survey scores under it.",
+  source: "site",
+  fields: {
+    heading: { kind: "text", label: "Section heading", max: 60 },
+    phasesHeading: { kind: "text", label: "Heading over each Scoped, Shaped, Shipped strip (the step names fill in)", max: 60 },
+    studies: {
+      kind: "list",
+      label: "Case studies",
+      min: 1,
+      max: 4,
+      of: {
+        kind: "object",
+        label: "Case study",
+        fields: {
+          id: { kind: "choice", label: "Which project (its address on the page and the Home links)", options: ["hideout-fitness", "irvine-family-counseling"] },
+          heading: { kind: "text", label: "Title", max: 120 },
+          client: { kind: "text", label: "Client name", max: 60 },
+          meta: { kind: "list", label: "Tags under the client name", min: 1, max: 5, of: { kind: "text", label: "Tag", max: 60 } },
+          testimonialId: { kind: "text", label: "The client's quote (its file name in the testimonials collection)", max: 40 },
+          quoteHeading: { kind: "text", label: "Heading above the quote", max: 40 },
+          screenshots: {
+            kind: "list",
+            label: "Screenshots",
+            min: 1,
+            max: 2,
+            of: {
+              kind: "object",
+              label: "Screenshot",
+              fields: {
+                src: { kind: "text", label: "File under public/, with its extension", max: 80 },
+                alt: { kind: "text", label: "What the screenshot shows", max: 200 },
+                width: { kind: "number", label: "Width in pixels", min: 100, max: 4000 },
+                height: { kind: "number", label: "Height in pixels", min: 100, max: 4000 },
+              },
+            },
+          },
+          phases: {
+            kind: "object",
+            label: "What happened in each phase",
+            fields: {
+              scope: { kind: "text", label: "Scoped", max: 400 },
+              shape: { kind: "text", label: "Shaped", max: 400 },
+              ship: { kind: "text", label: "Shipped", max: 400 },
+            },
+          },
+          challenge: { kind: "text", label: "The challenge", max: 700 },
+          builtHeading: { kind: "text", label: "Heading above what was built", max: 40 },
+          built: { kind: "list", label: "What I built", min: 1, max: 8, of: { kind: "text", label: "Item", max: 500 } },
+          resultsLabel: { kind: "text", label: "Heading above the results", max: 80 },
+          results: { kind: "list", label: "Results", min: 1, max: 6, of: { kind: "text", label: "Result", max: 300 } },
+        },
+      },
+    },
+    small: {
+      kind: "object",
+      label: "The short project under the case studies",
+      fields: {
+        id: { kind: "text", label: "Its address on the page", max: 40 },
+        heading: { kind: "text", label: "Title", max: 80 },
+        tag: { kind: "text", label: "Tag", max: 60 },
+        description: { kind: "text", label: "Description", max: 300 },
+      },
+    },
+    stats: {
+      kind: "list",
+      label: "Survey scores",
+      min: 1,
+      max: 5,
+      of: {
+        kind: "object",
+        label: "Score",
+        fields: {
+          value: { kind: "text", label: "Figure", max: 20 },
+          label: { kind: "text", label: "What it measures", max: 80 },
+        },
+      },
+    },
+    footnote: { kind: "text", label: "Small print under the scores", max: 240 },
+  },
+  innerAnchors: ["hideout-fitness", "irvine-family-counseling", "orange-county-therapy"],
+  variants: [{ name: "default", description: "A fading line, the heading, each case study with a fading line between, then the short project and the score chips." }],
+  placement: { position: "any", maxPerPage: 1, rhythm: "compact", plainWrapper: true },
+  motion: { entrance: "none", reason: "Keeps this site's own one-moment-per-section motion (STYLE-GUIDE §9.4): the phase strip and the score chips play once in view." },
+  example: {
+    heading: "Custom systems",
+    phasesHeading: "{steps} at a glance",
+    studies: [
+      {
+        id: "hideout-fitness",
+        heading: "A short title for the project",
+        client: "A client",
+        meta: ["Personal training"],
+        testimonialId: "t1-hideout",
+        quoteHeading: "In his words",
+        screenshots: [{ src: "/work/systems-1.webp", alt: "An owner dashboard with pie charts of profit against trainer pay by session type and bar charts of average profit", width: 1200, height: 656 }],
+        phases: { scope: "What the owner needed.", shape: "What I built.", ship: "How it was handed over." },
+        challenge: "The problem, in a few sentences.",
+        builtHeading: "What I built",
+        built: ["One thing I built."],
+        resultsLabel: "Results (client-reported)",
+        results: ["One result."],
+      },
+    ],
+    small: { id: "another-project", heading: "Another project", tag: "Therapy practice", description: "A sentence about it." },
+    stats: [{ value: "3 of 3", label: "met the goals set at kickoff" }],
+    footnote: "From client wrap-up surveys. A small sample, I know.",
+  },
+});

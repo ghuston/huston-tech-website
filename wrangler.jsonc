@@ -1,11 +1,12 @@
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "huston-site",
-  // The contact form Worker. It runs only for /api/* (run_worker_first); every page and file is served from ./out.
-  "main": "./worker/contact.ts",
+  // The Worker entry: the contact form on /api/*. Every page and file is served from ./out.
+  "main": "./worker/index.ts",
   "compatibility_date": "2026-11-11",
   "assets": {
     "directory": "./out",
+    "binding": "ASSETS",
     "not_found_handling": "404-page",
     "run_worker_first": ["/api/*"]
   },
@@ -20,7 +21,7 @@
   // Invocation logs would store request metadata; the Worker's own log lines hold no personal data.
   "observability": { "enabled": true, "logs": { "invocation_logs": false } },
   // Worker Previews (branch previews) do not inherit the settings above, so they are repeated here.
-  // Preview secrets are separate: `wrangler preview base-config secret put`.
+  // Preview secrets are separate: `wrangler preview base-config secret put`. The editor never runs on a preview.
   "previews": {
     "vars": { "SITE_ENV": "preview" },
     "ratelimits": [{ "name": "CONTACT_RATE_LIMIT", "namespace_id": "2102", "simple": { "limit": 5, "period": 60 } }]

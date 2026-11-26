@@ -2,7 +2,7 @@ import { readdirSync } from "node:fs";
 import { join, relative, sep } from "node:path";
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test, type Page } from "@playwright/test";
-import { indexableRoutes, noindexRoutes } from "../../src/lib/routes";
+import { auditRoutes, indexableRoutes, noindexRoutes } from "../../src/lib/routes";
 import { KNOWN_ISSUES } from "./known-issues";
 
 // WCAG 2.0, 2.1 and 2.2 levels A and AA (axe tags are not cumulative), plus axe's best-practice rules
@@ -13,7 +13,7 @@ const NOT_FOUND_PATH = "/this-page-does-not-exist";
 // Rendered differently in the browser (ContactForm preselecting a need from ?topic=), so it is scanned as its own page.
 const TOPIC_VARIANT = "/contact?topic=system";
 
-const pages = [...indexableRoutes, ...noindexRoutes, TOPIC_VARIANT, NOT_FOUND_PATH];
+const pages = [...auditRoutes, ...noindexRoutes, TOPIC_VARIANT, NOT_FOUND_PATH];
 
 type Violation = Awaited<ReturnType<AxeBuilder["analyze"]>>["violations"][number];
 

@@ -1,0 +1,8 @@
+{
+  "status": "live",
+  "name": "[[Team member name]]",
+  "role": "[[Team member role]]",
+  "bio": "[[Two sentences about this person]]",
+  "photo": { "src": "/images/examples/jug-and-cups.jpg", "alt": "A tall blue jug beside two small cups on a table" },
+  "order": 1
+}

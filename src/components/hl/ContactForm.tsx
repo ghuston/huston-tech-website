@@ -16,17 +16,17 @@ type SendError = keyof typeof noteForm.sendErrors;
 
 const FIELD_ORDER: ContactField[] = ["need", "name", "email", "message"];
 
-const label = "block font-ui text-[15px] font-medium text-ink";
+const label = "block font-ui text-label font-medium text-ink";
 const control =
-  "mt-2 block w-full rounded-field border border-ink-2 bg-white px-[14px] font-text text-[17px] text-ink placeholder:text-ink-2 focus:border-ink aria-[invalid=true]:border-rust";
-const input = `${control} h-[52px]`;
+  "mt-2 block w-full rounded-field border border-ink-2 bg-white px-3.5 font-text text-control text-ink placeholder:text-ink-2 focus:border-ink aria-[invalid=true]:border-rust";
+const input = `${control} h-13`;
 
 function ErrorLine({ id, message }: { id: string; message?: string }) {
   return (
     <div id={id} aria-live="polite">
       {message ? (
-        <p className="mt-2 flex items-start gap-2 text-[15px] text-rust">
-          <svg aria-hidden="true" viewBox="0 0 16 16" className="mt-[3px] size-4 shrink-0" fill="none" stroke="currentColor" strokeWidth="1.75">
+        <p className="mt-2 flex items-start gap-2 text-label text-rust">
+          <svg aria-hidden="true" viewBox="0 0 16 16" className="mt-0.75 size-4 shrink-0" fill="none" stroke="currentColor" strokeWidth="1.75">
             <circle cx="8" cy="8" r="6.25" />
           </svg>
           {message}
@@ -54,7 +54,7 @@ function Labeled({ id, text, children }: { id: string; text: string; children: R
  * Every failure keeps the visitor's answers. No `action`, and `method="post"`, so without JavaScript nothing is sent
  * and nothing lands in the URL.
  */
-function Form({ urlTopic }: { urlTopic: string | null }) {
+function Form({ urlTopic, idPrefix }: { urlTopic: string | null; idPrefix: string }) {
   const topic = topicFromUrl(urlTopic);
   const router = useRouter();
   const [need, setNeed] = useState<Need | null>(topic === "" ? null : topic);
@@ -85,7 +85,7 @@ function Form({ urlTopic }: { urlTopic: string | null }) {
     const target =
       first === "need"
         ? formRef.current?.querySelector<HTMLInputElement>('input[name="need"]')
-        : formRef.current?.querySelector<HTMLElement>(`#cf-${first}`);
+        : formRef.current?.querySelector<HTMLElement>(`#${idPrefix}-${first}`);
     target?.focus();
   }
 
@@ -164,11 +164,11 @@ function Form({ urlTopic }: { urlTopic: string | null }) {
   }
 
   const invalid = (f: ContactField) => (errors[f] ? ("true" as const) : undefined);
-  const described = (f: ContactField, extra?: string) => [extra, errors[f] ? `cf-${f}-error` : undefined].filter(Boolean).join(" ") || undefined;
+  const described = (f: ContactField, extra?: string) => [extra, errors[f] ? `${idPrefix}-${f}-error` : undefined].filter(Boolean).join(" ") || undefined;
 
   return (
     <div className="rounded-panel bg-white p-6 shadow-card md:p-9">
-      <h2 className="font-ui text-[28px] font-bold leading-tight tracking-[-0.03em]">
+      <h2 className="font-ui text-head font-bold leading-tight tracking-head">
         {noteForm.heading}
       </h2>
 
@@ -177,7 +177,7 @@ function Form({ urlTopic }: { urlTopic: string | null }) {
 
         <fieldset role="radiogroup" aria-required="true" aria-describedby={described("need")}>
           <legend className={label}>{noteForm.needLegend}</legend>
-          <div className="mt-3 flex flex-wrap gap-[10px]">
+          <div className="mt-3 flex flex-wrap gap-2.5">
             {noteForm.needOptions.map((option) => (
               <label key={option.value} className="relative">
                 <input
@@ -192,7 +192,7 @@ function Form({ urlTopic }: { urlTopic: string | null }) {
                   className="peer sr-only"
                 />
                 <span
-                  className={`inline-flex min-h-11 cursor-pointer items-center gap-2 rounded-pill border px-[18px] font-ui text-[16px] font-medium peer-focus-visible:outline-2 peer-focus-visible:outline-offset-[3px] peer-focus-visible:outline-rust ${
+                  className={`inline-flex min-h-11 cursor-pointer items-center gap-2 rounded-pill border px-4.5 font-ui text-chip font-medium peer-focus-visible:outline-2 peer-focus-visible:outline-offset-3 peer-focus-visible:outline-rust ${
                     need === option.value ? "border-ink bg-ink text-silver" : errors.need ? "border-rust text-ink" : "border-ink-2 text-ink"
                   }`}
                 >
@@ -202,12 +202,12 @@ function Form({ urlTopic }: { urlTopic: string | null }) {
               </label>
             ))}
           </div>
-          <ErrorLine id="cf-need-error" message={errors.need} />
+          <ErrorLine id={`${idPrefix}-need-error`} message={errors.need} />
         </fieldset>
 
-        <Labeled id="cf-name" text={noteForm.name.label}>
+        <Labeled id={`${idPrefix}-name`} text={noteForm.name.label}>
           <input
-            id="cf-name"
+            id={`${idPrefix}-name`}
             name="name"
             type="text"
             autoComplete="name"
@@ -220,12 +220,12 @@ function Form({ urlTopic }: { urlTopic: string | null }) {
             onChange={(ev) => setName(ev.target.value)}
             className={input}
           />
-          <ErrorLine id="cf-name-error" message={errors.name} />
+          <ErrorLine id={`${idPrefix}-name-error`} message={errors.name} />
         </Labeled>
 
-        <Labeled id="cf-email" text={noteForm.email.label}>
+        <Labeled id={`${idPrefix}-email`} text={noteForm.email.label}>
           <input
-            id="cf-email"
+            id={`${idPrefix}-email`}
             name="email"
             type="email"
             autoComplete="email"
@@ -238,44 +238,44 @@ function Form({ urlTopic }: { urlTopic: string | null }) {
             onChange={(ev) => setEmail(ev.target.value)}
             className={input}
           />
-          <ErrorLine id="cf-email-error" message={errors.email} />
+          <ErrorLine id={`${idPrefix}-email-error`} message={errors.email} />
         </Labeled>
 
-        <Labeled id="cf-business" text={noteForm.business.label}>
-          <input id="cf-business" name="business" type="text" autoComplete="organization" maxLength={fieldLimits.business} className={input} />
+        <Labeled id={`${idPrefix}-business`} text={noteForm.business.label}>
+          <input id={`${idPrefix}-business`} name="business" type="text" autoComplete="organization" maxLength={fieldLimits.business} className={input} />
         </Labeled>
 
-        <Labeled id="cf-message" text={noteForm.message.label}>
+        <Labeled id={`${idPrefix}-message`} text={noteForm.message.label}>
           <textarea
-            id="cf-message"
+            id={`${idPrefix}-message`}
             name="message"
             rows={5}
             required
             aria-required="true"
             maxLength={fieldLimits.message}
             aria-invalid={invalid("message")}
-            aria-describedby={described("message", "cf-privacy")}
+            aria-describedby={described("message", `${idPrefix}-privacy`)}
             placeholder={noteForm.message.placeholders[key]}
             value={message}
             onChange={(ev) => setMessage(ev.target.value)}
-            className={`${control} min-h-[140px] py-3`}
+            className={`${control} min-h-35 py-3`}
           />
-          <p id="cf-privacy" className="mt-2 text-small text-ink-2">
+          <p id={`${idPrefix}-privacy`} className="mt-2 text-small text-ink-2">
             {noteForm.privacyNote}
           </p>
-          <ErrorLine id="cf-message-error" message={errors.message} />
+          <ErrorLine id={`${idPrefix}-message-error`} message={errors.message} />
         </Labeled>
 
-        <Labeled id="cf-tools" text={noteForm.tools.label}>
-          <input id="cf-tools" name="tools" type="text" maxLength={fieldLimits.tools} placeholder={noteForm.tools.placeholders[key]} className={input} />
+        <Labeled id={`${idPrefix}-tools`} text={noteForm.tools.label}>
+          <input id={`${idPrefix}-tools`} name="tools" type="text" maxLength={fieldLimits.tools} placeholder={noteForm.tools.placeholders[key]} className={input} />
         </Labeled>
 
-        <Labeled id="cf-site" text={noteForm.website.label}>
-          <input id="cf-site" name="website" type="url" autoComplete="url" maxLength={fieldLimits.website} className={input} />
+        <Labeled id={`${idPrefix}-site`} text={noteForm.website.label}>
+          <input id={`${idPrefix}-site`} name="website" type="url" autoComplete="url" maxLength={fieldLimits.website} className={input} />
         </Labeled>
 
-        <Labeled id="cf-source" text={noteForm.source.label}>
-          <select id="cf-source" name="source" defaultValue="" className={input}>
+        <Labeled id={`${idPrefix}-source`} text={noteForm.source.label}>
+          <select id={`${idPrefix}-source`} name="source" defaultValue="" className={input}>
             <option value="">{noteForm.source.empty}</option>
             {noteForm.source.options.map((option) => (
               <option key={option} value={option}>
@@ -287,8 +287,8 @@ function Form({ urlTopic }: { urlTopic: string | null }) {
 
         {/* Spam trap: hidden from people and screen readers, out of the tab order. A filled value is refused. */}
         <div aria-hidden="true" className="sr-only">
-          <label htmlFor="cf-fax">{noteForm.honeypotLabel}</label>
-          <input id="cf-fax" name={honeypot.name} type="text" tabIndex={-1} autoComplete="off" defaultValue="" />
+          <label htmlFor={`${idPrefix}-fax`}>{noteForm.honeypotLabel}</label>
+          <input id={`${idPrefix}-fax`} name={honeypot.name} type="text" tabIndex={-1} autoComplete="off" defaultValue="" />
         </div>
 
         <div>
@@ -298,7 +298,7 @@ function Form({ urlTopic }: { urlTopic: string | null }) {
             type="submit"
             aria-disabled={sending ? "true" : undefined}
             aria-busy={sending ? "true" : undefined}
-            className="inline-flex min-h-[54px] w-full items-center justify-center rounded-btn bg-ink px-6 font-ui text-btn font-semibold text-silver aria-disabled:cursor-wait aria-disabled:opacity-70 md:w-auto md:justify-start md:pl-[22px]"
+            className="inline-flex min-h-13.5 w-full items-center justify-center rounded-btn bg-ink px-6 font-ui text-btn font-semibold text-silver aria-disabled:cursor-wait aria-disabled:opacity-70 md:w-auto md:justify-start md:pl-5.5"
           >
             {noteForm.submitLabel}
           </button>
@@ -306,7 +306,7 @@ function Form({ urlTopic }: { urlTopic: string | null }) {
 
         <div role="status">
           {sendError ? (
-            <p className="text-[15px] text-rust">
+            <p className="text-label text-rust">
               <Text>{noteForm.sendErrors[sendError]}</Text>
             </p>
           ) : null}
@@ -316,16 +316,17 @@ function Form({ urlTopic }: { urlTopic: string | null }) {
   );
 }
 
-function FormFromUrl() {
+function FormFromUrl({ idPrefix }: { idPrefix: string }) {
   const topic = useSearchParams().get("topic");
-  return <Form key={topic ?? ""} urlTopic={topic} />;
+  return <Form key={topic ?? ""} urlTopic={topic} idPrefix={idPrefix} />;
 }
 
 /** A static page cannot read the query at build time, so the form reads ?topic= in the browser. Before that (and without JS) it shows the unselected form. */
-export function ContactForm() {
+/** `idPrefix` keeps the field ids unique when two contact forms share a page (the /blocks showcase); a live page uses the default. */
+export function ContactForm({ idPrefix = "cf" }: { idPrefix?: string } = {}) {
   return (
-    <Suspense fallback={<Form urlTopic={null} />}>
-      <FormFromUrl />
+    <Suspense fallback={<Form urlTopic={null} idPrefix={idPrefix} />}>
+      <FormFromUrl idPrefix={idPrefix} />
     </Suspense>
   );
 }

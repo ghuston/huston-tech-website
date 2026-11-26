@@ -1,4 +1,4 @@
-import { framework, type FrameworkStep, type FrameworkStepKey } from "@/content/site";
+import { framework, type FrameworkStep, type FrameworkStepKey } from "../content/site.ts";
 
 export function getStep(key: FrameworkStepKey): FrameworkStep {
   const step = framework.steps.find((s) => s.key === key);

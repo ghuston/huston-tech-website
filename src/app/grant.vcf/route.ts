@@ -3,6 +3,7 @@ import path from "node:path";
 import { card } from "@/content/card";
 import { siteConfig } from "@/content/site";
 import { buildVCard } from "@/lib/vcard";
+import { getBusiness } from "@/lib/settings";
 
 export const dynamic = "force-static";
 
@@ -20,7 +21,7 @@ export async function GET() {
     org: siteConfig.name,
     title: card.jobTitle,
     phone: card.phone,
-    email: card.email,
+    email: getBusiness().email.trim() || null,
     url: siteConfig.url,
     photoJpeg,
   });
