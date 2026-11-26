@@ -19,6 +19,7 @@ Permanent architecture, security and content rules are in [`AGENTS.md`](./AGENTS
 | `/contact/thanks` | Form confirmation, reached only after a real send (noindex) |
 | `POST /api/contact` | The contact form Worker (`worker/contact.ts`), not a page |
 | `/privacy` | Privacy policy (draft, needs review) |
+| `/blocks` | The block showcase: every block with its example content (noindex; built for previews, CI and local builds, removed from the production build) |
 | `404` | Not found |
 
 ## Develop
@@ -85,7 +86,7 @@ npm run build
 npm run test:lighthouse
 ```
 
-`npm run build && npm run test:lighthouse` audits the built site with Lighthouse CI (mobile preset, median of 3 runs per page) against the eight indexable pages in `src/lib/routes.ts` (a `noindex` page cannot pass the SEO check, and the 404 page returns an error status). It serves `out/` through `scripts/preview.mjs`, so the headers in `public/_headers` apply, and uses the Google Chrome installed on your machine (or `CHROME_PATH`). Reports are written to `.lighthouseci/` (git-ignored). Accessibility and SEO must score 0.95 or higher, and best-practices and performance 0.9 or higher; all four fail the job (`lighthouserc.cjs`). The preview server does not compress files or set cache headers the way Cloudflare does, so its performance score understates the deployed site.
+`npm run build && npm run test:lighthouse` audits the built site with Lighthouse CI (mobile preset, median of 3 runs per page) against the pages in `src/lib/routes.ts` (`auditRoutes`: the pages, and the newest post and blog page 2 once there is a blog). The `/blocks` showcase is not audited: it is `noindex` (cannot pass the SEO check) and scores 0.85 for performance, below the 0.9 threshold, which is not lowered. The 404 page is left out because it returns an error status. It serves `out/` through `scripts/preview.mjs`, so the headers in `public/_headers` apply, and uses the Google Chrome installed on your machine (or `CHROME_PATH`). Reports are written to `.lighthouseci/` (git-ignored). Accessibility and SEO must score 0.95 or higher, and best-practices and performance 0.9 or higher; all four fail the job (`lighthouserc.cjs`). The preview server does not compress files or set cache headers the way Cloudflare does, so its performance score understates the deployed site.
 
 In CI this is the `lighthouse` job in `.github/workflows/ci.yml`. It is a required check in the "Protect main" ruleset, so a red result blocks merge. Scores for every page are in the run's Summary, and the full HTML and JSON reports are the `lighthouse-reports` artifact (kept 14 days; open the `.report.html` for the failing URL to see which audits failed). If it fails with `NO_NAVSTART` (a Lighthouse trace-recording hiccup, not a site problem), click "Re-run failed jobs" on the run.
 
@@ -116,6 +117,10 @@ Scheduled runs only happen on the default branch, and GitHub disables schedules 
 | Contact email, scheduler URL, LinkedIn URL, Turnstile site key | `src/content/providers.ts` (re-exported by `site.ts`) | `null` renders a visible placeholder. The Worker reads this file too. The Turnstile site key is public. |
 | Content-Security-Policy | `public/_headers` | `https://challenges.cloudflare.com` is allowed in `script-src` and `frame-src` for Turnstile on the contact form, and `https://static.cloudflareinsights.com` (`script-src`) and `https://cloudflareinsights.com` (`connect-src`) for Cloudflare Web Analytics. Nothing else is loaded from outside. `_headers` covers static files only; the Worker sets its own headers on `/api/*`. |
 | Worker settings | `wrangler.jsonc` | Secret **names** only, never values. After changing it, run `npx wrangler types worker/worker-configuration.d.ts`. |
+| Business details (public email, phone, address, hours, social links) | `src/content/business.json` | Read through `getBusiness()`. The notification address is `contact.siteEmail` in `site.config.ts`, not here. |
+| Colors, fonts, logo | `src/content/brand.json` | `npm run sync:config` writes `src/app/palette.css` (the only place the palette is set), `src/lib/fonts.ts` and `public/_headers` from it. Fonts come from the curated list in `src/brand/fonts.ts`. |
+| Site notice (a line above the header) | `src/content/notice.json` | Empty text means no notice. |
+| Collection items (testimonials; posts, videos, episodes and team are defined but empty) | `src/content/collections/<kind>/<slug>.json` | One file per item; `status` `archived` hides it. See docs/EDITING-LANES.md and docs/CHANGE-SCOPE.md. |
 | Framework step names, numbers, one-liners | `framework.steps` in `src/content/site.ts` | The only place "Scope it / Shape it / Ship it" is defined. Content strings use `{scope}`, `{shape}`, `{ship}`, `{steps}` tokens via `fw()` (`src/lib/framework.ts`). Rename a step here and every page follows. |
 
 ## Motion

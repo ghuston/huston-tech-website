@@ -9,7 +9,7 @@ Each item has one mark:
 - **Coming**: planned, not available yet.
 - **Huston Logic builds it**: this needs design, setup or a build by Huston Logic first.
 
-You can change your site by chatting with your AI app. Sign in at `https://[[Site domain]]/owner`. That page shows the changes
+You can change your site by chatting with your AI app. Sign in at `https://hustonlogic.com/owner`. That page shows the changes
 waiting for your yes, your recent changes (with Withdraw or Undo), and how to connect your AI app.
 
 ## How a change works
