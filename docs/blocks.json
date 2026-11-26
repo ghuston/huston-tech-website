@@ -1653,6 +1653,29 @@
           "label": "Introduction",
           "required": false,
           "max": 400
+        },
+        {
+          "name": "introLink",
+          "kind": "action",
+          "label": "Link inside the introduction",
+          "help": "Sits right after the introduction text; the words that follow it go in 'After the link'.",
+          "required": false,
+          "labelMax": 80
+        },
+        {
+          "name": "introAfter",
+          "kind": "text",
+          "label": "After the link",
+          "required": false,
+          "max": 120
+        },
+        {
+          "name": "cta",
+          "kind": "text",
+          "label": "Call button label",
+          "help": "A button that opens the booking page.",
+          "required": false,
+          "max": 60
         }
       ],
       "example": {
@@ -2973,6 +2996,1782 @@
           "label": "Ask me →",
           "href": "/contact"
         }
+      }
+    },
+    {
+      "type": "text-section",
+      "title": "Text section",
+      "description": "A heading and one paragraph, with an optional link inside the paragraph, a link under it or a call button, and a fading line above if wanted.",
+      "source": "site",
+      "variants": [
+        {
+          "name": "default",
+          "description": "Heading, then the paragraph at a readable line length.",
+          "default": true
+        }
+      ],
+      "placement": {
+        "position": "any",
+        "maxPerPage": 12,
+        "rhythm": "compact",
+        "joinsHero": false
+      },
+      "motion": {
+        "entrance": "none",
+        "reason": "Keeps this site's own motion rules (STYLE-GUIDE §9.4); this section has none.",
+        "signature": null
+      },
+      "fixedAnchor": null,
+      "interactive": null,
+      "fields": [
+        {
+          "name": "heading",
+          "kind": "text",
+          "label": "Heading",
+          "required": true,
+          "max": 90
+        },
+        {
+          "name": "divider",
+          "kind": "boolean",
+          "label": "Fading line above the heading",
+          "required": false
+        },
+        {
+          "name": "width",
+          "kind": "choice",
+          "label": "Line length of the paragraph",
+          "required": true,
+          "options": [
+            "intro",
+            "measure"
+          ]
+        },
+        {
+          "name": "body",
+          "kind": "text",
+          "label": "Paragraph",
+          "required": true,
+          "max": 800
+        },
+        {
+          "name": "inlineLink",
+          "kind": "action",
+          "label": "Link inside the paragraph",
+          "help": "Sits right after the paragraph text; anything that follows it goes in 'After the link'.",
+          "required": false,
+          "labelMax": 60
+        },
+        {
+          "name": "afterLink",
+          "kind": "text",
+          "label": "After the link",
+          "required": false,
+          "max": 40
+        },
+        {
+          "name": "more",
+          "kind": "action",
+          "label": "Link under the paragraph",
+          "required": false,
+          "labelMax": 40
+        },
+        {
+          "name": "cta",
+          "kind": "text",
+          "label": "Call button label",
+          "help": "A button that opens the booking page, under the paragraph.",
+          "required": false,
+          "max": 60
+        }
+      ],
+      "example": {
+        "heading": "A heading for one idea",
+        "width": "intro",
+        "body": "One paragraph that says it plainly."
+      }
+    },
+    {
+      "type": "text-stack",
+      "title": "Text section, several paragraphs",
+      "description": "A heading and a stack of paragraphs, each of which may end with a link, and a fading line above if wanted.",
+      "source": "site",
+      "variants": [
+        {
+          "name": "default",
+          "description": "Heading, then the paragraphs one under the other with a gap between.",
+          "default": true
+        }
+      ],
+      "placement": {
+        "position": "any",
+        "maxPerPage": 6,
+        "rhythm": "compact",
+        "joinsHero": false
+      },
+      "motion": {
+        "entrance": "none",
+        "reason": "Keeps this site's own motion rules (STYLE-GUIDE §9.4); this section has none.",
+        "signature": null
+      },
+      "fixedAnchor": null,
+      "interactive": null,
+      "fields": [
+        {
+          "name": "heading",
+          "kind": "text",
+          "label": "Heading",
+          "required": true,
+          "max": 90
+        },
+        {
+          "name": "divider",
+          "kind": "boolean",
+          "label": "Fading line above the heading",
+          "required": false
+        },
+        {
+          "name": "width",
+          "kind": "choice",
+          "label": "Line length of the paragraphs",
+          "required": true,
+          "options": [
+            "intro",
+            "measure"
+          ]
+        },
+        {
+          "name": "paragraphs",
+          "kind": "list",
+          "label": "Paragraphs",
+          "required": true,
+          "items": {
+            "min": 1,
+            "max": 10
+          },
+          "of": {
+            "kind": "object",
+            "label": "Paragraph",
+            "required": true,
+            "fields": [
+              {
+                "name": "text",
+                "kind": "text",
+                "label": "Paragraph",
+                "required": true,
+                "max": 800
+              },
+              {
+                "name": "link",
+                "kind": "action",
+                "label": "Link at the end of the paragraph",
+                "required": false,
+                "labelMax": 100
+              }
+            ]
+          }
+        }
+      ],
+      "example": {
+        "heading": "A heading for a short story",
+        "width": "measure",
+        "paragraphs": [
+          {
+            "text": "The first paragraph."
+          },
+          {
+            "text": "The second paragraph, with a link at its end. ",
+            "link": {
+              "label": "Read more",
+              "href": "/contact"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "dot-section",
+      "title": "Dotted list section",
+      "description": "A heading, an optional sentence, a list with green dots and, if wanted, one client quote; a fading line above if wanted.",
+      "source": "site",
+      "variants": [
+        {
+          "name": "default",
+          "description": "Heading, the sentence, the dotted list and the quote.",
+          "default": true
+        }
+      ],
+      "placement": {
+        "position": "any",
+        "maxPerPage": 4,
+        "rhythm": "compact",
+        "joinsHero": false
+      },
+      "motion": {
+        "entrance": "none",
+        "reason": "Keeps this site's own motion rules (STYLE-GUIDE §9.4); this section has none.",
+        "signature": null
+      },
+      "fixedAnchor": null,
+      "interactive": null,
+      "fields": [
+        {
+          "name": "heading",
+          "kind": "text",
+          "label": "Heading",
+          "required": true,
+          "max": 90
+        },
+        {
+          "name": "divider",
+          "kind": "boolean",
+          "label": "Fading line above the heading",
+          "required": false
+        },
+        {
+          "name": "intro",
+          "kind": "text",
+          "label": "Sentence above the list",
+          "help": "Framework words ({stepsList} and the like) are filled in from the site settings.",
+          "required": false,
+          "max": 300
+        },
+        {
+          "name": "items",
+          "kind": "list",
+          "label": "List items",
+          "required": true,
+          "items": {
+            "min": 1,
+            "max": 12
+          },
+          "of": {
+            "kind": "text",
+            "label": "Item",
+            "required": true,
+            "max": 700
+          }
+        },
+        {
+          "name": "quote",
+          "kind": "choice",
+          "label": "Client quote under the list",
+          "help": "The first approved testimonial placed on that page.",
+          "required": false,
+          "options": [
+            "home",
+            "past-work",
+            "services",
+            "about"
+          ]
+        }
+      ],
+      "example": {
+        "heading": "What working with me is like",
+        "intro": "Every project runs the same three steps. In practice:",
+        "items": [
+          "**I listen first.** Before I suggest anything, I make sure I understand."
+        ]
+      }
+    },
+    {
+      "type": "about-intro",
+      "title": "About, the short version",
+      "description": "The founder's headshot in the logo ring beside a heading and a paragraph.",
+      "source": "site",
+      "variants": [
+        {
+          "name": "default",
+          "description": "The headshot on the left, the words on the right; stacked on a phone.",
+          "default": true
+        }
+      ],
+      "placement": {
+        "position": "any",
+        "maxPerPage": 1,
+        "rhythm": "compact",
+        "joinsHero": false
+      },
+      "motion": {
+        "entrance": "none",
+        "reason": "Keeps this site's own motion rules (STYLE-GUIDE §9.4); this section has none.",
+        "signature": null
+      },
+      "fixedAnchor": null,
+      "interactive": null,
+      "fields": [
+        {
+          "name": "heading",
+          "kind": "text",
+          "label": "Heading",
+          "required": true,
+          "max": 60
+        },
+        {
+          "name": "body",
+          "kind": "text",
+          "label": "Paragraph",
+          "required": true,
+          "max": 500
+        }
+      ],
+      "example": {
+        "heading": "The short version",
+        "body": "Who I am and what I do, in two sentences."
+      }
+    },
+    {
+      "type": "art-section",
+      "title": "Text beside a drawing",
+      "description": "A heading and a paragraph with one of the site's line drawings beside it (under it on a phone), drawn once as it comes into view.",
+      "source": "site",
+      "variants": [
+        {
+          "name": "default",
+          "description": "Text on the left, the drawing on the right; the drawing sits small under the text on a phone.",
+          "default": true
+        }
+      ],
+      "placement": {
+        "position": "any",
+        "maxPerPage": 2,
+        "rhythm": "compact",
+        "joinsHero": false
+      },
+      "motion": {
+        "entrance": "none",
+        "reason": "Keeps this site's own one-moment-per-section motion (STYLE-GUIDE §9.4): the drawing is drawn once in view.",
+        "signature": null
+      },
+      "fixedAnchor": null,
+      "interactive": null,
+      "fields": [
+        {
+          "name": "heading",
+          "kind": "text",
+          "label": "Heading",
+          "required": true,
+          "max": 90
+        },
+        {
+          "name": "body",
+          "kind": "text",
+          "label": "Paragraph",
+          "required": true,
+          "max": 500
+        },
+        {
+          "name": "art",
+          "kind": "choice",
+          "label": "Drawing",
+          "required": true,
+          "options": [
+            "twenty-minutes",
+            "site-frames"
+          ]
+        }
+      ],
+      "example": {
+        "heading": "A heading",
+        "body": "A paragraph that goes with the drawing.",
+        "art": "site-frames"
+      }
+    },
+    {
+      "type": "process-steps",
+      "title": "The three steps in full",
+      "description": "The Scope, Shape and Ship steps down a white track with the rust dot resting at the bottom, each with a Website and a System column, and a line of proof under them.",
+      "source": "site",
+      "variants": [
+        {
+          "name": "default",
+          "description": "A vertical track with a station per step and two columns beside it.",
+          "default": true
+        }
+      ],
+      "placement": {
+        "position": "any",
+        "maxPerPage": 1,
+        "rhythm": "steps",
+        "joinsHero": false
+      },
+      "motion": {
+        "entrance": "none",
+        "reason": "Keeps this site's own motion rules (STYLE-GUIDE §9.4); the steps are static.",
+        "signature": null
+      },
+      "fixedAnchor": null,
+      "interactive": null,
+      "fields": [
+        {
+          "name": "steps",
+          "kind": "list",
+          "label": "Steps, in order",
+          "required": true,
+          "items": {
+            "min": 3,
+            "max": 3
+          },
+          "of": {
+            "kind": "object",
+            "label": "Step",
+            "required": true,
+            "fields": [
+              {
+                "name": "key",
+                "kind": "choice",
+                "label": "Which step",
+                "required": true,
+                "options": [
+                  "scope",
+                  "shape",
+                  "ship"
+                ]
+              },
+              {
+                "name": "website",
+                "kind": "object",
+                "label": "The Website column",
+                "required": true,
+                "fields": [
+                  {
+                    "name": "paragraph",
+                    "kind": "text",
+                    "label": "What happens",
+                    "required": true,
+                    "max": 700
+                  },
+                  {
+                    "name": "youGet",
+                    "kind": "text",
+                    "label": "What you get",
+                    "required": false,
+                    "max": 300
+                  }
+                ]
+              },
+              {
+                "name": "system",
+                "kind": "object",
+                "label": "The System column",
+                "required": true,
+                "fields": [
+                  {
+                    "name": "paragraph",
+                    "kind": "text",
+                    "label": "What happens",
+                    "required": true,
+                    "max": 700
+                  },
+                  {
+                    "name": "youGet",
+                    "kind": "text",
+                    "label": "What you get",
+                    "required": false,
+                    "max": 300
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "labels",
+          "kind": "object",
+          "label": "Column labels",
+          "required": true,
+          "fields": [
+            {
+              "name": "website",
+              "kind": "text",
+              "label": "Website column",
+              "required": true,
+              "max": 30
+            },
+            {
+              "name": "system",
+              "kind": "text",
+              "label": "System column",
+              "required": true,
+              "max": 30
+            },
+            {
+              "name": "youGet",
+              "kind": "text",
+              "label": "Label before what you get",
+              "required": true,
+              "max": 30
+            }
+          ]
+        },
+        {
+          "name": "proof",
+          "kind": "object",
+          "label": "Line under the steps",
+          "required": true,
+          "fields": [
+            {
+              "name": "text",
+              "kind": "text",
+              "label": "Sentence",
+              "required": true,
+              "max": 200
+            },
+            {
+              "name": "note",
+              "kind": "text",
+              "label": "Italic note after it",
+              "required": true,
+              "max": 60
+            }
+          ]
+        }
+      ],
+      "example": {
+        "steps": [
+          {
+            "key": "scope",
+            "website": {
+              "paragraph": "What happens to a website in this step.",
+              "youGet": "a plan."
+            },
+            "system": {
+              "paragraph": "What happens to a system in this step."
+            }
+          },
+          {
+            "key": "shape",
+            "website": {
+              "paragraph": "What happens to a website in this step."
+            },
+            "system": {
+              "paragraph": "What happens to a system in this step."
+            }
+          },
+          {
+            "key": "ship",
+            "website": {
+              "paragraph": "What happens to a website in this step."
+            },
+            "system": {
+              "paragraph": "What happens to a system in this step."
+            }
+          }
+        ],
+        "labels": {
+          "website": "Website",
+          "system": "System",
+          "youGet": "You get:"
+        },
+        "proof": {
+          "text": "A sentence that backs the steps up.",
+          "note": "(A note.)"
+        }
+      }
+    },
+    {
+      "type": "step-list-section",
+      "title": "Numbered list section",
+      "description": "A heading and a numbered list, each item starting with a bold lead-in.",
+      "source": "site",
+      "variants": [
+        {
+          "name": "default",
+          "description": "A decimal list with bold numerals.",
+          "default": true
+        }
+      ],
+      "placement": {
+        "position": "any",
+        "maxPerPage": 2,
+        "rhythm": "compact",
+        "joinsHero": false
+      },
+      "motion": {
+        "entrance": "none",
+        "reason": "Keeps this site's own motion rules (STYLE-GUIDE §9.4); this section has none.",
+        "signature": null
+      },
+      "fixedAnchor": null,
+      "interactive": null,
+      "fields": [
+        {
+          "name": "heading",
+          "kind": "text",
+          "label": "Heading",
+          "required": true,
+          "max": 60
+        },
+        {
+          "name": "steps",
+          "kind": "list",
+          "label": "Items",
+          "required": true,
+          "items": {
+            "min": 1,
+            "max": 8
+          },
+          "of": {
+            "kind": "object",
+            "label": "Item",
+            "required": true,
+            "fields": [
+              {
+                "name": "lead",
+                "kind": "text",
+                "label": "Bold lead-in",
+                "required": true,
+                "max": 80
+              },
+              {
+                "name": "rest",
+                "kind": "text",
+                "label": "Rest of the item",
+                "required": true,
+                "max": 200
+              }
+            ]
+          }
+        }
+      ],
+      "example": {
+        "heading": "What I set up",
+        "steps": [
+          {
+            "lead": "A design call.",
+            "rest": "We set your stages and your rules."
+          }
+        ]
+      }
+    },
+    {
+      "type": "systems-demo",
+      "title": "What the system does",
+      "description": "A heading and a paragraph, the things an owner says with what the system does, and the app's phone screens.",
+      "source": "site",
+      "variants": [
+        {
+          "name": "default",
+          "description": "Heading and paragraph, the talk pairs, then the four phone screens.",
+          "default": true
+        }
+      ],
+      "placement": {
+        "position": "any",
+        "maxPerPage": 1,
+        "rhythm": "compact",
+        "joinsHero": false
+      },
+      "motion": {
+        "entrance": "none",
+        "reason": "Keeps this site's own one-moment-per-section motion (STYLE-GUIDE §9.4): the talk pairs play once in view.",
+        "signature": null
+      },
+      "fixedAnchor": null,
+      "interactive": null,
+      "fields": [
+        {
+          "name": "heading",
+          "kind": "text",
+          "label": "Heading",
+          "required": true,
+          "max": 60
+        },
+        {
+          "name": "body",
+          "kind": "text",
+          "label": "Paragraph",
+          "required": true,
+          "max": 400
+        },
+        {
+          "name": "pairs",
+          "kind": "list",
+          "label": "What is said, and what happens",
+          "required": true,
+          "items": {
+            "min": 1,
+            "max": 5
+          },
+          "of": {
+            "kind": "object",
+            "label": "Pair",
+            "required": true,
+            "fields": [
+              {
+                "name": "said",
+                "kind": "text",
+                "label": "What the owner says",
+                "required": true,
+                "max": 140
+              },
+              {
+                "name": "result",
+                "kind": "text",
+                "label": "What the system does",
+                "required": true,
+                "max": 140
+              }
+            ]
+          }
+        },
+        {
+          "name": "screens",
+          "kind": "list",
+          "label": "Phone screens",
+          "required": true,
+          "items": {
+            "min": 1,
+            "max": 4
+          },
+          "of": {
+            "kind": "object",
+            "label": "Screen",
+            "required": true,
+            "fields": [
+              {
+                "name": "key",
+                "kind": "choice",
+                "label": "Which screen",
+                "required": true,
+                "options": [
+                  "today",
+                  "pipeline",
+                  "brief",
+                  "rule"
+                ]
+              },
+              {
+                "name": "label",
+                "kind": "text",
+                "label": "Name",
+                "required": true,
+                "max": 30
+              },
+              {
+                "name": "alt",
+                "kind": "text",
+                "label": "What the screen shows",
+                "required": true,
+                "max": 160
+              }
+            ]
+          }
+        },
+        {
+          "name": "screensLabel",
+          "kind": "text",
+          "label": "Name of the swipe row, for screen readers",
+          "required": true,
+          "max": 60
+        },
+        {
+          "name": "screensNote",
+          "kind": "text",
+          "label": "Line under the screens",
+          "required": true,
+          "max": 30
+        }
+      ],
+      "example": {
+        "heading": "What it does",
+        "body": "One sentence about what the system does for the owner.",
+        "pairs": [
+          {
+            "said": "“Something the owner says.”",
+            "result": "What the system does."
+          }
+        ],
+        "screens": [
+          {
+            "key": "today",
+            "label": "Today",
+            "alt": "The Today screen of the follow-up app, with demo data"
+          }
+        ],
+        "screensLabel": "App screens, demo data",
+        "screensNote": "Demo data"
+      }
+    },
+    {
+      "type": "section-nav",
+      "title": "In-page section links",
+      "description": "A row of links to the sections further down the page, with the current one underlined as the visitor scrolls. It can stay stuck under the header.",
+      "source": "site",
+      "variants": [
+        {
+          "name": "default",
+          "description": "A single row of links; it scrolls sideways on a phone.",
+          "default": true
+        }
+      ],
+      "placement": {
+        "position": "any",
+        "maxPerPage": 1,
+        "rhythm": "flush",
+        "joinsHero": false
+      },
+      "motion": {
+        "entrance": "none",
+        "reason": "Keeps this site's own motion rules (STYLE-GUIDE §9.4); native scrolling is never touched.",
+        "signature": null
+      },
+      "fixedAnchor": null,
+      "interactive": "It marks the section in view with an IntersectionObserver.",
+      "fields": [
+        {
+          "name": "label",
+          "kind": "text",
+          "label": "Name of the navigation, for screen readers",
+          "required": true,
+          "max": 40
+        },
+        {
+          "name": "sticky",
+          "kind": "boolean",
+          "label": "Stays under the header while scrolling",
+          "required": false
+        },
+        {
+          "name": "items",
+          "kind": "list",
+          "label": "Links",
+          "required": true,
+          "items": {
+            "min": 2,
+            "max": 6
+          },
+          "of": {
+            "kind": "object",
+            "label": "Link",
+            "required": true,
+            "fields": [
+              {
+                "name": "label",
+                "kind": "text",
+                "label": "Link text",
+                "required": true,
+                "max": 30
+              },
+              {
+                "name": "href",
+                "kind": "text",
+                "label": "Section address",
+                "help": "A # and the anchor of a block further down this page, such as #websites.",
+                "required": true,
+                "max": 40
+              }
+            ]
+          }
+        }
+      ],
+      "example": {
+        "label": "On this page",
+        "items": [
+          {
+            "label": "First",
+            "href": "#first"
+          },
+          {
+            "label": "Second",
+            "href": "#second"
+          }
+        ]
+      }
+    },
+    {
+      "type": "reading-guide",
+      "title": "How to read this page",
+      "description": "A white panel under the page hero with a title and a short list of what each kind of work on the page means.",
+      "source": "site",
+      "variants": [
+        {
+          "name": "default",
+          "description": "A bordered white panel at a readable width.",
+          "default": true
+        }
+      ],
+      "placement": {
+        "position": "any",
+        "maxPerPage": 1,
+        "rhythm": "flush",
+        "joinsHero": false
+      },
+      "motion": {
+        "entrance": "none",
+        "reason": "Keeps this site's own motion rules (STYLE-GUIDE §9.4); this panel has none.",
+        "signature": null
+      },
+      "fixedAnchor": null,
+      "interactive": null,
+      "fields": [
+        {
+          "name": "title",
+          "kind": "text",
+          "label": "Panel title",
+          "required": true,
+          "max": 60
+        },
+        {
+          "name": "items",
+          "kind": "list",
+          "label": "Items",
+          "required": true,
+          "items": {
+            "min": 1,
+            "max": 5
+          },
+          "of": {
+            "kind": "text",
+            "label": "Item",
+            "required": true,
+            "max": 300
+          }
+        }
+      ],
+      "example": {
+        "title": "How to read this page",
+        "items": [
+          "**First kind of work:** what it means."
+        ]
+      }
+    },
+    {
+      "type": "services-websites",
+      "title": "The website offer",
+      "description": "The website offer in full: a heading and paragraphs beside a line drawing, what is included, the details (after launch, price) and a button.",
+      "source": "site",
+      "variants": [
+        {
+          "name": "default",
+          "description": "Text beside a drawing of site frames, then the included list, details and button.",
+          "default": true
+        }
+      ],
+      "placement": {
+        "position": "any",
+        "maxPerPage": 1,
+        "rhythm": "compact",
+        "joinsHero": false
+      },
+      "motion": {
+        "entrance": "none",
+        "reason": "Keeps this site's own one-moment-per-section motion (STYLE-GUIDE §9.4): the drawing is drawn once in view.",
+        "signature": null
+      },
+      "fixedAnchor": null,
+      "interactive": null,
+      "fields": [
+        {
+          "name": "heading",
+          "kind": "text",
+          "label": "Heading",
+          "required": true,
+          "max": 60
+        },
+        {
+          "name": "paragraphs",
+          "kind": "list",
+          "label": "Paragraphs beside the drawing",
+          "required": true,
+          "items": {
+            "min": 1,
+            "max": 3
+          },
+          "of": {
+            "kind": "text",
+            "label": "Paragraph",
+            "required": true,
+            "max": 500
+          }
+        },
+        {
+          "name": "includesHeading",
+          "kind": "text",
+          "label": "Heading above the list",
+          "required": true,
+          "max": 60
+        },
+        {
+          "name": "includes",
+          "kind": "list",
+          "label": "What is included",
+          "required": true,
+          "items": {
+            "min": 1,
+            "max": 8
+          },
+          "of": {
+            "kind": "text",
+            "label": "Item",
+            "required": true,
+            "max": 200
+          }
+        },
+        {
+          "name": "details",
+          "kind": "list",
+          "label": "Details under the list",
+          "required": true,
+          "items": {
+            "min": 1,
+            "max": 4
+          },
+          "of": {
+            "kind": "text",
+            "label": "Paragraph",
+            "required": true,
+            "max": 600
+          }
+        },
+        {
+          "name": "cta",
+          "kind": "object",
+          "label": "Button",
+          "required": true,
+          "fields": [
+            {
+              "name": "label",
+              "kind": "text",
+              "label": "Button label",
+              "required": true,
+              "max": 40
+            },
+            {
+              "name": "href",
+              "kind": "text",
+              "label": "Address",
+              "help": "Written as /contact?topic=website; the contact form reads the topic.",
+              "required": true,
+              "max": 80
+            }
+          ]
+        }
+      ],
+      "example": {
+        "heading": "Accelerated Websites",
+        "paragraphs": [
+          "What the offer is, in one paragraph."
+        ],
+        "includesHeading": "What's included",
+        "includes": [
+          "A custom design"
+        ],
+        "details": [
+          "**Price:** fixed, and agreed in writing before I start."
+        ],
+        "cta": {
+          "label": "Start a website →",
+          "href": "/contact?topic=website"
+        }
+      }
+    },
+    {
+      "type": "service-list",
+      "title": "Service list",
+      "description": "A heading and a list of services, each with a small heading and a paragraph and a fading line between them, then a closing sentence.",
+      "source": "site",
+      "variants": [
+        {
+          "name": "default",
+          "description": "The services one under the other, then the closing sentence.",
+          "default": true
+        }
+      ],
+      "placement": {
+        "position": "any",
+        "maxPerPage": 1,
+        "rhythm": "compact",
+        "joinsHero": false
+      },
+      "motion": {
+        "entrance": "none",
+        "reason": "Keeps this site's own motion rules (STYLE-GUIDE §9.4); this section has none.",
+        "signature": null
+      },
+      "fixedAnchor": null,
+      "interactive": null,
+      "fields": [
+        {
+          "name": "heading",
+          "kind": "text",
+          "label": "Heading",
+          "required": true,
+          "max": 60
+        },
+        {
+          "name": "divider",
+          "kind": "boolean",
+          "label": "Fading line above the heading",
+          "required": false
+        },
+        {
+          "name": "items",
+          "kind": "list",
+          "label": "Services",
+          "required": true,
+          "items": {
+            "min": 1,
+            "max": 5
+          },
+          "of": {
+            "kind": "object",
+            "label": "Service",
+            "required": true,
+            "fields": [
+              {
+                "name": "title",
+                "kind": "text",
+                "label": "Small heading",
+                "required": true,
+                "max": 60
+              },
+              {
+                "name": "paragraph",
+                "kind": "text",
+                "label": "Paragraph",
+                "required": true,
+                "max": 400
+              }
+            ]
+          }
+        },
+        {
+          "name": "closing",
+          "kind": "text",
+          "label": "Closing sentence",
+          "required": true,
+          "max": 300
+        }
+      ],
+      "example": {
+        "heading": "After launch",
+        "items": [
+          {
+            "title": "Site Care",
+            "paragraph": "What it covers, in a sentence."
+          }
+        ],
+        "closing": "A closing sentence."
+      }
+    },
+    {
+      "type": "service-groups",
+      "title": "What every project includes",
+      "description": "A heading and three columns, one per step of the framework, each with a dotted list, and one client quote under them.",
+      "source": "site",
+      "variants": [
+        {
+          "name": "default",
+          "description": "Three columns side by side from a tablet up, stacked on a phone.",
+          "default": true
+        }
+      ],
+      "placement": {
+        "position": "any",
+        "maxPerPage": 1,
+        "rhythm": "compact",
+        "joinsHero": false
+      },
+      "motion": {
+        "entrance": "none",
+        "reason": "Keeps this site's own motion rules (STYLE-GUIDE §9.4); this section has none.",
+        "signature": null
+      },
+      "fixedAnchor": null,
+      "interactive": null,
+      "fields": [
+        {
+          "name": "heading",
+          "kind": "text",
+          "label": "Heading",
+          "required": true,
+          "max": 60
+        },
+        {
+          "name": "divider",
+          "kind": "boolean",
+          "label": "Fading line above the heading",
+          "required": false
+        },
+        {
+          "name": "groups",
+          "kind": "list",
+          "label": "Columns",
+          "required": true,
+          "items": {
+            "min": 1,
+            "max": 3
+          },
+          "of": {
+            "kind": "object",
+            "label": "Column",
+            "required": true,
+            "fields": [
+              {
+                "name": "label",
+                "kind": "text",
+                "label": "Column heading",
+                "help": "Framework words ({scope}, {shape}, {ship}) are filled in from the site settings.",
+                "required": true,
+                "max": 40
+              },
+              {
+                "name": "items",
+                "kind": "list",
+                "label": "Items",
+                "required": true,
+                "items": {
+                  "min": 1,
+                  "max": 4
+                },
+                "of": {
+                  "kind": "text",
+                  "label": "Item",
+                  "required": true,
+                  "max": 200
+                }
+              }
+            ]
+          }
+        },
+        {
+          "name": "quote",
+          "kind": "choice",
+          "label": "Client quote under the columns",
+          "help": "The first approved testimonial placed on that page.",
+          "required": false,
+          "options": [
+            "home",
+            "past-work",
+            "services",
+            "about"
+          ]
+        }
+      ],
+      "example": {
+        "heading": "What every project includes",
+        "groups": [
+          {
+            "label": "{scope}",
+            "items": [
+              "A written plan"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "type": "faq-list",
+      "title": "Questions people ask",
+      "description": "A heading and questions that open to show their answers, with a fading line between them. Works without JavaScript and by keyboard.",
+      "source": "site",
+      "variants": [
+        {
+          "name": "default",
+          "description": "A green ring beside each question that gains the logo's rust dot when opened.",
+          "default": true
+        }
+      ],
+      "placement": {
+        "position": "any",
+        "maxPerPage": 1,
+        "rhythm": "compact",
+        "joinsHero": false
+      },
+      "motion": {
+        "entrance": "none",
+        "reason": "Keeps this site's own motion rules (STYLE-GUIDE §9.4); the answers open instantly.",
+        "signature": null
+      },
+      "fixedAnchor": null,
+      "interactive": null,
+      "fields": [
+        {
+          "name": "heading",
+          "kind": "text",
+          "label": "Heading",
+          "required": true,
+          "max": 60
+        },
+        {
+          "name": "divider",
+          "kind": "boolean",
+          "label": "Fading line above the heading",
+          "required": false
+        },
+        {
+          "name": "items",
+          "kind": "list",
+          "label": "Questions",
+          "required": true,
+          "items": {
+            "min": 1,
+            "max": 15
+          },
+          "of": {
+            "kind": "object",
+            "label": "Question",
+            "required": true,
+            "fields": [
+              {
+                "name": "question",
+                "kind": "text",
+                "label": "Question",
+                "required": true,
+                "max": 120
+              },
+              {
+                "name": "answer",
+                "kind": "text",
+                "label": "Answer",
+                "required": true,
+                "max": 600
+              }
+            ]
+          }
+        }
+      ],
+      "example": {
+        "heading": "Questions people ask",
+        "items": [
+          {
+            "question": "Who does the work?",
+            "answer": "I do, from the first call to the handoff."
+          }
+        ]
+      }
+    },
+    {
+      "type": "case-studies",
+      "title": "Custom systems case studies",
+      "description": "A heading and the systems case studies in full (screenshots, what happened in each phase, what I built, the client's quote, the results), then a short project, with the survey scores under it.",
+      "source": "site",
+      "variants": [
+        {
+          "name": "default",
+          "description": "A fading line, the heading, each case study with a fading line between, then the short project and the score chips.",
+          "default": true
+        }
+      ],
+      "placement": {
+        "position": "any",
+        "maxPerPage": 1,
+        "rhythm": "compact",
+        "joinsHero": false
+      },
+      "motion": {
+        "entrance": "none",
+        "reason": "Keeps this site's own one-moment-per-section motion (STYLE-GUIDE §9.4): the phase strip and the score chips play once in view.",
+        "signature": null
+      },
+      "fixedAnchor": null,
+      "interactive": null,
+      "fields": [
+        {
+          "name": "heading",
+          "kind": "text",
+          "label": "Section heading",
+          "required": true,
+          "max": 60
+        },
+        {
+          "name": "studies",
+          "kind": "list",
+          "label": "Case studies",
+          "required": true,
+          "items": {
+            "min": 1,
+            "max": 4
+          },
+          "of": {
+            "kind": "object",
+            "label": "Case study",
+            "required": true,
+            "fields": [
+              {
+                "name": "id",
+                "kind": "choice",
+                "label": "Which project (its address on the page and the Home links)",
+                "required": true,
+                "options": [
+                  "hideout-fitness",
+                  "irvine-family-counseling"
+                ]
+              },
+              {
+                "name": "heading",
+                "kind": "text",
+                "label": "Title",
+                "required": true,
+                "max": 120
+              },
+              {
+                "name": "client",
+                "kind": "text",
+                "label": "Client name",
+                "required": true,
+                "max": 60
+              },
+              {
+                "name": "meta",
+                "kind": "list",
+                "label": "Tags under the client name",
+                "required": true,
+                "items": {
+                  "min": 1,
+                  "max": 5
+                },
+                "of": {
+                  "kind": "text",
+                  "label": "Tag",
+                  "required": true,
+                  "max": 60
+                }
+              },
+              {
+                "name": "testimonialId",
+                "kind": "text",
+                "label": "The client's quote (its id in testimonials.ts)",
+                "required": true,
+                "max": 40
+              },
+              {
+                "name": "quoteHeading",
+                "kind": "text",
+                "label": "Heading above the quote",
+                "required": true,
+                "max": 40
+              },
+              {
+                "name": "screenshots",
+                "kind": "list",
+                "label": "Screenshots",
+                "required": true,
+                "items": {
+                  "min": 1,
+                  "max": 2
+                },
+                "of": {
+                  "kind": "object",
+                  "label": "Screenshot",
+                  "required": true,
+                  "fields": [
+                    {
+                      "name": "src",
+                      "kind": "text",
+                      "label": "File under public/, with its extension",
+                      "required": true,
+                      "max": 80
+                    },
+                    {
+                      "name": "alt",
+                      "kind": "text",
+                      "label": "What the screenshot shows",
+                      "required": true,
+                      "max": 200
+                    },
+                    {
+                      "name": "width",
+                      "kind": "number",
+                      "label": "Width in pixels",
+                      "required": true,
+                      "min": 100,
+                      "max": 4000
+                    },
+                    {
+                      "name": "height",
+                      "kind": "number",
+                      "label": "Height in pixels",
+                      "required": true,
+                      "min": 100,
+                      "max": 4000
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "phases",
+                "kind": "object",
+                "label": "What happened in each phase",
+                "required": true,
+                "fields": [
+                  {
+                    "name": "scope",
+                    "kind": "text",
+                    "label": "Scoped",
+                    "required": true,
+                    "max": 400
+                  },
+                  {
+                    "name": "shape",
+                    "kind": "text",
+                    "label": "Shaped",
+                    "required": true,
+                    "max": 400
+                  },
+                  {
+                    "name": "ship",
+                    "kind": "text",
+                    "label": "Shipped",
+                    "required": true,
+                    "max": 400
+                  }
+                ]
+              },
+              {
+                "name": "challenge",
+                "kind": "text",
+                "label": "The challenge",
+                "required": true,
+                "max": 700
+              },
+              {
+                "name": "builtHeading",
+                "kind": "text",
+                "label": "Heading above what was built",
+                "required": true,
+                "max": 40
+              },
+              {
+                "name": "built",
+                "kind": "list",
+                "label": "What I built",
+                "required": true,
+                "items": {
+                  "min": 1,
+                  "max": 8
+                },
+                "of": {
+                  "kind": "text",
+                  "label": "Item",
+                  "required": true,
+                  "max": 500
+                }
+              },
+              {
+                "name": "resultsLabel",
+                "kind": "text",
+                "label": "Heading above the results",
+                "required": true,
+                "max": 80
+              },
+              {
+                "name": "results",
+                "kind": "list",
+                "label": "Results",
+                "required": true,
+                "items": {
+                  "min": 1,
+                  "max": 6
+                },
+                "of": {
+                  "kind": "text",
+                  "label": "Result",
+                  "required": true,
+                  "max": 300
+                }
+              }
+            ]
+          }
+        },
+        {
+          "name": "small",
+          "kind": "object",
+          "label": "The short project under the case studies",
+          "required": true,
+          "fields": [
+            {
+              "name": "id",
+              "kind": "text",
+              "label": "Its address on the page",
+              "required": true,
+              "max": 40
+            },
+            {
+              "name": "heading",
+              "kind": "text",
+              "label": "Title",
+              "required": true,
+              "max": 80
+            },
+            {
+              "name": "tag",
+              "kind": "text",
+              "label": "Tag",
+              "required": true,
+              "max": 60
+            },
+            {
+              "name": "description",
+              "kind": "text",
+              "label": "Description",
+              "required": true,
+              "max": 300
+            }
+          ]
+        },
+        {
+          "name": "stats",
+          "kind": "list",
+          "label": "Survey scores",
+          "required": true,
+          "items": {
+            "min": 1,
+            "max": 5
+          },
+          "of": {
+            "kind": "object",
+            "label": "Score",
+            "required": true,
+            "fields": [
+              {
+                "name": "value",
+                "kind": "text",
+                "label": "Figure",
+                "required": true,
+                "max": 20
+              },
+              {
+                "name": "label",
+                "kind": "text",
+                "label": "What it measures",
+                "required": true,
+                "max": 80
+              }
+            ]
+          }
+        },
+        {
+          "name": "footnote",
+          "kind": "text",
+          "label": "Small print under the scores",
+          "required": true,
+          "max": 240
+        }
+      ],
+      "example": {
+        "heading": "Custom systems",
+        "studies": [
+          {
+            "id": "hideout-fitness",
+            "heading": "A short title for the project",
+            "client": "A client",
+            "meta": [
+              "Personal training"
+            ],
+            "testimonialId": "T1-hideout",
+            "quoteHeading": "In his words",
+            "screenshots": [
+              {
+                "src": "/work/systems-1.webp",
+                "alt": "An owner dashboard with pie charts of profit against trainer pay by session type and bar charts of average profit",
+                "width": 1200,
+                "height": 656
+              }
+            ],
+            "phases": {
+              "scope": "What the owner needed.",
+              "shape": "What I built.",
+              "ship": "How it was handed over."
+            },
+            "challenge": "The problem, in a few sentences.",
+            "builtHeading": "What I built",
+            "built": [
+              "One thing I built."
+            ],
+            "resultsLabel": "Results (client-reported)",
+            "results": [
+              "One result."
+            ]
+          }
+        ],
+        "small": {
+          "id": "another-project",
+          "heading": "Another project",
+          "tag": "Therapy practice",
+          "description": "A sentence about it."
+        },
+        "stats": [
+          {
+            "value": "3 of 3",
+            "label": "met the goals set at kickoff"
+          }
+        ],
+        "footnote": "From client wrap-up surveys. A small sample, I know."
+      }
+    },
+    {
+      "type": "agency-snapshots",
+      "title": "Agency experience",
+      "description": "A heading and a sentence, a list of short snapshots of earlier work with a fading line between them, and small print.",
+      "source": "site",
+      "variants": [
+        {
+          "name": "default",
+          "description": "A fading line, the heading, the snapshots one under the other, and the small print.",
+          "default": true
+        }
+      ],
+      "placement": {
+        "position": "any",
+        "maxPerPage": 1,
+        "rhythm": "compact",
+        "joinsHero": false
+      },
+      "motion": {
+        "entrance": "none",
+        "reason": "Keeps this site's own motion rules (STYLE-GUIDE §9.4); this section has none.",
+        "signature": null
+      },
+      "fixedAnchor": null,
+      "interactive": null,
+      "fields": [
+        {
+          "name": "heading",
+          "kind": "text",
+          "label": "Heading",
+          "required": true,
+          "max": 100
+        },
+        {
+          "name": "intro",
+          "kind": "text",
+          "label": "Sentence under the heading",
+          "required": true,
+          "max": 400
+        },
+        {
+          "name": "snapshots",
+          "kind": "list",
+          "label": "Snapshots",
+          "required": true,
+          "items": {
+            "min": 1,
+            "max": 12
+          },
+          "of": {
+            "kind": "text",
+            "label": "Snapshot",
+            "required": true,
+            "max": 500
+          }
+        },
+        {
+          "name": "footnote",
+          "kind": "text",
+          "label": "Small print",
+          "required": true,
+          "max": 400
+        }
+      ],
+      "example": {
+        "heading": "Before Huston Logic",
+        "intro": "A sentence about the earlier work. A few snapshots:",
+        "snapshots": [
+          "**A client type:** what I did."
+        ],
+        "footnote": "A line of small print."
       }
     }
   ],

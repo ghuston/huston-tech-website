@@ -498,6 +498,7 @@ function anchorsOf(page: Record<string, unknown>, defs: Map<string, AnyBlockDefi
     if (typeof block["anchor"] === "string") anchors.add(block["anchor"]);
     const def = typeof block["type"] === "string" ? defs.get(block["type"]) : undefined;
     if (def?.fixedAnchor !== undefined) anchors.add(def.fixedAnchor);
+    for (const inner of def?.innerAnchors ?? []) anchors.add(inner);
   }
   return anchors;
 }

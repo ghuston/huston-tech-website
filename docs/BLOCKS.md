@@ -1026,6 +1026,9 @@ The top of an inner page: a small line above, the page headline and a short intr
 | `eyebrow` | Small line above the headline | no | up to 60 characters |
 | `title` | Headline. The page's one main heading. | yes | up to 90 characters |
 | `intro` | Introduction | no | up to 400 characters |
+| `introLink` | Link inside the introduction. Sits right after the introduction text; the words that follow it go in 'After the link'. | no | button words up to 80 characters, and a link |
+| `introAfter` | After the link | no | up to 120 characters |
+| `cta` | Call button label. A button that opens the booking page. | no | up to 60 characters |
 
 **Motion:** No entrance motion. The first block is the first paint, and the ring and glow are static (STYLE-GUIDE §7.25).
 
@@ -1555,5 +1558,710 @@ The article list on Insights: a row of categories once there are articles, and u
     "label": "Ask me →",
     "href": "/contact"
   }
+}
+```
+
+## Text section (`text-section`)
+
+A heading and one paragraph, with an optional link inside the paragraph, a link under it or a call button, and a fading line above if wanted.
+
+**Where it can go:** anywhere, up to 12 times. This is one of this site's own blocks.
+
+**Variants** (set with `variant`; the first is used when it is left out):
+
+- `default` (default): Heading, then the paragraph at a readable line length.
+
+**Fields** (inside `content`):
+
+| Field | What it is | Required | Limits |
+| --- | --- | --- | --- |
+| `heading` | Heading | yes | up to 90 characters |
+| `divider` | Fading line above the heading | no | yes or no |
+| `width` | Line length of the paragraph | yes | one of "intro", "measure" |
+| `body` | Paragraph | yes | up to 800 characters |
+| `inlineLink` | Link inside the paragraph. Sits right after the paragraph text; anything that follows it goes in 'After the link'. | no | button words up to 60 characters, and a link |
+| `afterLink` | After the link | no | up to 40 characters |
+| `more` | Link under the paragraph | no | button words up to 40 characters, and a link |
+| `cta` | Call button label. A button that opens the booking page, under the paragraph. | no | up to 60 characters |
+
+**Motion:** No entrance motion. Keeps this site's own motion rules (STYLE-GUIDE §9.4); this section has none.
+
+**Example:**
+
+```json
+{
+  "heading": "A heading for one idea",
+  "width": "intro",
+  "body": "One paragraph that says it plainly."
+}
+```
+
+## Text section, several paragraphs (`text-stack`)
+
+A heading and a stack of paragraphs, each of which may end with a link, and a fading line above if wanted.
+
+**Where it can go:** anywhere, up to 6 times. This is one of this site's own blocks.
+
+**Variants** (set with `variant`; the first is used when it is left out):
+
+- `default` (default): Heading, then the paragraphs one under the other with a gap between.
+
+**Fields** (inside `content`):
+
+| Field | What it is | Required | Limits |
+| --- | --- | --- | --- |
+| `heading` | Heading | yes | up to 90 characters |
+| `divider` | Fading line above the heading | no | yes or no |
+| `width` | Line length of the paragraphs | yes | one of "intro", "measure" |
+| `paragraphs` | Paragraphs | yes | 1 to 10 items |
+| `paragraphs[].text` | Paragraph | yes | up to 800 characters |
+| `paragraphs[].link` | Link at the end of the paragraph | no | button words up to 100 characters, and a link |
+
+**Motion:** No entrance motion. Keeps this site's own motion rules (STYLE-GUIDE §9.4); this section has none.
+
+**Example:**
+
+```json
+{
+  "heading": "A heading for a short story",
+  "width": "measure",
+  "paragraphs": [
+    {
+      "text": "The first paragraph."
+    },
+    {
+      "text": "The second paragraph, with a link at its end. ",
+      "link": {
+        "label": "Read more",
+        "href": "/contact"
+      }
+    }
+  ]
+}
+```
+
+## Dotted list section (`dot-section`)
+
+A heading, an optional sentence, a list with green dots and, if wanted, one client quote; a fading line above if wanted.
+
+**Where it can go:** anywhere, up to 4 times. This is one of this site's own blocks.
+
+**Variants** (set with `variant`; the first is used when it is left out):
+
+- `default` (default): Heading, the sentence, the dotted list and the quote.
+
+**Fields** (inside `content`):
+
+| Field | What it is | Required | Limits |
+| --- | --- | --- | --- |
+| `heading` | Heading | yes | up to 90 characters |
+| `divider` | Fading line above the heading | no | yes or no |
+| `intro` | Sentence above the list. Framework words ({stepsList} and the like) are filled in from the site settings. | no | up to 300 characters |
+| `items` | List items | yes | 1 to 12 items, each up to 700 characters |
+| `quote` | Client quote under the list. The first approved testimonial placed on that page. | no | one of "home", "past-work", "services", "about" |
+
+**Motion:** No entrance motion. Keeps this site's own motion rules (STYLE-GUIDE §9.4); this section has none.
+
+**Example:**
+
+```json
+{
+  "heading": "What working with me is like",
+  "intro": "Every project runs the same three steps. In practice:",
+  "items": [
+    "**I listen first.** Before I suggest anything, I make sure I understand."
+  ]
+}
+```
+
+## About, the short version (`about-intro`)
+
+The founder's headshot in the logo ring beside a heading and a paragraph.
+
+**Where it can go:** anywhere, once. This is one of this site's own blocks.
+
+**Variants** (set with `variant`; the first is used when it is left out):
+
+- `default` (default): The headshot on the left, the words on the right; stacked on a phone.
+
+**Fields** (inside `content`):
+
+| Field | What it is | Required | Limits |
+| --- | --- | --- | --- |
+| `heading` | Heading | yes | up to 60 characters |
+| `body` | Paragraph | yes | up to 500 characters |
+
+**Motion:** No entrance motion. Keeps this site's own motion rules (STYLE-GUIDE §9.4); this section has none.
+
+**Example:**
+
+```json
+{
+  "heading": "The short version",
+  "body": "Who I am and what I do, in two sentences."
+}
+```
+
+## Text beside a drawing (`art-section`)
+
+A heading and a paragraph with one of the site's line drawings beside it (under it on a phone), drawn once as it comes into view.
+
+**Where it can go:** anywhere, up to 2 times. This is one of this site's own blocks.
+
+**Variants** (set with `variant`; the first is used when it is left out):
+
+- `default` (default): Text on the left, the drawing on the right; the drawing sits small under the text on a phone.
+
+**Fields** (inside `content`):
+
+| Field | What it is | Required | Limits |
+| --- | --- | --- | --- |
+| `heading` | Heading | yes | up to 90 characters |
+| `body` | Paragraph | yes | up to 500 characters |
+| `art` | Drawing | yes | one of "twenty-minutes", "site-frames" |
+
+**Motion:** No entrance motion. Keeps this site's own one-moment-per-section motion (STYLE-GUIDE §9.4): the drawing is drawn once in view.
+
+**Example:**
+
+```json
+{
+  "heading": "A heading",
+  "body": "A paragraph that goes with the drawing.",
+  "art": "site-frames"
+}
+```
+
+## The three steps in full (`process-steps`)
+
+The Scope, Shape and Ship steps down a white track with the rust dot resting at the bottom, each with a Website and a System column, and a line of proof under them.
+
+**Where it can go:** anywhere, once. This is one of this site's own blocks.
+
+**Variants** (set with `variant`; the first is used when it is left out):
+
+- `default` (default): A vertical track with a station per step and two columns beside it.
+
+**Fields** (inside `content`):
+
+| Field | What it is | Required | Limits |
+| --- | --- | --- | --- |
+| `steps` | Steps, in order | yes | 3 to 3 items |
+| `steps[].key` | Which step | yes | one of "scope", "shape", "ship" |
+| `steps[].website` | The Website column | yes | a group of fields |
+| `steps[].website.paragraph` | What happens | yes | up to 700 characters |
+| `steps[].website.youGet` | What you get | no | up to 300 characters |
+| `steps[].system` | The System column | yes | a group of fields |
+| `steps[].system.paragraph` | What happens | yes | up to 700 characters |
+| `steps[].system.youGet` | What you get | no | up to 300 characters |
+| `labels` | Column labels | yes | a group of fields |
+| `labels.website` | Website column | yes | up to 30 characters |
+| `labels.system` | System column | yes | up to 30 characters |
+| `labels.youGet` | Label before what you get | yes | up to 30 characters |
+| `proof` | Line under the steps | yes | a group of fields |
+| `proof.text` | Sentence | yes | up to 200 characters |
+| `proof.note` | Italic note after it | yes | up to 60 characters |
+
+**Motion:** No entrance motion. Keeps this site's own motion rules (STYLE-GUIDE §9.4); the steps are static.
+
+**Example:**
+
+```json
+{
+  "steps": [
+    {
+      "key": "scope",
+      "website": {
+        "paragraph": "What happens to a website in this step.",
+        "youGet": "a plan."
+      },
+      "system": {
+        "paragraph": "What happens to a system in this step."
+      }
+    },
+    {
+      "key": "shape",
+      "website": {
+        "paragraph": "What happens to a website in this step."
+      },
+      "system": {
+        "paragraph": "What happens to a system in this step."
+      }
+    },
+    {
+      "key": "ship",
+      "website": {
+        "paragraph": "What happens to a website in this step."
+      },
+      "system": {
+        "paragraph": "What happens to a system in this step."
+      }
+    }
+  ],
+  "labels": {
+    "website": "Website",
+    "system": "System",
+    "youGet": "You get:"
+  },
+  "proof": {
+    "text": "A sentence that backs the steps up.",
+    "note": "(A note.)"
+  }
+}
+```
+
+## Numbered list section (`step-list-section`)
+
+A heading and a numbered list, each item starting with a bold lead-in.
+
+**Where it can go:** anywhere, up to 2 times. This is one of this site's own blocks.
+
+**Variants** (set with `variant`; the first is used when it is left out):
+
+- `default` (default): A decimal list with bold numerals.
+
+**Fields** (inside `content`):
+
+| Field | What it is | Required | Limits |
+| --- | --- | --- | --- |
+| `heading` | Heading | yes | up to 60 characters |
+| `steps` | Items | yes | 1 to 8 items |
+| `steps[].lead` | Bold lead-in | yes | up to 80 characters |
+| `steps[].rest` | Rest of the item | yes | up to 200 characters |
+
+**Motion:** No entrance motion. Keeps this site's own motion rules (STYLE-GUIDE §9.4); this section has none.
+
+**Example:**
+
+```json
+{
+  "heading": "What I set up",
+  "steps": [
+    {
+      "lead": "A design call.",
+      "rest": "We set your stages and your rules."
+    }
+  ]
+}
+```
+
+## What the system does (`systems-demo`)
+
+A heading and a paragraph, the things an owner says with what the system does, and the app's phone screens.
+
+**Where it can go:** anywhere, once. This is one of this site's own blocks.
+
+**Variants** (set with `variant`; the first is used when it is left out):
+
+- `default` (default): Heading and paragraph, the talk pairs, then the four phone screens.
+
+**Fields** (inside `content`):
+
+| Field | What it is | Required | Limits |
+| --- | --- | --- | --- |
+| `heading` | Heading | yes | up to 60 characters |
+| `body` | Paragraph | yes | up to 400 characters |
+| `pairs` | What is said, and what happens | yes | 1 to 5 items |
+| `pairs[].said` | What the owner says | yes | up to 140 characters |
+| `pairs[].result` | What the system does | yes | up to 140 characters |
+| `screens` | Phone screens | yes | 1 to 4 items |
+| `screens[].key` | Which screen | yes | one of "today", "pipeline", "brief", "rule" |
+| `screens[].label` | Name | yes | up to 30 characters |
+| `screens[].alt` | What the screen shows | yes | up to 160 characters |
+| `screensLabel` | Name of the swipe row, for screen readers | yes | up to 60 characters |
+| `screensNote` | Line under the screens | yes | up to 30 characters |
+
+**Motion:** No entrance motion. Keeps this site's own one-moment-per-section motion (STYLE-GUIDE §9.4): the talk pairs play once in view.
+
+**Example:**
+
+```json
+{
+  "heading": "What it does",
+  "body": "One sentence about what the system does for the owner.",
+  "pairs": [
+    {
+      "said": "“Something the owner says.”",
+      "result": "What the system does."
+    }
+  ],
+  "screens": [
+    {
+      "key": "today",
+      "label": "Today",
+      "alt": "The Today screen of the follow-up app, with demo data"
+    }
+  ],
+  "screensLabel": "App screens, demo data",
+  "screensNote": "Demo data"
+}
+```
+
+## In-page section links (`section-nav`)
+
+A row of links to the sections further down the page, with the current one underlined as the visitor scrolls. It can stay stuck under the header.
+
+**Where it can go:** anywhere, once. This is one of this site's own blocks.
+
+**Needs JavaScript:** It marks the section in view with an IntersectionObserver.
+
+**Variants** (set with `variant`; the first is used when it is left out):
+
+- `default` (default): A single row of links; it scrolls sideways on a phone.
+
+**Fields** (inside `content`):
+
+| Field | What it is | Required | Limits |
+| --- | --- | --- | --- |
+| `label` | Name of the navigation, for screen readers | yes | up to 40 characters |
+| `sticky` | Stays under the header while scrolling | no | yes or no |
+| `items` | Links | yes | 2 to 6 items |
+| `items[].label` | Link text | yes | up to 30 characters |
+| `items[].href` | Section address. A # and the anchor of a block further down this page, such as #websites. | yes | up to 40 characters |
+
+**Motion:** No entrance motion. Keeps this site's own motion rules (STYLE-GUIDE §9.4); native scrolling is never touched.
+
+**Example:**
+
+```json
+{
+  "label": "On this page",
+  "items": [
+    {
+      "label": "First",
+      "href": "#first"
+    },
+    {
+      "label": "Second",
+      "href": "#second"
+    }
+  ]
+}
+```
+
+## How to read this page (`reading-guide`)
+
+A white panel under the page hero with a title and a short list of what each kind of work on the page means.
+
+**Where it can go:** anywhere, once. This is one of this site's own blocks.
+
+**Variants** (set with `variant`; the first is used when it is left out):
+
+- `default` (default): A bordered white panel at a readable width.
+
+**Fields** (inside `content`):
+
+| Field | What it is | Required | Limits |
+| --- | --- | --- | --- |
+| `title` | Panel title | yes | up to 60 characters |
+| `items` | Items | yes | 1 to 5 items, each up to 300 characters |
+
+**Motion:** No entrance motion. Keeps this site's own motion rules (STYLE-GUIDE §9.4); this panel has none.
+
+**Example:**
+
+```json
+{
+  "title": "How to read this page",
+  "items": [
+    "**First kind of work:** what it means."
+  ]
+}
+```
+
+## The website offer (`services-websites`)
+
+The website offer in full: a heading and paragraphs beside a line drawing, what is included, the details (after launch, price) and a button.
+
+**Where it can go:** anywhere, once. This is one of this site's own blocks.
+
+**Variants** (set with `variant`; the first is used when it is left out):
+
+- `default` (default): Text beside a drawing of site frames, then the included list, details and button.
+
+**Fields** (inside `content`):
+
+| Field | What it is | Required | Limits |
+| --- | --- | --- | --- |
+| `heading` | Heading | yes | up to 60 characters |
+| `paragraphs` | Paragraphs beside the drawing | yes | 1 to 3 items, each up to 500 characters |
+| `includesHeading` | Heading above the list | yes | up to 60 characters |
+| `includes` | What is included | yes | 1 to 8 items, each up to 200 characters |
+| `details` | Details under the list | yes | 1 to 4 items, each up to 600 characters |
+| `cta` | Button | yes | a group of fields |
+| `cta.label` | Button label | yes | up to 40 characters |
+| `cta.href` | Address. Written as /contact?topic=website; the contact form reads the topic. | yes | up to 80 characters |
+
+**Motion:** No entrance motion. Keeps this site's own one-moment-per-section motion (STYLE-GUIDE §9.4): the drawing is drawn once in view.
+
+**Example:**
+
+```json
+{
+  "heading": "Accelerated Websites",
+  "paragraphs": [
+    "What the offer is, in one paragraph."
+  ],
+  "includesHeading": "What's included",
+  "includes": [
+    "A custom design"
+  ],
+  "details": [
+    "**Price:** fixed, and agreed in writing before I start."
+  ],
+  "cta": {
+    "label": "Start a website →",
+    "href": "/contact?topic=website"
+  }
+}
+```
+
+## Service list (`service-list`)
+
+A heading and a list of services, each with a small heading and a paragraph and a fading line between them, then a closing sentence.
+
+**Where it can go:** anywhere, once. This is one of this site's own blocks.
+
+**Variants** (set with `variant`; the first is used when it is left out):
+
+- `default` (default): The services one under the other, then the closing sentence.
+
+**Fields** (inside `content`):
+
+| Field | What it is | Required | Limits |
+| --- | --- | --- | --- |
+| `heading` | Heading | yes | up to 60 characters |
+| `divider` | Fading line above the heading | no | yes or no |
+| `items` | Services | yes | 1 to 5 items |
+| `items[].title` | Small heading | yes | up to 60 characters |
+| `items[].paragraph` | Paragraph | yes | up to 400 characters |
+| `closing` | Closing sentence | yes | up to 300 characters |
+
+**Motion:** No entrance motion. Keeps this site's own motion rules (STYLE-GUIDE §9.4); this section has none.
+
+**Example:**
+
+```json
+{
+  "heading": "After launch",
+  "items": [
+    {
+      "title": "Site Care",
+      "paragraph": "What it covers, in a sentence."
+    }
+  ],
+  "closing": "A closing sentence."
+}
+```
+
+## What every project includes (`service-groups`)
+
+A heading and three columns, one per step of the framework, each with a dotted list, and one client quote under them.
+
+**Where it can go:** anywhere, once. This is one of this site's own blocks.
+
+**Variants** (set with `variant`; the first is used when it is left out):
+
+- `default` (default): Three columns side by side from a tablet up, stacked on a phone.
+
+**Fields** (inside `content`):
+
+| Field | What it is | Required | Limits |
+| --- | --- | --- | --- |
+| `heading` | Heading | yes | up to 60 characters |
+| `divider` | Fading line above the heading | no | yes or no |
+| `groups` | Columns | yes | 1 to 3 items |
+| `groups[].label` | Column heading. Framework words ({scope}, {shape}, {ship}) are filled in from the site settings. | yes | up to 40 characters |
+| `groups[].items` | Items | yes | 1 to 4 items, each up to 200 characters |
+| `quote` | Client quote under the columns. The first approved testimonial placed on that page. | no | one of "home", "past-work", "services", "about" |
+
+**Motion:** No entrance motion. Keeps this site's own motion rules (STYLE-GUIDE §9.4); this section has none.
+
+**Example:**
+
+```json
+{
+  "heading": "What every project includes",
+  "groups": [
+    {
+      "label": "{scope}",
+      "items": [
+        "A written plan"
+      ]
+    }
+  ]
+}
+```
+
+## Questions people ask (`faq-list`)
+
+A heading and questions that open to show their answers, with a fading line between them. Works without JavaScript and by keyboard.
+
+**Where it can go:** anywhere, once. This is one of this site's own blocks.
+
+**Variants** (set with `variant`; the first is used when it is left out):
+
+- `default` (default): A green ring beside each question that gains the logo's rust dot when opened.
+
+**Fields** (inside `content`):
+
+| Field | What it is | Required | Limits |
+| --- | --- | --- | --- |
+| `heading` | Heading | yes | up to 60 characters |
+| `divider` | Fading line above the heading | no | yes or no |
+| `items` | Questions | yes | 1 to 15 items |
+| `items[].question` | Question | yes | up to 120 characters |
+| `items[].answer` | Answer | yes | up to 600 characters |
+
+**Motion:** No entrance motion. Keeps this site's own motion rules (STYLE-GUIDE §9.4); the answers open instantly.
+
+**Example:**
+
+```json
+{
+  "heading": "Questions people ask",
+  "items": [
+    {
+      "question": "Who does the work?",
+      "answer": "I do, from the first call to the handoff."
+    }
+  ]
+}
+```
+
+## Custom systems case studies (`case-studies`)
+
+A heading and the systems case studies in full (screenshots, what happened in each phase, what I built, the client's quote, the results), then a short project, with the survey scores under it.
+
+**Where it can go:** anywhere, once. This is one of this site's own blocks.
+
+**Variants** (set with `variant`; the first is used when it is left out):
+
+- `default` (default): A fading line, the heading, each case study with a fading line between, then the short project and the score chips.
+
+**Fields** (inside `content`):
+
+| Field | What it is | Required | Limits |
+| --- | --- | --- | --- |
+| `heading` | Section heading | yes | up to 60 characters |
+| `studies` | Case studies | yes | 1 to 4 items |
+| `studies[].id` | Which project (its address on the page and the Home links) | yes | one of "hideout-fitness", "irvine-family-counseling" |
+| `studies[].heading` | Title | yes | up to 120 characters |
+| `studies[].client` | Client name | yes | up to 60 characters |
+| `studies[].meta` | Tags under the client name | yes | 1 to 5 items, each up to 60 characters |
+| `studies[].testimonialId` | The client's quote (its id in testimonials.ts) | yes | up to 40 characters |
+| `studies[].quoteHeading` | Heading above the quote | yes | up to 40 characters |
+| `studies[].screenshots` | Screenshots | yes | 1 to 2 items |
+| `studies[].screenshots[].src` | File under public/, with its extension | yes | up to 80 characters |
+| `studies[].screenshots[].alt` | What the screenshot shows | yes | up to 200 characters |
+| `studies[].screenshots[].width` | Width in pixels | yes | a whole number from 100 to 4000 |
+| `studies[].screenshots[].height` | Height in pixels | yes | a whole number from 100 to 4000 |
+| `studies[].phases` | What happened in each phase | yes | a group of fields |
+| `studies[].phases.scope` | Scoped | yes | up to 400 characters |
+| `studies[].phases.shape` | Shaped | yes | up to 400 characters |
+| `studies[].phases.ship` | Shipped | yes | up to 400 characters |
+| `studies[].challenge` | The challenge | yes | up to 700 characters |
+| `studies[].builtHeading` | Heading above what was built | yes | up to 40 characters |
+| `studies[].built` | What I built | yes | 1 to 8 items, each up to 500 characters |
+| `studies[].resultsLabel` | Heading above the results | yes | up to 80 characters |
+| `studies[].results` | Results | yes | 1 to 6 items, each up to 300 characters |
+| `small` | The short project under the case studies | yes | a group of fields |
+| `small.id` | Its address on the page | yes | up to 40 characters |
+| `small.heading` | Title | yes | up to 80 characters |
+| `small.tag` | Tag | yes | up to 60 characters |
+| `small.description` | Description | yes | up to 300 characters |
+| `stats` | Survey scores | yes | 1 to 5 items |
+| `stats[].value` | Figure | yes | up to 20 characters |
+| `stats[].label` | What it measures | yes | up to 80 characters |
+| `footnote` | Small print under the scores | yes | up to 240 characters |
+
+**Motion:** No entrance motion. Keeps this site's own one-moment-per-section motion (STYLE-GUIDE §9.4): the phase strip and the score chips play once in view.
+
+**Example:**
+
+```json
+{
+  "heading": "Custom systems",
+  "studies": [
+    {
+      "id": "hideout-fitness",
+      "heading": "A short title for the project",
+      "client": "A client",
+      "meta": [
+        "Personal training"
+      ],
+      "testimonialId": "T1-hideout",
+      "quoteHeading": "In his words",
+      "screenshots": [
+        {
+          "src": "/work/systems-1.webp",
+          "alt": "An owner dashboard with pie charts of profit against trainer pay by session type and bar charts of average profit",
+          "width": 1200,
+          "height": 656
+        }
+      ],
+      "phases": {
+        "scope": "What the owner needed.",
+        "shape": "What I built.",
+        "ship": "How it was handed over."
+      },
+      "challenge": "The problem, in a few sentences.",
+      "builtHeading": "What I built",
+      "built": [
+        "One thing I built."
+      ],
+      "resultsLabel": "Results (client-reported)",
+      "results": [
+        "One result."
+      ]
+    }
+  ],
+  "small": {
+    "id": "another-project",
+    "heading": "Another project",
+    "tag": "Therapy practice",
+    "description": "A sentence about it."
+  },
+  "stats": [
+    {
+      "value": "3 of 3",
+      "label": "met the goals set at kickoff"
+    }
+  ],
+  "footnote": "From client wrap-up surveys. A small sample, I know."
+}
+```
+
+## Agency experience (`agency-snapshots`)
+
+A heading and a sentence, a list of short snapshots of earlier work with a fading line between them, and small print.
+
+**Where it can go:** anywhere, once. This is one of this site's own blocks.
+
+**Variants** (set with `variant`; the first is used when it is left out):
+
+- `default` (default): A fading line, the heading, the snapshots one under the other, and the small print.
+
+**Fields** (inside `content`):
+
+| Field | What it is | Required | Limits |
+| --- | --- | --- | --- |
+| `heading` | Heading | yes | up to 100 characters |
+| `intro` | Sentence under the heading | yes | up to 400 characters |
+| `snapshots` | Snapshots | yes | 1 to 12 items, each up to 500 characters |
+| `footnote` | Small print | yes | up to 400 characters |
+
+**Motion:** No entrance motion. Keeps this site's own motion rules (STYLE-GUIDE §9.4); this section has none.
+
+**Example:**
+
+```json
+{
+  "heading": "Before Huston Logic",
+  "intro": "A sentence about the earlier work. A few snapshots:",
+  "snapshots": [
+    "**A client type:** what I did."
+  ],
+  "footnote": "A line of small print."
 }
 ```

@@ -146,6 +146,12 @@ export type Placement = {
    * sub-pixels differently (the headshot ring), so this keeps such a section's pixels exactly.
    */
   plainWrapper?: boolean;
+  /**
+   * The renderer's wrapper is `display: contents`: it adds no box, no spacing and no positioning. For a block whose
+   * element must stay `position: sticky` while the whole page scrolls (a sticky sub-nav): a sticky element only sticks
+   * inside its parent box, and the wrapper would otherwise be that parent.
+   */
+  contents?: boolean;
 };
 
 export type Motion = ({ entrance: "default" } | { entrance: "none"; reason: string }) & {
@@ -165,6 +171,8 @@ export type BlockDefinition<F extends Fields = Fields> = {
   placement: Placement;
   motion: Motion;
   fixedAnchor?: string;
+  /** Ids the block draws inside itself (a case study's own address), so a link such as /past-work#hideout-fitness is valid wherever the block is on a page. */
+  innerAnchors?: readonly string[];
   /** Why the block needs client JavaScript; required when its folder holds a "use client" file. */
   interactive?: string;
   /** The collection a list block reads its items from; the renderer resolves them. */

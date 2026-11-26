@@ -113,6 +113,22 @@ Each section below is one block you can place on a page. The list says what each
 - **What happens next**: A heading and a numbered list of what happens after a note is sent, then a line with the site's email address.
 - **Privacy text**: The privacy statement: one paragraph that ends with the site's email address, then the date it was last updated.
 - **Insights index**: The article list on Insights: a row of categories once there are articles, and until then one line with a link to ask a question.
+- **Text section**: A heading and one paragraph, with an optional link inside the paragraph, a link under it or a call button, and a fading line above if wanted.
+- **Text section, several paragraphs**: A heading and a stack of paragraphs, each of which may end with a link, and a fading line above if wanted.
+- **Dotted list section**: A heading, an optional sentence, a list with green dots and, if wanted, one client quote; a fading line above if wanted.
+- **About, the short version**: The founder's headshot in the logo ring beside a heading and a paragraph.
+- **Text beside a drawing**: A heading and a paragraph with one of the site's line drawings beside it (under it on a phone), drawn once as it comes into view.
+- **The three steps in full**: The Scope, Shape and Ship steps down a white track with the rust dot resting at the bottom, each with a Website and a System column, and a line of proof under them.
+- **Numbered list section**: A heading and a numbered list, each item starting with a bold lead-in.
+- **What the system does**: A heading and a paragraph, the things an owner says with what the system does, and the app's phone screens.
+- **In-page section links**: A row of links to the sections further down the page, with the current one underlined as the visitor scrolls. It can stay stuck under the header.
+- **How to read this page**: A white panel under the page hero with a title and a short list of what each kind of work on the page means.
+- **The website offer**: The website offer in full: a heading and paragraphs beside a line drawing, what is included, the details (after launch, price) and a button.
+- **Service list**: A heading and a list of services, each with a small heading and a paragraph and a fading line between them, then a closing sentence.
+- **What every project includes**: A heading and three columns, one per step of the framework, each with a dotted list, and one client quote under them.
+- **Questions people ask**: A heading and questions that open to show their answers, with a fading line between them. Works without JavaScript and by keyboard.
+- **Custom systems case studies**: A heading and the systems case studies in full (screenshots, what happened in each phase, what I built, the client's quote, the results), then a short project, with the survey scores under it.
+- **Agency experience**: A heading and a sentence, a list of short snapshots of earlier work with a fading line between them, and small print.
 <!-- blocks:end -->
 
 ## Lane 2: Do it yourself once it is built

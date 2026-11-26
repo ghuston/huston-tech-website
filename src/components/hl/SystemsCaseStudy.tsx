@@ -1,12 +1,36 @@
 import Image from "next/image";
 import { Text } from "@/components/ui/Text";
-import { casePhasesHeading, type CaseStudyContent, type ScreenshotSlot } from "@/content/past-work";
 import { getTestimonialById } from "@/content/testimonials";
+import { fw } from "@/lib/framework";
+import type { FrameworkStepKey } from "@/content/site";
 import { Card } from "./Card";
 import { CaseStudyPhases } from "./CaseStudyPhases";
 import { DotList } from "./DotList";
 import { Tag } from "./Tag";
 import { TestimonialRow } from "./TestimonialRow";
+
+/** The heading over the Scoped / Shaped / Shipped strip. Neither project claims a formal paid Review took place. */
+const casePhasesHeading = fw("{steps} at a glance");
+
+/** A blurred screenshot, or a placeholder string until Grant supplies one. Alt text describes the view, never numbers or names. */
+export type ScreenshotImage = { src: string; alt: string; width: number; height: number };
+export type ScreenshotSlot = string | ScreenshotImage;
+
+export type CaseStudyContent = {
+  id: "hideout-fitness" | "irvine-family-counseling";
+  heading: string;
+  client: string;
+  meta: string[];
+  testimonialId: string;
+  quoteHeading: string;
+  screenshots: ScreenshotSlot[];
+  phases: Record<FrameworkStepKey, string>;
+  challenge: string;
+  builtHeading: string;
+  built: string[];
+  resultsLabel: string;
+  results: string[];
+};
 
 /** A screenshot on a plain white frame (§7.30): radius 14, card shadow, no tilt. Holds the placeholder until Grant supplies a blurred image. */
 function ScreenshotFrame({ shot }: { shot: ScreenshotSlot }) {

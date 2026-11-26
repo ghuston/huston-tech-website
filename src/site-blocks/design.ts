@@ -22,6 +22,8 @@ export const siteRhythms = {
   proof: { full: "pb-16 pt-8 md:pb-24 md:pt-0", bottom: "pb-16 md:pb-24" },
   /** Home, the about teaser. */
   teaser: { full: "py-12 md:py-20", bottom: "pb-12 md:pb-20" },
+  /** /how-i-work, the three steps in full. */
+  steps: { full: "pb-12 pt-4 md:pb-16", bottom: "pb-12 md:pb-16" },
 } as const satisfies Record<string, RhythmRow>;
 
 /** A CSS property a keyframes rule may animate beyond the template's list, and why. The reason is checked (20+ characters). */
