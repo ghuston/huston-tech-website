@@ -1,7 +1,7 @@
 name: Dependency review
 
 # Fails a pull request that adds or changes a dependency to a version with a known vulnerability.
-# A required check in the "Protect main" ruleset, so a red result blocks merge.
+# A required check in the "Protect main" ruleset (see docs/ruleset-protect-main.json), so a red result blocks merge.
 # No `paths:` filter and no `if:`: a skipped
 # required check would block merging, so this job must always run on pull requests.
 # Pull requests only: the action compares the base and head revisions, so a push or schedule run has nothing to compare.
@@ -26,7 +26,7 @@ jobs:
           persist-credentials: false
 
       - name: Dependency review
-        uses: actions/dependency-review-action@bbc44d14a204704ccc493733616cd1e93a0321ec # v5.0.1
+        uses: actions/dependency-review-action@a1d282b36b6f3519aa1f3fc636f609c47dddb294 # v5.0.0
         with:
           # Any known vulnerability in a newly added or changed dependency (the action's default, made explicit).
           fail-on-severity: low

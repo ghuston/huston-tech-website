@@ -1,0 +1,30 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "dev",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev"],
+      "port": 4821
+    },
+    {
+      "name": "preview",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "preview"],
+      "port": 4822
+    },
+    {
+      "name": "worker",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "wrangler", "dev", "--port", "4823", "--ip", "localhost",
+        "--var", "SITE_ENV:development",
+        "--var", "TURNSTILE_SECRET_KEY:1x0000000000000000000000000000000AA",
+        "--var", "RESEND_API_KEY:not-used-in-development",
+        "--var", "GOOGLE_SERVICE_ACCOUNT_KEY:not-used-in-development",
+        "--var", "GOOGLE_SHEET_ID:not-used-in-development"
+      ],
+      "port": 4823
+    }
+  ]
+}

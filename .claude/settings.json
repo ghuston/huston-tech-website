@@ -36,6 +36,13 @@
             "args": ["${CLAUDE_PROJECT_DIR}/.claude/hooks/precommit-check.mjs"],
             "onFailure": "block",
             "timeout": 600
+          },
+          {
+            "type": "command",
+            "command": "node",
+            "args": ["${CLAUDE_PROJECT_DIR}/.claude/hooks/prepush-check.mjs"],
+            "onFailure": "block",
+            "timeout": 600
           }
         ]
       },

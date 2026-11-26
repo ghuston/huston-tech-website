@@ -14,19 +14,31 @@ import { fileURLToPath } from "node:url";
 const hooksDir = path.dirname(fileURLToPath(import.meta.url));
 const work = mkdtempSync(path.join(tmpdir(), "hooks-selftest-"));
 
-function makeRepo(name, branch, checkScript) {
+// checkScript is the full check; fastScript is check:fast (defaults to the same command).
+function makeRepo(name, branch, checkScript, fastScript = checkScript) {
   const dir = path.join(work, name);
   mkdirSync(path.join(dir, "src"), { recursive: true });
   execFileSync("git", ["init", "-q", "-b", branch, dir]);
   writeFileSync(
     path.join(dir, "package.json"),
-    JSON.stringify({ name: "demo", scripts: { check: checkScript, ship: "wrangler deploy" } }),
+    JSON.stringify({ name: "demo", scripts: { check: checkScript, "check:fast": fastScript, ship: "wrangler deploy" } }),
   );
   return dir;
 }
 const main = makeRepo("main-repo", "main", "node -e 0");
 const feat = makeRepo("feat-repo", "feat/demo", "node -e 0");
 const failing = makeRepo("failing-repo", "feat/failing", "node -e \"console.error('LINT ERROR here');process.exit(1)\"");
+const failMsg = "node -e \"console.error('BUILD ERROR here');process.exit(1)\"";
+// fast check fails, full check passes
+const fastFails = makeRepo("fast-fails-repo", "feat/fast-fails", "node -e 0", failMsg);
+// fast check passes, full check (build) fails
+const buildFails = makeRepo("build-fails-repo", "feat/build-fails", failMsg, "node -e 0");
+// package.json with no check or check:fast script
+const noScripts = makeRepo("no-scripts-repo", "feat/no-scripts", "node -e 0");
+writeFileSync(path.join(noScripts, "package.json"), JSON.stringify({ name: "demo", scripts: { ship: "x" } }));
+// package.json with only the old full check, no check:fast
+const onlyFull = makeRepo("only-full-repo", "feat/only-full", "node -e 0");
+writeFileSync(path.join(onlyFull, "package.json"), JSON.stringify({ name: "demo", scripts: { check: "node -e 0" } }));
 writeFileSync(
   path.join(feat, "src/bad.tsx"),
   'export const A = () => <p className="rounded-lg shadow-md" style={{ color: "#ff0000" }}>This is written copy here</p>;\n',
@@ -153,6 +165,36 @@ const cases = [
   ["precommit-check.mjs", failing, bash('git commit -m "x"'), "block", "check fails, commit blocked"],
   ["precommit-check.mjs", feat, bash("git status"), "allow", "not a commit"],
   ["precommit-check.mjs", main, bash('git commit -m "x"'), "allow", "on main (Hook 1 handles it)"],
+  // Hook 2 (fast): runs check:fast, not the full check
+  ["precommit-check.mjs", fastFails, bash('git commit -m "x"'), "block", "check:fast fails, commit blocked", "check:fast"],
+  ["precommit-check.mjs", buildFails, bash('git commit -m "x"'), "warn", "full check failing does not block a commit (fast only)"],
+  ["precommit-check.mjs", noScripts, bash('git commit -m "x"'), "block", "no check:fast script fails closed", "no \"check:fast\" script"],
+  ["precommit-check.mjs", onlyFull, bash('git commit -m "x"'), "block", "only a full check script still fails closed", "no \"check:fast\" script"],
+  ["precommit-check.mjs", feat, bash('git commit --dry-run -m "x"'), "allow", "commit --dry-run is ignored"],
+  ["precommit-check.mjs", feat, bash("git push -u origin feat/demo"), "allow", "pre-commit ignores a push"],
+  // Hook 5: prepush-check runs the full check before git push and gh pr create
+  ["prepush-check.mjs", feat, bash("git push -u origin feat/demo"), "warn", "push: full check passes (notice shown)"],
+  ["prepush-check.mjs", failing, bash("git push -u origin feat/failing"), "block", "push: check fails, push blocked", "LINT ERROR"],
+  ["prepush-check.mjs", buildFails, bash("git push origin feat/build-fails"), "block", "push: build fails though check:fast passes", "BUILD ERROR"],
+  ["prepush-check.mjs", fastFails, bash("git push origin feat/fast-fails"), "warn", "push: only the full check matters"],
+  ["prepush-check.mjs", feat, bash("gh pr create --title x --body y"), "warn", "gh pr create: full check passes"],
+  ["prepush-check.mjs", failing, bash("gh pr create --title x --body y"), "block", "gh pr create: check fails, PR blocked", "LINT ERROR"],
+  ["prepush-check.mjs", failing, bash("gh -R owner/repo pr create --fill"), "block", "gh -R before pr create is still seen", "LINT ERROR"],
+  ["prepush-check.mjs", failing, bash("git add . && git push origin feat/failing"), "block", "push inside a chain is seen"],
+  ["prepush-check.mjs", failing, bash("bash -c 'git push origin feat/failing'"), "block", "push inside bash -c is seen"],
+  ["prepush-check.mjs", noScripts, bash("git push origin feat/no-scripts"), "block", "no check script fails closed", "no \"check\" script"],
+  ["prepush-check.mjs", noScripts, bash("gh pr create --fill"), "block", "gh pr create with no check script fails closed", "no \"check\" script"],
+  ["prepush-check.mjs", failing, bash("git push --dry-run origin feat/failing"), "allow", "git push --dry-run is ignored"],
+  ["prepush-check.mjs", failing, bash("git push --help"), "allow", "git push --help is ignored"],
+  ["prepush-check.mjs", failing, bash("gh pr create --help"), "allow", "gh pr create --help is ignored"],
+  ["prepush-check.mjs", failing, bash("gh pr create -h"), "allow", "gh pr create -h is ignored"],
+  ["prepush-check.mjs", failing, bash("gh pr view 10"), "allow", "gh pr view is not a PR creation"],
+  ["prepush-check.mjs", failing, bash('git commit -m "mentions git push and gh pr create in text"'), "allow", "push words inside a message"],
+  ["prepush-check.mjs", failing, bash('echo "git push"'), "allow", "git push inside an echo string"],
+  ["prepush-check.mjs", failing, bash("git status"), "allow", "not a push"],
+  ["prepush-check.mjs", main, bash("git push origin main"), "allow", "on main (guard-bash handles it)"],
+  ["prepush-check.mjs", feat, bash('git push "unterminated'), "block", "unparseable command fails closed"],
+  ["prepush-check.mjs", feat, { tool_name: "Bash", tool_input: {} }, "block", "missing command fails closed"],
   // Hook 3
   // Hook 3: these files used to ask; they no longer do
   ["protect-config.mjs", feat, file(feat, ".gitignore"), "allow", ".gitignore no longer asks"],

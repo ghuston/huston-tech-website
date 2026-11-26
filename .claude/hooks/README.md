@@ -16,12 +16,13 @@ git restore .claude/                   # undo uncommitted changes to hooks and s
 
 Or temporarily switch branches (`git switch main`) to get the last good copy.
 
-## The four hooks
+## The five hooks
 
 | File | Event | Does |
 |---|---|---|
 | `guard-bash.mjs` | before Bash | Blocks commits/pushes on main, force push, `--no-verify`, `gh pr merge` (except exactly `gh pr merge <number> --auto --squash` or `--auto --merge`, which only queues a merge behind the required checks), `wrangler deploy/publish`, risky `rm -r`, `curl \| sh`, staging or reading secret files, and Bash writes to the owner-only paths above. Bash writes to `package.json`, `CLAUDE.md`, `AGENTS.md`, `wrangler.jsonc` and `.gitignore` no longer ask. |
-| `precommit-check.mjs` | before Bash (`git commit`) | Runs the `check` script from `package.json`; blocks the commit if it fails and shows the error. |
+| `precommit-check.mjs` | before Bash (`git commit`) | Runs the fast `check:fast` script from `package.json` (no production build); blocks the commit if it fails and shows the error. |
+| `prepush-check.mjs` | before Bash (`git push`, `gh pr create`) | Runs the full `check` script (fast check plus build); blocks the push or PR if it fails and shows the error. Skips main/master and `--help`/`--dry-run`. |
 | `protect-config.mjs` | before Edit/Write | **Blocks** (exit 2) any change to `.claude/hooks/**`, `.claude/agents/**`, `.claude/skills/**`, `.github/workflows/**` and `.claude/settings*.json`. Edits to `wrangler.jsonc`, `.gitignore`, `CLAUDE.md`, `AGENTS.md` and `package.json` no longer ask. |
 | `scan-src.mjs` | after Edit/Write | Warn-only scan of changed `src/` files: hard-coded colors, `rounded-`/`shadow-`, `dangerouslySetInnerHTML`, copy in JSX. |
 
@@ -31,7 +32,7 @@ checks everything with sample inputs: `node .claude/hooks/selftest.mjs`.
 ## Reusing in a client repo
 
 1. Copy the whole `.claude/hooks/` folder and the `hooks` block of `settings.json`.
-2. Make sure `package.json` has a `check` script (lint, typecheck, build).
+2. Make sure `package.json` has a `check:fast` script (lint, typecheck, tests) and a `check` script (the fast check plus build).
 3. Edit the lists at the top of each file if the repo differs (protected files in
    `lib.mjs`, allowed `rm -r` folders in `guard-bash.mjs`, `COLOR_EXEMPT` in `scan-src.mjs`).
 4. Run `node .claude/hooks/selftest.mjs`.

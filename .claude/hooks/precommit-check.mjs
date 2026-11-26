@@ -1,11 +1,13 @@
-// HOOK 2: precommit-check (runs before a Bash command that contains `git commit`).
+// HOOK 2: precommit-check (fast) (runs before a Bash command that contains `git commit`).
 //
 // WHAT IT BLOCKS, and why:
-//   - Any `git commit` while the project's `check` script (npm run check: lint,
-//     typecheck, production build) is failing. The project rule is "run the
-//     checks before every commit; if they fail, stop and show the error".
+//   - Any `git commit` while the project's `check:fast` script (npm run check:fast:
+//     config check, process check, lint, typecheck, worker and script tests; no
+//     production build) is failing. The project rule is "run the checks before
+//     every commit; if they fail, stop and show the error". The full `check`
+//     (with the production build) runs before push and PR in prepush-check.mjs.
 //     When it blocks, it prints the last lines of the real error output.
-//   - A commit in a repo with no `check` script in package.json, or an
+//   - A commit in a repo with no `check:fast` script in package.json, or an
 //     unreadable package.json (fail closed: no check means no commit).
 //
 // It does not run on main/master (Hook 1 already blocks commits there, so a
@@ -29,7 +31,7 @@ import {
   readPackageJson,
 } from "./lib.mjs";
 
-const SCRIPT = "check";
+const SCRIPT = "check:fast";
 const TAIL_LINES = 60;
 
 guard("precommit-check", (input) => {
@@ -55,7 +57,7 @@ guard("precommit-check", (input) => {
   if (!pkg.scripts?.[SCRIPT]) {
     block(
       `Blocked: package.json has no "${SCRIPT}" script, so I can't run the pre-commit check. ` +
-        `Do this instead: add a "${SCRIPT}" script (lint, typecheck, build), then commit again.`,
+        `Do this instead: add a "${SCRIPT}" script (lint, typecheck, tests), then commit again.`,
     );
   }
 
@@ -77,5 +79,5 @@ guard("precommit-check", (input) => {
     );
   }
 
-  process.stdout.write(JSON.stringify({ systemMessage: `Pre-commit check passed: npm run ${SCRIPT} took ${seconds}s.` }));
+  process.stdout.write(JSON.stringify({ systemMessage: `Pre-commit fast check passed: npm run ${SCRIPT} took ${seconds}s.` }));
 });
