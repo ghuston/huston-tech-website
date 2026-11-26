@@ -24,3 +24,6 @@ export function organizationJsonLd(): Record<string, unknown> {
   data.founder = founder;
   return data;
 }
+
+// The template's pure builder, used by site-organization.ts. Nothing on this site's pages calls it yet.
+export { buildOrganizationJsonLd, type OrganizationJsonLd, type OrganizationJsonLdInput } from "./organization-builder.ts";

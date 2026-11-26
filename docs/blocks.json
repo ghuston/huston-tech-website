@@ -1,0 +1,2112 @@
+{
+  "version": 1,
+  "generatedBy": "npm run blocks:catalog",
+  "pageRules": {
+    "pageFile": "One file per page in src/content/pages/. home.json is the home page (/); every other file is named after its one-segment path (services.json is /services). Paths are lowercase words joined by hyphens, one level deep, and each is used once.",
+    "pageKeys": [
+      {
+        "key": "path",
+        "required": true,
+        "rule": "\"/\" or a one-segment path like \"/services\". Must match the file name."
+      },
+      {
+        "key": "title",
+        "required": true,
+        "rule": "The page's search-result title, 1 to 70 characters."
+      },
+      {
+        "key": "description",
+        "required": true,
+        "rule": "The page's search-result description, 1 to 170 characters."
+      },
+      {
+        "key": "status",
+        "required": true,
+        "rule": "\"live\" or \"archived\"."
+      },
+      {
+        "key": "menu",
+        "required": false,
+        "rule": "Where the page appears in the menu: { label, order, places }."
+      },
+      {
+        "key": "blocks",
+        "required": true,
+        "rule": "The page's sections, in order: at most 20."
+      }
+    ],
+    "menuKeys": [
+      {
+        "key": "label",
+        "required": true,
+        "rule": "The words in the menu, 1 to 24 characters."
+      },
+      {
+        "key": "order",
+        "required": true,
+        "rule": "A number; lower numbers come first."
+      },
+      {
+        "key": "places",
+        "required": true,
+        "rule": "Any of \"header\", \"footer\", \"legal\"."
+      }
+    ],
+    "blockKeys": [
+      {
+        "key": "type",
+        "required": true,
+        "rule": "The name of a block in this catalog."
+      },
+      {
+        "key": "variant",
+        "required": false,
+        "rule": "One of the block's variants; the first is used when it is left out."
+      },
+      {
+        "key": "anchor",
+        "required": false,
+        "rule": "A lowercase name (letters, digits, hyphens; starts with a letter; at most 40 characters) that links can point to as /page#name. Unique on the page."
+      },
+      {
+        "key": "content",
+        "required": true,
+        "rule": "The block's fields, as listed in its entry."
+      }
+    ],
+    "status": {
+      "live": "The page is built, listed in the menu places it asks for, and in the sitemap.",
+      "archived": "The page leaves the build, the menu and the sitemap. The file and its content stay, and setting it back to live restores it. A link to an archived page fails the check."
+    },
+    "menu": {
+      "places": [
+        "header",
+        "footer",
+        "legal"
+      ],
+      "maxHeaderLinks": 6,
+      "rule": "A page appears in the menu only if it has a menu entry. At most 6 live pages may be in the header."
+    },
+    "firstBlock": "The first block must be a block whose position is \"first\" (the hero). It carries the page's one H1, so a page has exactly one.",
+    "focalAnimation": "At most one block per page may carry a signature (focal) animation.",
+    "text": "Text is plain. Only **bold** and [[placeholder]] marks are allowed. No HTML tags, no HTML entities, no markdown links and no control characters (line breaks, tabs, hidden characters).",
+    "links": {
+      "allowed": [
+        "An internal path (/name) or a path with an anchor (/name#anchor) that points to a live page, and to an anchor that exists on it.",
+        "An https:// address.",
+        "A mailto: address.",
+        "A tel: number.",
+        "\"@booking\": the site's booking link (the scheduler when set, otherwise /contact#book)."
+      ],
+      "never": [
+        "javascript:",
+        "data:",
+        "http:",
+        "//host"
+      ]
+    },
+    "images": {
+      "folder": "/images/",
+      "formats": [
+        "jpg",
+        "png",
+        "webp"
+      ],
+      "rule": "An image is { src, alt } with an optional focus: center, top, bottom, left or right. The file must exist under /images/ and be a jpg, png or webp. Each image slot has a shape (3:2, 4:3, 4:5, 1:1 or 16:9) and the picture is cropped to it; focus says which part to keep. The alt text must really describe the picture, so it can't be empty or only a generic word.",
+      "genericAltWords": [
+        "image",
+        "img",
+        "photo",
+        "picture",
+        "graphic",
+        "icon",
+        "logo",
+        "alt",
+        "alt text",
+        "todo",
+        "tbd",
+        "untitled",
+        "placeholder"
+      ]
+    },
+    "files": {
+      "folder": "/files/",
+      "rule": "A link may point to a PDF under /files/ that exists, such as /files/price-sheet-k3x9q2mz.pdf. Visitors download it."
+    },
+    "video": {
+      "providers": [
+        "YouTube",
+        "Vimeo"
+      ],
+      "rule": "A video address must be from YouTube or Vimeo. The player is rebuilt from the video's id, not from the address that was pasted. Allowed player origins: https://www.youtube-nocookie.com, https://player.vimeo.com, https://open.spotify.com, https://embed.podcasts.apple.com.",
+      "examples": [
+        "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        "https://vimeo.com/76979871"
+      ]
+    },
+    "audio": {
+      "providers": [
+        "Spotify",
+        "Apple Podcasts"
+      ],
+      "rule": "An episode address must be from Spotify or Apple Podcasts. The player is rebuilt from the episode's id, not from the address that was pasted.",
+      "examples": [
+        "https://open.spotify.com/episode/4rOoJ6Egrf8K2IrywzwOMk",
+        "https://podcasts.apple.com/us/podcast/the-example-show/id1234567890?i=1000123456789"
+      ]
+    },
+    "reservedPaths": [
+      "/blocks",
+      "/api",
+      "/contact/thanks",
+      "/og.png",
+      "/icon.svg",
+      "/sitemap.xml",
+      "/robots.txt",
+      "/404",
+      "/index",
+      "/_not-found",
+      "/_next"
+    ],
+    "requiredLivePages": [
+      "/",
+      "/contact"
+    ],
+    "limits": {
+      "maxBlocksPerPage": 20,
+      "titleMax": 70,
+      "descriptionMax": 170
+    }
+  },
+  "blocks": [
+    {
+      "type": "hero",
+      "title": "Hero",
+      "description": "The top of a page: a small line above, the page headline, a short introduction and, if wanted, one button.",
+      "source": "library",
+      "variants": [
+        {
+          "name": "default",
+          "description": "Left-aligned, with a soft glow in the top-right corner.",
+          "default": true
+        }
+      ],
+      "placement": {
+        "position": "first",
+        "maxPerPage": 1,
+        "rhythm": "hero",
+        "joinsHero": false
+      },
+      "motion": {
+        "entrance": "none",
+        "reason": "The first block is the first paint, so it shows at once and never waits on motion.",
+        "signature": null
+      },
+      "fixedAnchor": null,
+      "interactive": null,
+      "fields": [
+        {
+          "name": "eyebrow",
+          "kind": "text",
+          "label": "Small line above the headline",
+          "required": false,
+          "max": 60
+        },
+        {
+          "name": "title",
+          "kind": "text",
+          "label": "Headline",
+          "help": "The page's one main heading.",
+          "required": true,
+          "max": 90
+        },
+        {
+          "name": "intro",
+          "kind": "text",
+          "label": "Introduction",
+          "required": false,
+          "max": 320
+        },
+        {
+          "name": "action",
+          "kind": "action",
+          "label": "Button",
+          "required": false,
+          "labelMax": 40
+        }
+      ],
+      "example": {
+        "eyebrow": "A short line that sets the scene",
+        "title": "A headline that says what this page is about",
+        "intro": "One or two sentences that say more about the page.",
+        "action": {
+          "label": "A label that says what the button does",
+          "href": "@booking"
+        }
+      }
+    },
+    {
+      "type": "highlights",
+      "title": "Highlights",
+      "description": "A heading and a set of short ideas, each with a title and a few lines of text, and optionally a photo above each. Good for services, reasons or features.",
+      "source": "library",
+      "variants": [
+        {
+          "name": "two-column",
+          "description": "The ideas sit in two columns (one column on phones), with soft dividers.",
+          "default": true
+        },
+        {
+          "name": "three-column",
+          "description": "The ideas sit in three columns on wide screens (with three or more ideas), two on tablets, one on phones.",
+          "default": false
+        }
+      ],
+      "placement": {
+        "position": "any",
+        "maxPerPage": 3,
+        "rhythm": "section",
+        "joinsHero": false
+      },
+      "motion": {
+        "entrance": "default",
+        "reason": null,
+        "signature": null
+      },
+      "fixedAnchor": null,
+      "interactive": null,
+      "fields": [
+        {
+          "name": "heading",
+          "kind": "text",
+          "label": "Heading",
+          "required": true,
+          "max": 90
+        },
+        {
+          "name": "items",
+          "kind": "list",
+          "label": "Ideas",
+          "required": true,
+          "items": {
+            "min": 2,
+            "max": 9
+          },
+          "together": [
+            "image"
+          ],
+          "of": {
+            "kind": "object",
+            "label": "Idea",
+            "required": true,
+            "fields": [
+              {
+                "name": "title",
+                "kind": "text",
+                "label": "Title",
+                "required": true,
+                "max": 70
+              },
+              {
+                "name": "body",
+                "kind": "text",
+                "label": "Text",
+                "required": true,
+                "max": 280
+              },
+              {
+                "name": "image",
+                "kind": "image",
+                "label": "Photo",
+                "help": "Cropped to a 3 by 2 shape. Give every idea a photo, or none.",
+                "required": false,
+                "shape": "3:2"
+              }
+            ]
+          }
+        }
+      ],
+      "example": {
+        "heading": "A short heading that says what this section covers",
+        "items": [
+          {
+            "title": "A short title for the first idea",
+            "body": "A sentence or two that explains the first idea in plain words."
+          },
+          {
+            "title": "A short title for the second idea",
+            "body": "A sentence or two that explains the second idea in plain words."
+          },
+          {
+            "title": "A short title for the third idea",
+            "body": "A sentence or two that explains the third idea in plain words."
+          }
+        ]
+      }
+    },
+    {
+      "type": "prose",
+      "title": "Text section",
+      "description": "A heading with a few paragraphs under it. Good for a story, a background or a longer explanation.",
+      "source": "library",
+      "variants": [
+        {
+          "name": "default",
+          "description": "Paragraphs in a comfortable reading width.",
+          "default": true
+        }
+      ],
+      "placement": {
+        "position": "any",
+        "maxPerPage": 4,
+        "rhythm": "section",
+        "joinsHero": true
+      },
+      "motion": {
+        "entrance": "default",
+        "reason": null,
+        "signature": null
+      },
+      "fixedAnchor": null,
+      "interactive": null,
+      "fields": [
+        {
+          "name": "heading",
+          "kind": "text",
+          "label": "Heading",
+          "required": true,
+          "max": 90
+        },
+        {
+          "name": "paragraphs",
+          "kind": "list",
+          "label": "Paragraphs",
+          "required": true,
+          "items": {
+            "min": 1,
+            "max": 8
+          },
+          "of": {
+            "kind": "text",
+            "label": "Paragraph",
+            "required": true,
+            "max": 900
+          }
+        }
+      ],
+      "example": {
+        "heading": "A short heading that says what this section covers",
+        "paragraphs": [
+          "A paragraph of plain text that describes itself.",
+          "A second paragraph, also plain text, that continues the thought."
+        ]
+      }
+    },
+    {
+      "type": "faq",
+      "title": "Questions and answers",
+      "description": "A heading and a list of questions that open to show their answers.",
+      "source": "library",
+      "variants": [
+        {
+          "name": "default",
+          "description": "Questions open and close one by one; works without JavaScript.",
+          "default": true
+        }
+      ],
+      "placement": {
+        "position": "any",
+        "maxPerPage": 1,
+        "rhythm": "section",
+        "joinsHero": false
+      },
+      "motion": {
+        "entrance": "default",
+        "reason": null,
+        "signature": null
+      },
+      "fixedAnchor": null,
+      "interactive": null,
+      "fields": [
+        {
+          "name": "heading",
+          "kind": "text",
+          "label": "Heading",
+          "required": true,
+          "max": 90
+        },
+        {
+          "name": "items",
+          "kind": "list",
+          "label": "Questions",
+          "required": true,
+          "items": {
+            "min": 1,
+            "max": 12
+          },
+          "of": {
+            "kind": "object",
+            "label": "Question",
+            "required": true,
+            "fields": [
+              {
+                "name": "question",
+                "kind": "text",
+                "label": "Question",
+                "required": true,
+                "max": 140
+              },
+              {
+                "name": "answer",
+                "kind": "text",
+                "label": "Answer",
+                "required": true,
+                "max": 900
+              }
+            ]
+          }
+        }
+      ],
+      "example": {
+        "heading": "A short heading that introduces the questions",
+        "items": [
+          {
+            "question": "A question a visitor might ask?",
+            "answer": "A plain answer that describes itself."
+          },
+          {
+            "question": "Another question a visitor might ask?",
+            "answer": "A second plain answer."
+          }
+        ]
+      }
+    },
+    {
+      "type": "closing-cta",
+      "title": "Closing call to action",
+      "description": "The last block on a page: a heading, a line of text and one button that says what to do next.",
+      "source": "library",
+      "variants": [
+        {
+          "name": "default",
+          "description": "Left-aligned, with a soft glow that blends it into the page.",
+          "default": true
+        }
+      ],
+      "placement": {
+        "position": "last",
+        "maxPerPage": 1,
+        "rhythm": "section",
+        "joinsHero": false
+      },
+      "motion": {
+        "entrance": "default",
+        "reason": null,
+        "signature": null
+      },
+      "fixedAnchor": null,
+      "interactive": null,
+      "fields": [
+        {
+          "name": "heading",
+          "kind": "text",
+          "label": "Heading",
+          "required": true,
+          "max": 90
+        },
+        {
+          "name": "body",
+          "kind": "text",
+          "label": "Text",
+          "required": false,
+          "max": 280
+        },
+        {
+          "name": "action",
+          "kind": "action",
+          "label": "Button",
+          "required": true,
+          "labelMax": 40
+        },
+        {
+          "name": "note",
+          "kind": "text",
+          "label": "Small note under the button",
+          "required": false,
+          "max": 160
+        }
+      ],
+      "example": {
+        "heading": "A short heading that invites the next step",
+        "body": "One or two plain sentences that say what happens next.",
+        "action": {
+          "label": "A label that says what the button does",
+          "href": "/contact"
+        },
+        "note": "A small reassuring line"
+      }
+    },
+    {
+      "type": "contact-form",
+      "title": "Contact form",
+      "description": "A booking column next to the site's contact form. The form itself is wired to the site's own settings.",
+      "source": "library",
+      "variants": [
+        {
+          "name": "default",
+          "description": "The booking column on the left, the form on the right (stacked on phones).",
+          "default": true
+        }
+      ],
+      "placement": {
+        "position": "any",
+        "maxPerPage": 1,
+        "rhythm": "compact",
+        "joinsHero": true
+      },
+      "motion": {
+        "entrance": "none",
+        "reason": "People type here, so the form stays still and is usable the moment it appears.",
+        "signature": null
+      },
+      "fixedAnchor": "book",
+      "interactive": null,
+      "fields": [
+        {
+          "name": "heading",
+          "kind": "text",
+          "label": "Booking heading",
+          "required": true,
+          "max": 60
+        },
+        {
+          "name": "body",
+          "kind": "text",
+          "label": "Booking text",
+          "required": true,
+          "max": 400
+        },
+        {
+          "name": "buttonLabel",
+          "kind": "text",
+          "label": "Booking button label",
+          "required": true,
+          "max": 40
+        },
+        {
+          "name": "unsetNote",
+          "kind": "text",
+          "label": "Note shown while no booking link is set",
+          "help": "Visitors see this instead of a working button until the site's booking link is set up.",
+          "required": true,
+          "max": 120
+        }
+      ],
+      "example": {
+        "heading": "A short heading about booking a time",
+        "body": "A sentence or two that says what a booking is for.",
+        "buttonLabel": "A label that says what the button does",
+        "unsetNote": "A note that says the booking link is not set up yet"
+      }
+    },
+    {
+      "type": "form",
+      "title": "Form",
+      "description": "One of the site's forms (a quote request, a download sign-up) in a panel, with an optional heading and a sentence above or beside it. The form's fields, button and thank-you message are in its own form file.",
+      "source": "library",
+      "variants": [
+        {
+          "name": "stacked",
+          "description": "The heading and intro above the form panel, in one centred column.",
+          "default": true
+        },
+        {
+          "name": "beside",
+          "description": "The heading and intro on the left, the form panel on the right (stacked on phones).",
+          "default": false
+        }
+      ],
+      "placement": {
+        "position": "any",
+        "maxPerPage": 1,
+        "rhythm": "compact",
+        "joinsHero": false
+      },
+      "motion": {
+        "entrance": "none",
+        "reason": "People type here, so the form stays still and is usable the moment it appears.",
+        "signature": null
+      },
+      "fixedAnchor": null,
+      "interactive": null,
+      "fields": [
+        {
+          "name": "form",
+          "kind": "form",
+          "label": "Form",
+          "help": "The id of a live form, other than the contact form.",
+          "required": true
+        },
+        {
+          "name": "heading",
+          "kind": "text",
+          "label": "Heading",
+          "required": false,
+          "max": 60
+        },
+        {
+          "name": "intro",
+          "kind": "text",
+          "label": "Intro",
+          "required": false,
+          "max": 300
+        }
+      ],
+      "example": {
+        "form": "showcase-example",
+        "heading": "A short heading that says what the form is for",
+        "intro": "A sentence or two that says what happens after the visitor sends the form."
+      }
+    },
+    {
+      "type": "steps",
+      "title": "Numbered steps",
+      "description": "A heading and a short numbered list that says what happens, step by step. It can end with an email line.",
+      "source": "library",
+      "variants": [
+        {
+          "name": "default",
+          "description": "Numbers in green on the left, text in a comfortable reading width.",
+          "default": true
+        }
+      ],
+      "placement": {
+        "position": "any",
+        "maxPerPage": 2,
+        "rhythm": "compact",
+        "joinsHero": false
+      },
+      "motion": {
+        "entrance": "default",
+        "reason": null,
+        "signature": null
+      },
+      "fixedAnchor": null,
+      "interactive": null,
+      "fields": [
+        {
+          "name": "heading",
+          "kind": "text",
+          "label": "Heading",
+          "required": true,
+          "max": 90
+        },
+        {
+          "name": "steps",
+          "kind": "list",
+          "label": "Steps",
+          "required": true,
+          "items": {
+            "min": 2,
+            "max": 6
+          },
+          "of": {
+            "kind": "object",
+            "label": "Step",
+            "required": true,
+            "fields": [
+              {
+                "name": "lead",
+                "kind": "text",
+                "label": "Bold opening words",
+                "required": true,
+                "max": 80
+              },
+              {
+                "name": "body",
+                "kind": "text",
+                "label": "Text",
+                "required": true,
+                "max": 400
+              }
+            ]
+          }
+        },
+        {
+          "name": "emailLabel",
+          "kind": "text",
+          "label": "Words before the email address",
+          "help": "When given, the line shows the site's email address after these words.",
+          "required": false,
+          "max": 80
+        }
+      ],
+      "example": {
+        "heading": "A short heading that says what happens next",
+        "steps": [
+          {
+            "lead": "The first step.",
+            "body": "A sentence that describes the first step."
+          },
+          {
+            "lead": "The second step.",
+            "body": "A sentence that describes the second step."
+          }
+        ]
+      }
+    },
+    {
+      "type": "legal-sections",
+      "title": "Policy sections",
+      "description": "A run of titled sections for a policy or terms page, with an optional line at the end such as a last-updated date.",
+      "source": "library",
+      "variants": [
+        {
+          "name": "default",
+          "description": "Sections one after another in a comfortable reading width.",
+          "default": true
+        }
+      ],
+      "placement": {
+        "position": "any",
+        "maxPerPage": 1,
+        "rhythm": "section",
+        "joinsHero": true
+      },
+      "motion": {
+        "entrance": "default",
+        "reason": null,
+        "signature": null
+      },
+      "fixedAnchor": null,
+      "interactive": null,
+      "fields": [
+        {
+          "name": "sections",
+          "kind": "list",
+          "label": "Sections",
+          "required": true,
+          "items": {
+            "min": 1,
+            "max": 20
+          },
+          "of": {
+            "kind": "object",
+            "label": "Section",
+            "required": true,
+            "fields": [
+              {
+                "name": "heading",
+                "kind": "text",
+                "label": "Section title",
+                "required": true,
+                "max": 90
+              },
+              {
+                "name": "body",
+                "kind": "text",
+                "label": "Section text",
+                "required": true,
+                "max": 3000
+              }
+            ]
+          }
+        },
+        {
+          "name": "footnote",
+          "kind": "text",
+          "label": "Line at the end",
+          "required": false,
+          "max": 160
+        }
+      ],
+      "example": {
+        "sections": [
+          {
+            "heading": "A short title for the first section",
+            "body": "Plain text that describes what this section covers."
+          },
+          {
+            "heading": "A short title for the second section",
+            "body": "More plain text for the second section."
+          }
+        ],
+        "footnote": "A short line at the end of the page"
+      }
+    },
+    {
+      "type": "video",
+      "title": "Video",
+      "description": "One video from YouTube or Vimeo, with a title and a short caption. It plays on the page when a visitor presses play.",
+      "source": "library",
+      "variants": [
+        {
+          "name": "wide",
+          "description": "As wide as the page column.",
+          "default": true
+        },
+        {
+          "name": "inset",
+          "description": "Narrower and centered, the width of a reading column.",
+          "default": false
+        }
+      ],
+      "placement": {
+        "position": "any",
+        "maxPerPage": 4,
+        "rhythm": "section",
+        "joinsHero": false
+      },
+      "motion": {
+        "entrance": "default",
+        "reason": null,
+        "signature": null
+      },
+      "fixedAnchor": null,
+      "interactive": "The play button swaps in the player only when it is pressed, so nothing loads from YouTube or Vimeo before that.",
+      "fields": [
+        {
+          "name": "url",
+          "kind": "video",
+          "label": "Video address",
+          "help": "A YouTube or Vimeo address.",
+          "required": true
+        },
+        {
+          "name": "title",
+          "kind": "text",
+          "label": "Title",
+          "required": true,
+          "max": 80
+        },
+        {
+          "name": "caption",
+          "kind": "text",
+          "label": "Caption",
+          "required": false,
+          "max": 200
+        },
+        {
+          "name": "poster",
+          "kind": "image",
+          "label": "Cover picture",
+          "help": "Shown before play. Without one the video shows a plain dark panel.",
+          "required": false,
+          "shape": "16:9"
+        }
+      ],
+      "example": {
+        "url": "https://www.youtube.com/watch?v=aqz-KE-bpKQ",
+        "title": "A short title that says what the video shows",
+        "caption": "A sentence that says what to expect before pressing play."
+      }
+    },
+    {
+      "type": "video-grid",
+      "title": "Video grid",
+      "description": "Two to six videos from YouTube or Vimeo side by side, each with a title and a short caption.",
+      "source": "library",
+      "variants": [
+        {
+          "name": "two-column",
+          "description": "The videos sit in two columns (one column on phones).",
+          "default": true
+        },
+        {
+          "name": "three-column",
+          "description": "The videos sit in three columns on wide screens (with three or more videos), two on tablets, one on phones.",
+          "default": false
+        }
+      ],
+      "placement": {
+        "position": "any",
+        "maxPerPage": 2,
+        "rhythm": "section",
+        "joinsHero": false
+      },
+      "motion": {
+        "entrance": "default",
+        "reason": null,
+        "signature": null
+      },
+      "fixedAnchor": null,
+      "interactive": "The play button swaps in the player only when it is pressed, so nothing loads from YouTube or Vimeo before that.",
+      "fields": [
+        {
+          "name": "heading",
+          "kind": "text",
+          "label": "Heading",
+          "help": "Names the group of videos for everyone, including screen reader users.",
+          "required": true,
+          "max": 90
+        },
+        {
+          "name": "videos",
+          "kind": "list",
+          "label": "Videos",
+          "required": true,
+          "items": {
+            "min": 2,
+            "max": 6
+          },
+          "of": {
+            "kind": "object",
+            "label": "Video",
+            "required": true,
+            "fields": [
+              {
+                "name": "url",
+                "kind": "video",
+                "label": "Video address",
+                "help": "A YouTube or Vimeo address.",
+                "required": true
+              },
+              {
+                "name": "title",
+                "kind": "text",
+                "label": "Title",
+                "required": true,
+                "max": 80
+              },
+              {
+                "name": "caption",
+                "kind": "text",
+                "label": "Caption",
+                "required": false,
+                "max": 200
+              },
+              {
+                "name": "poster",
+                "kind": "image",
+                "label": "Cover picture",
+                "required": false,
+                "shape": "16:9"
+              }
+            ]
+          }
+        }
+      ],
+      "example": {
+        "heading": "A short heading that introduces the videos",
+        "videos": [
+          {
+            "url": "https://www.youtube.com/watch?v=aqz-KE-bpKQ",
+            "title": "A short title for the first video",
+            "caption": "A sentence about the first video."
+          },
+          {
+            "url": "https://vimeo.com/1084537",
+            "title": "A short title for the second video",
+            "caption": "A sentence about the second video."
+          },
+          {
+            "url": "https://youtu.be/aqz-KE-bpKQ",
+            "title": "A short title for the third video",
+            "caption": "A sentence about the third video."
+          }
+        ]
+      }
+    },
+    {
+      "type": "photo-text",
+      "title": "Photo with text",
+      "description": "One photo beside a heading, a few paragraphs and an optional button. Good for an about section, a place or a service.",
+      "source": "library",
+      "variants": [
+        {
+          "name": "photo-start",
+          "description": "The photo sits on the left on wide screens, the text on the right. On phones the photo is above the text.",
+          "default": true
+        },
+        {
+          "name": "photo-end",
+          "description": "The photo sits on the right on wide screens, the text on the left. On phones the photo is above the text.",
+          "default": false
+        }
+      ],
+      "placement": {
+        "position": "any",
+        "maxPerPage": 4,
+        "rhythm": "section",
+        "joinsHero": false
+      },
+      "motion": {
+        "entrance": "default",
+        "reason": null,
+        "signature": null
+      },
+      "fixedAnchor": null,
+      "interactive": null,
+      "fields": [
+        {
+          "name": "image",
+          "kind": "image",
+          "label": "Photo",
+          "help": "Cropped to a 4 by 3 shape.",
+          "required": true,
+          "shape": "4:3"
+        },
+        {
+          "name": "heading",
+          "kind": "text",
+          "label": "Heading",
+          "required": true,
+          "max": 90
+        },
+        {
+          "name": "paragraphs",
+          "kind": "list",
+          "label": "Paragraphs",
+          "required": true,
+          "items": {
+            "min": 1,
+            "max": 4
+          },
+          "of": {
+            "kind": "text",
+            "label": "Paragraph",
+            "required": true,
+            "max": 600
+          }
+        },
+        {
+          "name": "action",
+          "kind": "action",
+          "label": "Button",
+          "required": false,
+          "labelMax": 40
+        }
+      ],
+      "example": {
+        "image": {
+          "src": "/images/examples/vase-and-pears.jpg",
+          "alt": "Abstract still life: a pale vase and two pears in soft window light"
+        },
+        "heading": "A short heading that says what the photo is about",
+        "paragraphs": [
+          "A few sentences that tell the story behind the photo in plain words.",
+          "A second paragraph for the detail a visitor would ask about next."
+        ],
+        "action": {
+          "label": "A short button label",
+          "href": "/contact"
+        }
+      }
+    },
+    {
+      "type": "gallery",
+      "title": "Photo gallery",
+      "description": "Two to twelve photos in a grid, each with an optional caption. The photos do not open larger.",
+      "source": "library",
+      "variants": [
+        {
+          "name": "three-column",
+          "description": "The photos sit three across on wide screens and two across on tablets and phones.",
+          "default": true
+        },
+        {
+          "name": "two-column",
+          "description": "The photos sit two across on wide screens and tablets, and one across on phones.",
+          "default": false
+        }
+      ],
+      "placement": {
+        "position": "any",
+        "maxPerPage": 2,
+        "rhythm": "section",
+        "joinsHero": false
+      },
+      "motion": {
+        "entrance": "default",
+        "reason": null,
+        "signature": null
+      },
+      "fixedAnchor": null,
+      "interactive": null,
+      "fields": [
+        {
+          "name": "heading",
+          "kind": "text",
+          "label": "Heading",
+          "help": "Names the group of photos for everyone, including screen reader users.",
+          "required": true,
+          "max": 90
+        },
+        {
+          "name": "intro",
+          "kind": "text",
+          "label": "Introduction",
+          "required": false,
+          "max": 280
+        },
+        {
+          "name": "photos",
+          "kind": "list",
+          "label": "Photos",
+          "required": true,
+          "items": {
+            "min": 2,
+            "max": 12
+          },
+          "of": {
+            "kind": "object",
+            "label": "Photo",
+            "required": true,
+            "fields": [
+              {
+                "name": "image",
+                "kind": "image",
+                "label": "Photo",
+                "help": "Cropped to a 3 by 2 shape.",
+                "required": true,
+                "shape": "3:2"
+              },
+              {
+                "name": "caption",
+                "kind": "text",
+                "label": "Caption",
+                "required": false,
+                "max": 140
+              }
+            ]
+          }
+        }
+      ],
+      "example": {
+        "heading": "A short heading that names the photos",
+        "intro": "A sentence that says what the photos show.",
+        "photos": [
+          {
+            "image": {
+              "src": "/images/examples/vase-and-pears.jpg",
+              "alt": "Abstract still life: a pale vase and two pears in soft window light"
+            },
+            "caption": "A short caption for the first photo."
+          },
+          {
+            "image": {
+              "src": "/images/examples/bowl-and-lemons.jpg",
+              "alt": "Abstract still life: a shallow bowl with three lemons on a pale table"
+            },
+            "caption": "A short caption for the second photo."
+          },
+          {
+            "image": {
+              "src": "/images/examples/jug-and-cups.jpg",
+              "alt": "Abstract still life: a tall jug beside two small cups in morning light"
+            }
+          },
+          {
+            "image": {
+              "src": "/images/examples/stacked-books.jpg",
+              "alt": "Abstract still life: a stack of books with a round glass paperweight on top"
+            },
+            "caption": "A short caption for the fourth photo."
+          },
+          {
+            "image": {
+              "src": "/images/examples/candle-and-plate.jpg",
+              "alt": "Abstract still life: a candle in front of a plate, with a long soft shadow"
+            },
+            "caption": "A short caption for the fifth photo."
+          },
+          {
+            "image": {
+              "src": "/images/examples/window-light.jpg",
+              "alt": "Abstract still life: a round stool and a plant pot beneath a bright window"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "latest-posts",
+      "title": "Latest posts",
+      "description": "The newest blog posts, with a heading and an optional link to all of them. It updates by itself when a post is added, and is left out of the page while there is no post.",
+      "source": "library",
+      "variants": [
+        {
+          "name": "cards",
+          "description": "Each post is a card with its photo on top (a tinted panel with the date when it has no photo), then the date, title and summary.",
+          "default": true
+        },
+        {
+          "name": "list",
+          "description": "Each post is a row with its date, title and summary, divided by soft lines.",
+          "default": false
+        }
+      ],
+      "placement": {
+        "position": "any",
+        "maxPerPage": 1,
+        "rhythm": "section",
+        "joinsHero": false
+      },
+      "motion": {
+        "entrance": "default",
+        "reason": null,
+        "signature": null
+      },
+      "fixedAnchor": null,
+      "interactive": null,
+      "fields": [
+        {
+          "name": "heading",
+          "kind": "text",
+          "label": "Heading",
+          "required": true,
+          "max": 90
+        },
+        {
+          "name": "intro",
+          "kind": "text",
+          "label": "Introduction",
+          "required": false,
+          "max": 200
+        },
+        {
+          "name": "count",
+          "kind": "number",
+          "label": "How many posts",
+          "help": "From 1 to 6. Three when left empty.",
+          "required": false,
+          "min": 1,
+          "max": 6
+        },
+        {
+          "name": "action",
+          "kind": "action",
+          "label": "Link to all posts",
+          "required": false,
+          "labelMax": 40
+        }
+      ],
+      "example": {
+        "heading": "A short heading for the newest posts",
+        "intro": "One sentence that says what the posts are about.",
+        "count": 3,
+        "action": {
+          "label": "All posts →",
+          "href": "/blog"
+        }
+      }
+    },
+    {
+      "type": "post-index",
+      "title": "Post index",
+      "description": "The list of every blog post, newest first, ten to a page, with links to newer and older pages. It belongs on the blog page only, once.",
+      "source": "library",
+      "variants": [
+        {
+          "name": "list",
+          "description": "Each post is a row with its date, title and summary, divided by soft lines.",
+          "default": true
+        },
+        {
+          "name": "cards",
+          "description": "The posts are cards in a grid, each with its photo on top (a tinted panel with the date when it has no photo).",
+          "default": false
+        }
+      ],
+      "placement": {
+        "position": "any",
+        "maxPerPage": 1,
+        "rhythm": "section",
+        "joinsHero": true
+      },
+      "motion": {
+        "entrance": "default",
+        "reason": null,
+        "signature": null
+      },
+      "fixedAnchor": null,
+      "interactive": null,
+      "fields": [
+        {
+          "name": "emptyText",
+          "kind": "text",
+          "label": "Text while there are no posts",
+          "help": "Shown on the blog page when no post is live yet.",
+          "required": true,
+          "max": 160
+        }
+      ],
+      "example": {
+        "emptyText": "No posts yet. The first one is on its way."
+      }
+    },
+    {
+      "type": "business-details",
+      "title": "Business details",
+      "description": "A heading and the business's address, phone, email and opening hours, read from the business details settings (business.json), so they are written once and stay the same everywhere. Parts that are empty are left out.",
+      "source": "library",
+      "variants": [
+        {
+          "name": "columns",
+          "description": "Address, contact and hours side by side on wide screens, stacked on phones.",
+          "default": true
+        },
+        {
+          "name": "compact",
+          "description": "Address, contact and hours in one narrow column.",
+          "default": false
+        }
+      ],
+      "placement": {
+        "position": "any",
+        "maxPerPage": 1,
+        "rhythm": "section",
+        "joinsHero": false
+      },
+      "motion": {
+        "entrance": "default",
+        "reason": null,
+        "signature": null
+      },
+      "fixedAnchor": null,
+      "interactive": null,
+      "fields": [
+        {
+          "name": "heading",
+          "kind": "text",
+          "label": "Heading",
+          "required": true,
+          "max": 90
+        }
+      ],
+      "example": {
+        "heading": "Where to find me"
+      }
+    },
+    {
+      "type": "video-list",
+      "title": "Video list",
+      "description": "The newest videos from your Videos collection, side by side, each with its title and caption. Add videos in the collection; this block shows them.",
+      "source": "library",
+      "variants": [
+        {
+          "name": "two-column",
+          "description": "The videos sit in two columns (one column on phones).",
+          "default": true
+        },
+        {
+          "name": "three-column",
+          "description": "The videos sit in three columns on wide screens (with three or more videos), two on tablets, one on phones.",
+          "default": false
+        }
+      ],
+      "placement": {
+        "position": "any",
+        "maxPerPage": 2,
+        "rhythm": "section",
+        "joinsHero": false
+      },
+      "motion": {
+        "entrance": "default",
+        "reason": null,
+        "signature": null
+      },
+      "fixedAnchor": null,
+      "interactive": "The play button swaps in the player only when it is pressed, so nothing loads from YouTube or Vimeo before that.",
+      "fields": [
+        {
+          "name": "heading",
+          "kind": "text",
+          "label": "Heading",
+          "help": "Names the group of videos for everyone, including screen reader users.",
+          "required": true,
+          "max": 90
+        },
+        {
+          "name": "intro",
+          "kind": "text",
+          "label": "Intro",
+          "required": false,
+          "max": 240
+        },
+        {
+          "name": "count",
+          "kind": "number",
+          "label": "How many",
+          "help": "The newest this many videos are shown. Twelve when left empty.",
+          "required": false,
+          "min": 1,
+          "max": 24
+        }
+      ],
+      "example": {
+        "heading": "A short heading that introduces the videos",
+        "intro": "A sentence that says what the videos are about.",
+        "count": 6
+      }
+    },
+    {
+      "type": "episode-list",
+      "title": "Podcast episodes",
+      "description": "The newest episodes from your Podcast episodes collection, each with its date and summary. Add episodes in the collection; this block shows them.",
+      "source": "library",
+      "variants": [
+        {
+          "name": "list",
+          "description": "One row per episode with its player beside the text on wide screens (below it on phones).",
+          "default": true
+        },
+        {
+          "name": "compact",
+          "description": "One row per episode with its date and a link that opens the episode on Spotify or Apple Podcasts. No player.",
+          "default": false
+        }
+      ],
+      "placement": {
+        "position": "any",
+        "maxPerPage": 2,
+        "rhythm": "section",
+        "joinsHero": false
+      },
+      "motion": {
+        "entrance": "default",
+        "reason": null,
+        "signature": null
+      },
+      "fixedAnchor": null,
+      "interactive": "The play button swaps in the Spotify or Apple Podcasts player only when it is pressed, so nothing loads from them before that.",
+      "fields": [
+        {
+          "name": "heading",
+          "kind": "text",
+          "label": "Heading",
+          "help": "Names the list of episodes for everyone, including screen reader users.",
+          "required": true,
+          "max": 90
+        },
+        {
+          "name": "intro",
+          "kind": "text",
+          "label": "Intro",
+          "required": false,
+          "max": 240
+        },
+        {
+          "name": "count",
+          "kind": "number",
+          "label": "How many",
+          "help": "The newest this many episodes are shown. Ten when left empty.",
+          "required": false,
+          "min": 1,
+          "max": 24
+        }
+      ],
+      "example": {
+        "heading": "A short heading that introduces the episodes",
+        "intro": "A sentence that says what the show is about.",
+        "count": 3
+      }
+    },
+    {
+      "type": "testimonials",
+      "title": "Testimonials",
+      "description": "Quotes from named clients, taken from your Testimonials collection in the order you set there. Every quote shows who said it.",
+      "source": "library",
+      "variants": [
+        {
+          "name": "grid",
+          "description": "The quotes sit in cards, two across on tablets and three across on wide screens (one column on phones).",
+          "default": true
+        },
+        {
+          "name": "feature",
+          "description": "The first quote is large, in the accent serif. Any others sit in a row beneath it.",
+          "default": false
+        }
+      ],
+      "placement": {
+        "position": "any",
+        "maxPerPage": 2,
+        "rhythm": "section",
+        "joinsHero": false
+      },
+      "motion": {
+        "entrance": "default",
+        "reason": null,
+        "signature": null
+      },
+      "fixedAnchor": null,
+      "interactive": null,
+      "fields": [
+        {
+          "name": "heading",
+          "kind": "text",
+          "label": "Heading",
+          "required": true,
+          "max": 90
+        },
+        {
+          "name": "count",
+          "kind": "number",
+          "label": "How many",
+          "help": "The first this many quotes are shown. All of them (up to twelve) when left empty.",
+          "required": false,
+          "min": 1,
+          "max": 12
+        }
+      ],
+      "example": {
+        "heading": "A short heading above what clients say",
+        "count": 3
+      }
+    },
+    {
+      "type": "team",
+      "title": "Team",
+      "description": "The people from your Team collection, in the order you set there, with a photo, name, role and short bio.",
+      "source": "library",
+      "variants": [
+        {
+          "name": "grid",
+          "description": "A card per person with a tall photo (a tinted panel with their initials when there is no photo), name, role and bio.",
+          "default": true
+        },
+        {
+          "name": "list",
+          "description": "Names and roles in two columns, no photos.",
+          "default": false
+        }
+      ],
+      "placement": {
+        "position": "any",
+        "maxPerPage": 1,
+        "rhythm": "section",
+        "joinsHero": false
+      },
+      "motion": {
+        "entrance": "default",
+        "reason": null,
+        "signature": null
+      },
+      "fixedAnchor": null,
+      "interactive": null,
+      "fields": [
+        {
+          "name": "heading",
+          "kind": "text",
+          "label": "Heading",
+          "required": true,
+          "max": 90
+        },
+        {
+          "name": "intro",
+          "kind": "text",
+          "label": "Intro",
+          "required": false,
+          "max": 240
+        }
+      ],
+      "example": {
+        "heading": "A short heading that introduces the people",
+        "intro": "A sentence about who you work with."
+      }
+    }
+  ],
+  "collections": [
+    {
+      "kind": "posts",
+      "title": "Posts",
+      "singular": "post",
+      "description": "Blog posts. Each one is a page at /blog/<slug>, listed newest first on /blog.",
+      "file": "src/content/collections/posts/<slug>.json",
+      "slug": "Lowercase words and digits joined by hyphens, 1 to 60 characters. It is the file name and, for a post, the address (/blog/<slug>).",
+      "status": "Every item has a status: draft (built only outside production), live, or archived (never shown, never deleted).",
+      "fields": [
+        {
+          "name": "title",
+          "kind": "text",
+          "label": "Title",
+          "required": true,
+          "max": 90
+        },
+        {
+          "name": "description",
+          "kind": "text",
+          "label": "Summary",
+          "help": "The search description, and the summary shown in lists.",
+          "required": true,
+          "max": 170
+        },
+        {
+          "name": "date",
+          "kind": "date",
+          "label": "Date",
+          "help": "The day the post was written, like 2026-03-27.",
+          "required": true
+        },
+        {
+          "name": "updated",
+          "kind": "date",
+          "label": "Updated",
+          "help": "Only when the post was changed later.",
+          "required": false
+        },
+        {
+          "name": "image",
+          "kind": "image",
+          "label": "Photo",
+          "required": false,
+          "shape": "3:2"
+        },
+        {
+          "name": "body",
+          "kind": "body",
+          "label": "Post",
+          "required": true,
+          "maxParts": 200,
+          "maxChars": 40000
+        }
+      ],
+      "sort": "Newest date first.",
+      "labelField": "title",
+      "example": {
+        "status": "live",
+        "title": "[[Post title]]",
+        "description": "[[A sentence that says what the post is about]]",
+        "date": "2026-03-27",
+        "image": {
+          "src": "/images/examples/vase-and-pears.jpg",
+          "alt": "A pale blue vase beside a blue pear and a rust-red pear on a table"
+        },
+        "body": [
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "[[A heading that opens the first section]]"
+          },
+          {
+            "type": "paragraph",
+            "text": [
+              "[[A paragraph that explains the first idea. Questions? ]]",
+              {
+                "text": "Get in touch",
+                "href": "/contact"
+              },
+              "."
+            ]
+          },
+          {
+            "type": "list",
+            "style": "bullet",
+            "items": [
+              "[[First point]]",
+              "[[Second point]]"
+            ]
+          },
+          {
+            "type": "quote",
+            "text": "[[A short quote worth pulling out]]",
+            "source": "[[Who said it]]"
+          },
+          {
+            "type": "photo",
+            "image": {
+              "src": "/images/examples/window-light.jpg",
+              "alt": "Soft light falling through a window onto a wooden table"
+            },
+            "caption": "[[A caption for the photo]]"
+          }
+        ]
+      }
+    },
+    {
+      "kind": "videos",
+      "title": "Videos",
+      "singular": "video",
+      "description": "Videos from YouTube or Vimeo. A video plays on the page only when a visitor presses play.",
+      "file": "src/content/collections/videos/<slug>.json",
+      "slug": "Lowercase words and digits joined by hyphens, 1 to 60 characters. It is the file name and, for a post, the address (/blog/<slug>).",
+      "status": "Every item has a status: draft (built only outside production), live, or archived (never shown, never deleted).",
+      "fields": [
+        {
+          "name": "title",
+          "kind": "text",
+          "label": "Title",
+          "required": true,
+          "max": 90
+        },
+        {
+          "name": "url",
+          "kind": "video",
+          "label": "Video address",
+          "help": "A YouTube or Vimeo address.",
+          "required": true
+        },
+        {
+          "name": "caption",
+          "kind": "text",
+          "label": "Caption",
+          "required": false,
+          "max": 200
+        },
+        {
+          "name": "date",
+          "kind": "date",
+          "label": "Date",
+          "required": true
+        }
+      ],
+      "sort": "Newest date first.",
+      "labelField": "title",
+      "example": {
+        "status": "live",
+        "title": "[[Video title]]",
+        "url": "https://www.youtube.com/watch?v=aqz-KE-bpKQ",
+        "caption": "[[A sentence that says what to expect]]",
+        "date": "2026-03-27"
+      }
+    },
+    {
+      "kind": "episodes",
+      "title": "Podcast episodes",
+      "singular": "episode",
+      "description": "Podcast episodes from Spotify or Apple Podcasts. An episode plays on the page only when a visitor presses play.",
+      "file": "src/content/collections/episodes/<slug>.json",
+      "slug": "Lowercase words and digits joined by hyphens, 1 to 60 characters. It is the file name and, for a post, the address (/blog/<slug>).",
+      "status": "Every item has a status: draft (built only outside production), live, or archived (never shown, never deleted).",
+      "fields": [
+        {
+          "name": "title",
+          "kind": "text",
+          "label": "Title",
+          "required": true,
+          "max": 90
+        },
+        {
+          "name": "url",
+          "kind": "audio",
+          "label": "Episode address",
+          "help": "A Spotify or Apple Podcasts episode address.",
+          "required": true
+        },
+        {
+          "name": "summary",
+          "kind": "text",
+          "label": "Summary",
+          "required": false,
+          "max": 300
+        },
+        {
+          "name": "date",
+          "kind": "date",
+          "label": "Date",
+          "required": true
+        }
+      ],
+      "sort": "Newest date first.",
+      "labelField": "title",
+      "example": {
+        "status": "live",
+        "title": "[[Episode title]]",
+        "url": "https://open.spotify.com/episode/4rOoJ6Egrf8K2IrywzwOMk",
+        "summary": "[[A sentence or two about the episode]]",
+        "date": "2026-03-27"
+      }
+    },
+    {
+      "kind": "testimonials",
+      "title": "Testimonials",
+      "singular": "testimonial",
+      "description": "Quotes from named clients, in the order you choose. Never write one the client did not say.",
+      "file": "src/content/collections/testimonials/<slug>.json",
+      "slug": "Lowercase words and digits joined by hyphens, 1 to 60 characters. It is the file name and, for a post, the address (/blog/<slug>).",
+      "status": "Every item has a status: draft (built only outside production), live, or archived (never shown, never deleted).",
+      "fields": [
+        {
+          "name": "quote",
+          "kind": "text",
+          "label": "Quote",
+          "help": "Only words the client really said.",
+          "required": true,
+          "max": 600
+        },
+        {
+          "name": "name",
+          "kind": "text",
+          "label": "Name",
+          "help": "The named person who said it.",
+          "required": true,
+          "max": 80
+        },
+        {
+          "name": "role",
+          "kind": "text",
+          "label": "Role",
+          "required": false,
+          "max": 60
+        },
+        {
+          "name": "organization",
+          "kind": "text",
+          "label": "Business",
+          "required": false,
+          "max": 80
+        },
+        {
+          "name": "order",
+          "kind": "number",
+          "label": "Order",
+          "help": "Lower numbers come first.",
+          "required": true,
+          "min": 0,
+          "max": 999
+        }
+      ],
+      "sort": "By the item's order number (lower first), then by its name.",
+      "labelField": "name",
+      "example": {
+        "status": "live",
+        "quote": "[[Client quote, from a named client]]",
+        "name": "[[Client name]]",
+        "role": "[[Client role]]",
+        "organization": "[[Client business]]",
+        "order": 1
+      }
+    },
+    {
+      "kind": "team",
+      "title": "Team",
+      "singular": "team member",
+      "description": "The people on the team, in the order you choose.",
+      "file": "src/content/collections/team/<slug>.json",
+      "slug": "Lowercase words and digits joined by hyphens, 1 to 60 characters. It is the file name and, for a post, the address (/blog/<slug>).",
+      "status": "Every item has a status: draft (built only outside production), live, or archived (never shown, never deleted).",
+      "fields": [
+        {
+          "name": "name",
+          "kind": "text",
+          "label": "Name",
+          "required": true,
+          "max": 80
+        },
+        {
+          "name": "role",
+          "kind": "text",
+          "label": "Role",
+          "required": true,
+          "max": 60
+        },
+        {
+          "name": "bio",
+          "kind": "text",
+          "label": "Bio",
+          "required": false,
+          "max": 400
+        },
+        {
+          "name": "photo",
+          "kind": "image",
+          "label": "Photo",
+          "required": false,
+          "shape": "4:5"
+        },
+        {
+          "name": "order",
+          "kind": "number",
+          "label": "Order",
+          "help": "Lower numbers come first.",
+          "required": true,
+          "min": 0,
+          "max": 999
+        }
+      ],
+      "sort": "By the item's order number (lower first), then by its name.",
+      "labelField": "name",
+      "example": {
+        "status": "live",
+        "name": "[[Team member name]]",
+        "role": "[[Team member role]]",
+        "bio": "[[Two sentences about this person]]",
+        "photo": {
+          "src": "/images/examples/jug-and-cups.jpg",
+          "alt": "A tall blue jug beside two small cups on a table"
+        },
+        "order": 1
+      }
+    }
+  ],
+  "settings": {
+    "business": {
+      "file": "src/content/business.json",
+      "description": "The business details every page can show: name, phone, email, address, hours and social links.",
+      "fields": [
+        {
+          "name": "name",
+          "required": true,
+          "rule": "The business name, up to 80 characters."
+        },
+        {
+          "name": "phone",
+          "required": true,
+          "rule": "A phone number: 7 to 20 digits, spaces and + ( ) - . only. \"\" for none."
+        },
+        {
+          "name": "email",
+          "required": true,
+          "rule": "One email address. \"\" for none."
+        },
+        {
+          "name": "address",
+          "required": true,
+          "rule": "Up to 4 address lines, each up to 80 characters. [] for none."
+        },
+        {
+          "name": "hours",
+          "required": true,
+          "rule": "null (no hours shown) or all seven days (monday, tuesday, wednesday, thursday, friday, saturday, sunday), each \"closed\" or { \"opens\": \"09:00\", \"closes\": \"17:00\" } in 24-hour time, closing after opening."
+        },
+        {
+          "name": "hoursNote",
+          "required": false,
+          "rule": "A note under the hours, up to 120 characters."
+        },
+        {
+          "name": "social",
+          "required": true,
+          "rule": "Up to 8 links, each { \"network\", \"url\" }. Networks: instagram, facebook, linkedin, youtube, tiktok, x, pinterest, threads. The address must be https:// and on that network's own site."
+        }
+      ]
+    },
+    "brand": {
+      "file": "src/content/brand.json",
+      "description": "The colors, fonts and logo. src/app/palette.css and src/lib/fonts.ts are generated from it (npm run sync:config); never edit them by hand.",
+      "colorRoles": [
+        {
+          "role": "brand",
+          "tokens": [
+            "green",
+            "greenDeep",
+            "greenEdge",
+            "tint",
+            "glow",
+            "mint"
+          ],
+          "rule": "The brand color is `green`; its five companions are derived from it, keeping their lightness and softness and taking its hue."
+        },
+        {
+          "role": "accent",
+          "tokens": [
+            "rust"
+          ],
+          "rule": "The accent color is `rust`."
+        },
+        {
+          "role": "neutrals",
+          "tokens": [
+            "silver",
+            "silver2",
+            "white",
+            "ink",
+            "ink2",
+            "line"
+          ],
+          "rule": "Text and background colors that Huston Logic sets; they are not changed by chat."
+        }
+      ],
+      "colorFormat": "#rrggbb",
+      "contrastRule": "Every foreground and background pair the design puts together must keep its contrast: 15 text pairs need 4.5 to 1, and 7 pairs (large text, icons, control edges, the focus ring) need 3 to 1. A color that fails is refused with the nearest one that works.",
+      "fonts": {
+        "display": [
+          {
+            "id": "outfit",
+            "label": "Outfit"
+          },
+          {
+            "id": "manrope",
+            "label": "Manrope"
+          },
+          {
+            "id": "sora",
+            "label": "Sora"
+          },
+          {
+            "id": "dm-sans",
+            "label": "DM Sans"
+          },
+          {
+            "id": "plus-jakarta-sans",
+            "label": "Plus Jakarta Sans"
+          },
+          {
+            "id": "fraunces",
+            "label": "Fraunces"
+          }
+        ],
+        "body": [
+          {
+            "id": "inter",
+            "label": "Inter"
+          },
+          {
+            "id": "source-sans-3",
+            "label": "Source Sans 3"
+          },
+          {
+            "id": "work-sans",
+            "label": "Work Sans"
+          },
+          {
+            "id": "nunito-sans",
+            "label": "Nunito Sans"
+          },
+          {
+            "id": "figtree",
+            "label": "Figtree"
+          },
+          {
+            "id": "lora",
+            "label": "Lora"
+          }
+        ],
+        "accent": [
+          {
+            "id": "newsreader",
+            "label": "Newsreader"
+          },
+          {
+            "id": "fraunces",
+            "label": "Fraunces"
+          },
+          {
+            "id": "lora",
+            "label": "Lora"
+          },
+          {
+            "id": "playfair-display",
+            "label": "Playfair Display"
+          }
+        ]
+      },
+      "fontRule": "Each role takes one of its listed fonts, by id. The first of each role is the template default.",
+      "logo": {
+        "rule": "null (the business name is shown as text) or { src, alt, width, height }: an uploaded photo like /images/uploads/k3x9q2mz.webp with real alt text, at least 160 by 80 pixels, between square and 6 times wider than tall."
+      }
+    },
+    "notice": {
+      "file": "src/content/notice.json",
+      "description": "A one-line notice above the header, with an optional link and last day.",
+      "fields": [
+        {
+          "name": "text",
+          "required": true,
+          "rule": "The notice, up to 120 characters. \"\" for no notice."
+        },
+        {
+          "name": "link",
+          "required": false,
+          "rule": "{ label, href }: the link words (up to 40 characters) and a link (see Page rules). It needs notice text."
+        },
+        {
+          "name": "endsOn",
+          "required": true,
+          "rule": "The last day it shows, YYYY-MM-DD, or null for no end date."
+        }
+      ]
+    }
+  }
+}

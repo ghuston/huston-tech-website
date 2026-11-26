@@ -1,0 +1,39 @@
+{
+  "name": "Contact form",
+  "status": "live",
+  "fields": [
+    {
+      "id": "need",
+      "type": "dropdown",
+      "label": "What do you need?",
+      "display": "buttons",
+      "options": ["A website", "An AI system for my business", "Both", "Not sure"],
+      "required": true,
+      "error": "Pick the closest one. 'Not sure' counts."
+    },
+    { "id": "name", "type": "short-text", "label": "Your name", "purpose": "name", "max": 100, "required": true, "error": "Please add your name." },
+    { "id": "email", "type": "email", "label": "Best email", "required": true, "error": "That email doesn't look quite right." },
+    { "id": "business", "type": "short-text", "label": "Business name (optional)", "purpose": "organization", "max": 200, "required": false },
+    {
+      "id": "message",
+      "type": "long-text",
+      "label": "What's going on?",
+      "max": 5000,
+      "required": true,
+      "help": "Please don't include client or patient details, account numbers or passwords. Anything sensitive gets handled the right way, later.",
+      "error": "A sentence or two is plenty, but I do need something to go on."
+    },
+    { "id": "tools", "type": "long-text", "label": "What do you use today?", "max": 500, "required": false },
+    { "id": "website", "type": "short-text", "label": "Current website (optional)", "purpose": "website", "max": 300, "required": false },
+    {
+      "id": "source",
+      "type": "dropdown",
+      "label": "How did you hear about Huston Logic?",
+      "display": "menu",
+      "options": ["Referral", "Google", "LinkedIn", "Article", "Other"],
+      "required": false
+    }
+  ],
+  "button": "Send it over →",
+  "thanks": "That's step zero started. Your automatic reply is on its way (check spam the first time), and I'll write back myself within one business day. Want to skip the back-and-forth?"
+}

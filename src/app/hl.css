@@ -119,6 +119,18 @@
   --text-hero-em: 1.07em;
   --text-quote-mark: 1.6em;
 
+  /* Steps the library blocks (src/blocks) use. text-list and the card, subhead and question steps carry their line height
+     with the size, as the template's do; the site's own primitives keep \`text-control\` plus \`leading-list\`. */
+  --text-list: 17px;
+  --text-list--line-height: 1.55;
+  --text-card-title: 28px;
+  --text-card-title--line-height: 1.25;
+  --text-card-title--letter-spacing: -0.03em;
+  --text-subhead: 24px;
+  --text-subhead--line-height: 1.25;
+  --text-question: 20px;
+  --text-question--line-height: 1.375;
+
   --leading-list: 1.55;
   --leading-compact: 1.45;
   --leading-head: 1.1;
@@ -152,10 +164,16 @@
   --container-title: 18em;
   --container-heading: 17em;
   --container-hero-copy: 31em;
+  --container-faq: 760px;
 
   /* Shapes: aspect-lockup (the logo lockup), aspect-shot (a 16:10 screenshot). */
   --aspect-lockup: 823.975 / 133.837;
   --aspect-shot: 16 / 10;
+
+  /* Photo shapes (width / height): aspect-photo-3-2, -4-3, -4-5. The square and 16:9 use Tailwind's own. */
+  --aspect-photo-3-2: 3 / 2;
+  --aspect-photo-4-3: 4 / 3;
+  --aspect-photo-4-5: 4 / 5;
 
   /* Breakpoints: split (two columns), track (the check track runs sideways), hero-wide (the hero headline stays on one line). */
   --breakpoint-split: 900px;
@@ -170,6 +188,12 @@
   --spacing-quote-y: 0.05em;
   --spacing-headshot-gap: 16%;
   --spacing-headshot: 68%;
+
+  /* h-player-spotify, h-player-apple: the podcast players' exact heights (AUDIO_PLAYER_HEIGHT in src/blocks/embeds.ts). */
+  --spacing-player-spotify: 152px;
+  --spacing-player-apple: 175px;
+
+  --color-white: var(--hl-white);
 }
 
 /* Text link underline: sits a quarter or a third of an em below the baseline, drawn 1.5px thick. */
@@ -364,6 +388,21 @@
     width: calc(1300px * var(--hl-glow-scale));
     height: calc(900px * var(--hl-glow-scale));
     background: radial-gradient(closest-side, rgba(176, 220, 197, 0.8), rgba(205, 230, 216, 0.4) 50%, rgba(243, 245, 244, 0));
+  }
+
+  /* Where the page hero and the closing call to action of the library blocks place their glow. Later than .hl-glow-green
+     so the hero's fixed size wins over the variant's scaled one. */
+  .hl-glow-hero {
+    top: -260px;
+    right: -260px;
+    width: 520px;
+    height: 520px;
+  }
+
+  .hl-glow-closing {
+    top: -260px;
+    left: 50%;
+    margin-left: -650px;
   }
 
   /* §4 fading dividers: how lists of ideas are separated (no boxes). */
@@ -1380,6 +1419,21 @@
 @media (min-width: 1360px) {
   .hl-stop-text b {
     font-size: 20px;
+  }
+}
+
+/* Entrance (template spec 5.8), used by the library blocks only: a block marked data-motion="enter" waits 16px low and
+   rises into place the first time it comes into view; EnterObserver (src/blocks/EnterObserver.tsx) marks it data-entered
+   with an IntersectionObserver (no scroll listener, no scroll-linked effect). Transform only: no fade, so every block is
+   readable at full contrast before, during and without the motion, and no layout shift. Gated on the `js` class, so
+   without JavaScript nothing moves. This site's own sections keep their §9.4 moments and carry no data-motion. */
+@media (prefers-reduced-motion: no-preference) {
+  .js [data-motion="enter"] {
+    transition: translate var(--duration-enter) var(--ease-site);
+  }
+
+  .js [data-motion="enter"]:not([data-entered]) {
+    translate: 0 var(--motion-enter-distance);
   }
 }
 

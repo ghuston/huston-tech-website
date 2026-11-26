@@ -6,3 +6,6 @@ export const indexableRoutes = ["/", "/systems", "/how-i-work", "/services", "/p
 
 /** Real pages that stay out of the sitemap (noindex). */
 export const noindexRoutes = ["/contact/thanks", "/card"];
+
+/** The block showcase: every block and variant with its example content. Built, never indexed; not in the route lists above until the pages are converted. */
+export const showcaseRoute = "/blocks";

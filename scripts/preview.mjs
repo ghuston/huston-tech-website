@@ -1,10 +1,14 @@
 // Tiny static server for the exported site in ./out (mimics Cloudflare Pages clean URLs + 404.html).
+// Run directly (`npm run preview`) it serves ./out. scripts/change-report.mjs imports startPreviewServer to serve a
+// before and an after build side by side. The template's version also gzips text files; this site's does not (that would
+// change what the Lighthouse job measures, which is a CI decision).
 import { createServer } from "node:http";
 import { existsSync, readFileSync, statSync } from "node:fs";
 import { extname, join, normalize } from "node:path";
+import { pathToFileURL } from "node:url";
 
-const outDir = new URL("../out", import.meta.url).pathname;
-const port = Number(process.env.PORT ?? 4822);
+const defaultOutDir = new URL("../out", import.meta.url).pathname;
+const defaultPort = Number(process.env.PORT ?? 4822);
 const types = {
   ".html": "text/html; charset=utf-8",
   ".css": "text/css; charset=utf-8",
@@ -23,7 +27,7 @@ const types = {
 
 // Apply the site-wide `/*` block of _headers so CSP problems show up locally, not only on Cloudflare, plus blocks for
 // one exact path (such as /grant.vcf). Wildcard paths other than `/*` and absolute-URL blocks are skipped.
-function loadHeaderBlocks() {
+function loadHeaderBlocks(outDir) {
   const file = join(outDir, "_headers");
   const blocks = {};
   if (!existsSync(file)) return blocks;
@@ -42,9 +46,7 @@ function loadHeaderBlocks() {
   return blocks;
 }
 
-const headerBlocks = loadHeaderBlocks();
-
-function resolveFile(pathname) {
+function resolveFile(outDir, pathname) {
   const safe = normalize(decodeURIComponent(pathname)).replace(/^(\.\.[/\\])+/, "");
   const candidates = [safe, `${safe}.html`, join(safe, "index.html")];
   for (const c of candidates) {
@@ -54,19 +56,34 @@ function resolveFile(pathname) {
   return null;
 }
 
-createServer((req, res) => {
-  const { pathname } = new URL(req.url ?? "/", "http://localhost");
-  const file = resolveFile(pathname);
-  const status = file ? 200 : 404;
-  const target = file ?? join(outDir, "404.html");
-  if (!existsSync(target)) {
-    res.writeHead(500).end("Run `npm run build` first.");
-    return;
-  }
-  res.writeHead(status, {
-    ...headerBlocks["/*"],
-    "content-type": types[extname(target)] ?? "application/octet-stream",
-    ...(file ? headerBlocks[pathname] : undefined),
+/** Starts the server. `port: 0` picks a free port. Resolves to { port, close() } once it is listening. */
+export function startPreviewServer({ outDir = defaultOutDir, port = defaultPort } = {}) {
+  const headerBlocks = loadHeaderBlocks(outDir);
+  const server = createServer((req, res) => {
+    const { pathname } = new URL(req.url ?? "/", "http://localhost");
+    const file = resolveFile(outDir, pathname);
+    const status = file ? 200 : 404;
+    const target = file ?? join(outDir, "404.html");
+    if (!existsSync(target)) {
+      res.writeHead(500).end("Run `npm run build` first.");
+      return;
+    }
+    res.writeHead(status, {
+      ...headerBlocks["/*"],
+      "content-type": types[extname(target)] ?? "application/octet-stream",
+      ...(file ? headerBlocks[pathname] : undefined),
+    });
+    res.end(readFileSync(target));
   });
-  res.end(readFileSync(target));
-}).listen(port, () => console.log(`Previewing ./out at http://localhost:${port}`));
+  return new Promise((resolve, reject) => {
+    server.once("error", reject);
+    server.listen(port, () => {
+      resolve({ port: server.address().port, close: () => new Promise((done) => server.close(done)) });
+    });
+  });
+}
+
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  const { port } = await startPreviewServer();
+  console.log(`Previewing ./out at http://localhost:${port}`);
+}

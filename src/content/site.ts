@@ -1,18 +1,18 @@
-import { providers } from "./providers";
+import { siteConfig as base } from "../../site.config.ts";
+import { providers } from "./providers.ts";
 
 export const siteConfig = {
-  name: "Huston Logic",
-  founder: "Grant Huston",
-  url: (process.env.NEXT_PUBLIC_SITE_URL ?? "https://hustonlogic.com").replace(/\/+$/, ""),
+  name: base.business.name,
+  founder: base.owner.name,
+  url: (process.env.NEXT_PUBLIC_SITE_URL ?? base.domain.url).replace(/\/+$/, ""),
   /** The Rev 8 Home meta description (docs/website-rev8.md, B1). Feeds the JSON-LD description. */
-  oneLiner:
-    "I build websites and AI-run systems for small businesses, starting with sales follow-up you run by talking. Checked the way a big software team would. Handed over whenever you ask.",
-  copyrightYear: 2026,
+  oneLiner: base.business.oneLiner,
+  copyrightYear: base.business.copyrightYear,
   /** The About headshot's alt text. */
   headshotAlt: "Grant Huston",
   /** Footer and bios (docs/website-rev8.md, Section A). */
-  tagline: "Personal websites and software.",
-  footerBrandLine: "Grant Huston · Based in Southern California · Working with clients anywhere",
+  tagline: base.business.tagline,
+  footerBrandLine: `${base.owner.name} · ${base.owner.regionLine}`,
   /** Provider-dependent values, set in `providers.ts`. */
   email: providers.email,
   schedulerUrl: providers.schedulerUrl,

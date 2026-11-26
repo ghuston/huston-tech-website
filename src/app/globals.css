@@ -11,6 +11,8 @@
   --duration-feedback: 150ms;
   --duration-panel: 200ms;
   --duration-underline: 0.5s;
+  --motion-enter-distance: 16px;
+  --duration-enter: 600ms;
   --duration-nudge: 150ms;
   --duration-lift: 250ms;
   --duration-leaf: 0.6s;

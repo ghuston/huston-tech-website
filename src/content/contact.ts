@@ -1,5 +1,5 @@
-import { fw } from "@/lib/framework";
-import { honeypot, needOptions, sourceOptions } from "./contact-fields";
+import { fw } from "../lib/framework.ts";
+import { honeypot, needOptions, sourceOptions } from "./contact-fields.ts";
 
 /** Copy: docs/website-rev8.md B7 (amends Revision 7.1 B7, B7b and B8). Field options and limits live in `contact-fields.ts`. */
 export const contactMeta = {
