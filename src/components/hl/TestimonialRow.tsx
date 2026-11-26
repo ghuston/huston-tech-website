@@ -1,11 +1,11 @@
-import type { Testimonial } from "@/content/testimonials";
+import type { Testimonial } from "@/site-blocks/testimonials";
 import { Text } from "@/components/ui/Text";
 import { FadingDivider } from "./FadingDivider";
 import { Tag } from "./Tag";
 
 /**
  * Testimonials (docs/STYLE-GUIDE.md §7.14): three columns with fading dividers, no photos, cards, carousel or stars.
- * The quote renders exactly as stored in testimonials.ts, including its "…" cuts and original punctuation; the hanging
+ * The quote renders exactly as stored in the testimonials collection, including its "…" cuts and original punctuation; the hanging
  * rust mark is decoration. Each carries the label that says what kind of project it was, unless the section says it once.
  * With `swipe`, phones get a horizontal swipe row instead of a column: a focusable region named by `swipe`.
  */

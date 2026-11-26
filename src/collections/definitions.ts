@@ -1,6 +1,7 @@
 // The five collection kinds: their fields, limits, sort and example items. Import-free apart from its siblings. Fields use
 // the block field schema, so one validator judges blocks and items. Labels and help are template UI copy.
 import type { Fields } from "../blocks/schema.ts";
+import { siteCollectionFields } from "../site-blocks/collection-fields.ts";
 import type { CollectionDefinition, LoadedItem } from "./schema.ts";
 
 const example = (kind: LoadedItem["kind"], slug: string, data: Record<string, unknown>): LoadedItem => ({ kind, slug, status: "live", data });
@@ -34,6 +35,7 @@ const testimonialFields = {
   role: { kind: "text", label: "Role", max: 60, required: false },
   organization: { kind: "text", label: "Business", max: 80, required: false },
   order: { kind: "number", label: "Order", min: 0, max: 999, help: "Lower numbers come first." },
+  ...siteCollectionFields.testimonials,
 } as const satisfies Fields;
 
 const teamFields = {

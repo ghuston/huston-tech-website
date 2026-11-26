@@ -202,3 +202,19 @@ describe("sortItems and visibleItems", () => {
     assert.deepEqual(visibleItems(mixed, { drafts: true }).map((i) => i.slug), ["d", "l"]);
   });
 });
+
+describe("this site's extra testimonial fields", () => {
+  const item = (extra: Record<string, unknown>): ItemFile => ({
+    kind: "testimonials",
+    slug: "dana",
+    data: { status: "live", quote: "Great.", name: "Dana", order: 1, ...extra },
+  });
+  it("accepts the fuller quote, industry, source, placements and case study", () => {
+    const extra = { quoteLong: "Great. Really.", industry: "Therapy practice", source: "Survey, Dec 8, 2025", placements: ["home", "about"], caseStudy: "hideout-fitness" };
+    assert.deepEqual(validateItems([item(extra)], ctx), []);
+  });
+  it("refuses a page or a case study that is not on the list", () => {
+    has(validateItems([item({ placements: ["pricing"] })], ctx), "placements");
+    has(validateItems([item({ caseStudy: "other" })], ctx), "caseStudy");
+  });
+});

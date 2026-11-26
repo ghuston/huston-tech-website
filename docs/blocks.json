@@ -4432,7 +4432,7 @@
               {
                 "name": "testimonialId",
                 "kind": "text",
-                "label": "The client's quote (its id in testimonials.ts)",
+                "label": "The client's quote (its file name in the testimonials collection)",
                 "required": true,
                 "max": 40
               },
@@ -4660,7 +4660,7 @@
             "meta": [
               "Personal training"
             ],
-            "testimonialId": "T1-hideout",
+            "testimonialId": "t1-hideout",
             "quoteHeading": "In his words",
             "screenshots": [
               {
@@ -5023,6 +5023,60 @@
           "required": true,
           "min": 0,
           "max": 999
+        },
+        {
+          "name": "quoteLong",
+          "kind": "text",
+          "label": "Fuller quote",
+          "help": "Used inside a case study. Only words the client really said, cuts marked with ….",
+          "required": false,
+          "max": 1000
+        },
+        {
+          "name": "industry",
+          "kind": "text",
+          "label": "Client's industry",
+          "required": false,
+          "max": 60
+        },
+        {
+          "name": "source",
+          "kind": "text",
+          "label": "Where the approval came from",
+          "help": "The written source and its date, for example a client survey or wrap-up feedback.",
+          "required": false,
+          "max": 120
+        },
+        {
+          "name": "placements",
+          "kind": "list",
+          "label": "Pages it may appear on",
+          "required": false,
+          "items": {
+            "min": 1,
+            "max": 4
+          },
+          "of": {
+            "kind": "choice",
+            "label": "Page",
+            "required": true,
+            "options": [
+              "home",
+              "past-work",
+              "services",
+              "about"
+            ]
+          }
+        },
+        {
+          "name": "caseStudy",
+          "kind": "choice",
+          "label": "Case study it belongs to",
+          "required": false,
+          "options": [
+            "hideout-fitness",
+            "irvine-family-counseling"
+          ]
         }
       ],
       "sort": "By the item's order number (lower first), then by its name.",

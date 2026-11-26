@@ -3,12 +3,12 @@ import { Container } from "@/components/hl/Container";
 import { ProofChips } from "@/components/hl/ProofChips";
 import { Tag } from "@/components/hl/Tag";
 import { TestimonialRow } from "@/components/hl/TestimonialRow";
-import { getTestimonials } from "@/content/testimonials";
+import { getTestimonials } from "@/site-blocks/testimonials";
 import type { BlockProps } from "@/blocks/types";
 import type { ContentOf } from "@/blocks/schema";
 import type { homeProofDefinition } from "./definition";
 
-/** The quotes come from testimonials.ts (placement "home"); everything else is this block's content. */
+/** The quotes come from the testimonials collection (placement "home"); everything else is this block's content. */
 export function HomeProofBlock({ content, anchor, headingId }: BlockProps<ContentOf<typeof homeProofDefinition.fields>>) {
   const testimonials = getTestimonials("home");
   return (

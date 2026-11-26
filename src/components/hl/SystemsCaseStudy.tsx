@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { Text } from "@/components/ui/Text";
-import { getTestimonialById } from "@/content/testimonials";
+import { getTestimonialById } from "@/site-blocks/testimonials";
 import { fw } from "@/lib/framework";
 import type { FrameworkStepKey } from "@/content/site";
 import { Card } from "./Card";

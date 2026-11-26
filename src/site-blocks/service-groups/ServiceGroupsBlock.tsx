@@ -2,7 +2,7 @@ import { Container } from "@/components/hl/Container";
 import { DotList } from "@/components/hl/DotList";
 import { FadingDivider } from "@/components/hl/FadingDivider";
 import { TestimonialRow } from "@/components/hl/TestimonialRow";
-import { getTestimonials } from "@/content/testimonials";
+import { getTestimonials } from "@/site-blocks/testimonials";
 import { fw } from "@/lib/framework";
 import type { BlockProps } from "@/blocks/types";
 import type { ContentOf } from "@/blocks/schema";

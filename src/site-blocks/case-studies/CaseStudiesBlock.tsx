@@ -4,7 +4,7 @@ import { ProofChips } from "@/components/hl/ProofChips";
 import { SystemsCaseStudy } from "@/components/hl/SystemsCaseStudy";
 import { Tag } from "@/components/hl/Tag";
 import { TestimonialRow } from "@/components/hl/TestimonialRow";
-import { getTestimonials } from "@/content/testimonials";
+import { getTestimonials } from "@/site-blocks/testimonials";
 import type { BlockProps } from "@/blocks/types";
 import type { ContentOf } from "@/blocks/schema";
 import type { caseStudiesDefinition } from "./definition";

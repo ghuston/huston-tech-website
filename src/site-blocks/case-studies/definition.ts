@@ -20,7 +20,7 @@ export const caseStudiesDefinition = defineBlock({
           heading: { kind: "text", label: "Title", max: 120 },
           client: { kind: "text", label: "Client name", max: 60 },
           meta: { kind: "list", label: "Tags under the client name", min: 1, max: 5, of: { kind: "text", label: "Tag", max: 60 } },
-          testimonialId: { kind: "text", label: "The client's quote (its id in testimonials.ts)", max: 40 },
+          testimonialId: { kind: "text", label: "The client's quote (its file name in the testimonials collection)", max: 40 },
           quoteHeading: { kind: "text", label: "Heading above the quote", max: 40 },
           screenshots: {
             kind: "list",
@@ -93,7 +93,7 @@ export const caseStudiesDefinition = defineBlock({
         heading: "A short title for the project",
         client: "A client",
         meta: ["Personal training"],
-        testimonialId: "T1-hideout",
+        testimonialId: "t1-hideout",
         quoteHeading: "In his words",
         screenshots: [{ src: "/work/systems-1.webp", alt: "An owner dashboard with pie charts of profit against trainer pay by session type and bar charts of average profit", width: 1200, height: 656 }],
         phases: { scope: "What the owner needed.", shape: "What I built.", ship: "How it was handed over." },

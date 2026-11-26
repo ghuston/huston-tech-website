@@ -171,6 +171,11 @@ Quotes from named clients, in the order you choose. Never write one the client d
 | `role` | Role | no | up to 60 characters |
 | `organization` | Business | no | up to 80 characters |
 | `order` | Order. Lower numbers come first. | yes | a whole number from 0 to 999 |
+| `quoteLong` | Fuller quote. Used inside a case study. Only words the client really said, cuts marked with …. | no | up to 1000 characters |
+| `industry` | Client's industry | no | up to 60 characters |
+| `source` | Where the approval came from. The written source and its date, for example a client survey or wrap-up feedback. | no | up to 120 characters |
+| `placements` | Pages it may appear on | no | 1 to 4 items, each one of "home", "past-work", "services", "about" |
+| `caseStudy` | Case study it belongs to | no | one of "hideout-fitness", "irvine-family-counseling" |
 
 **Example:**
 
@@ -2149,7 +2154,7 @@ A heading and the systems case studies in full (screenshots, what happened in ea
 | `studies[].heading` | Title | yes | up to 120 characters |
 | `studies[].client` | Client name | yes | up to 60 characters |
 | `studies[].meta` | Tags under the client name | yes | 1 to 5 items, each up to 60 characters |
-| `studies[].testimonialId` | The client's quote (its id in testimonials.ts) | yes | up to 40 characters |
+| `studies[].testimonialId` | The client's quote (its file name in the testimonials collection) | yes | up to 40 characters |
 | `studies[].quoteHeading` | Heading above the quote | yes | up to 40 characters |
 | `studies[].screenshots` | Screenshots | yes | 1 to 2 items |
 | `studies[].screenshots[].src` | File under public/, with its extension | yes | up to 80 characters |
@@ -2190,7 +2195,7 @@ A heading and the systems case studies in full (screenshots, what happened in ea
       "meta": [
         "Personal training"
       ],
-      "testimonialId": "T1-hideout",
+      "testimonialId": "t1-hideout",
       "quoteHeading": "In his words",
       "screenshots": [
         {

@@ -3,7 +3,7 @@ import { DotList } from "@/components/hl/DotList";
 import { FadingDivider } from "@/components/hl/FadingDivider";
 import { TestimonialRow } from "@/components/hl/TestimonialRow";
 import { Text } from "@/components/ui/Text";
-import { getTestimonials } from "@/content/testimonials";
+import { getTestimonials } from "@/site-blocks/testimonials";
 import { fw } from "@/lib/framework";
 import type { BlockProps } from "@/blocks/types";
 import type { ContentOf } from "@/blocks/schema";
