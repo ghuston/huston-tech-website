@@ -1,0 +1,19 @@
+{
+  "colors": {
+    "silver": "#f5f5f4",
+    "silver2": "#e7e5e4",
+    "white": "#ffffff",
+    "ink": "#1c1917",
+    "ink2": "#44403c",
+    "green": "#1e4fa3",
+    "greenDeep": "#173b7a",
+    "greenEdge": "#5b85c9",
+    "tint": "#e8eefa",
+    "glow": "#c3d4f0",
+    "mint": "#d5e1f5",
+    "rust": "#9a3412",
+    "line": "#d6d3d1"
+  },
+  "fonts": { "display": "outfit", "body": "inter", "accent": "newsreader" },
+  "logo": null
+}

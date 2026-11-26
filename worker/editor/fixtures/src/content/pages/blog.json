@@ -1,0 +1,27 @@
+{
+  "path": "/blog",
+  "title": "[[Blog SEO title]]",
+  "description": "[[Blog SEO description]]",
+  "status": "live",
+  "menu": {
+    "label": "Blog",
+    "order": 90,
+    "places": ["footer"]
+  },
+  "blocks": [
+    {
+      "type": "hero",
+      "content": {
+        "eyebrow": "[[Blog eyebrow]]",
+        "title": "[[Blog headline]]",
+        "intro": "[[Blog introduction]]"
+      }
+    },
+    {
+      "type": "post-index",
+      "content": {
+        "emptyText": "[[Blog empty text]]"
+      }
+    }
+  ]
+}
