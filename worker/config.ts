@@ -5,7 +5,7 @@ import type { UploadsConfig } from "./uploads/types.ts";
 /**
  * The slice of site.config.ts the editor reads. A structural type (not `typeof siteConfig`, whose values are literal
  * types), so the tests can build a Worker from a fixture instead of the real config. The contact Worker does not read it:
- * it keeps its own settings (worker/contact.ts), so the editor never changes what the contact form does.
+ * it keeps its own settings (worker/contact.ts), so neither the editor nor the forms route changes what the contact form does.
  */
 export interface WorkerSiteConfig {
   domain: { url: string; workerName: string; previewHostSuffix: string; productionBranch?: string };
@@ -15,6 +15,26 @@ export interface WorkerSiteConfig {
   editor?: EditorSiteConfig;
   /** Optional so an older fixture still compiles; missing means the defaults. */
   forms?: FormSettings;
+  /** Optional so an older fixture still compiles. Only the forms route (worker/forms.ts) reads it; the contact Worker keeps its own settings. */
+  contact?: FormsContactSiteConfig;
+}
+
+/** The slice of `contact` in site.config.ts that the forms route reads. */
+export interface FormsContactSiteConfig {
+  siteEmail: string | null;
+  fromName: string;
+  replyFromName: string;
+  pipelineUrl: string | null;
+  sheetTabs: { forms: string; formsPreview: string };
+}
+
+/** What the forms route needs from `contact`, resolved once. */
+export interface FormsContact {
+  siteEmail: string | null;
+  fromName: string;
+  replyFromName: string;
+  pipelineUrl: string | null;
+  sheetTabs: { forms: string; formsPreview: string };
 }
 
 /** The `editor` block of site.config.ts as the Worker reads it. Optional on WorkerSiteConfig: missing means disabled. */
@@ -80,6 +100,7 @@ export interface WorkerConfig {
   workerName: string;
   previewHostSuffix: string;
   forms: FormSettings;
+  contact: FormsContact;
   editor: EditorConfig;
 }
 
@@ -125,6 +146,13 @@ export function buildWorkerConfig(config: WorkerSiteConfig): WorkerConfig {
     workerName: domain.workerName,
     previewHostSuffix: domain.previewHostSuffix,
     forms: { ...DEFAULT_FORM_SETTINGS, ...(config.forms ?? {}) },
+    contact: {
+      siteEmail: config.contact?.siteEmail ?? null,
+      fromName: config.contact?.fromName ?? config.business.name,
+      replyFromName: config.contact?.replyFromName ?? config.business.name,
+      pipelineUrl: config.contact?.pipelineUrl ?? null,
+      sheetTabs: { forms: config.contact?.sheetTabs.forms ?? "Forms", formsPreview: config.contact?.sheetTabs.formsPreview ?? "Forms preview" },
+    },
     editor: buildEditorConfig(config),
   };
 }

@@ -1,10 +1,10 @@
-// The Worker entry named by wrangler.jsonc `main`. The contact form (/api/*) always goes straight to the contact Worker,
-// so it never depends on the editor. The owner's editor (spec, "Paths and modes") answers only on the site's own host in
+// The Worker entry named by wrangler.jsonc `main`. The forms (/api/*: the contact form and /api/forms/<id>, see api.ts)
+// never depend on the editor. The owner's editor (spec, "Paths and modes") answers only on the site's own host in
 // production, and only on its own paths; everything else is a plain 404. This is the one file that imports the OAuth library.
 import { type OAuthHelpers, OAuthProvider } from "@cloudflare/workers-oauth-provider";
 import { siteConfig } from "../site.config.ts";
+import { handleApi } from "./api.ts";
 import { workerConfig } from "./config.ts";
-import contactWorker from "./contact.ts";
 import { log, type EditorEnv } from "./env.ts";
 import { buildEditor } from "./editor/factory.ts";
 import { editorActive, isEditorPath, missingBindings } from "./editor/gate.ts";
@@ -102,7 +102,7 @@ async function handleEditor(request: Request, env: ProviderEnv, ctx: ExecutionCo
 export default {
   async fetch(request: Request, env: ProviderEnv, ctx: ExecutionContext): Promise<Response> {
     const url = new URL(request.url);
-    if (url.pathname.startsWith("/api/")) return contactWorker.fetch(request, env);
+    if (url.pathname.startsWith("/api/")) return handleApi(request, env);
     if (!editorActive(workerConfig, env, url) || !isEditorPath(url.pathname)) return notFound();
     return handleEditor(request, env, ctx, url);
   },

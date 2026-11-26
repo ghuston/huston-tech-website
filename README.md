@@ -146,7 +146,7 @@ The contact page shows a disabled "Pick a time" button, clearly marked, and ever
 
 ## Site editor
 
-The same Worker entry (`worker/index.ts`) can serve the site editor: the owner's sign-in and owner page (`/owner`), and the MCP endpoint (`/mcp`) that their AI app connects to. **It is off.** `editor.enabled` and `editor.uploads.enabled` are `false` in `site.config.ts`, no account value is set, and `wrangler.jsonc` has no editor binding, so `/owner`, `/mcp` and the OAuth paths answer 404 and the site behaves as before. The contact form is not part of it: `/api/*` always goes straight to `worker/contact.ts`. The editor runs only on the live domain, never on previews or locally. What it does, what it can change, and Grant's setup steps (a to g for the editor, h to l for uploads) are in [docs/EDITING.md](docs/EDITING.md). The site's voice for the owner's AI app is in [docs/VOICE-GUIDE.md](docs/VOICE-GUIDE.md) (still a template with `[[placeholders]]`). Its tests (`worker/editor/*.test.ts`, `worker/uploads/*.test.ts`) run in `npm run test:worker` on a fake GitHub and fake storage.
+The same Worker entry (`worker/index.ts`) can serve the site editor: the owner's sign-in and owner page (`/owner`), and the MCP endpoint (`/mcp`) that their AI app connects to. **It is off.** `editor.enabled` and `editor.uploads.enabled` are `false` in `site.config.ts`, no account value is set, and `wrangler.jsonc` has no editor binding, so `/owner`, `/mcp` and the OAuth paths answer 404 and the site behaves as before. The forms are not part of it: `/api/*` always goes through `worker/api.ts` (the contact form to `worker/contact.ts`, other forms to `worker/forms.ts`) and never depends on the editor. The editor runs only on the live domain, never on previews or locally. What it does, what it can change, and Grant's setup steps (a to g for the editor, h to l for uploads) are in [docs/EDITING.md](docs/EDITING.md). The site's voice for the owner's AI app is in [docs/VOICE-GUIDE.md](docs/VOICE-GUIDE.md) (still a template with `[[placeholders]]`). Its tests (`worker/editor/*.test.ts`, `worker/uploads/*.test.ts`) run in `npm run test:worker` on a fake GitHub and fake storage.
 
 ## Contact form
 
@@ -174,6 +174,12 @@ The form on `/contact` (`src/components/hl/ContactForm.tsx`) posts JSON to `POST
 **Turnstile errors.** "That didn't go through" (403) means the visitor's check failed (logged as `turnstile_failed` with a `reason`: `not_success`, `hostname_mismatch` or `action_mismatch`, plus Cloudflare's error codes). A missing `TURNSTILE_SECRET_KEY`, a secret Cloudflare refuses, or an unreachable siteverify is our fault, so it is "Something broke on my end…" (502), logged as `turnstile_config_missing` or `turnstile_unavailable`.
 
 **Logs:** Workers Logs is on, invocation logs are off. The Worker logs fixed event names, status codes and Cloudflare's fixed error codes only (for example `sheet_append_failed` with `status=403`), never names, emails, messages, IP addresses or keys.
+
+### Other forms (`/api/forms/<id>`)
+
+An owner can add forms (docs/EDITING.md, "Forms"): one JSON file each in `src/content/forms/`, shown with the `form` block. **None exists yet** (the only form file is the contact form's `contact.json`), so every `/api/forms/<id>` answers 404 and nothing on the site changed. They post to `POST /api/forms/<id>`, handled by `worker/forms.ts` (`worker/api.ts` sends that prefix there and every other `/api` path to the contact Worker). The layers are the contact form's, in the same order: same-origin, JSON, body limit (`forms.maxBodyBytes`, 32 KB), the contact rate limiter pair with a key per form (no new id), honeypot, the shared validator (`src/forms/validate.ts`), Turnstile with `action: "form"`. They save the same way the contact form does: the Pipeline app first (production only, while `INTAKE_SECRET` is set; the message starts with `Form: <name>`), the Google Sheet when the app did not take it (tabs **`Forms`** and **`Forms preview`**, one header row for every form: `Received (UTC) | Form | Name | Email | Answers | Mode`), and the plain-text notification to grant@hustonlogic.com always, with a "Saved to:" line. A download form also sends the visitor one plain-text email with the file's link, built from the site's own address. Same success rule: success only when the answers reached Grant (the app, the Sheet or the email). **Before the first form is turned on**, add the two tabs to the Sheet with that header row (docs/SECRETS.md, "The Sheet's tabs"). Tests: `worker/forms.test.ts`.
+
+`docs/apps-script/contact-sheet.gs` is the template's Apps Script Sheet writer. It is **reference only** here: this site writes the Sheet as a Google service account, so the script is not deployed. Secrets and settings: `docs/SECRETS.md`; Cloudflare rate-limit ids: `docs/HOSTING.md`.
 
 ### Secrets
 
@@ -299,6 +305,6 @@ src/
   content/        typed copy and site settings (single source of truth)
   lib/            fonts, metadata, JSON-LD, routes and text-token helpers
 scripts/          placeholder gate, static preview server
-worker/           contact form Worker (POST /api/contact), the site editor when it is on (worker/editor, worker/uploads; docs/EDITING.md), and their tests
+worker/           contact form Worker (POST /api/contact), the other forms (POST /api/forms/<id>, worker/forms.ts), the site editor when it is on (worker/editor, worker/uploads; docs/EDITING.md), and their tests
 public/_headers   Cloudflare Workers security and cache headers (static files)
 ```

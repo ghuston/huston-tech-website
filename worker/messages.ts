@@ -30,7 +30,7 @@ const APP_LINE: Record<Saved["app"], string> = {
   preview: "Pipeline app: not used in previews",
 };
 
-function savedLines({ app, sheet }: Saved): string[] {
+export function savedLines({ app, sheet }: Saved): string[] {
   const where =
     app === "saved" ? "the Pipeline app" : sheet !== "saved" ? "NOWHERE - add this one by hand" : app === "failed" ? "the Google Sheet (the Pipeline app did not take it)" : "the Google Sheet";
   const sheetLine = sheet === "saved" ? "Sheet: saved" : sheet === "failed" ? "Sheet: NOT saved - add this one by hand" : "Sheet: not used (the app has it)";
