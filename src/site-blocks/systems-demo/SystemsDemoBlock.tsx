@@ -7,7 +7,7 @@ import type { systemsDemoDefinition } from "./definition";
 
 export function SystemsDemoBlock({ content, anchor, headingId }: BlockProps<ContentOf<typeof systemsDemoDefinition.fields>>) {
   return (
-    <section id={anchor} aria-labelledby={headingId}>
+    <section id={anchor} aria-labelledby={headingId} className="scroll-mt-12 md:scroll-mt-16">
       <Container>
         <h2 id={headingId} className="font-ui text-h2 font-bold">
           {content.heading}

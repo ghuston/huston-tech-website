@@ -9,7 +9,7 @@ import type { homeInstallingDefinition } from "./definition";
 
 export function HomeInstallingBlock({ content, anchor, headingId }: BlockProps<ContentOf<typeof homeInstallingDefinition.fields>>) {
   return (
-    <section id={anchor} aria-labelledby={headingId}>
+    <section id={anchor} aria-labelledby={headingId} className="scroll-mt-12 md:scroll-mt-18">
       {/* The four blocks are placed by .hl-installing (hl.css): stacked, then two columns, then three. */}
       <Container className="hl-installing relative z-1">
         <div>

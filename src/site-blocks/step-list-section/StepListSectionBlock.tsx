@@ -5,7 +5,7 @@ import type { stepListSectionDefinition } from "./definition";
 
 export function StepListSectionBlock({ content, anchor, headingId }: BlockProps<ContentOf<typeof stepListSectionDefinition.fields>>) {
   return (
-    <section id={anchor} aria-labelledby={headingId}>
+    <section id={anchor} aria-labelledby={headingId} className="scroll-mt-12 md:scroll-mt-16">
       <Container>
         <h2 id={headingId} className="font-ui text-h2 font-bold">
           {content.heading}

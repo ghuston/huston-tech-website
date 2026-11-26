@@ -12,7 +12,7 @@ const paragraphClass = { intro: "mt-5 max-w-intro text-body", measure: "mt-5 max
 
 export function TextSectionBlock({ content, anchor, headingId }: BlockProps<ContentOf<typeof textSectionDefinition.fields>>) {
   return (
-    <section id={anchor} aria-labelledby={headingId}>
+    <section id={anchor} aria-labelledby={headingId} className="scroll-mt-12 md:scroll-mt-16">
       <Container>
         {content.divider ? <FadingDivider className="mb-12 md:mb-16" /> : null}
         <h2 id={headingId} className="font-ui text-h2 font-bold">

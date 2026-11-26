@@ -12,7 +12,7 @@ import type { homeProofDefinition } from "./definition";
 export function HomeProofBlock({ content, anchor, headingId }: BlockProps<ContentOf<typeof homeProofDefinition.fields>>) {
   const testimonials = getTestimonials("home");
   return (
-    <section id={anchor} aria-labelledby={headingId}>
+    <section id={anchor} aria-labelledby={headingId} className="scroll-mt-8 md:scroll-mt-0">
       <Container>
         <div className="flex flex-wrap items-center gap-x-6 gap-y-3.5">
           <h2 id={headingId} className="font-ui text-h2 font-bold">

@@ -8,7 +8,7 @@ import type { homeWhyDefinition } from "./definition";
 
 export function HomeWhyBlock({ content, anchor, headingId }: BlockProps<ContentOf<typeof homeWhyDefinition.fields>>) {
   return (
-    <section id={anchor} aria-labelledby={headingId}>
+    <section id={anchor} aria-labelledby={headingId} className="scroll-mt-8">
       <Container>
         <div className="lg:grid lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] lg:items-end lg:gap-x-16">
           <div>
