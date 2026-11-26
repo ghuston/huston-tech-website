@@ -1,0 +1,63 @@
+// Lighthouse CI config (run with `npm run test:lighthouse`, after `npm run build`). LHCI reads .cjs, not .mjs or .ts.
+// It audits the exported site in ./out, served by scripts/preview.mjs so the headers in public/_headers (CSP) apply.
+
+// LHCI config files must be CommonJS. Node >= 22.18 loads the TypeScript route list natively; keep src/lib/routes.ts
+// free of imports and TypeScript-only syntax so this keeps working.
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const { auditRoutes, showcaseRoute } = require("./src/lib/routes.ts");
+
+const origin = "http://localhost:4822";
+
+// Content lane (docs/proposals/content-fast-lane.md): CI sets CONTENT_LANE_ROUTES only for a pull request that changes
+// page files and no menu; then only those pages are audited. Unset (every other run) means every page, as before.
+// The thresholds below are the same either way.
+const lane = (process.env.CONTENT_LANE_ROUTES ?? "").split(",").filter((route) => route.startsWith("/"));
+const routes = lane.length > 0 ? lane : [...auditRoutes, showcaseRoute];
+
+module.exports = {
+  ci: {
+    collect: {
+      // The audited pages (the pages, the newest post and blog page 2) plus the block showcase (noindex, so it has its own assertions below). The 404 page returns an error status.
+      url: routes.map((route) => origin + route),
+      numberOfRuns: 3,
+      startServerCommand: "npm run preview",
+      // preview.mjs prints "Previewing ./out at ..."; the default pattern ("listen|ready") would never match.
+      startServerReadyPattern: "Previewing",
+      startServerReadyTimeout: 20000,
+      settings: {
+        // Default preset is mobile. --no-sandbox: Chrome's sandbox can fail on CI runners (see the LHCI troubleshooting
+        // guide); the runner is an ephemeral VM that only loads this site from localhost.
+        chromeFlags: "--no-sandbox",
+      },
+    },
+    assert: {
+      // median of the 3 runs; LHCI's default ("optimistic") would pass if any single run passed.
+      assertMatrix: [
+        {
+          // Every page except the showcase.
+          matchingUrlPattern: "^(?!.*/blocks$).*$",
+          assertions: {
+            "categories:accessibility": ["error", { minScore: 0.95, aggregationMethod: "median" }],
+            "categories:best-practices": ["error", { minScore: 0.9, aggregationMethod: "median" }],
+            "categories:seo": ["error", { minScore: 0.95, aggregationMethod: "median" }],
+            "categories:performance": ["error", { minScore: 0.9, aggregationMethod: "median" }],
+          },
+        },
+        {
+          // The showcase has no SEO assertion: it is noindex by design, so it fails Lighthouse's "is crawlable" audit.
+          // Its performance, accessibility and best-practices thresholds are the same as every other page.
+          matchingUrlPattern: "/blocks$",
+          assertions: {
+            "categories:accessibility": ["error", { minScore: 0.95, aggregationMethod: "median" }],
+            "categories:best-practices": ["error", { minScore: 0.9, aggregationMethod: "median" }],
+            "categories:performance": ["error", { minScore: 0.9, aggregationMethod: "median" }],
+          },
+        },
+      ],
+    },
+    upload: {
+      target: "filesystem",
+      outputDir: ".lighthouseci",
+    },
+  },
+};

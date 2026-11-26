@@ -1,0 +1,29 @@
+# Redirects from the old site to this one (Cloudflare Workers static assets).
+#
+# Format: one rule per line, "from to status".
+#   /old-path /new-path 301
+# The status is optional and defaults to 302. Use 301 (permanent) for moved pages, which is
+# what search engines expect. 302, 303, 307 and 308 also work.
+# A "to" can be a full URL (https://example.com/page) for a move to another site.
+# A line that starts with # is a comment and is ignored.
+#
+# Patterns: "*" matches the rest of a path and is reused as :splat, and :name matches one
+# path segment and is reused by name.
+#   /blog/* /insights/:splat 301
+#   /services/:slug /what-i-do/:slug 301
+# List static rules (no * and no :name) before dynamic ones. Wrangler counts a static-looking
+# rule that comes after a dynamic one as dynamic.
+# Duplicate "from" paths are ignored (the first one wins).
+#
+# Limits (wrangler 4, workers-shared parseRedirects): 2,000 static rules, 100 dynamic rules,
+# 2,000 characters per line. Invalid lines are skipped with a warning at deploy time.
+#
+# Redirect rules are checked before static assets, so a rule wins over a page at the same path.
+# Next.js copies everything in public/ into out/, so this file is built to out/_redirects and
+# deployed with the site. Cloudflare does not serve _redirects or _headers as public files.
+#
+# Nothing here is a rule yet. The owner adds the old-site URLs at launch, then runs
+#   node scripts/check-redirects.mjs old-urls.txt https://<site>
+# against a preview URL and again against production.
+#
+# Check https://developers.cloudflare.com/workers/static-assets/redirects/ before launch

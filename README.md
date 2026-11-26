@@ -24,7 +24,7 @@ Permanent architecture, security and content rules are in [`AGENTS.md`](./AGENTS
 
 ## Develop
 
-Requires Node 22.19+ and npm 10 (`>=10.9.2 <11`; matches `engines` in package.json and `engine-strict` in `.npmrc`; CI uses Node 22 with npm 10.9.9). `npm install` and `npm ci` refuse to run under npm 11, so if your default npm is 11, put `npx --yes npm@10.9.9` in front of them.
+Requires Node 22.19+ and npm 10 (`>=10.9.2 <11`; matches `engines` in package.json; CI uses Node 22 with npm 10.9.9). There is no `engine-strict`, so `npm install` and `npm ci` only warn under npm 11, but a lockfile written by npm 11 can fail CI. If your default npm is 11, put `npx --yes npm@10.9.9` in front of them.
 
 ```bash
 npx --yes npm@10.9.9 install   # or plain `npm install` when your npm is 10

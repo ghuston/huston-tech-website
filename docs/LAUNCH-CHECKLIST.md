@@ -1,6 +1,6 @@
 # Launch checklist
 
-Source: the Huston Logic project file `template-launch-verification-checklist.md` (written Nov 17, 2026), sections 1 and 5. Every item and proof is the same; only the internal step labels (C1, C7, C8) were replaced with plain words. This repo's copy is the truth; client repos follow it.
+Source: the Huston Logic project file `template-launch-verification-checklist.md` (written Nov 17, 2026), sections 1 and 5. Section A and a few lines in B, C, D and E were changed on 2026-11-24 for managed hosting (`docs/PROCESS.md` rule 13). Each row keeps a proof. This repo's copy is the truth; client repos follow it.
 
 Nothing on this list is optional unless it says so, and nothing is ticked without proof. Every client site gets a ticked copy, with the date and the proof, in the client's `03 Ship` folder.
 
@@ -17,19 +17,19 @@ Where items run: A1–A8 and D5 on the onboarding call. C7, D6–D8 and the D9 w
 | # | Item | Owner | Done means (proof) |
 |---|---|---|---|
 | A1 | Domain registered in the client's name; auto-renew on; registrar lock on | C | Screenshot of registrar page |
-| A2 | Cloudflare account in the client's name; Grant invited as Administrator | C + G | Grant can see the zone from his own login |
-| A3 | Mailboxes on the domain (Workspace or existing host) | C | Client sends and receives a test email |
-| A4 | Resend set up with the client signed in; API key straight into Worker secrets | C + G | Resend shows the domain Verified |
-| A5 | Turnstile widget on the client's Cloudflare | G | Widget listed; preview hostname covered |
-| A6 | Google Sheet + Apps Script writer; Grant is editor | C + G | Test row appears |
-| A7 | UptimeRobot in the client's account; Grant second alert contact | C + G | Monitor green; test alert received |
-| A8 | Every login lives in the client's password manager, never in Drive | C | Client confirms on the call |
+| A2 | The domain's nameservers at the registrar point to a zone for the domain in Huston Logic's Cloudflare account | C + G | The zone shows Active in Grant's Cloudflare; the registrar page shows the two Cloudflare nameservers |
+| A3 | Mailboxes stay the client's (Workspace or existing host) | C | Client sends and receives a test email |
+| A4 | Resend is in Huston Logic's account, with the client's domain added as a sending domain; API key straight into Worker secrets | G | Resend shows the domain Verified |
+| A5 | Turnstile widget in Huston Logic's Cloudflare account | G | Widget listed; preview hostname covered |
+| A6 | The form destination follows the routing rule (`docs/PROCESS.md` rule 15): the client's Pipeline app copy if they use it (`contact.destination` "pipeline", `INTAKE_SECRET` set on the copy and on the site); another tool they name (not built yet: queue it for Grant and use the Sheet meanwhile); otherwise the Google Sheet with the Apps Script writer, Grant as editor. The notification email goes to the client's inbox in every case | C + G | A test lead appears in the app or a test row appears in the Sheet, and the test email arrives |
+| A7 | Uptime monitoring in Huston Logic's account, with the client as a second alert contact | G | Monitor green; test alert received |
+| A8 | The client keeps only the registrar and email logins; every other login (GitHub, Cloudflare, Resend, Turnstile, monitoring) is Huston Logic's | C + G | Client confirms on the call; the list of the client's logins is in the handoff guide |
 
 ### B. Email you can trust
 
 | # | Item | Owner | Done means (proof) |
 |---|---|---|---|
-| B1 | SPF, DKIM and DMARC (`p=none` to start) pass | G | Gmail "Show original" shows SPF, DKIM and DMARC all PASS |
+| B1 | SPF, DKIM and DMARC (`p=none` to start) pass; the records are added in the zone in Huston Logic's Cloudflare | G | Gmail "Show original" shows SPF, DKIM and DMARC all PASS |
 | B2 | Form notification and auto-reply land in the inbox (Gmail + Outlook) | G | Both test inboxes, not spam |
 | B3 | DMARC `p=none` → `p=quarantine` after 2–4 weeks of clean reports | G | DNS record changed; date logged (post-launch, see F) |
 
@@ -38,11 +38,11 @@ Where items run: A1–A8 and D5 on the onboarding call. C7, D6–D8 and the D9 w
 | # | Item | Owner | Done means (proof) |
 |---|---|---|---|
 | C1 | No `[[placeholders]]` left | Auto | `build:launch` passes |
-| C2 | Contact form end to end on desktop and phone: notification, Sheet row, auto-reply, thanks page, Turnstile | G | All five seen; test row deleted |
+| C2 | Contact form end to end on desktop and phone: notification, the contact lands in its destination (the app, the Sheet or the other tool), auto-reply, thanks page, Turnstile | G | All five seen; test lead or test row deleted |
 | C3 | Lighthouse ≥ 90 mobile; accessibility pass (keyboard, contrast, screen-reader spot check) | Auto + G | CI report; spot-check notes |
 | C4 | Unique title and meta description on every page; favicon; OG image; 404; privacy page | Bot | Spot-check 3 pages in view-source |
 | C5 | HTTPS everywhere; `www` → apex (or the reverse) redirects once | G | Both URLs land on the canonical one |
-| C6 | Old host's DNS records all copied before cutover (MX, TXT, CNAME), including any `google-site-verification` TXT | G | Record-by-record check against the screenshot |
+| C6 | Old host's DNS records all copied into the zone in Huston Logic's Cloudflare before the nameservers change (MX, TXT, CNAME), including any `google-site-verification` TXT | G | Record-by-record check against the screenshot |
 | C7 | **Old URLs redirect.** Every URL in the old site's sitemap 301s to its new page (Wix paths like `/about-us`, `/services-1`, `/post/...` change). Without this, Google drops the old pages and the client loses whatever ranking they had | Bot + G | Script run over the old URL list: every one returns 301 → 200 |
 
 ### D. Search and discovery
@@ -53,7 +53,7 @@ Where items run: A1–A8 and D5 on the onboarding call. C7, D6–D8 and the D9 w
 | D2 | `sitemap.xml` lists every public page | Bot | Live `/sitemap.xml` matches the page list |
 | D3 | Canonical tag on every page | Bot | View-source spot check |
 | D4 | Structured data: `Organization` JSON-LD on the homepage only, generated from config (name, URL, logo, description, email only if the site already shows it, founder name and title only if the site already shows them). No address unless it's a real staffed location; no review/rating markup for own testimonials | Bot | validator.schema.org (Fetch URL) on the live homepage: 0 errors; view-source shows 1 `ld+json` |
-| D5 | **Google Search Console**: Domain property, verified by DNS TXT; client is Owner, Grant is Full user. First check whether the client already has a property (Wix's SEO setup often creates one); if so keep it (it holds their history) and add Grant. If DNS is still at the old host on the onboarding call, add the TXT there; C6 copies it at cutover. Never delete an existing `google-site-verification` record (Workspace or Wix may use it) | C + G | "Ownership verified" |
+| D5 | **Google Search Console**: Domain property, verified by DNS TXT; client is Owner, Grant is Full user. First check whether the client already has a property (Wix's SEO setup often creates one); if so keep it (it holds their history) and add Grant. The TXT record goes in the zone in Huston Logic's Cloudflare. If that zone is not live yet, add it at the old host; C6 copies it at cutover. Never delete an existing `google-site-verification` record (Workspace or Wix may use it) | C + G | "Ownership verified" |
 | D6 | Sitemap submitted in Search Console (after cutover), using the **full URL** | G | Status "Success" |
 | D7 | Homepage URL Inspection → Request indexing (after cutover), once | G | Request sent; date logged |
 | D8 | **Bing Webmaster Tools**: import from Search Console, then **submit the sitemap by hand** (the import doesn't carry it) | G | Site listed; sitemap row shows |
@@ -65,9 +65,9 @@ Where items run: A1–A8 and D5 on the onboarding call. C7, D6–D8 and the D9 w
 
 | # | Item | Owner | Done means (proof) |
 |---|---|---|---|
-| E1 | Handoff guide lists every account, who owns it, how to log in, who to call | G | Doc in `03 Ship` |
+| E1 | Handoff guide lists what Huston Logic holds and what the client holds (every account, who owns it, how to log in, who to call), and says the client can ask for it all to be moved (see `docs/OFFBOARDING.md`) | G | Doc in `03 Ship` |
 | E2 | Walkthrough done (screen share) | G + C | Date logged |
-| E3 | Access review: Grant's access listed; client knows how to remove it | G | Record in `03 Ship` |
+| E3 | Access review: who has access to what is listed, Grant's access included; client knows how to remove it | G | Record in `03 Ship` |
 
 ### F. After launch
 

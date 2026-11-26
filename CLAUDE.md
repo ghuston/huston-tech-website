@@ -57,9 +57,13 @@ These can go stale if the ruleset is changed in Settings, so re-check before rel
   local `npm ci` passes. CI uses npm 10 (10.9.9 on 2026-11-13, Node 22). Generate
   lockfile changes with the same npm major as CI, and check the first CI run's Install
   dependencies step.
-- `.npmrc` sets `engine-strict=true` and `package.json` requires `"npm": ">=10.9.2 <11"`,
-  so `npm install` and `npm ci` refuse to run under npm 11 (this Mac's default). Use
-  `npx --yes npm@10.9.9 ci` (or `install`); `npm run ...` scripts are unaffected.
+- `package.json` says `"npm": ">=10.9.2 <11"`. There is no `engine-strict` (removed so
+  Dependabot's npm 12 can update; with it on, Dependabot failed with "Due to the engine-strict
+  setting"), so under npm 11 `npm install` only warns. Still run installs with
+  `npx --yes npm@10.9.9 ci` (or `install`) on this Mac. CI's `npm ci` under npm 10 is the guard:
+  a lockfile npm 10 cannot read fails the required `check` job. CI also pins Node 22, so the
+  `engines.node` floor (`>=22.19`) is still enforced there. Dependabot lockfiles are written by
+  npm 12 and are expected to pass; if one fails `Install dependencies`, revisit this.
 
 ## Protected folders (hooks)
 - Claude cannot edit `.claude/hooks/**`, `.claude/agents/**`, `.claude/skills/**`,
@@ -129,10 +133,11 @@ In every kind of run:
 ## Commands
 - `npm run dev`: dev server at http://localhost:4821 (port is fixed in package.json).
   If the port is busy, tell me what is using it instead of killing it.
-- `npm run check:fast`: everything in `check` except the build (lint, typecheck, worker tests, process rules, script tests).
+- `npm run check:fast`: everything in `check` except the build (config, process rules, lint, typecheck, tests).
 - `npm run check`: `check:fast`, then the production build (static export to `out/`).
 - `npm run check:process`: the process rules (STATUS.md and plan length, agent models, PROCESS.md, "For the master").
 - `npm run test:scripts`: tests for the Node scripts in `scripts/`.
+- `npm run check:content`, `check:design`, `check:config`, `sync:config`, `blocks:catalog`, `report:changes`: the block content check, the design-token and motion check, the `site.config.ts` check and sync, the block catalog (`docs/BLOCKS.md`) and the change report (see `docs/PROCESS.md` and `docs/EDITING.md`).
 - `npm run preview`: serves the built `out/` folder the way Cloudflare Workers will,
   including `public/_headers`. Run `npm run build` first.
 - `npm run check:placeholders`: launch gate; failing is expected until content is final.
