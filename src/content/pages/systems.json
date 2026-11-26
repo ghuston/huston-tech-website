@@ -3,11 +3,164 @@
   "title": "AI Systems for Small Businesses | Huston Logic",
   "description": "A sales follow-up system you run by talking, hosted by me. A one-time install, an optional care plan, and flat-fee hosting.",
   "status": "live",
+  "menu": {
+    "label": "Systems",
+    "order": 3,
+    "places": [
+      "header",
+      "footer"
+    ]
+  },
   "blocks": [
     {
       "type": "page-hero",
       "content": {
-        "title": "TEMPORARY STUB. Part 2 of step 1c converts this page."
+        "eyebrow": "Systems",
+        "title": "A system you run by talking.",
+        "intro": "Big companies are rebuilding how they work around AI. I do the same for a business your size. It starts with the part most owners carry in their heads: sales follow-up.",
+        "cta": "Book a free 20-minute call →"
+      }
+    },
+    {
+      "type": "systems-demo",
+      "anchor": "what-it-does",
+      "content": {
+        "heading": "What it does",
+        "body": "Say what happened. It keeps the notes, tells you who to follow up with today, and has a brief ready before the next call. It drafts follow-ups in your voice, and you send them.",
+        "pairs": [
+          {
+            "said": "“Just talked to Dana. She wants a quote for three units by Friday.”",
+            "result": "Notes saved. Follow-up set for Friday."
+          },
+          {
+            "said": "“Who do I need to talk to today?”",
+            "result": "A short list, with what was said last time."
+          },
+          {
+            "said": "“From now on, nudge me three days after any proposal with no reply.”",
+            "result": "The rule is added, in plain English. Changed your mind? “Undo that.”"
+          }
+        ],
+        "screens": [
+          {
+            "key": "today",
+            "label": "Today",
+            "alt": "The Today screen of the follow-up app, with demo data"
+          },
+          {
+            "key": "pipeline",
+            "label": "Pipeline",
+            "alt": "The Pipeline screen of the follow-up app, with demo data"
+          },
+          {
+            "key": "brief",
+            "label": "Brief",
+            "alt": "The Brief screen of the follow-up app, with demo data"
+          },
+          {
+            "key": "rule",
+            "label": "Rule preview",
+            "alt": "A rule preview in the follow-up app, with demo data"
+          }
+        ],
+        "screensLabel": "App screens, demo data",
+        "screensNote": "Demo data"
+      }
+    },
+    {
+      "type": "step-list-section",
+      "anchor": "setup",
+      "content": {
+        "heading": "What I set up",
+        "steps": [
+          {
+            "lead": "A design call.",
+            "rest": "We set your stages and your follow-up rules."
+          },
+          {
+            "lead": "Your own copy, hosted by me.",
+            "rest": "Your website form connected, your contacts imported from a spreadsheet."
+          },
+          {
+            "lead": "A rulebook in your voice,",
+            "rest": "and five starter rules."
+          },
+          {
+            "lead": "30 days of tuning,",
+            "rest": "then a one-page handoff."
+          }
+        ]
+      }
+    },
+    {
+      "type": "text-section",
+      "anchor": "yours",
+      "content": {
+        "heading": "It's yours",
+        "width": "intro",
+        "body": "I host your copy in my own accounts. Your domain and email stay in your name, and your data stays yours: it exports in full, any time. Ask, and I hand over everything, current code included, and move it to your own accounts. After the 30 days, a care plan is optional: updates, keeping the AI connection working, and a tune-up each quarter. Cancel it and the system keeps running."
+      }
+    },
+    {
+      "type": "text-section",
+      "anchor": "change",
+      "content": {
+        "heading": "You can change it yourself",
+        "width": "intro",
+        "body": "Add a rule, a stage or a field by asking. Those are settings, not code, so you can't break what's underneath. Every change is logged and can be undone. For anything bigger, ask me, and it goes through ",
+        "inlineLink": {
+          "label": "the same checks as the rest",
+          "href": "/#why"
+        },
+        "afterLink": "."
+      }
+    },
+    {
+      "type": "text-section",
+      "anchor": "cost",
+      "content": {
+        "heading": "What it costs",
+        "width": "intro",
+        "body": "A one-time install price, agreed in writing before I start, plus a flat hosting fee, paid monthly or yearly. I'll share the numbers on the call."
+      }
+    },
+    {
+      "type": "text-section",
+      "anchor": "coming-soon",
+      "content": {
+        "heading": "Coming very soon",
+        "width": "intro",
+        "body": "Bulk email and campaigns, texting, call recording, booking and payments. Tell me which one you need first, and it moves up the list."
+      }
+    },
+    {
+      "type": "text-section",
+      "anchor": "protected-records",
+      "content": {
+        "heading": "Handle protected records?",
+        "width": "intro",
+        "body": "Patient files and the like need extra agreements, and this system isn't set up for them yet. Talk to me first."
+      }
+    },
+    {
+      "type": "text-section",
+      "anchor": "else",
+      "content": {
+        "heading": "What else I build this way",
+        "width": "intro",
+        "body": "The same approach works past sales: owner dashboards, staff tools, and connections between the software you already use. Built with AI, checked the same way, and handed over whenever you ask.",
+        "more": {
+          "label": "See past work →",
+          "href": "/past-work"
+        }
+      }
+    },
+    {
+      "type": "closing-call",
+      "content": {
+        "heading": "Start with the free call.",
+        "body": "I'll show it to you on my phone. The demo takes 90 seconds.",
+        "cta": "Book a free 20-minute call →"
       }
     }
   ]
