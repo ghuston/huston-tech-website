@@ -6,22 +6,9 @@
  * fading dividers here.
  */
 
-/* §2: the palette, copied verbatim. The Tailwind utilities below read these variables. */
+/* §2: the palette lives in palette.css, generated from src/content/brand.json (`npm run sync:config`). The Tailwind
+   utilities below read those variables. Everything else on :root is here. */
 :root {
-  --hl-silver: #f3f5f4;
-  --hl-silver-2: #e8eeea;
-  --hl-white: #ffffff;
-  --hl-ink: #29332d;
-  --hl-ink-2: #4a5750;
-  --hl-green: #2b6455;
-  --hl-green-deep: #1e4a3d;
-  --hl-green-edge: #4e9a7c;
-  --hl-tint: #e6f1eb;
-  --hl-glow: #b4dec8;
-  --hl-mint: #cde6d8;
-  --hl-rust: #994d34;
-  --hl-line: #d3dad6;
-
   --hl-ease: cubic-bezier(0.2, 0.7, 0.2, 1);
   --hl-glow-scale: 1;
 

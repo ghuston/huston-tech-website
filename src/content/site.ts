@@ -16,7 +16,6 @@ export const siteConfig = {
   /** Provider-dependent values, set in `providers.ts`. */
   email: providers.email,
   schedulerUrl: providers.schedulerUrl,
-  linkedInUrl: providers.linkedInUrl,
   turnstileSiteKey: providers.turnstileSiteKey,
 } as const;
 

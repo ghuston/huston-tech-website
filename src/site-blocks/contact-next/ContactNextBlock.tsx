@@ -1,11 +1,12 @@
 import { Container } from "@/components/hl/Container";
 import { TextLink } from "@/components/hl/TextLink";
-import { siteConfig } from "@/content/site";
+import { getBusiness } from "@/lib/settings";
 import type { BlockProps } from "@/blocks/types";
 import type { ContentOf } from "@/blocks/schema";
 import type { contactNextDefinition } from "./definition";
 
 export function ContactNextBlock({ content, headingId }: BlockProps<ContentOf<typeof contactNextDefinition.fields>>) {
+  const email = getBusiness().email.trim();
   return (
     <section aria-labelledby={headingId}>
       <Container>
@@ -26,9 +27,9 @@ export function ContactNextBlock({ content, headingId }: BlockProps<ContentOf<ty
         </ol>
         <p className="mt-8 flex flex-wrap items-center gap-x-2 text-control">
           {content.emailLabel}{" "}
-          {siteConfig.email ? (
-            <TextLink inline href={`mailto:${siteConfig.email}`}>
-              {siteConfig.email}
+          {email ? (
+            <TextLink inline href={`mailto:${email}`}>
+              {email}
             </TextLink>
           ) : null}
         </p>

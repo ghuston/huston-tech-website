@@ -7,6 +7,7 @@ import { OutlineButton } from "@/components/hl/OutlineButton";
 import { TextLink } from "@/components/hl/TextLink";
 import { card } from "@/content/card";
 import { pageMetadata } from "@/lib/metadata";
+import { getBusiness } from "@/lib/settings";
 
 export const metadata: Metadata = pageMetadata({
   title: card.meta.title,
@@ -22,6 +23,7 @@ export const metadata: Metadata = pageMetadata({
  */
 export default function CardPage() {
   const { phone } = card;
+  const email = getBusiness().email.trim();
   return (
     <main id="main" tabIndex={-1} className="flex flex-1 flex-col overflow-x-clip outline-none">
       <MarkSprite />
@@ -61,9 +63,9 @@ export default function CardPage() {
                   {card.actions.text}
                 </OutlineButton>
               </li>
-              {card.email ? (
+              {email ? (
                 <li>
-                  <OutlineButton href={`mailto:${card.email}`} className="w-full">
+                  <OutlineButton href={`mailto:${email}`} className="w-full">
                     {card.actions.email}
                   </OutlineButton>
                 </li>

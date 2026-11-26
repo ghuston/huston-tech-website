@@ -29,7 +29,7 @@ function scan(file) {
 scanDirs.forEach(walk);
 
 const providersFile = readFileSync(join(srcDir, "content", "providers.ts"), "utf8");
-for (const key of ["email", "schedulerUrl", "linkedInUrl", "turnstileSiteKey"]) {
+for (const key of ["email", "schedulerUrl", "turnstileSiteKey"]) {
   if (!new RegExp(`^\\s*${key}:`, "m").test(providersFile)) {
     problems.push(`src/content/providers.ts  ${key} is missing`);
   } else if (new RegExp(`^\\s*${key}:\\s*null`, "m").test(providersFile)) {
