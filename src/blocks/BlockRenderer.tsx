@@ -43,8 +43,9 @@ export function BlockView({ block, index, previous, primary, items = [], page, b
   const animated = index > 0 && def.motion.entrance !== "none";
   return (
     <div className={`relative ${spacingFor(def, index, previous)}`} data-block={block.type} data-motion={animated ? "enter" : undefined}>
-      {def.placement.position === "first" ? <Glow variant="green" className="hl-glow-hero" /> : null}
-      {def.placement.position === "last" ? <Glow variant="seam" className="hl-glow-closing" /> : null}
+      {/* The glows belong to the template's blocks. A site block draws its own, so its section keeps exactly its own look. */}
+      {def.source === "library" && def.placement.position === "first" ? <Glow variant="green" className="hl-glow-hero" /> : null}
+      {def.source === "library" && def.placement.position === "last" ? <Glow variant="seam" className="hl-glow-closing" /> : null}
       <Component content={block.content} variant={block.variant ?? def.variants[0]?.name ?? "default"} anchor={anchor} headingId={headingId} primary={primary} items={items} page={page} business={business} />
     </div>
   );

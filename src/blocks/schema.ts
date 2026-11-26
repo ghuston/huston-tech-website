@@ -2,6 +2,7 @@
 // both load it), so no aliases, enums or parameter properties. Content types are inferred from the field schema, so a
 // component's props and the content check can never disagree.
 import type { CollectionKind } from "../collections/schema.ts";
+import type { siteRhythms } from "../site-blocks/design.ts";
 
 export const MENU_PLACES = ["header", "footer", "legal"] as const;
 export type MenuPlace = (typeof MENU_PLACES)[number];
@@ -129,10 +130,13 @@ type ValueOf<T> = T extends { kind: "text" | "link" | "video" | "date" | "audio"
 /** The content a block holds, inferred from its fields: required fields are plain, optional ones are `?`. */
 export type ContentOf<F extends Fields> = Simplify<{ [K in RequiredKeys<F>]: ValueOf<F[K]> } & { [K in OptionalKeys<F>]?: ValueOf<F[K]> }>;
 
+/** The template's three rhythms plus the ones this site adds in src/site-blocks/design.ts (`siteRhythms`). */
+export type RhythmName = "hero" | "section" | "compact" | keyof typeof siteRhythms;
+
 export type Placement = {
   position: "first" | "last" | "any";
   maxPerPage: number;
-  rhythm: "hero" | "section" | "compact";
+  rhythm: RhythmName;
   joinsHero?: boolean;
   /** The one page path this block may be used on (for example the post index on /blog). */
   onlyOn?: string;
@@ -177,7 +181,13 @@ export type BlockInstance = {
   content: Record<string, unknown>;
 };
 
-export type PageMenu = { label: string; order: number; places: readonly MenuPlace[] };
+/** A menu link's anchor: a lowercase slug, so the link is `path#anchor` (for example /services#websites or /#hello). */
+export type PageMenu = { label: string; order: number; places: readonly MenuPlace[]; anchor?: string };
+
+/** The address a menu link points to: the page path, then `#anchor` when the menu entry has one. */
+export function menuHref(path: string, anchor?: string): string {
+  return anchor === undefined ? path : `${path}#${anchor}`;
+}
 
 export type PageData = {
   path: string;

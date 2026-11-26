@@ -4,6 +4,9 @@
 import { COLLECTION_KINDS } from "../collections/schema.ts";
 import { CONTACT_FORM_ID, SHOWCASE_FORM_ID } from "../forms/schema.ts";
 import type { FormStatus } from "../forms/schema.ts";
+import { BUILT_IN_RHYTHMS, rhythmTable } from "./rhythm.ts";
+import { siteRhythms } from "../site-blocks/design.ts";
+import type { RhythmRow } from "../site-blocks/design.ts";
 import { audioProviders, parseAudioUrl, parseVideoUrl, videoProviders } from "./embeds.ts";
 import {
   BODY_HEADING_LEVELS,
@@ -38,6 +41,8 @@ export type PageFile = { file: string; data: unknown; error?: string };
 
 export const PAGE_KEYS = ["path", "title", "description", "status", "menu", "blocks"];
 const MENU_KEYS = ["label", "order", "places"];
+/** Optional menu fields: `anchor` makes the link `path#anchor`. */
+const MENU_OPTIONAL_KEYS = ["anchor"];
 const BLOCK_KEYS = ["type", "variant", "anchor", "content"];
 const PATH_RE = /^(?:\/|\/[a-z0-9]+(?:-[a-z0-9]+)*)$/;
 const ANCHOR_RE = /^[a-z][a-z0-9-]{0,39}$/;
@@ -427,8 +432,18 @@ function shapeProblems(fields: Fields, owner: string, path: string): string[] {
 }
 
 /** Problems in the registry itself: duplicate types, bad names, missing reasons, examples that break their own schema. */
-export function validateRegistry(registry: readonly AnyBlockDefinition[], repo: Repo = { imageExists: () => true, fileExists: () => true }): string[] {
+export function validateRegistry(
+  registry: readonly AnyBlockDefinition[],
+  repo: Repo = { imageExists: () => true, fileExists: () => true },
+  extraRhythms: Readonly<Record<string, RhythmRow>> = siteRhythms,
+): string[] {
   const out: string[] = [];
+  const rhythms = rhythmTable(extraRhythms);
+  for (const [rhythm, row] of Object.entries(extraRhythms)) {
+    if (BUILT_IN_RHYTHMS.includes(rhythm)) out.push(`site rhythm "${rhythm}" is a template rhythm's name; pick another (src/site-blocks/design.ts).`);
+    else if (!KEBAB_RE.test(rhythm)) out.push(`site rhythm "${rhythm}": the name must be lowercase words joined by hyphens (src/site-blocks/design.ts).`);
+    if (row.full.trim() === "" || row.bottom.trim() === "") out.push(`site rhythm "${rhythm}": both the full and bottom classes are needed (src/site-blocks/design.ts).`);
+  }
   const seen = new Map<string, AnyBlockDefinition>();
   for (const def of registry) {
     const name = `block "${def.type}"`;
@@ -457,6 +472,9 @@ export function validateRegistry(registry: readonly AnyBlockDefinition[], repo: 
     const signature = def.motion.signature;
     if (signature !== undefined && (signature.keyframes.trim() === "" || signature.reason.trim() === "")) {
       out.push(`${name}: a signature animation needs the name of its keyframes and a reason.`);
+    }
+    if (!Object.hasOwn(rhythms, def.placement.rhythm)) {
+      out.push(`${name}: the rhythm "${def.placement.rhythm}" is not defined. Use ${Object.keys(rhythms).join(", ")}, or add it to siteRhythms in src/site-blocks/design.ts.`);
     }
     const onlyOn = def.placement.onlyOn;
     if (onlyOn !== undefined && !PATH_RE.test(onlyOn)) out.push(`${name}: placement onlyOn "${onlyOn}" must be a page path like /blog.`);
@@ -516,7 +534,13 @@ function checkMenu(menu: unknown, file: string, out: string[]): void {
     out.push(`${file}: "menu" must be an object with ${quoted(MENU_KEYS)}.`);
     return;
   }
-  for (const key of Object.keys(menu)) if (!MENU_KEYS.includes(key)) out.push(`${file}: menu "${key}" is not a menu field. A menu has: ${MENU_KEYS.join(", ")}.`);
+  for (const key of Object.keys(menu)) {
+    if (!MENU_KEYS.includes(key) && !MENU_OPTIONAL_KEYS.includes(key)) out.push(`${file}: menu "${key}" is not a menu field. A menu has: ${[...MENU_KEYS, ...MENU_OPTIONAL_KEYS].join(", ")}.`);
+  }
+  const anchor = menu["anchor"];
+  if (anchor !== undefined && (typeof anchor !== "string" || !ANCHOR_RE.test(anchor))) {
+    out.push(`${file}: menu "anchor" must be lowercase letters, numbers and hyphens, starting with a letter (like websites), so the link is the page address then #anchor.`);
+  }
   for (const key of MENU_KEYS) if (menu[key] === undefined) out.push(`${file}: menu "${key}" is missing.`);
   const label = menu["label"];
   if (label !== undefined) {

@@ -171,3 +171,65 @@ describe("placement.onlyOn", () => {
     assert.deepEqual(validateRegistry([first, { ...hero(), collection: "posts" }]), []);
   });
 });
+
+describe("site rhythms (src/site-blocks/design.ts)", () => {
+  const rhythmDef = (rhythm: string): AnyBlockDefinition => ({ ...hero(), type: "tight", placement: { position: "any", maxPerPage: 1, rhythm: rhythm as never } });
+  const extra = { "home-tight": { full: "py-10", bottom: "pb-10" } };
+
+  it("refuses a rhythm name that is neither the template's nor the site's", () => {
+    has(validateRegistry([first, rhythmDef("snug")]), 'the rhythm "snug" is not defined');
+    has(validateRegistry([first, rhythmDef("home-tight")]), 'the rhythm "home-tight" is not defined');
+  });
+
+  it("accepts a site rhythm that design.ts lists, and every template rhythm", () => {
+    assert.deepEqual(validateRegistry([first, rhythmDef("home-tight")], repo, extra), []);
+    for (const name of ["hero", "section", "compact"]) assert.deepEqual(validateRegistry([first, rhythmDef(name)], repo, extra), []);
+  });
+
+  it("refuses a site rhythm that reuses a template name, has a bad name or has an empty class string", () => {
+    has(validateRegistry([first], repo, { section: { full: "py-4", bottom: "pb-4" } }), "is a template rhythm's name");
+    has(validateRegistry([first], repo, { "Not Kebab": { full: "py-4", bottom: "pb-4" } }), "lowercase words joined by hyphens");
+    has(validateRegistry([first], repo, { tight: { full: "", bottom: "pb-4" } }), "both the full and bottom classes");
+  });
+
+  it("spacingFor uses the site's row, and a template name wins over a site name", async () => {
+    const { spacingFor, rhythmTable } = await import("./rhythm.ts");
+    assert.equal(spacingFor(rhythmDef("home-tight"), 1, undefined, extra), "py-10");
+    assert.equal(spacingFor({ ...rhythmDef("home-tight"), placement: { position: "any", maxPerPage: 1, rhythm: "home-tight" as never, joinsHero: true } }, 1, first, extra), "pb-10");
+    assert.equal(spacingFor(rhythmDef("section"), 1, undefined, { section: { full: "py-1", bottom: "pb-1" } }), "py-16 md:py-24");
+    assert.deepEqual(Object.keys(rhythmTable({})).sort(), ["compact", "hero", "section"]);
+    assert.throws(() => spacingFor(rhythmDef("nope"), 1, undefined, extra), /not defined/);
+  });
+});
+
+describe("menu anchor", () => {
+  const withMenu = (menu: unknown) => ({
+    file: "services.json",
+    data: { path: "/services", title: "t", description: "d", status: "live", menu, blocks: [{ type: "first", content: { heading: "x" } }] },
+  });
+  const files = (menu: unknown) => [page("/", "home.json", "first"), page("/contact", "contact.json", "first"), withMenu(menu)];
+  const problems = (menu: unknown) => validatePages(files(menu), [first], repo);
+  const base = { label: "Websites", order: 2, places: ["header"] };
+
+  it("takes a lowercase slug and works without one", () => {
+    assert.deepEqual(problems(base), []);
+    assert.deepEqual(problems({ ...base, anchor: "websites" }), []);
+    assert.deepEqual(problems({ ...base, anchor: "step-1" }), []);
+  });
+
+  it("refuses an anchor that is not a lowercase slug", () => {
+    for (const bad of ["Websites", "two words", "#websites", "", "1step", 5, null]) has(problems({ ...base, anchor: bad }), 'menu "anchor"');
+  });
+
+  it("still refuses a field that is not a menu field", () => {
+    has(problems({ ...base, color: "red" }), 'menu "color" is not a menu field');
+  });
+
+  it("menuHref joins the path and the anchor", async () => {
+    const { menuHref } = await import("./schema.ts");
+    assert.equal(menuHref("/services", "websites"), "/services#websites");
+    assert.equal(menuHref("/", "hello"), "/#hello");
+    assert.equal(menuHref("/about"), "/about");
+    assert.equal(menuHref("/about", undefined), "/about");
+  });
+});
