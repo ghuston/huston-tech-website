@@ -39,3 +39,16 @@ export const siteKeyframeProps: readonly KeyframeProp[] = [
     reason: "STYLE-GUIDE §9.4: line draws (ticks and BrandArt) use pathLength 1 and animate the dash offset; it repaints, it never changes layout",
   },
 ];
+
+/** What this site's search-result titles and descriptions may be, and why that is more than the template's 70 and 170. */
+export type SeoLimits = { titleMax: number; descriptionMax: number; reason: string };
+
+/**
+ * Longer limits for page titles and descriptions. src/blocks/validate.ts takes the larger of these and the template's
+ * (70 and 170), never a smaller one. Null keeps the template's limits.
+ */
+export const siteSeoLimits: SeoLimits | null = {
+  titleMax: 80,
+  descriptionMax: 200,
+  reason: "This site's approved SEO titles and descriptions (docs/website-rev8.md) are longer than the template's defaults and must stay verbatim",
+};

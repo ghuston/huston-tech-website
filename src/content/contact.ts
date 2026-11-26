@@ -1,26 +1,7 @@
 import { fw } from "../lib/framework.ts";
 import { honeypot, needOptions, sourceOptions } from "./contact-fields.ts";
 
-/** Copy: docs/website-rev8.md B7 (amends Revision 7.1 B7, B7b and B8). Field options and limits live in `contact-fields.ts`. */
-export const contactMeta = {
-  title: "Contact | Book a Free 20-Minute Call | Huston Logic",
-  description:
-    "Need a website, or an AI system for your business? Book a free 20-minute call or send a quick note. You get an automatic reply right away and Grant's own reply within one business day.",
-};
-
-export const contactHero = {
-  eyebrow: "Huston, we have a problem.",
-  title: "Good. Tell me about it.",
-  intro: "Two ways to start, and both are free. Send a note and you'll get one automatic reply right away, then a real one from me.",
-};
-
-export const scheduler = {
-  heading: "Book a 20-minute call",
-  body: "Pick a time that works. Tell me what you need and what you use today, and I'll tell you whether there's a sensible next step.",
-  buttonLabel: "Pick a time →",
-  /** Dev-only marker until `siteConfig.schedulerUrl` is set; fails the launch gate on purpose. */
-  placeholder: "Booking link not set yet.",
-};
+/** Copy: docs/website-rev8.md B7 (amends Revision 7.1 B7, B7b and B8). The contact page's own words are in src/content/pages/contact.json; field options and limits live in `contact-fields.ts`. */
 
 export const noteForm = {
   heading: "Or send a quick note",
@@ -68,22 +49,6 @@ export const noteForm = {
     rateLimited: "That's a few tries in a row. Give it a minute and try again.",
     failed: "Something broke on my end and your note didn't send. Your answers are still here, or email grant@hustonlogic.com.",
   },
-};
-
-export const whatHappensNext = {
-  heading: "What happens next",
-  steps: [
-    {
-      lead: "An automatic reply",
-      body: "reaches you right away, so you know it arrived. Then I read your note myself and reply within one business day (Monday to Friday).",
-    },
-    { lead: "Step zero: a free 20-minute call", body: "about what you need and the tools involved." },
-    {
-      lead: "If there's a fit,",
-      body: "you get a written plan and a fixed price. If not, I'll point you somewhere useful.",
-    },
-  ],
-  emailLabel: "Prefer email?",
 };
 
 export const thanks = {

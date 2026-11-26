@@ -5,8 +5,8 @@ import { COLLECTION_KINDS } from "../collections/schema.ts";
 import { CONTACT_FORM_ID, SHOWCASE_FORM_ID } from "../forms/schema.ts";
 import type { FormStatus } from "../forms/schema.ts";
 import { BUILT_IN_RHYTHMS, rhythmTable } from "./rhythm.ts";
-import { siteRhythms } from "../site-blocks/design.ts";
-import type { RhythmRow } from "../site-blocks/design.ts";
+import { siteRhythms, siteSeoLimits } from "../site-blocks/design.ts";
+import type { RhythmRow, SeoLimits } from "../site-blocks/design.ts";
 import { audioProviders, parseAudioUrl, parseVideoUrl, videoProviders } from "./embeds.ts";
 import {
   BODY_HEADING_LEVELS,
@@ -49,8 +49,13 @@ const ANCHOR_RE = /^[a-z][a-z0-9-]{0,39}$/;
 const KEBAB_RE = /^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$/;
 const IMAGE_RE = /^\/images\/(?:[A-Za-z0-9_-]+\/)*[A-Za-z0-9_.-]+\.(?:jpe?g|png|webp)$/i;
 export const MAX_HEADER_LINKS = 6;
-export const TITLE_MAX = 80;
-export const DESCRIPTION_MAX = 200;
+/** The template's limits for a page's search-result title and description. */
+export const TITLE_MAX = 70;
+export const DESCRIPTION_MAX = 170;
+/** What a page takes: the template's limits, or the site's own (siteSeoLimits in src/site-blocks/design.ts) when those are larger. Never smaller. */
+export function seoLimits(site: SeoLimits | null = siteSeoLimits): { titleMax: number; descriptionMax: number } {
+  return { titleMax: Math.max(TITLE_MAX, site?.titleMax ?? 0), descriptionMax: Math.max(DESCRIPTION_MAX, site?.descriptionMax ?? 0) };
+}
 export const MENU_LABEL_MAX = 24;
 export const MAX_BLOCKS = 20;
 
@@ -644,9 +649,16 @@ export function validatePages(
   files: readonly PageFile[],
   registry: readonly AnyBlockDefinition[],
   repo: Repo,
-  extra: { links?: readonly { where: string; href: string }[]; uploadNames?: ReadonlyMap<string, string>; forms?: ReadonlyMap<string, FormStatus> } = {},
+  extra: {
+    links?: readonly { where: string; href: string }[];
+    uploadNames?: ReadonlyMap<string, string>;
+    forms?: ReadonlyMap<string, FormStatus>;
+    /** The site's own title and description limits; `null` checks against the template's alone. Default: siteSeoLimits. */
+    seo?: SeoLimits | null;
+  } = {},
 ): string[] {
   const out: string[] = [];
+  const limits = seoLimits(extra.seo);
   const defs = new Map<string, AnyBlockDefinition>();
   for (const def of registry) if (!defs.has(def.type)) defs.set(def.type, def);
 
@@ -690,8 +702,8 @@ export function validatePages(
         else fileByPath.set(path, file);
       }
     }
-    checkString(data, "title", 1, TITLE_MAX, file, out);
-    checkString(data, "description", 1, DESCRIPTION_MAX, file, out);
+    checkString(data, "title", 1, limits.titleMax, file, out);
+    checkString(data, "description", 1, limits.descriptionMax, file, out);
     const status = data["status"];
     if (status !== undefined && status !== "live" && status !== "archived") out.push(`${file}: "status" must be "live" or "archived".`);
     if (data["menu"] !== undefined) {

@@ -5,7 +5,8 @@ import { join } from "node:path";
 import { test } from "node:test";
 import { defineBlock, GENERIC_ALT_WORDS, IMAGE_FOCUS } from "../src/blocks/schema.ts";
 import { embedOrigins, embedUrl, parseVideoUrl, videoProviders, watchUrl } from "../src/blocks/embeds.ts";
-import { validateContent, validatePages, validateRegistry } from "../src/blocks/validate.ts";
+import { seoLimits, validateContent, validatePages, validateRegistry } from "../src/blocks/validate.ts";
+import { siteSeoLimits } from "../src/site-blocks/design.ts";
 import { thanksPageLinks } from "../src/lib/thanks-links.ts";
 import { livePages, pathForFile, readPageFiles } from "../src/lib/page-files.ts";
 import { rules } from "./change-scope-rules.mjs";
@@ -329,16 +330,34 @@ test("reserved path", () => {
 });
 
 test("page rules: path, title, description, status, blocks", () => {
-  const bad = (extra, file = "about.json", path = "/about") => check({ file, data: { ...page(path, [heroBlock()]), ...extra } });
+  // `seo: null` leaves out this site's own limits, so these are the template's.
+  const bad = (extra, file = "about.json", path = "/about") => validatePages([home(), contact(), { file, data: { ...page(path, [heroBlock()]), ...extra } }], registry, repo, { seo: null });
   assert.match(bad({ title: "" })[0], /"title" is empty/);
-  assert.match(bad({ title: "x".repeat(81) })[0], /"title" is 81 characters; a page takes at most 80/);
-  assert.match(bad({ description: "x".repeat(201) })[0], /"description" is 201 characters/);
+  assert.match(bad({ title: "x".repeat(71) })[0], /"title" is 71 characters; a page takes at most 70/);
+  assert.match(bad({ description: "x".repeat(171) })[0], /"description" is 171 characters/);
   assert.match(bad({ status: "draft" })[0], /"status" must be "live" or "archived"/);
   assert.match(bad({ blocks: [] })[0], /needs at least 1/);
   assert.match(bad({ blocks: Array.from({ length: 21 }, heroBlock) }).join("\n"), /takes at most 20/);
   assert.match(bad({ path: "/About" }, "About.json")[0], /must be \/ or one lowercase word/);
   assert.match(bad({ path: "/a/b" }, "a.json", "/a/b")[0], /must be \/ or one lowercase word/);
   assert.match(bad({ title: "Hi <script>" })[0], /"title" contains an HTML tag/);
+});
+
+test("this site's own title and description limits (siteSeoLimits) are used when larger, never smaller", () => {
+  const aboutPage = (title, description) => ({ file: "about.json", data: { ...page("/about", [heroBlock()]), title, description } });
+  const run = (seo, title, description) => validatePages([home(), contact(), aboutPage(title, description)], registry, repo, seo === undefined ? {} : { seo });
+  const site = { titleMax: 80, descriptionMax: 200, reason: "A reason that is long enough to be a real one" };
+  // The site's real limits are the default: 80 and 200 are fine, one more is not.
+  assert.deepEqual(run(undefined, "x".repeat(80), "y".repeat(200)), []);
+  assert.match(run(undefined, "x".repeat(81), "y")[0], /"title" is 81 characters; a page takes at most 80/);
+  assert.match(run(undefined, "x", "y".repeat(201))[0], /"description" is 201 characters; a page takes at most 200/);
+  // An explicit site limit works the same, and a smaller one never lowers the template's 70 and 170.
+  assert.deepEqual(run(site, "x".repeat(80), "y".repeat(200)), []);
+  assert.deepEqual(run({ ...site, titleMax: 10, descriptionMax: 10 }, "x".repeat(70), "y".repeat(170)), []);
+  assert.match(run({ ...site, titleMax: 10, descriptionMax: 10 }, "x".repeat(71), "y")[0], /at most 70/);
+  assert.deepEqual(seoLimits(null), { titleMax: 70, descriptionMax: 170 });
+  assert.deepEqual(seoLimits({ ...site, titleMax: 90 }), { titleMax: 90, descriptionMax: 200 });
+  assert.equal(siteSeoLimits.reason.length >= 20, true);
 });
 
 test("menu rules", () => {

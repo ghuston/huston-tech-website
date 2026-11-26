@@ -12,7 +12,7 @@ import { CURATED_FONTS, FONT_ROLES } from "../src/brand/fonts.ts";
 import { LOGO_MAX_RATIO, LOGO_MIN_HEIGHT, LOGO_MIN_WIDTH } from "../src/settings/brand.ts";
 import { SOCIAL_NETWORKS, WEEKDAYS } from "../src/settings/business.ts";
 import { BOOKING_LINK, GENERIC_ALT_WORDS, MENU_PLACES, REQUIRED_LIVE, RESERVED_PATHS } from "../src/blocks/schema.ts";
-import { DESCRIPTION_MAX, MAX_BLOCKS, MAX_HEADER_LINKS, MENU_LABEL_MAX, PAGE_KEYS, TITLE_MAX } from "../src/blocks/validate.ts";
+import { MAX_BLOCKS, MAX_HEADER_LINKS, MENU_LABEL_MAX, PAGE_KEYS, seoLimits } from "../src/blocks/validate.ts";
 
 export const JSON_FILE = "docs/blocks.json";
 export const MARKDOWN_FILE = "docs/BLOCKS.md";
@@ -83,7 +83,7 @@ export function pageRules() {
     },
     reservedPaths: [...RESERVED_PATHS],
     requiredLivePages: [...REQUIRED_LIVE],
-    limits: { maxBlocksPerPage: MAX_BLOCKS, titleMax: TITLE_MAX, descriptionMax: DESCRIPTION_MAX },
+    limits: { maxBlocksPerPage: MAX_BLOCKS, titleMax: seoLimits().titleMax, descriptionMax: seoLimits().descriptionMax },
   };
 }
 
@@ -92,9 +92,9 @@ function pageKeyRule(key) {
     case "path":
       return { required: true, rule: "\"/\" or a one-segment path like \"/services\". Must match the file name." };
     case "title":
-      return { required: true, rule: `The page's search-result title, 1 to ${TITLE_MAX} characters.` };
+      return { required: true, rule: `The page's search-result title, 1 to ${seoLimits().titleMax} characters.` };
     case "description":
-      return { required: true, rule: `The page's search-result description, 1 to ${DESCRIPTION_MAX} characters.` };
+      return { required: true, rule: `The page's search-result description, 1 to ${seoLimits().descriptionMax} characters.` };
     case "status":
       return { required: true, rule: "\"live\" or \"archived\"." };
     case "menu":

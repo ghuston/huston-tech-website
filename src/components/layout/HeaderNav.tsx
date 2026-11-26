@@ -4,7 +4,8 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { ArrowLabel } from "@/components/hl/Arrow";
 import { HlLink } from "@/components/hl/HlLink";
-import { headerNav, menuLabel } from "@/content/nav";
+import { menuLabel } from "@/content/nav";
+import type { MenuItem } from "@/lib/pages";
 
 /** A hash link points at a section, not a page, so it is never the current page. */
 function isCurrent(pathname: string, href: string) {
@@ -15,7 +16,7 @@ function isCurrent(pathname: string, href: string) {
 const desktopLink = "inline-flex min-h-11 items-center font-ui text-nav font-medium text-ink";
 const mobileLink = "flex min-h-14 items-center font-ui text-[20px] font-medium text-ink";
 
-export function HeaderNav() {
+export function HeaderNav({ items }: { items: readonly MenuItem[] }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [openedAt, setOpenedAt] = useState(pathname);
@@ -38,7 +39,7 @@ export function HeaderNav() {
   return (
     <>
       <nav aria-label="Main" className="hidden items-center justify-end gap-[30px] md:flex">
-        {headerNav.map((item) => (
+        {items.map((item) => (
           <HlLink
             key={item.href}
             href={item.href}
@@ -69,7 +70,7 @@ export function HeaderNav() {
       <nav id="mobile-menu" aria-label="Mobile" data-open={menuOpen} inert={!menuOpen} className="panel col-span-full md:hidden">
         <div className="panel-inner">
           <ul className="pb-3">
-            {headerNav.map((item, index) => (
+            {items.map((item, index) => (
               <li key={item.href}>
                 {index > 0 ? <div aria-hidden="true" className="hl-divider-h" /> : null}
                 <HlLink
