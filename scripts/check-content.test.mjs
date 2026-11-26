@@ -331,8 +331,8 @@ test("reserved path", () => {
 test("page rules: path, title, description, status, blocks", () => {
   const bad = (extra, file = "about.json", path = "/about") => check({ file, data: { ...page(path, [heroBlock()]), ...extra } });
   assert.match(bad({ title: "" })[0], /"title" is empty/);
-  assert.match(bad({ title: "x".repeat(71) })[0], /"title" is 71 characters; a page takes at most 70/);
-  assert.match(bad({ description: "x".repeat(171) })[0], /"description" is 171 characters/);
+  assert.match(bad({ title: "x".repeat(81) })[0], /"title" is 81 characters; a page takes at most 80/);
+  assert.match(bad({ description: "x".repeat(201) })[0], /"description" is 201 characters/);
   assert.match(bad({ status: "draft" })[0], /"status" must be "live" or "archived"/);
   assert.match(bad({ blocks: [] })[0], /needs at least 1/);
   assert.match(bad({ blocks: Array.from({ length: 21 }, heroBlock) }).join("\n"), /takes at most 20/);

@@ -1,0 +1,14 @@
+{
+  "path": "/how-i-work",
+  "title": "How I Work | Scope It, Shape It, Ship It | Huston Logic",
+  "description": "One process for websites and systems: a free 20-minute call, then Scope it, Shape it, Ship it. You see the plan and price before I build, and I hand everything over whenever you ask.",
+  "status": "live",
+  "blocks": [
+    {
+      "type": "page-hero",
+      "content": {
+        "title": "TEMPORARY STUB. Part 2 of step 1c converts this page."
+      }
+    }
+  ]
+}

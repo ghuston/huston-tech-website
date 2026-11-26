@@ -1,0 +1,14 @@
+{
+  "path": "/about",
+  "title": "About Grant Huston | Huston Logic",
+  "description": "Grant Huston builds websites and AI-run systems for small businesses, checked the way a big software team would. One person, from the first call to the handoff.",
+  "status": "live",
+  "blocks": [
+    {
+      "type": "page-hero",
+      "content": {
+        "title": "TEMPORARY STUB. Part 2 of step 1c converts this page."
+      }
+    }
+  ]
+}

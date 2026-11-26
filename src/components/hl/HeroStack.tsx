@@ -1,14 +1,23 @@
-import type { heroStack } from "@/content/home";
 import { DOT_PATH, RING_PATH } from "./Marks";
 import { StackTilt } from "./PointerTilt";
+
+/** The words on the stack's cards (home.json, the home-hero block). All names are invented stand-ins. */
+export type HeroStackContent = {
+  ariaLabel: string;
+  board: { heading: string; rows: readonly { name: string; detail: string; status: string; highlighted: boolean }[] };
+  say: { tag: string; said: string };
+  brief: { tag: string; name: string; time: string; line: string };
+  rule: { tag: string; rule: string; undo: string };
+  chip: { figure: string; label: string };
+};
 
 /**
  * The H1 drawn as a picture (docs/STYLE-GUIDE.md §5.1, Revision 8): in front, the owner's board with the new
  * follow-up for Dana; around it, the spoken note that created it, the brief before the next call and a rule added by
  * asking. One image with one accessible name; everything inside is decorative, so nothing is read twice.
- * The names on the cards live in src/content/home.ts and are invented stand-ins.
+ * The words on the cards live in src/content/pages/home.json and are invented stand-ins.
  */
-export function HeroStack({ content }: { content: typeof heroStack }) {
+export function HeroStack({ content }: { content: HeroStackContent }) {
   const { board, say, brief, rule, chip } = content;
   return (
     <figure role="img" aria-label={content.ariaLabel} className="hl-stage">

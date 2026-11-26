@@ -1,0 +1,42 @@
+{
+  "path": "/insights",
+  "title": "Insights: Websites, Follow-Up & Systems for Small Businesses | Huston Logic",
+  "description": "Plain-English articles on websites, inquiry follow-up, reporting, payments and getting more from the software you already pay for. Written for owners of small businesses and independents.",
+  "status": "live",
+  "blocks": [
+    {
+      "type": "page-hero",
+      "content": {
+        "eyebrow": "Insights",
+        "title": "Notes from the work.",
+        "intro": "Plain-English advice for owners of small businesses and independents: websites that answer people, keeping new clients from slipping through, getting more from the software you already pay for, and seeing your numbers clearly. No made-up statistics."
+      }
+    },
+    {
+      "type": "insights-index",
+      "content": {
+        "categories": [
+          "All",
+          "Websites",
+          "Systems & Software",
+          "Leads & Follow-Up",
+          "Money & Reporting",
+          "Growing a Team",
+          "Tool Tips"
+        ],
+        "emptyText": "Nothing here yet. It's on the list. Got a question you'd like answered?",
+        "askLink": {
+          "label": "Ask me →",
+          "href": "/contact"
+        }
+      }
+    },
+    {
+      "type": "closing-call",
+      "content": {
+        "heading": "Rather talk it through?",
+        "cta": "Book a free 20-minute call →"
+      }
+    }
+  ]
+}

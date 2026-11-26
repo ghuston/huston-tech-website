@@ -12,12 +12,12 @@
       {
         "key": "title",
         "required": true,
-        "rule": "The page's search-result title, 1 to 70 characters."
+        "rule": "The page's search-result title, 1 to 80 characters."
       },
       {
         "key": "description",
         "required": true,
-        "rule": "The page's search-result description, 1 to 170 characters."
+        "rule": "The page's search-result description, 1 to 200 characters."
       },
       {
         "key": "status",
@@ -174,8 +174,8 @@
     ],
     "limits": {
       "maxBlocksPerPage": 20,
-      "titleMax": 70,
-      "descriptionMax": 170
+      "titleMax": 80,
+      "descriptionMax": 200
     }
   },
   "blocks": [
@@ -1604,6 +1604,1375 @@
       "example": {
         "heading": "A short heading that introduces the people",
         "intro": "A sentence about who you work with."
+      }
+    },
+    {
+      "type": "page-hero",
+      "title": "Page hero",
+      "description": "The top of an inner page: a small line above, the page headline and a short introduction, with a quarter of the logo ring and a soft glow in the corner.",
+      "source": "site",
+      "variants": [
+        {
+          "name": "default",
+          "description": "Left-aligned, with the ring and a green glow in the top-right corner.",
+          "default": true
+        }
+      ],
+      "placement": {
+        "position": "first",
+        "maxPerPage": 1,
+        "rhythm": "hero",
+        "joinsHero": false
+      },
+      "motion": {
+        "entrance": "none",
+        "reason": "The first block is the first paint, and the ring and glow are static (STYLE-GUIDE §7.25).",
+        "signature": null
+      },
+      "fixedAnchor": null,
+      "interactive": null,
+      "fields": [
+        {
+          "name": "eyebrow",
+          "kind": "text",
+          "label": "Small line above the headline",
+          "required": false,
+          "max": 60
+        },
+        {
+          "name": "title",
+          "kind": "text",
+          "label": "Headline",
+          "help": "The page's one main heading.",
+          "required": true,
+          "max": 90
+        },
+        {
+          "name": "intro",
+          "kind": "text",
+          "label": "Introduction",
+          "required": false,
+          "max": 400
+        }
+      ],
+      "example": {
+        "eyebrow": "A short line that sets the scene",
+        "title": "A headline that says what this page is about",
+        "intro": "One or two sentences that say more about the page."
+      }
+    },
+    {
+      "type": "closing-call",
+      "title": "Closing call",
+      "description": "The last block of a page: a heading (one line, or two in the second voice), an optional sentence, the call button and an optional second link, blended into the page by a soft glow.",
+      "source": "site",
+      "variants": [
+        {
+          "name": "default",
+          "description": "Left-aligned, with a soft seam glow along its top edge.",
+          "default": true
+        }
+      ],
+      "placement": {
+        "position": "last",
+        "maxPerPage": 1,
+        "rhythm": "section",
+        "joinsHero": false
+      },
+      "motion": {
+        "entrance": "none",
+        "reason": "Keeps this site's own one-moment-per-section motion (STYLE-GUIDE §9.4); this section has none.",
+        "signature": null
+      },
+      "fixedAnchor": null,
+      "interactive": null,
+      "fields": [
+        {
+          "name": "heading",
+          "kind": "text",
+          "label": "Heading (single voice)",
+          "help": "Use this, or line 1 and line 2 for the two-voice heading.",
+          "required": false,
+          "max": 90
+        },
+        {
+          "name": "line1",
+          "kind": "text",
+          "label": "Heading, line 1 (first voice)",
+          "required": false,
+          "max": 60
+        },
+        {
+          "name": "line2",
+          "kind": "text",
+          "label": "Heading, line 2 (second voice)",
+          "required": false,
+          "max": 80
+        },
+        {
+          "name": "body",
+          "kind": "text",
+          "label": "Sentence under the heading",
+          "required": false,
+          "max": 240
+        },
+        {
+          "name": "cta",
+          "kind": "text",
+          "label": "Button label",
+          "required": true,
+          "max": 60
+        },
+        {
+          "name": "secondary",
+          "kind": "action",
+          "label": "Second link",
+          "required": false,
+          "labelMax": 40
+        }
+      ],
+      "example": {
+        "line1": "A first line in the heading voice.",
+        "line2": "A second line in the other voice.",
+        "body": "One sentence that says what happens next.",
+        "cta": "A label that says what the button does",
+        "secondary": {
+          "label": "Or send a quick note →",
+          "href": "/contact"
+        }
+      }
+    },
+    {
+      "type": "home-hero",
+      "title": "Home hero",
+      "description": "The home page's first screen: a small line, the two-voice headline, a short pitch, one line of reassurance, the call button with a link beside it, and the card stack on the right.",
+      "source": "site",
+      "variants": [
+        {
+          "name": "default",
+          "description": "Text on the left, the card stack on the right (below it on phones), with a green glow behind the stack.",
+          "default": true
+        }
+      ],
+      "placement": {
+        "position": "first",
+        "maxPerPage": 1,
+        "rhythm": "flush",
+        "joinsHero": false
+      },
+      "motion": {
+        "entrance": "none",
+        "reason": "Keeps this site's own headline rise and stack motion (STYLE-GUIDE §5, §9); the first block never waits on scroll.",
+        "signature": null
+      },
+      "fixedAnchor": null,
+      "interactive": null,
+      "fields": [
+        {
+          "name": "eyebrow",
+          "kind": "text",
+          "label": "Small line above the headline",
+          "required": true,
+          "max": 120
+        },
+        {
+          "name": "line1",
+          "kind": "text",
+          "label": "Headline, line 1 (first voice)",
+          "required": true,
+          "max": 60
+        },
+        {
+          "name": "line2",
+          "kind": "text",
+          "label": "Headline, line 2 (second voice)",
+          "required": true,
+          "max": 60
+        },
+        {
+          "name": "subhead",
+          "kind": "text",
+          "label": "Pitch under the headline",
+          "required": true,
+          "max": 320
+        },
+        {
+          "name": "supportingLine",
+          "kind": "text",
+          "label": "One line of reassurance",
+          "required": true,
+          "max": 60
+        },
+        {
+          "name": "cta",
+          "kind": "text",
+          "label": "Call button label",
+          "required": true,
+          "max": 60
+        },
+        {
+          "name": "installLink",
+          "kind": "object",
+          "label": "Link beside the button",
+          "required": true,
+          "fields": [
+            {
+              "name": "label",
+              "kind": "text",
+              "label": "Link text",
+              "required": true,
+              "max": 60
+            },
+            {
+              "name": "href",
+              "kind": "text",
+              "label": "Section it jumps to, written #name",
+              "required": true,
+              "max": 40
+            }
+          ]
+        },
+        {
+          "name": "stack",
+          "kind": "object",
+          "label": "The card stack",
+          "help": "All names on the cards are invented stand-ins; no real person's data.",
+          "required": true,
+          "fields": [
+            {
+              "name": "ariaLabel",
+              "kind": "text",
+              "label": "What the picture shows, for screen readers",
+              "required": true,
+              "max": 300
+            },
+            {
+              "name": "board",
+              "kind": "object",
+              "label": "The owner's board",
+              "required": true,
+              "fields": [
+                {
+                  "name": "heading",
+                  "kind": "text",
+                  "label": "Board heading",
+                  "required": true,
+                  "max": 30
+                },
+                {
+                  "name": "rows",
+                  "kind": "list",
+                  "label": "Board rows",
+                  "required": true,
+                  "items": {
+                    "min": 1,
+                    "max": 4
+                  },
+                  "of": {
+                    "kind": "object",
+                    "label": "Row",
+                    "required": true,
+                    "fields": [
+                      {
+                        "name": "name",
+                        "kind": "text",
+                        "label": "Name",
+                        "required": true,
+                        "max": 40
+                      },
+                      {
+                        "name": "detail",
+                        "kind": "text",
+                        "label": "Detail",
+                        "required": true,
+                        "max": 60
+                      },
+                      {
+                        "name": "status",
+                        "kind": "text",
+                        "label": "Status",
+                        "required": true,
+                        "max": 20
+                      },
+                      {
+                        "name": "highlighted",
+                        "kind": "boolean",
+                        "label": "Highlighted row",
+                        "required": true
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "say",
+              "kind": "object",
+              "label": "The spoken note",
+              "required": true,
+              "fields": [
+                {
+                  "name": "tag",
+                  "kind": "text",
+                  "label": "Label",
+                  "required": true,
+                  "max": 40
+                },
+                {
+                  "name": "said",
+                  "kind": "text",
+                  "label": "What is said",
+                  "required": true,
+                  "max": 160
+                }
+              ]
+            },
+            {
+              "name": "brief",
+              "kind": "object",
+              "label": "The brief before the next call",
+              "required": true,
+              "fields": [
+                {
+                  "name": "tag",
+                  "kind": "text",
+                  "label": "Label",
+                  "required": true,
+                  "max": 40
+                },
+                {
+                  "name": "name",
+                  "kind": "text",
+                  "label": "Name",
+                  "required": true,
+                  "max": 40
+                },
+                {
+                  "name": "time",
+                  "kind": "text",
+                  "label": "Time",
+                  "required": true,
+                  "max": 20
+                },
+                {
+                  "name": "line",
+                  "kind": "text",
+                  "label": "Line",
+                  "required": true,
+                  "max": 80
+                }
+              ]
+            },
+            {
+              "name": "rule",
+              "kind": "object",
+              "label": "The rule added by asking",
+              "required": true,
+              "fields": [
+                {
+                  "name": "tag",
+                  "kind": "text",
+                  "label": "Label",
+                  "required": true,
+                  "max": 40
+                },
+                {
+                  "name": "rule",
+                  "kind": "text",
+                  "label": "The rule",
+                  "required": true,
+                  "max": 120
+                },
+                {
+                  "name": "undo",
+                  "kind": "text",
+                  "label": "The undo line",
+                  "required": true,
+                  "max": 80
+                }
+              ]
+            },
+            {
+              "name": "chip",
+              "kind": "object",
+              "label": "The chip",
+              "required": true,
+              "fields": [
+                {
+                  "name": "figure",
+                  "kind": "text",
+                  "label": "Figure",
+                  "required": true,
+                  "max": 30
+                },
+                {
+                  "name": "label",
+                  "kind": "text",
+                  "label": "Label",
+                  "required": true,
+                  "max": 60
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "example": {
+        "eyebrow": "A short line that sets the scene.",
+        "line1": "A first line in the heading voice",
+        "line2": "and a second in the other.",
+        "subhead": "Two sentences that say what you build and how it works for the client.",
+        "supportingLine": "One short line of reassurance.",
+        "cta": "Book a free 20-minute call →",
+        "installLink": {
+          "label": "See what I'm working on ↘",
+          "href": "#installing"
+        },
+        "stack": {
+          "ariaLabel": "A board of today's follow-ups, with a spoken note, a brief and a rule around it.",
+          "board": {
+            "heading": "Today",
+            "rows": [
+              {
+                "name": "Dana Ortiz",
+                "detail": "Quote, three units",
+                "status": "Due Fri",
+                "highlighted": true
+              }
+            ]
+          },
+          "say": {
+            "tag": "You say",
+            "said": "Just talked to Dana. She wants a quote by Friday."
+          },
+          "brief": {
+            "tag": "Before your next call",
+            "name": "Dana Ortiz",
+            "time": "2:00 pm",
+            "line": "Wants three units."
+          },
+          "rule": {
+            "tag": "A rule you added",
+            "rule": "Nudge me three days after any proposal.",
+            "undo": "Don't like it? “Undo that.”"
+          },
+          "chip": {
+            "figure": "Notes saved",
+            "label": "Follow-up set for Friday"
+          }
+        }
+      }
+    },
+    {
+      "type": "home-installing",
+      "title": "What I'm installing now",
+      "description": "A heading with the things an owner says and what the system does, the app's phone screens, and a line with a link.",
+      "source": "site",
+      "variants": [
+        {
+          "name": "default",
+          "description": "Heading, talk pairs, phone screens and a line, in one column, then two, then three as the screen widens.",
+          "default": true
+        }
+      ],
+      "placement": {
+        "position": "any",
+        "maxPerPage": 1,
+        "rhythm": "installing",
+        "joinsHero": false
+      },
+      "motion": {
+        "entrance": "none",
+        "reason": "Keeps this site's own one-moment-per-section motion (STYLE-GUIDE §9.4): the talk pairs play once in view.",
+        "signature": null
+      },
+      "fixedAnchor": null,
+      "interactive": null,
+      "fields": [
+        {
+          "name": "eyebrow",
+          "kind": "text",
+          "label": "Small line above the heading",
+          "required": true,
+          "max": 60
+        },
+        {
+          "name": "heading",
+          "kind": "text",
+          "label": "Heading",
+          "required": true,
+          "max": 100
+        },
+        {
+          "name": "pairs",
+          "kind": "list",
+          "label": "What is said, and what happens",
+          "required": true,
+          "items": {
+            "min": 1,
+            "max": 5
+          },
+          "of": {
+            "kind": "object",
+            "label": "Pair",
+            "required": true,
+            "fields": [
+              {
+                "name": "said",
+                "kind": "text",
+                "label": "What the owner says",
+                "required": true,
+                "max": 140
+              },
+              {
+                "name": "result",
+                "kind": "text",
+                "label": "What the system does",
+                "required": true,
+                "max": 140
+              }
+            ]
+          }
+        },
+        {
+          "name": "screens",
+          "kind": "list",
+          "label": "Phone screens",
+          "required": true,
+          "items": {
+            "min": 1,
+            "max": 4
+          },
+          "of": {
+            "kind": "object",
+            "label": "Screen",
+            "required": true,
+            "fields": [
+              {
+                "name": "key",
+                "kind": "choice",
+                "label": "Which screen",
+                "required": true,
+                "options": [
+                  "today",
+                  "pipeline",
+                  "brief",
+                  "rule"
+                ]
+              },
+              {
+                "name": "label",
+                "kind": "text",
+                "label": "Name",
+                "required": true,
+                "max": 30
+              },
+              {
+                "name": "alt",
+                "kind": "text",
+                "label": "What the screen shows",
+                "required": true,
+                "max": 160
+              }
+            ]
+          }
+        },
+        {
+          "name": "screensLabel",
+          "kind": "text",
+          "label": "Name of the swipe row, for screen readers",
+          "required": true,
+          "max": 60
+        },
+        {
+          "name": "screensNote",
+          "kind": "text",
+          "label": "Line under the screens",
+          "required": true,
+          "max": 30
+        },
+        {
+          "name": "line",
+          "kind": "text",
+          "label": "Closing sentence",
+          "required": true,
+          "max": 320
+        },
+        {
+          "name": "link",
+          "kind": "object",
+          "label": "Link under the sentence",
+          "required": true,
+          "fields": [
+            {
+              "name": "label",
+              "kind": "text",
+              "label": "Link text",
+              "required": true,
+              "max": 60
+            },
+            {
+              "name": "href",
+              "kind": "link",
+              "label": "Link",
+              "required": true
+            }
+          ]
+        }
+      ],
+      "example": {
+        "eyebrow": "What I'm working on now",
+        "heading": "A heading that names the system",
+        "pairs": [
+          {
+            "said": "“Something the owner says.”",
+            "result": "What the system does."
+          }
+        ],
+        "screens": [
+          {
+            "key": "today",
+            "label": "Today",
+            "alt": "The Today screen of the follow-up app, with demo data"
+          }
+        ],
+        "screensLabel": "App screens, demo data",
+        "screensNote": "Demo data",
+        "line": "One sentence about how it is set up and handed over.",
+        "link": {
+          "label": "See how it works →",
+          "href": "/contact"
+        }
+      }
+    },
+    {
+      "type": "home-doors",
+      "title": "The two doors",
+      "description": "Two ways to start, one card each, taken from the site's two offers. \"Say hello\" in the menu lands here.",
+      "source": "site",
+      "variants": [
+        {
+          "name": "default",
+          "description": "Two doors side by side (stacked on phones); each swings open on hover or focus.",
+          "default": true
+        }
+      ],
+      "placement": {
+        "position": "any",
+        "maxPerPage": 1,
+        "rhythm": "doors",
+        "joinsHero": false
+      },
+      "motion": {
+        "entrance": "none",
+        "reason": "Keeps this site's own door swing and one-moment-per-section motion (STYLE-GUIDE §9.4).",
+        "signature": null
+      },
+      "fixedAnchor": "hello",
+      "interactive": null,
+      "fields": [
+        {
+          "name": "label",
+          "kind": "text",
+          "label": "Name of the band, for screen readers",
+          "help": "The band has no visible heading; each door's own title carries the structure.",
+          "required": true,
+          "max": 60
+        }
+      ],
+      "example": {
+        "label": "Two ways to start"
+      }
+    },
+    {
+      "type": "home-why",
+      "title": "Why hire me",
+      "description": "A two-voice heading and a paragraph, the checks every build passes on a track, a callout and three points.",
+      "source": "site",
+      "variants": [
+        {
+          "name": "default",
+          "description": "Heading and paragraph side by side, then the check track, a tinted callout and a row of three points.",
+          "default": true
+        }
+      ],
+      "placement": {
+        "position": "any",
+        "maxPerPage": 1,
+        "rhythm": "why",
+        "joinsHero": false
+      },
+      "motion": {
+        "entrance": "none",
+        "reason": "Keeps this site's own one-moment-per-section motion (STYLE-GUIDE §9.4): the dot travels the track once in view.",
+        "signature": null
+      },
+      "fixedAnchor": null,
+      "interactive": null,
+      "fields": [
+        {
+          "name": "eyebrow",
+          "kind": "text",
+          "label": "Small line above the heading",
+          "required": true,
+          "max": 60
+        },
+        {
+          "name": "line1",
+          "kind": "text",
+          "label": "Heading, line 1 (first voice)",
+          "required": true,
+          "max": 80
+        },
+        {
+          "name": "line2",
+          "kind": "text",
+          "label": "Heading, line 2 (second voice)",
+          "required": true,
+          "max": 80
+        },
+        {
+          "name": "body",
+          "kind": "text",
+          "label": "Paragraph",
+          "required": true,
+          "max": 600
+        },
+        {
+          "name": "stops",
+          "kind": "list",
+          "label": "The checks, in order",
+          "help": "The last stop usually has no line: the rust dot rests there.",
+          "required": true,
+          "items": {
+            "min": 2,
+            "max": 10
+          },
+          "of": {
+            "kind": "object",
+            "label": "Stop",
+            "required": true,
+            "fields": [
+              {
+                "name": "title",
+                "kind": "text",
+                "label": "Title",
+                "required": true,
+                "max": 60
+              },
+              {
+                "name": "line",
+                "kind": "text",
+                "label": "Line under the title",
+                "required": false,
+                "max": 100
+              }
+            ]
+          }
+        },
+        {
+          "name": "callout",
+          "kind": "text",
+          "label": "Callout",
+          "required": true,
+          "max": 200
+        },
+        {
+          "name": "points",
+          "kind": "list",
+          "label": "Three points",
+          "required": true,
+          "items": {
+            "min": 1,
+            "max": 3
+          },
+          "of": {
+            "kind": "object",
+            "label": "Point",
+            "required": true,
+            "fields": [
+              {
+                "name": "title",
+                "kind": "text",
+                "label": "Title",
+                "required": true,
+                "max": 40
+              },
+              {
+                "name": "body",
+                "kind": "text",
+                "label": "Sentence",
+                "required": true,
+                "max": 140
+              }
+            ]
+          }
+        }
+      ],
+      "example": {
+        "eyebrow": "Why hire me",
+        "line1": "A first line in the heading voice.",
+        "line2": "A second line in the other voice.",
+        "body": "A paragraph that says why the checks matter.",
+        "stops": [
+          {
+            "title": "It builds clean.",
+            "line": "On a fresh machine, not only mine."
+          },
+          {
+            "title": "Then it goes live."
+          }
+        ],
+        "callout": "One sentence that backs up the checks.",
+        "points": [
+          {
+            "title": "You work with me.",
+            "body": "The person on the call is the person doing the work."
+          }
+        ]
+      }
+    },
+    {
+      "type": "home-proof",
+      "title": "Proof",
+      "description": "A heading with a tag, the client quotes chosen for the home page, a row of survey scores and two case-study teasers with a screenshot each.",
+      "source": "site",
+      "variants": [
+        {
+          "name": "default",
+          "description": "Heading and tag, three quotes, score chips, then two teaser cards side by side.",
+          "default": true
+        }
+      ],
+      "placement": {
+        "position": "any",
+        "maxPerPage": 1,
+        "rhythm": "proof",
+        "joinsHero": false
+      },
+      "motion": {
+        "entrance": "none",
+        "reason": "Keeps this site's own one-moment-per-section motion (STYLE-GUIDE §9.4): the score chips pop in once in view.",
+        "signature": null
+      },
+      "fixedAnchor": null,
+      "interactive": null,
+      "fields": [
+        {
+          "name": "heading",
+          "kind": "text",
+          "label": "Heading",
+          "required": true,
+          "max": 80
+        },
+        {
+          "name": "tag",
+          "kind": "text",
+          "label": "Tag beside the heading",
+          "required": true,
+          "max": 60
+        },
+        {
+          "name": "quotesLabel",
+          "kind": "text",
+          "label": "Name of the quotes' swipe row, for screen readers",
+          "required": true,
+          "max": 40
+        },
+        {
+          "name": "stats",
+          "kind": "list",
+          "label": "Survey scores",
+          "required": true,
+          "items": {
+            "min": 1,
+            "max": 5
+          },
+          "of": {
+            "kind": "object",
+            "label": "Score",
+            "required": true,
+            "fields": [
+              {
+                "name": "value",
+                "kind": "text",
+                "label": "Figure",
+                "required": true,
+                "max": 20
+              },
+              {
+                "name": "label",
+                "kind": "text",
+                "label": "What it measures",
+                "required": true,
+                "max": 60
+              }
+            ]
+          }
+        },
+        {
+          "name": "footnote",
+          "kind": "text",
+          "label": "Small print",
+          "required": true,
+          "max": 120
+        },
+        {
+          "name": "teasers",
+          "kind": "list",
+          "label": "Case-study teasers",
+          "required": true,
+          "items": {
+            "min": 1,
+            "max": 4
+          },
+          "of": {
+            "kind": "object",
+            "label": "Teaser",
+            "required": true,
+            "fields": [
+              {
+                "name": "name",
+                "kind": "text",
+                "label": "Project",
+                "required": true,
+                "max": 60
+              },
+              {
+                "name": "body",
+                "kind": "text",
+                "label": "One sentence",
+                "required": true,
+                "max": 200
+              },
+              {
+                "name": "href",
+                "kind": "link",
+                "label": "Page and section it links to",
+                "required": true
+              },
+              {
+                "name": "image",
+                "kind": "object",
+                "label": "Screenshot",
+                "required": true,
+                "fields": [
+                  {
+                    "name": "src",
+                    "kind": "text",
+                    "label": "File under public/, without .avif or .webp",
+                    "required": true,
+                    "max": 80
+                  },
+                  {
+                    "name": "alt",
+                    "kind": "text",
+                    "label": "What the screenshot shows",
+                    "required": true,
+                    "max": 200
+                  },
+                  {
+                    "name": "width",
+                    "kind": "number",
+                    "label": "Width in pixels",
+                    "required": true,
+                    "min": 100,
+                    "max": 4000
+                  },
+                  {
+                    "name": "height",
+                    "kind": "number",
+                    "label": "Height in pixels",
+                    "required": true,
+                    "min": 100,
+                    "max": 4000
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "teaserLinkLabel",
+          "kind": "text",
+          "label": "Link text on every teaser",
+          "required": true,
+          "max": 40
+        }
+      ],
+      "example": {
+        "heading": "What clients said afterward",
+        "tag": "Custom systems, 2024 to 2025",
+        "quotesLabel": "Client quotes",
+        "stats": [
+          {
+            "value": "3 of 3",
+            "label": "met the goals set at kickoff"
+          }
+        ],
+        "footnote": "From client wrap-up surveys. A small sample, I know.",
+        "teasers": [
+          {
+            "name": "Hideout Fitness",
+            "body": "An owner dashboard for retention, revenue and profit by coach and client.",
+            "href": "/past-work#hideout-fitness",
+            "image": {
+              "src": "/work/systems-1",
+              "alt": "An owner dashboard with pie charts of profit against trainer pay by session type and bar charts of average profit",
+              "width": 1200,
+              "height": 656
+            }
+          }
+        ],
+        "teaserLinkLabel": "Read the project →"
+      }
+    },
+    {
+      "type": "home-about",
+      "title": "About teaser",
+      "description": "The owner's headshot inside the logo ring, a heading, one paragraph and a link to the About page.",
+      "source": "site",
+      "variants": [
+        {
+          "name": "default",
+          "description": "Headshot on the left, words on the right (stacked on phones); the rust dot travels the ring once in view.",
+          "default": true
+        }
+      ],
+      "placement": {
+        "position": "any",
+        "maxPerPage": 1,
+        "rhythm": "teaser",
+        "joinsHero": false
+      },
+      "motion": {
+        "entrance": "none",
+        "reason": "Keeps this site's own one-moment-per-section motion (STYLE-GUIDE §9.4): the ring's dot travels once in view.",
+        "signature": null
+      },
+      "fixedAnchor": null,
+      "interactive": null,
+      "fields": [
+        {
+          "name": "heading",
+          "kind": "text",
+          "label": "Heading",
+          "required": true,
+          "max": 60
+        },
+        {
+          "name": "body",
+          "kind": "text",
+          "label": "Paragraph",
+          "required": true,
+          "max": 400
+        },
+        {
+          "name": "link",
+          "kind": "object",
+          "label": "Link",
+          "required": true,
+          "fields": [
+            {
+              "name": "label",
+              "kind": "text",
+              "label": "Link text",
+              "required": true,
+              "max": 40
+            },
+            {
+              "name": "href",
+              "kind": "link",
+              "label": "Link",
+              "required": true
+            }
+          ]
+        }
+      ],
+      "example": {
+        "heading": "Hi, I'm Grant.",
+        "body": "Two sentences about who I am and why I started the business.",
+        "link": {
+          "label": "More about me →",
+          "href": "/about"
+        }
+      }
+    },
+    {
+      "type": "contact-panel",
+      "title": "Contact panel",
+      "description": "The booking column (the scheduler button, with a drawing of the note's path beside the form) next to the note form.",
+      "source": "site",
+      "variants": [
+        {
+          "name": "default",
+          "description": "Booking column on the left, the note form on the right (form first on phones).",
+          "default": true
+        }
+      ],
+      "placement": {
+        "position": "any",
+        "maxPerPage": 1,
+        "rhythm": "compact",
+        "joinsHero": true
+      },
+      "motion": {
+        "entrance": "none",
+        "reason": "Keeps this site's own motion rules (STYLE-GUIDE §9.4): the form has no entrance, the path drawing plays once.",
+        "signature": null
+      },
+      "fixedAnchor": null,
+      "interactive": "The note form is a client component: it checks the answers, loads the bot check on focus and posts the note.",
+      "fields": [
+        {
+          "name": "heading",
+          "kind": "text",
+          "label": "Booking heading",
+          "required": true,
+          "max": 60
+        },
+        {
+          "name": "body",
+          "kind": "text",
+          "label": "Booking sentence",
+          "required": true,
+          "max": 240
+        },
+        {
+          "name": "buttonLabel",
+          "kind": "text",
+          "label": "Booking button label",
+          "required": true,
+          "max": 40
+        },
+        {
+          "name": "unsetNote",
+          "kind": "text",
+          "label": "Note shown until a booking link is set",
+          "help": "Only ever seen while the site has no scheduler link; it fails the launch check on purpose.",
+          "required": true,
+          "max": 80
+        }
+      ],
+      "example": {
+        "heading": "Book a 20-minute call",
+        "body": "Pick a time that works. Tell me what you need and I'll tell you whether there's a sensible next step.",
+        "buttonLabel": "Pick a time →",
+        "unsetNote": "Booking link not set yet."
+      }
+    },
+    {
+      "type": "contact-next",
+      "title": "What happens next",
+      "description": "A heading and a numbered list of what happens after a note is sent, then a line with the site's email address.",
+      "source": "site",
+      "variants": [
+        {
+          "name": "default",
+          "description": "A numbered list with green numerals, then the email line.",
+          "default": true
+        }
+      ],
+      "placement": {
+        "position": "any",
+        "maxPerPage": 1,
+        "rhythm": "compact",
+        "joinsHero": false
+      },
+      "motion": {
+        "entrance": "none",
+        "reason": "Keeps this site's own motion rules (STYLE-GUIDE §9.4); this section has none.",
+        "signature": null
+      },
+      "fixedAnchor": null,
+      "interactive": null,
+      "fields": [
+        {
+          "name": "heading",
+          "kind": "text",
+          "label": "Heading",
+          "required": true,
+          "max": 60
+        },
+        {
+          "name": "steps",
+          "kind": "list",
+          "label": "Steps",
+          "required": true,
+          "items": {
+            "min": 1,
+            "max": 5
+          },
+          "of": {
+            "kind": "object",
+            "label": "Step",
+            "required": true,
+            "fields": [
+              {
+                "name": "lead",
+                "kind": "text",
+                "label": "Bold start of the step",
+                "required": true,
+                "max": 80
+              },
+              {
+                "name": "body",
+                "kind": "text",
+                "label": "Rest of the step",
+                "required": true,
+                "max": 240
+              }
+            ]
+          }
+        },
+        {
+          "name": "emailLabel",
+          "kind": "text",
+          "label": "Words before the email address",
+          "required": true,
+          "max": 40
+        }
+      ],
+      "example": {
+        "heading": "What happens next",
+        "steps": [
+          {
+            "lead": "An automatic reply",
+            "body": "reaches you right away, so you know it arrived."
+          }
+        ],
+        "emailLabel": "Prefer email?"
+      }
+    },
+    {
+      "type": "privacy-text",
+      "title": "Privacy text",
+      "description": "The privacy statement: one paragraph that ends with the site's email address, then the date it was last updated.",
+      "source": "site",
+      "variants": [
+        {
+          "name": "default",
+          "description": "One paragraph at reading width.",
+          "default": true
+        }
+      ],
+      "placement": {
+        "position": "any",
+        "maxPerPage": 1,
+        "rhythm": "section",
+        "joinsHero": true
+      },
+      "motion": {
+        "entrance": "none",
+        "reason": "Plain text with no motion of its own (STYLE-GUIDE §9.4); it shows at once.",
+        "signature": null
+      },
+      "fixedAnchor": null,
+      "interactive": null,
+      "fields": [
+        {
+          "name": "body",
+          "kind": "text",
+          "label": "Statement",
+          "help": "It runs on into the site's email address, so end it with the words that lead there.",
+          "required": true,
+          "max": 1600
+        },
+        {
+          "name": "lastUpdated",
+          "kind": "text",
+          "label": "Last-updated line",
+          "required": true,
+          "max": 60
+        }
+      ],
+      "example": {
+        "body": "A short statement of what is collected and why. To have your information deleted, email",
+        "lastUpdated": "Last updated November 15, 2026."
+      }
+    },
+    {
+      "type": "insights-index",
+      "title": "Insights index",
+      "description": "The article list on Insights: a row of categories once there are articles, and until then one line with a link to ask a question.",
+      "source": "site",
+      "variants": [
+        {
+          "name": "default",
+          "description": "The category row (when there are articles), then the line.",
+          "default": true
+        }
+      ],
+      "placement": {
+        "position": "any",
+        "maxPerPage": 1,
+        "rhythm": "compact",
+        "joinsHero": true
+      },
+      "motion": {
+        "entrance": "none",
+        "reason": "Plain list and text with no motion of its own (STYLE-GUIDE §9.4); it shows at once.",
+        "signature": null
+      },
+      "fixedAnchor": null,
+      "interactive": null,
+      "fields": [
+        {
+          "name": "categories",
+          "kind": "list",
+          "label": "Categories",
+          "help": "Shown only once there are articles. The first is the active one.",
+          "required": true,
+          "items": {
+            "min": 1,
+            "max": 10
+          },
+          "of": {
+            "kind": "text",
+            "label": "Category",
+            "required": true,
+            "max": 40
+          }
+        },
+        {
+          "name": "emptyText",
+          "kind": "text",
+          "label": "Line shown while there are no articles",
+          "required": true,
+          "max": 160
+        },
+        {
+          "name": "askLink",
+          "kind": "object",
+          "label": "Link after that line",
+          "required": true,
+          "fields": [
+            {
+              "name": "label",
+              "kind": "text",
+              "label": "Link text",
+              "required": true,
+              "max": 40
+            },
+            {
+              "name": "href",
+              "kind": "link",
+              "label": "Link",
+              "required": true
+            }
+          ]
+        }
+      ],
+      "example": {
+        "categories": [
+          "All",
+          "Websites"
+        ],
+        "emptyText": "Nothing here yet. Got a question you'd like answered?",
+        "askLink": {
+          "label": "Ask me →",
+          "href": "/contact"
+        }
       }
     }
   ],

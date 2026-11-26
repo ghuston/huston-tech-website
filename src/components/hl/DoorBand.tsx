@@ -20,7 +20,7 @@ type DoorBandProps = {
  */
 export function DoorBand({ doors, label }: DoorBandProps) {
   return (
-    <section id="hello" aria-label={label} className="relative pb-16 pt-6 md:pb-24 md:pt-12">
+    <section id="hello" aria-label={label}>
       <Glow variant="seam" className="left-1/2 -top-65 -ml-162.5" />
       <Container className="relative grid gap-4.5 md:grid-cols-2 md:gap-7">
         {doors.map((door) => (

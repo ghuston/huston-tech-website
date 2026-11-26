@@ -140,6 +140,12 @@ export type Placement = {
   joinsHero?: boolean;
   /** The one page path this block may be used on (for example the post index on /blog). */
   onlyOn?: string;
+  /**
+   * The renderer's wrapper is not `position: relative`. For a site block whose section was not positioned before the
+   * page became blocks and draws nothing absolutely placed: a positioned wrapper at a fractional offset paints
+   * sub-pixels differently (the headshot ring), so this keeps such a section's pixels exactly.
+   */
+  plainWrapper?: boolean;
 };
 
 export type Motion = ({ entrance: "default" } | { entrance: "none"; reason: string }) & {

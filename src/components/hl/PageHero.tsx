@@ -47,17 +47,19 @@ type PageHeroProps = {
   children?: ReactNode;
   /** The 404: the ring is drawn with its dot parked away from the gap (§7.33). */
   dotOut?: boolean;
+  /** The hero block paints the glow and ring above later content, as they were while the hero's section was the only positioned box. */
+  ringOnTop?: boolean;
 };
 
 /**
- * Top of every inner page (docs/STYLE-GUIDE.md §7.25): left-aligned eyebrow, H1, intro and action, with a quarter of
- * the ring and a soft green glow in the top-right corner. Static: no dot, no motion.
+ * The inside of the inner-page hero (docs/STYLE-GUIDE.md §7.25): the glow, the quarter ring and the words. No section and
+ * no padding, so the hero block (src/site-blocks/page-hero) can put them in its own section under the renderer's rhythm.
  */
-export function PageHero({ eyebrow, title, intro, children, dotOut = false }: PageHeroProps) {
-  const ringClass = "pointer-events-none absolute -right-65 -top-65 size-130";
+export function PageHeroInner({ eyebrow, title, intro, children, dotOut = false, ringOnTop = false }: PageHeroProps) {
+  const ringClass = ringOnTop ? "pointer-events-none absolute -right-65 -top-65 size-130 z-1" : "pointer-events-none absolute -right-65 -top-65 size-130";
   return (
-    <section className="relative pb-16 pt-18">
-      <Glow variant="green" className="-right-65 -top-65 size-130" />
+    <>
+      <Glow variant="green" className={ringOnTop ? "-right-65 -top-65 size-130 z-1" : "-right-65 -top-65 size-130"} />
       {dotOut ? (
         <RingWithDot className={ringClass} ringColor="var(--hl-white)" dotColor="var(--hl-rust)" dotRotate={148} />
       ) : (
@@ -69,6 +71,18 @@ export function PageHero({ eyebrow, title, intro, children, dotOut = false }: Pa
         {intro ? <p className="mt-6 max-w-intro text-body">{intro}</p> : null}
         {children ? <div className="mt-8">{children}</div> : null}
       </Container>
+    </>
+  );
+}
+
+/**
+ * Top of every inner page (docs/STYLE-GUIDE.md §7.25): left-aligned eyebrow, H1, intro and action, with a quarter of
+ * the ring and a soft green glow in the top-right corner. Static: no dot, no motion.
+ */
+export function PageHero(props: PageHeroProps) {
+  return (
+    <section className="relative pb-16 pt-18">
+      <PageHeroInner {...props} />
     </section>
   );
 }

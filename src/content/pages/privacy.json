@@ -1,0 +1,28 @@
+{
+  "path": "/privacy",
+  "title": "Privacy Policy | Huston Logic",
+  "description": "How Huston Logic handles the information you send through the contact form or scheduling tool.",
+  "status": "live",
+  "menu": {
+    "label": "Privacy",
+    "order": 8,
+    "places": [
+      "legal"
+    ]
+  },
+  "blocks": [
+    {
+      "type": "page-hero",
+      "content": {
+        "title": "Privacy Policy"
+      }
+    },
+    {
+      "type": "privacy-text",
+      "content": {
+        "body": "Huston Logic (\"I\") collects only what you send through the contact form or scheduling tool (your name, email, what you need, your business name if you give it, and your message) and uses it to reply to you and to discuss potential work. You can also tell me the tools you use, your website and how you found me (all optional), and Cloudflare checks the form for bots, which briefly uses your IP address. I also use Cloudflare Web Analytics to count visits. It doesn't use cookies. The form sends you one automatic reply. I don't sell or share your information, except with the services that run this site (hosting, email delivery, a spreadsheet I own, and scheduling), which process it on my behalf. To have your information deleted, email",
+        "lastUpdated": "Last updated November 15, 2026."
+      }
+    }
+  ]
+}

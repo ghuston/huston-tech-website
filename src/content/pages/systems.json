@@ -1,0 +1,14 @@
+{
+  "path": "/systems",
+  "title": "AI Systems for Small Businesses | Huston Logic",
+  "description": "A sales follow-up system you run by talking, hosted by me. A one-time install, an optional care plan, and flat-fee hosting.",
+  "status": "live",
+  "blocks": [
+    {
+      "type": "page-hero",
+      "content": {
+        "title": "TEMPORARY STUB. Part 2 of step 1c converts this page."
+      }
+    }
+  ]
+}

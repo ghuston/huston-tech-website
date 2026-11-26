@@ -59,7 +59,7 @@ type AboutTeaserProps = {
 /** About teaser (docs/STYLE-GUIDE.md §7.22): the headshot in the logo ring, a single-voice H2, one paragraph and a link. */
 export function AboutTeaser({ heading, body, link }: AboutTeaserProps) {
   return (
-    <section aria-labelledby="about-teaser-title" className="py-12 md:py-20">
+    <section aria-labelledby="about-teaser-title">
       <Container className="relative z-1 grid items-center gap-7 md:grid-cols-[260px_minmax(0,1fr)] md:gap-18">
         <RingHeadshot className="max-w-portrait md:max-w-none" orbit />
         <div className="max-w-about">

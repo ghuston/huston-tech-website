@@ -12,7 +12,7 @@ type, optionally a variant, and fill in its content.
 ## Page rules
 
 - **Page file.** One file per page in src/content/pages/. home.json is the home page (/); every other file is named after its one-segment path (services.json is /services). Paths are lowercase words joined by hyphens, one level deep, and each is used once.
-- **Page keys.** `path`: "/" or a one-segment path like "/services". Must match the file name. `title`: The page's search-result title, 1 to 70 characters. `description`: The page's search-result description, 1 to 170 characters. `status`: "live" or "archived". `menu` (optional): Where the page appears in the menu: { label, order, places }. `blocks`: The page's sections, in order: at most 20.
+- **Page keys.** `path`: "/" or a one-segment path like "/services". Must match the file name. `title`: The page's search-result title, 1 to 80 characters. `description`: The page's search-result description, 1 to 200 characters. `status`: "live" or "archived". `menu` (optional): Where the page appears in the menu: { label, order, places }. `blocks`: The page's sections, in order: at most 20.
 - **Menu.** `label`: The words in the menu, 1 to 24 characters. `order`: A number; lower numbers come first. `places`: Any of "header", "footer", "legal". A page appears in the menu only if it has a menu entry. At most 6 live pages may be in the header.
 - **Block keys.** `type`: The name of a block in this catalog. `variant` (optional): One of the block's variants; the first is used when it is left out. `anchor` (optional): A lowercase name (letters, digits, hyphens; starts with a letter; at most 40 characters) that links can point to as /page#name. Unique on the page. `content`: The block's fields, as listed in its entry.
 - **Status.** `live`: the page is built, listed in the menu places it asks for, and in the sitemap. `archived`: the page leaves the build, the menu and the sitemap. The file and its content stay, and setting it back to live restores it. A link to an archived page fails the check.
@@ -1006,5 +1006,554 @@ The people from your Team collection, in the order you set there, with a photo, 
 {
   "heading": "A short heading that introduces the people",
   "intro": "A sentence about who you work with."
+}
+```
+
+## Page hero (`page-hero`)
+
+The top of an inner page: a small line above, the page headline and a short introduction, with a quarter of the logo ring and a soft glow in the corner.
+
+**Where it can go:** first on the page, once. This is one of this site's own blocks.
+
+**Variants** (set with `variant`; the first is used when it is left out):
+
+- `default` (default): Left-aligned, with the ring and a green glow in the top-right corner.
+
+**Fields** (inside `content`):
+
+| Field | What it is | Required | Limits |
+| --- | --- | --- | --- |
+| `eyebrow` | Small line above the headline | no | up to 60 characters |
+| `title` | Headline. The page's one main heading. | yes | up to 90 characters |
+| `intro` | Introduction | no | up to 400 characters |
+
+**Motion:** No entrance motion. The first block is the first paint, and the ring and glow are static (STYLE-GUIDE §7.25).
+
+**Example:**
+
+```json
+{
+  "eyebrow": "A short line that sets the scene",
+  "title": "A headline that says what this page is about",
+  "intro": "One or two sentences that say more about the page."
+}
+```
+
+## Closing call (`closing-call`)
+
+The last block of a page: a heading (one line, or two in the second voice), an optional sentence, the call button and an optional second link, blended into the page by a soft glow.
+
+**Where it can go:** last on the page, once. This is one of this site's own blocks.
+
+**Variants** (set with `variant`; the first is used when it is left out):
+
+- `default` (default): Left-aligned, with a soft seam glow along its top edge.
+
+**Fields** (inside `content`):
+
+| Field | What it is | Required | Limits |
+| --- | --- | --- | --- |
+| `heading` | Heading (single voice). Use this, or line 1 and line 2 for the two-voice heading. | no | up to 90 characters |
+| `line1` | Heading, line 1 (first voice) | no | up to 60 characters |
+| `line2` | Heading, line 2 (second voice) | no | up to 80 characters |
+| `body` | Sentence under the heading | no | up to 240 characters |
+| `cta` | Button label | yes | up to 60 characters |
+| `secondary` | Second link | no | button words up to 40 characters, and a link |
+
+**Motion:** No entrance motion. Keeps this site's own one-moment-per-section motion (STYLE-GUIDE §9.4); this section has none.
+
+**Example:**
+
+```json
+{
+  "line1": "A first line in the heading voice.",
+  "line2": "A second line in the other voice.",
+  "body": "One sentence that says what happens next.",
+  "cta": "A label that says what the button does",
+  "secondary": {
+    "label": "Or send a quick note →",
+    "href": "/contact"
+  }
+}
+```
+
+## Home hero (`home-hero`)
+
+The home page's first screen: a small line, the two-voice headline, a short pitch, one line of reassurance, the call button with a link beside it, and the card stack on the right.
+
+**Where it can go:** first on the page, once. This is one of this site's own blocks.
+
+**Variants** (set with `variant`; the first is used when it is left out):
+
+- `default` (default): Text on the left, the card stack on the right (below it on phones), with a green glow behind the stack.
+
+**Fields** (inside `content`):
+
+| Field | What it is | Required | Limits |
+| --- | --- | --- | --- |
+| `eyebrow` | Small line above the headline | yes | up to 120 characters |
+| `line1` | Headline, line 1 (first voice) | yes | up to 60 characters |
+| `line2` | Headline, line 2 (second voice) | yes | up to 60 characters |
+| `subhead` | Pitch under the headline | yes | up to 320 characters |
+| `supportingLine` | One line of reassurance | yes | up to 60 characters |
+| `cta` | Call button label | yes | up to 60 characters |
+| `installLink` | Link beside the button | yes | a group of fields |
+| `installLink.label` | Link text | yes | up to 60 characters |
+| `installLink.href` | Section it jumps to, written #name | yes | up to 40 characters |
+| `stack` | The card stack. All names on the cards are invented stand-ins; no real person's data. | yes | a group of fields |
+| `stack.ariaLabel` | What the picture shows, for screen readers | yes | up to 300 characters |
+| `stack.board` | The owner's board | yes | a group of fields |
+| `stack.board.heading` | Board heading | yes | up to 30 characters |
+| `stack.board.rows` | Board rows | yes | 1 to 4 items |
+| `stack.board.rows[].name` | Name | yes | up to 40 characters |
+| `stack.board.rows[].detail` | Detail | yes | up to 60 characters |
+| `stack.board.rows[].status` | Status | yes | up to 20 characters |
+| `stack.board.rows[].highlighted` | Highlighted row | yes | yes or no |
+| `stack.say` | The spoken note | yes | a group of fields |
+| `stack.say.tag` | Label | yes | up to 40 characters |
+| `stack.say.said` | What is said | yes | up to 160 characters |
+| `stack.brief` | The brief before the next call | yes | a group of fields |
+| `stack.brief.tag` | Label | yes | up to 40 characters |
+| `stack.brief.name` | Name | yes | up to 40 characters |
+| `stack.brief.time` | Time | yes | up to 20 characters |
+| `stack.brief.line` | Line | yes | up to 80 characters |
+| `stack.rule` | The rule added by asking | yes | a group of fields |
+| `stack.rule.tag` | Label | yes | up to 40 characters |
+| `stack.rule.rule` | The rule | yes | up to 120 characters |
+| `stack.rule.undo` | The undo line | yes | up to 80 characters |
+| `stack.chip` | The chip | yes | a group of fields |
+| `stack.chip.figure` | Figure | yes | up to 30 characters |
+| `stack.chip.label` | Label | yes | up to 60 characters |
+
+**Motion:** No entrance motion. Keeps this site's own headline rise and stack motion (STYLE-GUIDE §5, §9); the first block never waits on scroll.
+
+**Example:**
+
+```json
+{
+  "eyebrow": "A short line that sets the scene.",
+  "line1": "A first line in the heading voice",
+  "line2": "and a second in the other.",
+  "subhead": "Two sentences that say what you build and how it works for the client.",
+  "supportingLine": "One short line of reassurance.",
+  "cta": "Book a free 20-minute call →",
+  "installLink": {
+    "label": "See what I'm working on ↘",
+    "href": "#installing"
+  },
+  "stack": {
+    "ariaLabel": "A board of today's follow-ups, with a spoken note, a brief and a rule around it.",
+    "board": {
+      "heading": "Today",
+      "rows": [
+        {
+          "name": "Dana Ortiz",
+          "detail": "Quote, three units",
+          "status": "Due Fri",
+          "highlighted": true
+        }
+      ]
+    },
+    "say": {
+      "tag": "You say",
+      "said": "Just talked to Dana. She wants a quote by Friday."
+    },
+    "brief": {
+      "tag": "Before your next call",
+      "name": "Dana Ortiz",
+      "time": "2:00 pm",
+      "line": "Wants three units."
+    },
+    "rule": {
+      "tag": "A rule you added",
+      "rule": "Nudge me three days after any proposal.",
+      "undo": "Don't like it? “Undo that.”"
+    },
+    "chip": {
+      "figure": "Notes saved",
+      "label": "Follow-up set for Friday"
+    }
+  }
+}
+```
+
+## What I'm installing now (`home-installing`)
+
+A heading with the things an owner says and what the system does, the app's phone screens, and a line with a link.
+
+**Where it can go:** anywhere, once. This is one of this site's own blocks.
+
+**Variants** (set with `variant`; the first is used when it is left out):
+
+- `default` (default): Heading, talk pairs, phone screens and a line, in one column, then two, then three as the screen widens.
+
+**Fields** (inside `content`):
+
+| Field | What it is | Required | Limits |
+| --- | --- | --- | --- |
+| `eyebrow` | Small line above the heading | yes | up to 60 characters |
+| `heading` | Heading | yes | up to 100 characters |
+| `pairs` | What is said, and what happens | yes | 1 to 5 items |
+| `pairs[].said` | What the owner says | yes | up to 140 characters |
+| `pairs[].result` | What the system does | yes | up to 140 characters |
+| `screens` | Phone screens | yes | 1 to 4 items |
+| `screens[].key` | Which screen | yes | one of "today", "pipeline", "brief", "rule" |
+| `screens[].label` | Name | yes | up to 30 characters |
+| `screens[].alt` | What the screen shows | yes | up to 160 characters |
+| `screensLabel` | Name of the swipe row, for screen readers | yes | up to 60 characters |
+| `screensNote` | Line under the screens | yes | up to 30 characters |
+| `line` | Closing sentence | yes | up to 320 characters |
+| `link` | Link under the sentence | yes | a group of fields |
+| `link.label` | Link text | yes | up to 60 characters |
+| `link.href` | Link | yes | a link (see Page rules) |
+
+**Motion:** No entrance motion. Keeps this site's own one-moment-per-section motion (STYLE-GUIDE §9.4): the talk pairs play once in view.
+
+**Example:**
+
+```json
+{
+  "eyebrow": "What I'm working on now",
+  "heading": "A heading that names the system",
+  "pairs": [
+    {
+      "said": "“Something the owner says.”",
+      "result": "What the system does."
+    }
+  ],
+  "screens": [
+    {
+      "key": "today",
+      "label": "Today",
+      "alt": "The Today screen of the follow-up app, with demo data"
+    }
+  ],
+  "screensLabel": "App screens, demo data",
+  "screensNote": "Demo data",
+  "line": "One sentence about how it is set up and handed over.",
+  "link": {
+    "label": "See how it works →",
+    "href": "/contact"
+  }
+}
+```
+
+## The two doors (`home-doors`)
+
+Two ways to start, one card each, taken from the site's two offers. "Say hello" in the menu lands here.
+
+**Where it can go:** anywhere, once. This is one of this site's own blocks.
+
+**Fixed anchor:** `#hello` (links can point to it; it cannot be changed).
+
+**Variants** (set with `variant`; the first is used when it is left out):
+
+- `default` (default): Two doors side by side (stacked on phones); each swings open on hover or focus.
+
+**Fields** (inside `content`):
+
+| Field | What it is | Required | Limits |
+| --- | --- | --- | --- |
+| `label` | Name of the band, for screen readers. The band has no visible heading; each door's own title carries the structure. | yes | up to 60 characters |
+
+**Motion:** No entrance motion. Keeps this site's own door swing and one-moment-per-section motion (STYLE-GUIDE §9.4).
+
+**Example:**
+
+```json
+{
+  "label": "Two ways to start"
+}
+```
+
+## Why hire me (`home-why`)
+
+A two-voice heading and a paragraph, the checks every build passes on a track, a callout and three points.
+
+**Where it can go:** anywhere, once. This is one of this site's own blocks.
+
+**Variants** (set with `variant`; the first is used when it is left out):
+
+- `default` (default): Heading and paragraph side by side, then the check track, a tinted callout and a row of three points.
+
+**Fields** (inside `content`):
+
+| Field | What it is | Required | Limits |
+| --- | --- | --- | --- |
+| `eyebrow` | Small line above the heading | yes | up to 60 characters |
+| `line1` | Heading, line 1 (first voice) | yes | up to 80 characters |
+| `line2` | Heading, line 2 (second voice) | yes | up to 80 characters |
+| `body` | Paragraph | yes | up to 600 characters |
+| `stops` | The checks, in order. The last stop usually has no line: the rust dot rests there. | yes | 2 to 10 items |
+| `stops[].title` | Title | yes | up to 60 characters |
+| `stops[].line` | Line under the title | no | up to 100 characters |
+| `callout` | Callout | yes | up to 200 characters |
+| `points` | Three points | yes | 1 to 3 items |
+| `points[].title` | Title | yes | up to 40 characters |
+| `points[].body` | Sentence | yes | up to 140 characters |
+
+**Motion:** No entrance motion. Keeps this site's own one-moment-per-section motion (STYLE-GUIDE §9.4): the dot travels the track once in view.
+
+**Example:**
+
+```json
+{
+  "eyebrow": "Why hire me",
+  "line1": "A first line in the heading voice.",
+  "line2": "A second line in the other voice.",
+  "body": "A paragraph that says why the checks matter.",
+  "stops": [
+    {
+      "title": "It builds clean.",
+      "line": "On a fresh machine, not only mine."
+    },
+    {
+      "title": "Then it goes live."
+    }
+  ],
+  "callout": "One sentence that backs up the checks.",
+  "points": [
+    {
+      "title": "You work with me.",
+      "body": "The person on the call is the person doing the work."
+    }
+  ]
+}
+```
+
+## Proof (`home-proof`)
+
+A heading with a tag, the client quotes chosen for the home page, a row of survey scores and two case-study teasers with a screenshot each.
+
+**Where it can go:** anywhere, once. This is one of this site's own blocks.
+
+**Variants** (set with `variant`; the first is used when it is left out):
+
+- `default` (default): Heading and tag, three quotes, score chips, then two teaser cards side by side.
+
+**Fields** (inside `content`):
+
+| Field | What it is | Required | Limits |
+| --- | --- | --- | --- |
+| `heading` | Heading | yes | up to 80 characters |
+| `tag` | Tag beside the heading | yes | up to 60 characters |
+| `quotesLabel` | Name of the quotes' swipe row, for screen readers | yes | up to 40 characters |
+| `stats` | Survey scores | yes | 1 to 5 items |
+| `stats[].value` | Figure | yes | up to 20 characters |
+| `stats[].label` | What it measures | yes | up to 60 characters |
+| `footnote` | Small print | yes | up to 120 characters |
+| `teasers` | Case-study teasers | yes | 1 to 4 items |
+| `teasers[].name` | Project | yes | up to 60 characters |
+| `teasers[].body` | One sentence | yes | up to 200 characters |
+| `teasers[].href` | Page and section it links to | yes | a link (see Page rules) |
+| `teasers[].image` | Screenshot | yes | a group of fields |
+| `teasers[].image.src` | File under public/, without .avif or .webp | yes | up to 80 characters |
+| `teasers[].image.alt` | What the screenshot shows | yes | up to 200 characters |
+| `teasers[].image.width` | Width in pixels | yes | a whole number from 100 to 4000 |
+| `teasers[].image.height` | Height in pixels | yes | a whole number from 100 to 4000 |
+| `teaserLinkLabel` | Link text on every teaser | yes | up to 40 characters |
+
+**Motion:** No entrance motion. Keeps this site's own one-moment-per-section motion (STYLE-GUIDE §9.4): the score chips pop in once in view.
+
+**Example:**
+
+```json
+{
+  "heading": "What clients said afterward",
+  "tag": "Custom systems, 2024 to 2025",
+  "quotesLabel": "Client quotes",
+  "stats": [
+    {
+      "value": "3 of 3",
+      "label": "met the goals set at kickoff"
+    }
+  ],
+  "footnote": "From client wrap-up surveys. A small sample, I know.",
+  "teasers": [
+    {
+      "name": "Hideout Fitness",
+      "body": "An owner dashboard for retention, revenue and profit by coach and client.",
+      "href": "/past-work#hideout-fitness",
+      "image": {
+        "src": "/work/systems-1",
+        "alt": "An owner dashboard with pie charts of profit against trainer pay by session type and bar charts of average profit",
+        "width": 1200,
+        "height": 656
+      }
+    }
+  ],
+  "teaserLinkLabel": "Read the project →"
+}
+```
+
+## About teaser (`home-about`)
+
+The owner's headshot inside the logo ring, a heading, one paragraph and a link to the About page.
+
+**Where it can go:** anywhere, once. This is one of this site's own blocks.
+
+**Variants** (set with `variant`; the first is used when it is left out):
+
+- `default` (default): Headshot on the left, words on the right (stacked on phones); the rust dot travels the ring once in view.
+
+**Fields** (inside `content`):
+
+| Field | What it is | Required | Limits |
+| --- | --- | --- | --- |
+| `heading` | Heading | yes | up to 60 characters |
+| `body` | Paragraph | yes | up to 400 characters |
+| `link` | Link | yes | a group of fields |
+| `link.label` | Link text | yes | up to 40 characters |
+| `link.href` | Link | yes | a link (see Page rules) |
+
+**Motion:** No entrance motion. Keeps this site's own one-moment-per-section motion (STYLE-GUIDE §9.4): the ring's dot travels once in view.
+
+**Example:**
+
+```json
+{
+  "heading": "Hi, I'm Grant.",
+  "body": "Two sentences about who I am and why I started the business.",
+  "link": {
+    "label": "More about me →",
+    "href": "/about"
+  }
+}
+```
+
+## Contact panel (`contact-panel`)
+
+The booking column (the scheduler button, with a drawing of the note's path beside the form) next to the note form.
+
+**Where it can go:** anywhere, once; it sits close under the hero. This is one of this site's own blocks.
+
+**Needs JavaScript:** The note form is a client component: it checks the answers, loads the bot check on focus and posts the note.
+
+**Variants** (set with `variant`; the first is used when it is left out):
+
+- `default` (default): Booking column on the left, the note form on the right (form first on phones).
+
+**Fields** (inside `content`):
+
+| Field | What it is | Required | Limits |
+| --- | --- | --- | --- |
+| `heading` | Booking heading | yes | up to 60 characters |
+| `body` | Booking sentence | yes | up to 240 characters |
+| `buttonLabel` | Booking button label | yes | up to 40 characters |
+| `unsetNote` | Note shown until a booking link is set. Only ever seen while the site has no scheduler link; it fails the launch check on purpose. | yes | up to 80 characters |
+
+**Motion:** No entrance motion. Keeps this site's own motion rules (STYLE-GUIDE §9.4): the form has no entrance, the path drawing plays once.
+
+**Example:**
+
+```json
+{
+  "heading": "Book a 20-minute call",
+  "body": "Pick a time that works. Tell me what you need and I'll tell you whether there's a sensible next step.",
+  "buttonLabel": "Pick a time →",
+  "unsetNote": "Booking link not set yet."
+}
+```
+
+## What happens next (`contact-next`)
+
+A heading and a numbered list of what happens after a note is sent, then a line with the site's email address.
+
+**Where it can go:** anywhere, once. This is one of this site's own blocks.
+
+**Variants** (set with `variant`; the first is used when it is left out):
+
+- `default` (default): A numbered list with green numerals, then the email line.
+
+**Fields** (inside `content`):
+
+| Field | What it is | Required | Limits |
+| --- | --- | --- | --- |
+| `heading` | Heading | yes | up to 60 characters |
+| `steps` | Steps | yes | 1 to 5 items |
+| `steps[].lead` | Bold start of the step | yes | up to 80 characters |
+| `steps[].body` | Rest of the step | yes | up to 240 characters |
+| `emailLabel` | Words before the email address | yes | up to 40 characters |
+
+**Motion:** No entrance motion. Keeps this site's own motion rules (STYLE-GUIDE §9.4); this section has none.
+
+**Example:**
+
+```json
+{
+  "heading": "What happens next",
+  "steps": [
+    {
+      "lead": "An automatic reply",
+      "body": "reaches you right away, so you know it arrived."
+    }
+  ],
+  "emailLabel": "Prefer email?"
+}
+```
+
+## Privacy text (`privacy-text`)
+
+The privacy statement: one paragraph that ends with the site's email address, then the date it was last updated.
+
+**Where it can go:** anywhere, once; it sits close under the hero. This is one of this site's own blocks.
+
+**Variants** (set with `variant`; the first is used when it is left out):
+
+- `default` (default): One paragraph at reading width.
+
+**Fields** (inside `content`):
+
+| Field | What it is | Required | Limits |
+| --- | --- | --- | --- |
+| `body` | Statement. It runs on into the site's email address, so end it with the words that lead there. | yes | up to 1600 characters |
+| `lastUpdated` | Last-updated line | yes | up to 60 characters |
+
+**Motion:** No entrance motion. Plain text with no motion of its own (STYLE-GUIDE §9.4); it shows at once.
+
+**Example:**
+
+```json
+{
+  "body": "A short statement of what is collected and why. To have your information deleted, email",
+  "lastUpdated": "Last updated November 15, 2026."
+}
+```
+
+## Insights index (`insights-index`)
+
+The article list on Insights: a row of categories once there are articles, and until then one line with a link to ask a question.
+
+**Where it can go:** anywhere, once; it sits close under the hero. This is one of this site's own blocks.
+
+**Variants** (set with `variant`; the first is used when it is left out):
+
+- `default` (default): The category row (when there are articles), then the line.
+
+**Fields** (inside `content`):
+
+| Field | What it is | Required | Limits |
+| --- | --- | --- | --- |
+| `categories` | Categories. Shown only once there are articles. The first is the active one. | yes | 1 to 10 items, each up to 40 characters |
+| `emptyText` | Line shown while there are no articles | yes | up to 160 characters |
+| `askLink` | Link after that line | yes | a group of fields |
+| `askLink.label` | Link text | yes | up to 40 characters |
+| `askLink.href` | Link | yes | a link (see Page rules) |
+
+**Motion:** No entrance motion. Plain list and text with no motion of its own (STYLE-GUIDE §9.4); it shows at once.
+
+**Example:**
+
+```json
+{
+  "categories": [
+    "All",
+    "Websites"
+  ],
+  "emptyText": "Nothing here yet. Got a question you'd like answered?",
+  "askLink": {
+    "label": "Ask me →",
+    "href": "/contact"
+  }
 }
 ```

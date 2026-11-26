@@ -1,0 +1,23 @@
+{
+  "path": "/past-work",
+  "title": "Past Work | Websites & Custom Systems | Huston Logic",
+  "description": "Custom systems for a group therapy practice and a personal training studio, in the clients' own words, plus agency experience across 21 client accounts.",
+  "status": "live",
+  "blocks": [
+    {
+      "type": "page-hero",
+      "anchor": "hideout-fitness",
+      "content": {
+        "title": "TEMPORARY STUB. Part 2 of step 1c converts this page."
+      }
+    },
+    {
+      "type": "closing-call",
+      "anchor": "irvine-family-counseling",
+      "content": {
+        "heading": "TEMPORARY STUB",
+        "cta": "TEMPORARY STUB"
+      }
+    }
+  ]
+}

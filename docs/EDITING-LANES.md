@@ -101,6 +101,18 @@ Each section below is one block you can place on a page. The list says what each
 - **Podcast episodes**: The newest episodes from your Podcast episodes collection, each with its date and summary. Add episodes in the collection; this block shows them. (You can choose a look: **list**, one row per episode with its player beside the text on wide screens, below it on phones; **compact**, one row per episode with its date and a link that opens the episode on Spotify or Apple Podcasts. No player.)
 - **Testimonials**: Quotes from named clients, taken from your Testimonials collection in the order you set there. Every quote shows who said it. (You can choose a look: **grid**, the quotes sit in cards, two across on tablets and three across on wide screens, one column on phones; **feature**, the first quote is large, in the accent serif. Any others sit in a row beneath it.)
 - **Team**: The people from your Team collection, in the order you set there, with a photo, name, role and short bio. (You can choose a look: **grid**, a card per person with a tall photo, a tinted panel with their initials when there is no photo, name, role and bio; **list**, names and roles in two columns, no photos.)
+- **Page hero**: The top of an inner page: a small line above, the page headline and a short introduction, with a quarter of the logo ring and a soft glow in the corner.
+- **Closing call**: The last block of a page: a heading (one line, or two in the second voice), an optional sentence, the call button and an optional second link, blended into the page by a soft glow.
+- **Home hero**: The home page's first screen: a small line, the two-voice headline, a short pitch, one line of reassurance, the call button with a link beside it, and the card stack on the right.
+- **What I'm installing now**: A heading with the things an owner says and what the system does, the app's phone screens, and a line with a link.
+- **The two doors**: Two ways to start, one card each, taken from the site's two offers. "Say hello" in the menu lands here.
+- **Why hire me**: A two-voice heading and a paragraph, the checks every build passes on a track, a callout and three points.
+- **Proof**: A heading with a tag, the client quotes chosen for the home page, a row of survey scores and two case-study teasers with a screenshot each.
+- **About teaser**: The owner's headshot inside the logo ring, a heading, one paragraph and a link to the About page.
+- **Contact panel**: The booking column (the scheduler button, with a drawing of the note's path beside the form) next to the note form.
+- **What happens next**: A heading and a numbered list of what happens after a note is sent, then a line with the site's email address.
+- **Privacy text**: The privacy statement: one paragraph that ends with the site's email address, then the date it was last updated.
+- **Insights index**: The article list on Insights: a row of categories once there are articles, and until then one line with a link to ask a question.
 <!-- blocks:end -->
 
 ## Lane 2: Do it yourself once it is built

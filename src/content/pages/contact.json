@@ -1,0 +1,54 @@
+{
+  "path": "/contact",
+  "title": "Contact | Book a Free 20-Minute Call | Huston Logic",
+  "description": "Need a website, or an AI system for your business? Book a free 20-minute call or send a quick note. You get an automatic reply right away and Grant's own reply within one business day.",
+  "status": "live",
+  "menu": {
+    "label": "Contact",
+    "order": 7,
+    "places": [
+      "footer"
+    ]
+  },
+  "blocks": [
+    {
+      "type": "page-hero",
+      "content": {
+        "eyebrow": "Huston, we have a problem.",
+        "title": "Good. Tell me about it.",
+        "intro": "Two ways to start, and both are free. Send a note and you'll get one automatic reply right away, then a real one from me."
+      }
+    },
+    {
+      "type": "contact-panel",
+      "content": {
+        "heading": "Book a 20-minute call",
+        "body": "Pick a time that works. Tell me what you need and what you use today, and I'll tell you whether there's a sensible next step.",
+        "buttonLabel": "Pick a time →",
+        "unsetNote": "Booking link not set yet."
+      }
+    },
+    {
+      "type": "contact-next",
+      "anchor": "next",
+      "content": {
+        "heading": "What happens next",
+        "steps": [
+          {
+            "lead": "An automatic reply",
+            "body": "reaches you right away, so you know it arrived. Then I read your note myself and reply within one business day (Monday to Friday)."
+          },
+          {
+            "lead": "Step zero: a free 20-minute call",
+            "body": "about what you need and the tools involved."
+          },
+          {
+            "lead": "If there's a fit,",
+            "body": "you get a written plan and a fixed price. If not, I'll point you somewhere useful."
+          }
+        ],
+        "emailLabel": "Prefer email?"
+      }
+    }
+  ]
+}

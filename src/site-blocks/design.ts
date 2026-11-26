@@ -7,9 +7,22 @@ export type RhythmRow = { full: string; bottom: string };
 /**
  * Extra rhythm names this site's blocks may use in `placement.rhythm`, beside the template's `hero`, `section` and
  * `compact`. src/blocks/rhythm.ts merges them in; src/blocks/validate.ts refuses a rhythm name that is in neither list.
- * Empty until the pages are converted to blocks.
+ * Each is the exact padding one of this site's sections had before the pages became blocks.
  */
-export const siteRhythms = {} as const satisfies Record<string, RhythmRow>;
+export const siteRhythms = {
+  /** The Home hero: its own grid sets the space, so the wrapper adds none. */
+  flush: { full: "pb-0", bottom: "pb-0" },
+  /** Home, "what I'm installing now". */
+  installing: { full: "py-12 md:pb-20 md:pt-18", bottom: "pb-12 md:pb-20" },
+  /** Home, the two doors. */
+  doors: { full: "pb-16 pt-6 md:pb-24 md:pt-12", bottom: "pb-16 md:pb-24" },
+  /** Home, "why hire me". */
+  why: { full: "pb-16 pt-8 md:pb-24", bottom: "pb-16 md:pb-24" },
+  /** Home, the proof. */
+  proof: { full: "pb-16 pt-8 md:pb-24 md:pt-0", bottom: "pb-16 md:pb-24" },
+  /** Home, the about teaser. */
+  teaser: { full: "py-12 md:py-20", bottom: "pb-12 md:pb-20" },
+} as const satisfies Record<string, RhythmRow>;
 
 /** A CSS property a keyframes rule may animate beyond the template's list, and why. The reason is checked (20+ characters). */
 export type KeyframeProp = { prop: string; reason: string };

@@ -1,0 +1,15 @@
+{
+  "path": "/services",
+  "title": "Services | Accelerated Websites | Huston Logic",
+  "description": "Every site I build is designed from scratch for one business. Fixed, and agreed in writing before I start.",
+  "status": "live",
+  "blocks": [
+    {
+      "type": "page-hero",
+      "anchor": "websites",
+      "content": {
+        "title": "TEMPORARY STUB. Part 2 of step 1c converts this page."
+      }
+    }
+  ]
+}

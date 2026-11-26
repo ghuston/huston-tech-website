@@ -49,8 +49,8 @@ const ANCHOR_RE = /^[a-z][a-z0-9-]{0,39}$/;
 const KEBAB_RE = /^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$/;
 const IMAGE_RE = /^\/images\/(?:[A-Za-z0-9_-]+\/)*[A-Za-z0-9_.-]+\.(?:jpe?g|png|webp)$/i;
 export const MAX_HEADER_LINKS = 6;
-export const TITLE_MAX = 70;
-export const DESCRIPTION_MAX = 170;
+export const TITLE_MAX = 80;
+export const DESCRIPTION_MAX = 200;
 export const MENU_LABEL_MAX = 24;
 export const MAX_BLOCKS = 20;
 
