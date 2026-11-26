@@ -9,9 +9,6 @@ import { DotList } from "./DotList";
 import { Tag } from "./Tag";
 import { TestimonialRow } from "./TestimonialRow";
 
-/** The heading over the Scoped / Shaped / Shipped strip. Neither project claims a formal paid Review took place. */
-const casePhasesHeading = fw("{steps} at a glance");
-
 /** A blurred screenshot, or a placeholder string until Grant supplies one. Alt text describes the view, never numbers or names. */
 export type ScreenshotImage = { src: string; alt: string; width: number; height: number };
 export type ScreenshotSlot = string | ScreenshotImage;
@@ -63,7 +60,8 @@ function ScreenshotFrame({ shot }: { shot: ScreenshotSlot }) {
  * A systems case study (docs/STYLE-GUIDE.md §7.30): H3 title, meta tags, screenshots, the Scoped / Shaped / Shipped
  * strip, single-voice H4 sections, the quote and the results as a dotted list. The `id` is the anchor Home links to.
  */
-export function SystemsCaseStudy({ study }: { study: CaseStudyContent }) {
+/** `phasesHeading` is the heading over the Scoped / Shaped / Shipped strip, with fw() tokens. */
+export function SystemsCaseStudy({ study, phasesHeading }: { study: CaseStudyContent; phasesHeading: string }) {
   const titleId = `${study.id}-title`;
   const testimonial = getTestimonialById(study.testimonialId);
   const [firstShot, secondShot] = study.screenshots;
@@ -90,7 +88,7 @@ export function SystemsCaseStudy({ study }: { study: CaseStudyContent }) {
       ) : null}
 
       <div className="mt-12">
-        <CaseStudyPhases label={casePhasesHeading} phases={study.phases} />
+        <CaseStudyPhases label={fw(phasesHeading)} phases={study.phases} />
       </div>
 
       <div className="mt-12 max-w-measure">

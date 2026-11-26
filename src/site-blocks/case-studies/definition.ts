@@ -7,6 +7,7 @@ export const caseStudiesDefinition = defineBlock({
   source: "site",
   fields: {
     heading: { kind: "text", label: "Section heading", max: 60 },
+    phasesHeading: { kind: "text", label: "Heading over each Scoped, Shaped, Shipped strip (the step names fill in)", max: 60 },
     studies: {
       kind: "list",
       label: "Case studies",
@@ -87,6 +88,7 @@ export const caseStudiesDefinition = defineBlock({
   motion: { entrance: "none", reason: "Keeps this site's own one-moment-per-section motion (STYLE-GUIDE §9.4): the phase strip and the score chips play once in view." },
   example: {
     heading: "Custom systems",
+    phasesHeading: "{steps} at a glance",
     studies: [
       {
         id: "hideout-fitness",

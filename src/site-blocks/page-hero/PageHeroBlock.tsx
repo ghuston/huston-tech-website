@@ -7,7 +7,7 @@ import type { ContentOf } from "@/blocks/schema";
 import type { pageHeroDefinition } from "./definition";
 
 /** The inner-page hero. The renderer's hero rhythm is its padding, so the glow and ring sit against the wrapper's padded box. */
-export function PageHeroBlock({ content }: BlockProps<ContentOf<typeof pageHeroDefinition.fields>>) {
+export function PageHeroBlock({ content, primary }: BlockProps<ContentOf<typeof pageHeroDefinition.fields>>) {
   const intro = content.introLink ? (
     <>
       {content.intro}
@@ -21,7 +21,7 @@ export function PageHeroBlock({ content }: BlockProps<ContentOf<typeof pageHeroD
   );
   return (
     <section>
-      <PageHeroInner ringOnTop eyebrow={content.eyebrow} title={content.title} intro={intro}>
+      <PageHeroInner ringOnTop headingLevel={primary ? "h1" : "h2"} eyebrow={content.eyebrow} title={content.title} intro={intro}>
         {content.cta ? <Button href={bookCallHref()}>{content.cta}</Button> : null}
       </PageHeroInner>
     </section>

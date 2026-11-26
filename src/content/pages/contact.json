@@ -21,6 +21,7 @@
     },
     {
       "type": "contact-panel",
+      "anchor": "book",
       "content": {
         "heading": "Book a 20-minute call",
         "body": "Pick a time that works. Tell me what you need and what you use today, and I'll tell you whether there's a sensible next step.",

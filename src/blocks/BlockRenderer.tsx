@@ -75,7 +75,7 @@ export function BlockRenderer({ blocks, page }: { blocks: readonly BlockInstance
           page={page}
         />
       ))}
-      <EnterObserver />
+      {shown.some(({ block }, index) => index > 0 && definitions.get(block.type)?.motion.entrance !== "none") ? <EnterObserver /> : null}
     </div>
   );
 }

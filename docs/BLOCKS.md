@@ -2149,6 +2149,7 @@ A heading and the systems case studies in full (screenshots, what happened in ea
 | Field | What it is | Required | Limits |
 | --- | --- | --- | --- |
 | `heading` | Section heading | yes | up to 60 characters |
+| `phasesHeading` | Heading over each Scoped, Shaped, Shipped strip (the step names fill in) | yes | up to 60 characters |
 | `studies` | Case studies | yes | 1 to 4 items |
 | `studies[].id` | Which project (its address on the page and the Home links) | yes | one of "hideout-fitness", "irvine-family-counseling" |
 | `studies[].heading` | Title | yes | up to 120 characters |
@@ -2187,6 +2188,7 @@ A heading and the systems case studies in full (screenshots, what happened in ea
 ```json
 {
   "heading": "Custom systems",
+  "phasesHeading": "{steps} at a glance",
   "studies": [
     {
       "id": "hideout-fitness",

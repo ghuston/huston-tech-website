@@ -40,7 +40,7 @@ export function ContactFormBlock({ content, anchor, headingId }: BlockProps<Cont
             )}
           </div>
         </div>
-        <ContactForm />
+        <ContactForm idPrefix="contact-form-block" />
       </Container>
     </section>
   );

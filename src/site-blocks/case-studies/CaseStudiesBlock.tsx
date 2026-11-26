@@ -24,7 +24,7 @@ export function CaseStudiesBlock({ content, anchor, headingId }: BlockProps<Cont
           {content.studies.map((study, index) => (
             <div key={study.id}>
               {index > 0 ? <FadingDivider className="my-15" /> : null}
-              <SystemsCaseStudy study={study} />
+              <SystemsCaseStudy study={study} phasesHeading={content.phasesHeading} />
             </div>
           ))}
         </div>

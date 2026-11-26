@@ -6,7 +6,7 @@ import type { ContentOf } from "@/blocks/schema";
 import type { homeHeroDefinition } from "./definition";
 
 /** Home's first screen. Hero draws its own section and glow; the h1 id is `hero-title` (anchor "hero"). */
-export function HomeHeroBlock({ content }: BlockProps<ContentOf<typeof homeHeroDefinition.fields>>) {
+export function HomeHeroBlock({ content, primary }: BlockProps<ContentOf<typeof homeHeroDefinition.fields>>) {
   const { stack, ...words } = content;
-  return <Hero content={words} callHref={bookCallHref()} stack={<HeroStack content={stack} />} />;
+  return <Hero content={words} headingLevel={primary ? "h1" : "h2"} callHref={bookCallHref()} stack={<HeroStack content={stack} />} />;
 }

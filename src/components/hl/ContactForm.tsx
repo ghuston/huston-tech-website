@@ -54,7 +54,7 @@ function Labeled({ id, text, children }: { id: string; text: string; children: R
  * Every failure keeps the visitor's answers. No `action`, and `method="post"`, so without JavaScript nothing is sent
  * and nothing lands in the URL.
  */
-function Form({ urlTopic }: { urlTopic: string | null }) {
+function Form({ urlTopic, idPrefix }: { urlTopic: string | null; idPrefix: string }) {
   const topic = topicFromUrl(urlTopic);
   const router = useRouter();
   const [need, setNeed] = useState<Need | null>(topic === "" ? null : topic);
@@ -85,7 +85,7 @@ function Form({ urlTopic }: { urlTopic: string | null }) {
     const target =
       first === "need"
         ? formRef.current?.querySelector<HTMLInputElement>('input[name="need"]')
-        : formRef.current?.querySelector<HTMLElement>(`#cf-${first}`);
+        : formRef.current?.querySelector<HTMLElement>(`#${idPrefix}-${first}`);
     target?.focus();
   }
 
@@ -164,7 +164,7 @@ function Form({ urlTopic }: { urlTopic: string | null }) {
   }
 
   const invalid = (f: ContactField) => (errors[f] ? ("true" as const) : undefined);
-  const described = (f: ContactField, extra?: string) => [extra, errors[f] ? `cf-${f}-error` : undefined].filter(Boolean).join(" ") || undefined;
+  const described = (f: ContactField, extra?: string) => [extra, errors[f] ? `${idPrefix}-${f}-error` : undefined].filter(Boolean).join(" ") || undefined;
 
   return (
     <div className="rounded-panel bg-white p-6 shadow-card md:p-9">
@@ -202,12 +202,12 @@ function Form({ urlTopic }: { urlTopic: string | null }) {
               </label>
             ))}
           </div>
-          <ErrorLine id="cf-need-error" message={errors.need} />
+          <ErrorLine id={`${idPrefix}-need-error`} message={errors.need} />
         </fieldset>
 
-        <Labeled id="cf-name" text={noteForm.name.label}>
+        <Labeled id={`${idPrefix}-name`} text={noteForm.name.label}>
           <input
-            id="cf-name"
+            id={`${idPrefix}-name`}
             name="name"
             type="text"
             autoComplete="name"
@@ -220,12 +220,12 @@ function Form({ urlTopic }: { urlTopic: string | null }) {
             onChange={(ev) => setName(ev.target.value)}
             className={input}
           />
-          <ErrorLine id="cf-name-error" message={errors.name} />
+          <ErrorLine id={`${idPrefix}-name-error`} message={errors.name} />
         </Labeled>
 
-        <Labeled id="cf-email" text={noteForm.email.label}>
+        <Labeled id={`${idPrefix}-email`} text={noteForm.email.label}>
           <input
-            id="cf-email"
+            id={`${idPrefix}-email`}
             name="email"
             type="email"
             autoComplete="email"
@@ -238,44 +238,44 @@ function Form({ urlTopic }: { urlTopic: string | null }) {
             onChange={(ev) => setEmail(ev.target.value)}
             className={input}
           />
-          <ErrorLine id="cf-email-error" message={errors.email} />
+          <ErrorLine id={`${idPrefix}-email-error`} message={errors.email} />
         </Labeled>
 
-        <Labeled id="cf-business" text={noteForm.business.label}>
-          <input id="cf-business" name="business" type="text" autoComplete="organization" maxLength={fieldLimits.business} className={input} />
+        <Labeled id={`${idPrefix}-business`} text={noteForm.business.label}>
+          <input id={`${idPrefix}-business`} name="business" type="text" autoComplete="organization" maxLength={fieldLimits.business} className={input} />
         </Labeled>
 
-        <Labeled id="cf-message" text={noteForm.message.label}>
+        <Labeled id={`${idPrefix}-message`} text={noteForm.message.label}>
           <textarea
-            id="cf-message"
+            id={`${idPrefix}-message`}
             name="message"
             rows={5}
             required
             aria-required="true"
             maxLength={fieldLimits.message}
             aria-invalid={invalid("message")}
-            aria-describedby={described("message", "cf-privacy")}
+            aria-describedby={described("message", `${idPrefix}-privacy`)}
             placeholder={noteForm.message.placeholders[key]}
             value={message}
             onChange={(ev) => setMessage(ev.target.value)}
             className={`${control} min-h-35 py-3`}
           />
-          <p id="cf-privacy" className="mt-2 text-small text-ink-2">
+          <p id={`${idPrefix}-privacy`} className="mt-2 text-small text-ink-2">
             {noteForm.privacyNote}
           </p>
-          <ErrorLine id="cf-message-error" message={errors.message} />
+          <ErrorLine id={`${idPrefix}-message-error`} message={errors.message} />
         </Labeled>
 
-        <Labeled id="cf-tools" text={noteForm.tools.label}>
-          <input id="cf-tools" name="tools" type="text" maxLength={fieldLimits.tools} placeholder={noteForm.tools.placeholders[key]} className={input} />
+        <Labeled id={`${idPrefix}-tools`} text={noteForm.tools.label}>
+          <input id={`${idPrefix}-tools`} name="tools" type="text" maxLength={fieldLimits.tools} placeholder={noteForm.tools.placeholders[key]} className={input} />
         </Labeled>
 
-        <Labeled id="cf-site" text={noteForm.website.label}>
-          <input id="cf-site" name="website" type="url" autoComplete="url" maxLength={fieldLimits.website} className={input} />
+        <Labeled id={`${idPrefix}-site`} text={noteForm.website.label}>
+          <input id={`${idPrefix}-site`} name="website" type="url" autoComplete="url" maxLength={fieldLimits.website} className={input} />
         </Labeled>
 
-        <Labeled id="cf-source" text={noteForm.source.label}>
-          <select id="cf-source" name="source" defaultValue="" className={input}>
+        <Labeled id={`${idPrefix}-source`} text={noteForm.source.label}>
+          <select id={`${idPrefix}-source`} name="source" defaultValue="" className={input}>
             <option value="">{noteForm.source.empty}</option>
             {noteForm.source.options.map((option) => (
               <option key={option} value={option}>
@@ -287,8 +287,8 @@ function Form({ urlTopic }: { urlTopic: string | null }) {
 
         {/* Spam trap: hidden from people and screen readers, out of the tab order. A filled value is refused. */}
         <div aria-hidden="true" className="sr-only">
-          <label htmlFor="cf-fax">{noteForm.honeypotLabel}</label>
-          <input id="cf-fax" name={honeypot.name} type="text" tabIndex={-1} autoComplete="off" defaultValue="" />
+          <label htmlFor={`${idPrefix}-fax`}>{noteForm.honeypotLabel}</label>
+          <input id={`${idPrefix}-fax`} name={honeypot.name} type="text" tabIndex={-1} autoComplete="off" defaultValue="" />
         </div>
 
         <div>
@@ -316,16 +316,17 @@ function Form({ urlTopic }: { urlTopic: string | null }) {
   );
 }
 
-function FormFromUrl() {
+function FormFromUrl({ idPrefix }: { idPrefix: string }) {
   const topic = useSearchParams().get("topic");
-  return <Form key={topic ?? ""} urlTopic={topic} />;
+  return <Form key={topic ?? ""} urlTopic={topic} idPrefix={idPrefix} />;
 }
 
 /** A static page cannot read the query at build time, so the form reads ?topic= in the browser. Before that (and without JS) it shows the unselected form. */
-export function ContactForm() {
+/** `idPrefix` keeps the field ids unique when two contact forms share a page (the /blocks showcase); a live page uses the default. */
+export function ContactForm({ idPrefix = "cf" }: { idPrefix?: string } = {}) {
   return (
-    <Suspense fallback={<Form urlTopic={null} />}>
-      <FormFromUrl />
+    <Suspense fallback={<Form urlTopic={null} idPrefix={idPrefix} />}>
+      <FormFromUrl idPrefix={idPrefix} />
     </Suspense>
   );
 }

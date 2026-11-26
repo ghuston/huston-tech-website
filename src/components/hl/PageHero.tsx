@@ -49,13 +49,16 @@ type PageHeroProps = {
   dotOut?: boolean;
   /** The hero block paints the glow and ring above later content, as they were while the hero's section was the only positioned box. */
   ringOnTop?: boolean;
+  /** H1 for a page's own hero; the block showcase shows further heroes as H2. */
+  headingLevel?: "h1" | "h2";
 };
 
 /**
  * The inside of the inner-page hero (docs/STYLE-GUIDE.md §7.25): the glow, the quarter ring and the words. No section and
  * no padding, so the hero block (src/site-blocks/page-hero) can put them in its own section under the renderer's rhythm.
  */
-export function PageHeroInner({ eyebrow, title, intro, children, dotOut = false, ringOnTop = false }: PageHeroProps) {
+export function PageHeroInner({ eyebrow, title, intro, children, dotOut = false, ringOnTop = false, headingLevel = "h1" }: PageHeroProps) {
+  const Heading = headingLevel;
   const ringClass = ringOnTop ? "pointer-events-none absolute -right-65 -top-65 size-130 z-1" : "pointer-events-none absolute -right-65 -top-65 size-130";
   return (
     <>
@@ -67,7 +70,7 @@ export function PageHeroInner({ eyebrow, title, intro, children, dotOut = false,
       )}
       <Container className="relative z-10">
         {eyebrow ? <Eyebrow>{eyebrow}</Eyebrow> : null}
-        <h1 className={`${eyebrow ? "mt-4.5 " : ""}max-w-title font-ui text-page-title font-bold`}>{title}</h1>
+        <Heading className={`${eyebrow ? "mt-4.5 " : ""}max-w-title font-ui text-page-title font-bold`}>{title}</Heading>
         {intro ? <p className="mt-6 max-w-intro text-body">{intro}</p> : null}
         {children ? <div className="mt-8">{children}</div> : null}
       </Container>

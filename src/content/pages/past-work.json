@@ -65,6 +65,7 @@
       "anchor": "systems",
       "content": {
         "heading": "Custom systems",
+        "phasesHeading": "{steps} at a glance",
         "studies": [
           {
             "id": "hideout-fitness",

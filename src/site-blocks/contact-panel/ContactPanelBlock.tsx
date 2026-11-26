@@ -11,11 +11,11 @@ import type { contactPanelDefinition } from "./definition";
 const h2 = "font-ui text-head font-bold leading-tight tracking-head";
 
 /** Contact (docs/website-plan.md B7, STYLE-GUIDE §7.32): the scheduler column, then the note form. The `book` id is where "/contact#book" lands. */
-export function ContactPanelBlock({ content }: BlockProps<ContentOf<typeof contactPanelDefinition.fields>>) {
+export function ContactPanelBlock({ content, anchor }: BlockProps<ContentOf<typeof contactPanelDefinition.fields>>) {
   return (
     <section>
       <Container className="grid items-start gap-12 split:grid-cols-[5fr_7fr] split:gap-12">
-        <div id="book" className="scroll-mt-24">
+        <div id={anchor} className="scroll-mt-24">
           <h2 className={h2}>{content.heading}</h2>
           <p className="mt-4 max-w-narrow text-body">{content.body}</p>
           <div className="mt-6">
