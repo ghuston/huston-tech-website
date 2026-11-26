@@ -113,3 +113,34 @@ Timing (this Mac, cold build):
 | Old `npm run check` | 10.5 s |
 | New `npm run check:fast` | 5.8 s |
 | New `npm run check` | 11.8 s |
+
+## Run moved 2026-11-26: Last run: Form to the app, and hosting wording (2026-11-24)
+
+Two branches, two PRs. Plan: `docs/superpowers/plans/2026-11-24-w1-w3.md`. The previous run (Port the website process,
+#69) moved unchanged to `docs/history/STATUS-history.md`.
+
+- **PR A, `feat/form-to-pipeline` (W1):** new `worker/intake.ts`. In production, with `INTAKE_SECRET` set, the Worker
+  posts name, email, business and a labelled message (need, topic link, tools, current website, heard-about) to
+  `https://pipeline.hustonlogic.com/intake` and skips the Sheet. Unset, a non-2xx, a redirect or a network failure falls
+  back to the Sheet. The email to you always sends and starts its trailer with "Saved to: ...". Visitors see success if
+  the app, the Sheet or the email got it. Previews never call the app. `INTAKE_SECRET` is not in `secrets.required`.
+  Rate limiter ids 1001 and 1002 became 2101 and 2102 (a counter reset on deploy; the old ids are shared with other
+  Workers). The `wrangler.jsonc` edit went through, so nothing is queued for hand-copying.
+- **Reviews:** review-code and review-security ran once on the branch. Fixed with tests that failed first: a redirect
+  from the app is never followed (it would resend the secret), the message is cut on a character boundary with a visible
+  note, and retries are covered. Deferred minors: a missing space in the existing "Business:" line of the email; a 429
+  from the app is retried at once; a very long message in 3-byte characters could pass the app's 16 KB limit (the Sheet
+  then takes it).
+- **PR B, `feat/hosting-wording` (W3, #70):** 22 copy lines changed in `src/content/` plus one amendment bullet in
+  `docs/website-rev8.md`. No price added; the site says hosting is a flat fee, with no figure. Auto-merge not enabled.
+- `docs/pipeline/` is a copy of the template's handbook, so I did not update it for the app hand-off or the new wording.
+
+Timing (this Mac; start time not noted, so the span is approximate):
+
+| Measure | Value |
+|---|---|
+| Wall-clock time | not measured; commits run 21:25 to 21:30 by this Mac's clock, plus reading and review time before |
+| Commits | 6 (5 on PR A, including this file, and 1 on PR B) |
+| Time in checks (all runs this session) | about 1.5 minutes (6 fast checks, 2 full checks) |
+| Time waiting on CI | not measured: PR A's auto-merge was queued and the run ended |
+| Reviews | review-code and review-security, once, on PR A |

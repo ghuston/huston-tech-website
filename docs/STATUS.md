@@ -6,79 +6,82 @@ here. Update it in place at the end of every run; do not create dated handoff fi
 
 ## Current state
 
-Updated 2026-11-24.
+Updated 2026-11-26.
 
-- **Merged:** Revision 8 (two offers, new Home, /systems), the autonomy hooks and auto-merge rules, the status rules in
-  CLAUDE.md, and the website process port. Merging into `main` deploys through Cloudflare Workers Builds; I have not
-  checked the live site, so "live" is not confirmed here.
-- **Open, PR A (form to the app):** the contact Worker sends each submission to the Pipeline app when `INTAKE_SECRET` is
-  set and falls back to the Sheet otherwise; rate limiter ids are now 2101 and 2102. Auto-merge queued behind the
-  required checks. Until you set the secret nothing changes for visitors: leads still go to the Sheet.
-- **Open, PR B (#70, hosting wording):** copy only. Auto-merge is not enabled; it waits for you to approve the wording on
-  its preview.
-- **Process:** this repo follows the site template's `docs/PROCESS.md` (template commit 99e5378). The pre-commit hook
-  still runs the full `npm run check` until the owner batch below is run; `check:process` rule 7 stays off until then.
-- **Stop queue:** the owner-only files (hooks, agents, settings), written as proposals. **Flagged dependencies:** none.
+- **Merged and live:** Revision 8, the website process port (#69), the hosting wording (#70) and the form-to-app hand-off
+  (#71). Merging into `main` deploys through Cloudflare Workers Builds.
+- **Open, "Catch up to the template":** one PR on `chore/catch-up-to-template`, not merged, no auto-merge. The site now
+  follows the site template (`huston-logic/site-template` main at 8c49fcd): pages are data files built from blocks,
+  testimonials, business details and brand are data files, and the site editor, uploads, collections and forms are in
+  the code, all switched off. Every page is pixel-identical to main at 390 and 1440 wide.
+- **Process:** `docs/PROCESS.md` follows the template at 8c49fcd (rules 1 to 17). The pre-commit hook still runs the full
+  `npm run check` until the owner batch below is installed.
+- **Stop queue:** the owner-only files (hooks, agents, settings, workflows), written as proposals.
+  **Flagged dependency:** `@cloudflare/workers-oauth-provider` 1.2.4 (exact; published 2026-10-22; no dependencies of
+  its own), used only by `worker/index.ts` for the editor's sign-in.
 
 ## Needs Grant
 
 In order:
 
-1. **Connect the form to the Pipeline app** (after PR A has deployed; until then nothing changes). Make one long random
-   secret and set the same value in the site and in your Pipeline copy. Each `secret put` asks for the value with hidden
-   input, so paste the same one both times and don't save it anywhere else:
+1. **Review and merge the PR** from its preview link (it lists the pixel result per page). Merging deploys.
+2. **Owner batch** (after the merge). It makes `chore/owner-template-batch`, copies the template's hooks (pre-commit
+   runs `check:fast`, new pre-push check), the `scout` and `docs-writer` agents, `settings.json` and the three
+   workflows (`ci.yml` gains `check:config` and the non-required `change-scope` and `change-report` jobs), switches
+   `check:process` rule 7 on, then runs the hook selftest and the checks. If Dependabot PR #72 merged first, keep its
+   newer `dependency-review-action` line in `dependency-review.yml`. Then commit and open the PR yourself:
 
    ```bash
-   openssl rand -base64 32
+   zsh /private/tmp/claude-501/-Users-granthuston--claude-spares-spare-XqfR7V/37db1240-9a17-4c64-a1d0-b430252162bf/scratchpad/owner-proposals/apply-owner-batch.sh
    ```
 
-   In this repo's folder (the site's Worker):
-
-   ```bash
-   npx wrangler secret put INTAKE_SECRET
-   ```
-
-   In the Pipeline repo's folder (your copy; `ls .copies` shows its name):
-
-   ```bash
-   npx wrangler secret put INTAKE_SECRET -c .copies/<your-copy>/wrangler.jsonc
-   ```
-
-   Then send one real test through hustonlogic.com/contact. The email to you should say "Saved to: the Pipeline app" and
-   the lead should be on the board. If it says "Pipeline app: NOT saved", the two values differ or the app is down; the
-   lead went to the Sheet, so nothing is lost. Previews never call the app, so they need no secret.
-2. **Make the secret required**, but only after step 1 works on the live site: ask me to add `"INTAKE_SECRET"` to
-   `secrets.required` in `wrangler.jsonc` (a one-line PR). Do it earlier and every deploy fails until the secret is set.
-3. **Approve the hosting wording** on PR B's preview link (PR #70, copy only). It lists every changed line before and
-   after, and three things I flagged (the "no subscription" lines I had to change, the fee mentioned without a number,
-   and what I left alone). Merge it yourself when you're happy; I did not enable auto-merge on it.
-4. After the port PR is merged, run the owner batch in your own terminal. It makes the branch `chore/owner-fast-hooks`,
-   copies the template's hooks, the `scout` and `docs-writer` agents and `settings.json` into `.claude/`, sets
-   `precommitHookFastOnly` to true, then runs the hook selftest, `npm run check:process` and `npm run check`:
-
-   ```bash
-   zsh /private/tmp/claude-501/-Users-granthuston-Code-huston-tech-site/c208e578-dae3-4bc2-97fa-718f88db521b/scratchpad/owner-batch/apply-owner-batch.sh
-   ```
-
-   The selftest must end with `All 132 passed` and `check:process` with `all 7 rules passed`. The proposals are the
-   `*.proposed` files next to the script. The scratchpad can be cleared by a reboot; if it is gone, the same files are
-   the template's `.claude/hooks/{README.md,precommit-check.mjs,prepush-check.mjs,selftest.mjs}`,
-   `.claude/agents/{scout,docs-writer}.md` and `.claude/settings.json` (`huston-logic/site-template`, commit 99e5378).
-   Then stage, commit and open the PR yourself.
-5. Check that the deploy of Revision 8 finished in Cloudflare Workers Builds and that the live Home and /systems match
-   the Revision 8 mockups at 1440 and 390 wide.
-6. Read the copy listed under "Copy written without verbatim Rev 8 text" in `docs/history/STATUS-history.md` on the live
-   site, and tell me which lines to change.
-7. Decide on the three review agents (`.claude/agents/review-{a11y,code,security}.md`). They differ from the template only
-   in naming "the Huston Tech site" where the template says "this site". I kept ours; the batch does not copy them.
-8. Decide which of these template parts this site should get. I did not build any (process port only):
-   - the config system: `site.config.ts`, `scripts/sync-config.mjs`, `npm run check:config` and its CI step;
-   - the change-scope tools: `docs/CHANGE-SCOPE.md`, `check:scope`, `change-report`, and the two CI jobs that run them
-     (PROCESS.md rule 7 names `check:scope`, which this repo lacks);
-   - the other script tests: redirects, image alt text, image metadata stripping;
-   - `src/lib/*.test.ts` in the `test:worker` run, `docs/TEMPLATE.md`, `docs/SECRETS.md`, `docs/ruleset-protect-main.json`.
-9. CI does not run `check:process` or `test:scripts` yet; only your local `npm run check` and `check:fast` do. Adding
-   them to `.github/workflows/ci.yml` is an owner-only edit; I did not propose one.
+   The scratchpad can be cleared by a reboot; the same files are the template's at 8c49fcd.
+3. **If not done yet:** make one random value (`openssl rand -base64 32`) and set it as `INTAKE_SECRET` in this repo
+   (`npx wrangler secret put INTAKE_SECRET`) and in your Pipeline copy
+   (`npx wrangler secret put INTAKE_SECRET -c .copies/<your-copy>/wrangler.jsonc`), send one real test through
+   hustonlogic.com/contact (the email should say "Saved to: the Pipeline app"), then ask me to make it required.
+4. **Turn the site editor on** (template `docs/EDITING.md`, steps a to g; values go in `site.config.ts` `editor`, never
+   in chat or a PR description):
+   - a. GitHub App on the `ghuston` account (the repo is `ghuston/huston-tech-website`, not the `huston-logic` org):
+     name `Huston Logic editor`, homepage `https://hustonlogic.com`, webhook off, permissions exactly as EDITING.md
+     step a, "Only on this account", installed only on `huston-tech-website`. Note the App ID, installation id and
+     bot login (`<app slug>[bot]`).
+   - b. `npx wrangler secret put GITHUB_APP_PRIVATE_KEY < path/to/key.pem` (production only), then delete the file.
+   - c. `npx wrangler kv namespace create OAUTH_KV` and `npx wrangler kv namespace create EDITOR_KV`.
+   - d. Cloudflare Access, self-hosted app `Huston Logic owner`, domain `hustonlogic.com`, path `owner`, One-time PIN,
+     one Allow policy with your owner email(s) only. Note the AUD tag and the team name. Do not protect `/mcp`,
+     `/oauth` or `/.well-known`.
+   - e. In `site.config.ts` `editor`: `ownerEmails`, `access.teamDomain`, `access.aud`, `github.owner` `"ghuston"`,
+     `github.repo` `"huston-tech-website"`, `github.appId`, `github.installationId`, `github.botLogin`,
+     `workersSubdomain` `"granthuston7"`, `kv.oauth`, `kv.editor`; `rateLimitId` is already `"2103"` (in
+     `docs/HOSTING.md`). Then `enabled: true` last, `npm run sync:config`, commit, PR, merge.
+   - f. GitHub repo settings: turn on Allow auto-merge; create the label `owner-request`; Watch → All activity.
+   - g. Test: sign in at `https://hustonlogic.com/owner`, add the Claude connector `https://hustonlogic.com/mcp`, make
+     one small change, ask "is it live yet?", check `https://hustonlogic.com/site-version.json` names the merge, try a
+     preview and an undo, and check `https://hustonlogic.com/blocks` is a 404. Note the yes-to-live time.
+5. **Turn uploads on** (after step 4; EDITING.md steps h to l):
+   - h. `npx wrangler r2 bucket create huston-site-uploads` (private, no public access, no custom domain).
+   - i. `npx wrangler r2 bucket lifecycle add huston-site-uploads expire-inbox --expire-days 31`.
+   - j. Check Cloudflare Images is available on the account (Free plan is enough).
+   - k. `site.config.ts` `editor.uploads`: `bucket` `"huston-site-uploads"`, then `enabled: true`; `npm run sync:config`,
+     commit, PR, merge.
+   - l. From a phone at `https://hustonlogic.com/owner`: an iPhone photo shows upright, a PDF downloads, a video is
+     refused, a gallery from the uploads publishes upright.
+6. **Before the first owner-built form saves to the Sheet:** add tabs `Forms` and `Forms preview` to the contact Sheet,
+   each with the header row `Received (UTC) | Form | Name | Email | Answers | Mode`. No new secret.
+7. **Decide** (none blocks the merge):
+   - Audit `/blocks` in Lighthouse the template's way (no SEO category)? With gzip it scored 1.0 performance and 1.0
+     accessibility locally. It changes `lighthouserc.cjs` (no threshold change), so I left it.
+   - Health words in owner-built forms only warn (template rule); AGENTS.md says never ask for health records. Make them
+     a refusal on this site?
+   - Each owner-built form gets its own rate-limit budget per visitor (template design). Keep, or one budget per visitor?
+   - Off-brand in the `/blocks` showcase only: the template's example photos (blue and rust vases) clash with this
+     site's green. Replace them for this site, or leave them (production builds remove `/blocks`)?
+   - Turn the blog on: write `blog.json` (title, description, words), then I port `src/app/(site)/blog/`.
+   - The template divergences listed in the PR (site-owned hooks): port them to the template, or change this site?
+8. Still open from before: check the live Home and /systems against the Revision 8 mockups; read the copy listed under
+   "Copy written without verbatim Rev 8 text" in `docs/history/STATUS-history.md`; decide on the three review agents'
+   wording ("the Huston Tech site").
 
 ## For the master
 
@@ -86,39 +89,38 @@ In order:
 - The site has two offers: Accelerated Websites and AI-Centric System Redesign. The Workflow Review and the Zoho
   specialty are no longer offers.
 - No price, rate or dollar amount appears anywhere on the site; prices are discussed in person.
-- New /systems page; Home rebuilt to the Revision 8 layout.
-- The contact form still accepts the old "workflow" topic and need and maps them to the system topic and label, so old
-  links keep working.
-- hustonlogic.com form contacts now go to the Pipeline app (once the secret is set).
-- Site wording now describes managed hosting (after Grant approves).
+- hustonlogic.com form contacts go to the Pipeline app once the secret is set, with the Sheet as fallback.
+- Site wording describes managed hosting.
+- hustonlogic.com is built the template's way: pages are data files made of blocks, ready for owner editing by chat.
+- The site editor, photo uploads, collections and owner-built forms are in place on hustonlogic.com but switched off.
+- hustonlogic.com has no blog yet; turning one on needs real words for the blog page first.
 
-## Last run: Form to the app, and hosting wording (2026-11-24)
+## Last run: Catch up to the template (2026-11-25 to 26)
 
-Two branches, two PRs. Plan: `docs/superpowers/plans/2026-11-24-w1-w3.md`. The previous run (Port the website process,
-#69) moved unchanged to `docs/history/STATUS-history.md`.
+One branch, `chore/catch-up-to-template`, one PR, not merged. Plan: `docs/superpowers/plans/2026-11-25-catch-up-to-template.md`.
+Gate for every step: screenshots of 12 pages at 390 and 1440 against a build of main (all identical), head tags and
+visible text (same; extra section ids on /about, /how-i-work and /services only), anchor jumps, sticky nav and the
+mobile menu (same), plus `check:fast`. The contact Worker path is unchanged from main.
 
-- **PR A, `feat/form-to-pipeline` (W1):** new `worker/intake.ts`. In production, with `INTAKE_SECRET` set, the Worker
-  posts name, email, business and a labelled message (need, topic link, tools, current website, heard-about) to
-  `https://pipeline.hustonlogic.com/intake` and skips the Sheet. Unset, a non-2xx, a redirect or a network failure falls
-  back to the Sheet. The email to you always sends and starts its trailer with "Saved to: ...". Visitors see success if
-  the app, the Sheet or the email got it. Previews never call the app. `INTAKE_SECRET` is not in `secrets.required`.
-  Rate limiter ids 1001 and 1002 became 2101 and 2102 (a counter reset on deploy; the old ids are shared with other
-  Workers). The `wrangler.jsonc` edit went through, so nothing is queued for hand-copying.
-- **Reviews:** review-code and review-security ran once on the branch. Fixed with tests that failed first: a redirect
-  from the app is never followed (it would resend the secret), the message is cut on a character boundary with a visible
-  note, and retries are covered. Deferred minors: a missing space in the existing "Business:" line of the email; a 429
-  from the app is retried at once; a very long message in 3-byte characters could pass the app's 16 KB limit (the Sheet
-  then takes it).
-- **PR B, `feat/hosting-wording` (W3, #70):** 22 copy lines changed in `src/content/` plus one amendment bullet in
-  `docs/website-rev8.md`. No price added; the site says hosting is a flat fee, with no figure. Auto-merge not enabled.
-- `docs/pipeline/` is a copy of the template's handbook, so I did not update it for the app hand-off or the new wording.
-
-Timing (this Mac; start time not noted, so the span is approximate):
+- **Step 1, convert to blocks:** arbitrary Tailwind values became tokens (same pixels); the template's block system,
+  config generators (`site.config.ts`, `sync:config`, `check:config`, `check:content`, `check:design`) and libraries
+  came in; all 9 pages became `src/content/pages/*.json` made of 28 site blocks; menus come from the page files.
+- **Step 2, move the content:** 5 testimonials became collection items (every field kept), business details and brand
+  moved to `business.json` and `brand.json` (palette generated), the notice is wired and empty. No articles existed.
+- **Step 3, editor ports:** site editor and uploads (off), collections and brand settings, forms and downloads (route
+  `/api/forms/<id>`, same save chain as the contact form, no form added). Blog routes and the template's placeholder
+  example items left out: they would add a live placeholder page.
+- **Step 4, process items:** PROCESS.md rules 13 to 17, gzip in the preview server, `_redirects` and its check,
+  OFFBOARDING, TEMPLATE, proposals, the ruleset JSON, `.npmrc` without `engine-strict`.
+- **Reviews:** review-code, review-a11y and review-security once on the branch, then a design critique of `/blocks`
+  at 1440 and 390. Fixed: client code on every page, copy that had moved into a component, the showcase's extra h1s
+  and duplicate ids, README and AGENTS.md accuracy. Live pages load 11 KB more gzipped JavaScript than main (198 KB
+  against 187 KB, a chunk Next shares with the new form code); Home still scores 1.0 for performance. Decisions above
+  under Needs Grant 7.
 
 | Measure | Value |
 |---|---|
-| Wall-clock time | not measured; commits run 21:25 to 21:30 by this Mac's clock, plus reading and review time before |
-| Commits | 6 (5 on PR A, including this file, and 1 on PR B) |
-| Time in checks (all runs this session) | about 1.5 minutes (6 fast checks, 2 full checks) |
-| Time waiting on CI | not measured: PR A's auto-merge was queued and the run ended |
-| Reviews | review-code and review-security, once, on PR A |
+| Wall-clock time | about 2 hours 40 minutes (23:45 to about 02:25, this Mac's clock) |
+| Commits | 26 on the branch |
+| Time in checks | about 75 minutes, estimated: about 13 full gate runs (build, 24 screenshots, behaviour, `check:fast`) |
+| Time waiting on CI | none in the run: CI starts with the PR, which I did not wait on |
